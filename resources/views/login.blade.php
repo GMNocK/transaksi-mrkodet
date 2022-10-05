@@ -4,14 +4,15 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
+        <title>Login || Mr Kodet</title>
         <link rel="stylesheet" href="css/ce.css" />
     </head>
     <body>
-        <h2>Weekly Coding Challenge #1: Sign in/up Form</h2>
+        <h2 style="margin-bottom: 20px;">{!! session('success') !!}</h2>
         <div class="container" id="container">
             <div class="form-container sign-up-container">
                 <form action="/register" method="POST">
+                    @csrf
                     <h1>Create Account</h1>
                     <div class="social-container">
                         <a href="#" class="social"
@@ -26,8 +27,9 @@
                     </div>
                     <span>or use your email for registration</span>
                     <input type="text" name="name" placeholder="Name" />
+                    <input type="text" name="username" placeholder="Username" />
                     <input type="email" name="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
+                    <input type="password" name="password" placeholder="Password" />
                     <button>Sign Up</button>
                 </form>
             </div>
@@ -73,19 +75,6 @@
                 </div>
             </div>
         </div>
-
-        <footer>
-            <p>
-                Created with <i class="fa fa-heart"></i> by
-                <a target="_blank" href="https://florin-pop.com">Florin Pop</a>
-                - Read how I created this and how you can join the challenge
-                <a
-                    target="_blank"
-                    href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/"
-                    >here</a
-                >.
-            </p>
-        </footer>
         <script src="js/main.js"></script>
     </body>
 </html>

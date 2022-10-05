@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
@@ -15,60 +16,48 @@ class RegisterController extends Controller
         ]);
     }
 
-    
     public function create()
     {
         //
     }
-
     
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'name' => ""
+            'name' => 'required|min:3',
+            'username' => 'required|min:3|unique:users',
+            'email' => 'required|email|unique:users',
+            'password' =>'required|min:4'
         ]);
+
+        $validateData['password'] = bcrypt($validateData['password']);
+
+        User::create($validateData);
+
+        $request->session()->flash('success', 'Register SuccessFully. Please Login!');
+
+        return redirect('/login');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($id)
     {
         //
