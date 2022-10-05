@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +16,11 @@ use App\Http\Controllers\Controller;
 |
 */
 
-Route::get('/', [Controller::class, 'index']);
+Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/Home', [Controller::class, 'Home']);
+Route::get('/login', [LoginController::class, 'index']);
 
-Route::get('/about', [Controller::class, 'about']);
+Route::get('/register', [RegisterController::class, 'index']);
+Route::post('/register', [RegisterController::class, 'store']);
+
+Route::get('/admin', [LoginController::class, 'admin'])->name('admin');

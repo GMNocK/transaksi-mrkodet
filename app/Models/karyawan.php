@@ -9,13 +9,13 @@ class karyawan extends Model
 {
     use HasFactory;
 
-public function user()
-{
-    return $this->belongsTo(User::class);
-}
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-public function laporanKaryawan()
-{
-    return $this->hasMany(laporanKaryawan::class);
-}
+    public function laporanKaryawan()
+    {
+        return $this->hasMany(laporanKaryawan::class);
+    }
 }
