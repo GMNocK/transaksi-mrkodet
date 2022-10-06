@@ -26,15 +26,16 @@
                         ></a>
                     </div>
                     <span>or use your email for registration</span>
-                    <input type="text" name="name" placeholder="Name" />
-                    <input type="text" name="username" placeholder="Username" />
-                    <input type="email" name="email" placeholder="Email" />
-                    <input type="password" name="password" placeholder="Password" />
+                    <input type="text" name="name" placeholder="Name" required value="{{ old('name') }}"/>
+                    <input type="text" name="username" placeholder="Username" required value="{{ old('username') }}" />
+                    <input type="email" name="email" placeholder="Email" required value="{{ old('email') }}" />
+                    <input type="password" name="password" placeholder="Password" required />
                     <button>Sign Up</button>
                 </form>
             </div>
             <div class="form-container sign-in-container">
-                <form action="#">
+                <form action="/login" method="POST">
+                    @csrf
                     <h1>Sign in</h1>
                     <div class="social-container">
                         <a href="#" class="social"
@@ -48,8 +49,9 @@
                         ></a>
                     </div>
                     <span>or use your account</span>
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
+                    <input type="email" name="email" placeholder="Email" required
+                    />
+                    <input type="password" name="password" placeholder="Password" required />
                     <a href="#">Forgot your password?</a>
                     <button>Sign In</button>
                 </form>

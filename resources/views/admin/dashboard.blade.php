@@ -13,6 +13,13 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus consequuntur autem reprehenderit quae totam corrupti. Laudantium, maxime neque! Dignissimos itaque, inventore quibusdam, minus dolorum, voluptates temporibus quo nostrum autem dolores dicta voluptatibus magnam impedit! Aliquid adipisci cupiditate animi suscipit asperiores! Est consequuntur accusamus dolorum non. Porro itaque labore error maiores.</p>
     </div>
 
+    <form action="/logout" method="post">
+        @csrf
+        <button type="submit">logout</button>
+    </form>
+
+    
+
     <script src="js/coba.js"></script>
 </body>
 </html>
