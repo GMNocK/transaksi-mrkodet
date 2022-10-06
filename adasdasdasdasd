@@ -1,0 +1,16 @@
+* [33m5cc54d7[m[33m ([m[1;32mregister[m[33m)[m Register system is Done. email is not work
+* [33m13da4c2[m[33m ([m[1;32mrepair[m[33m)[m repair model, controller, views, and mfs. ADD a base structure register user
+* [33maa8ff16[m[33m ([m[1;31morigin/database-design[m[33m, [m[1;32mui-design[m[33m, [m[1;32mhelp[m[33m, [m[1;32mdatabase-design[m[33m)[m finish the database fisrt design, migrate and seeders is working.
+* [33m0b77878[m edit user table, add code for model -mfs user
+* [33m306de72[m Insert code to model -mfs detail_transaksi and add model -mfs for table admin
+* [33m5f436b8[m created file model migrate factory and seeders for detail_transaksi
+* [33m2d0ecd2[m Database msf for pengguna and resolving relation model
+*   [33m2622cb7[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #2 from GMNocK/database-design
+[32m|[m[33m\[m  
+[32m|[m * [33mf0172bd[m Simple Database Design In Laravel system(seed,factory,migrate,model), add table transaksi
+[32m|[m[32m/[m  
+*   [33m6314621[m Merge pull request #1 from GMNocK/ui-design
+[34m|[m[35m\[m  
+[34m|[m * [33m1efb640[m Membuat example Route awal dan halaman awal
+[34m|[m[34m/[m  
+* [33mcae1b87[m First commit
