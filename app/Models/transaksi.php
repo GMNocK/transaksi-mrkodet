@@ -22,4 +22,9 @@ class transaksi extends Model
     {
         return $this->hasMany(detail_transaksi::class);
     }
+
+    public function getRouteKeyName()
+    {
+        return 'id';   
+    }
 }

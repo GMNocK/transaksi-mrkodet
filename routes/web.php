@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardTransController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
@@ -28,4 +28,11 @@ Route::post('/register', [RegisterController::class, 'store']);
 Route::get('/admin', [LoginController::class, 'admin'])->name('admin');
 
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth'); 
+Route::get('/dashboard', function ()
+{
+    return view('admin.index',[
+        'title' => 'dasboard'
+    ]);
+})->middleware('auth'); 
+
+Route::resource('/dashboard/transaksis', DashboardTransController::class)->middleware('auth');
