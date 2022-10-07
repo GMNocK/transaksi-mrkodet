@@ -8,9 +8,15 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/dashboard/transaksis/">
-            <span data-feather="file" class="align-text-bottom {{ Request::is('dashboard/trans') ? 'active' : '' }}"></span>
-            My Transaksi
+          <a class="nav-link {{ Request::is('dashboard/transaksis*') ? 'active' : '' }}" href="/dashboard/transaksis/">
+            <span data-feather="file" class="align-text-bottom"></span>
+            Transaksi
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ Request::is('dashboard/users*') ? 'active' : '' }}" href="/dashboard/users/">
+            <span data-feather="user" class="align-text-bottom"></span>
+            Karyawan
           </a>
         </li>
       </ul>
