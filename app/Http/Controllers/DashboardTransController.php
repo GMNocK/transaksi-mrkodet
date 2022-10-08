@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\transaksi;
 use App\Http\Controllers\Controller;
-use App\Models\pengguna;
+use App\Models\pelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,15 +15,16 @@ class DashboardTransController extends Controller
     {
         
         return view('dashboard.transaksi.index', [
-            'transaksis' => transaksi::where('pengguna_id', auth()->user()->id)->get()
-        ]);
+            'transaksis' => transaksi::all(),  //::where('pelanggan_id', auth()->user()->id)->get(),
+            'pelanggans' => pelanggan::all()
+        ]); 
     }
 
     
     public function create()
     {
         return view('dashboard.transaksi.create', [
-            'penggunas' => pengguna::all()
+            'pelanggans' => pelanggan::all()
         ]);
     }
 

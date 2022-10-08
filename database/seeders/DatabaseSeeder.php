@@ -6,7 +6,9 @@ use App\Models\admin;
 use App\Models\detail_transaksi;
 use App\Models\karyawan;
 use App\Models\laporanKaryawan;
+use App\Models\laporanPelanggan;
 use App\Models\laporanPengguna;
+use App\Models\pelanggan;
 use App\Models\pengguna;
 use App\Models\transaksi;
 use App\Models\User;
@@ -24,10 +26,10 @@ class DatabaseSeeder extends Seeder
         User::factory(5)->create();
         admin::factory(3)->create();
         karyawan::factory(3)->create();
-        pengguna::factory(5)->create();
+        pelanggan::factory(5)->create();
         transaksi::factory(5)->create();
         detail_transaksi::factory(5)->create();
-        laporanPengguna::factory(3)->create();
+        laporanPelanggan::factory(3)->create();
         laporanKaryawan::factory(2)->create();
     }
 }

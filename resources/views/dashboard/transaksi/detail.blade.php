@@ -7,7 +7,7 @@
 
 <h2 class="mb-5">Transaksi tanggal {!! $transaksis->tgl_transaksi !!}</h2>
       
-        <h4 class="mb-4">Nama : {{ $transaksis->pengguna->nama }}</h4>
+        <h4 class="mb-4">Nama : {{ $transaksis->pelanggan->nama }}</h4>
         <table style="margin-left: 40px; font-size: 18px">
           <tr class="bg-primary text-center">
             <th style="width: 10em" class="p-3">Barang</th>
@@ -30,6 +30,8 @@
                 <td><p class="text-center">{{ $transaksis->total_harga }}</p></td>
               </tr>
           </table>
+
+          <a href="/dashboard/transaksis" class="btn btn-primary mx-5 ">Kembali</a>
           <br><br><br>
 
         

@@ -16,9 +16,10 @@ class CreateTransaksisTable extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
             $table->date('tgl_transaksi');
-            $table->foreignId('pengguna_id');
+            $table->foreignId('pelanggan_id');
             $table->integer('total_harga');
             $table->string('oleh');
+            $table->string('token')->unique();
             $table->timestamps();
         });
     }

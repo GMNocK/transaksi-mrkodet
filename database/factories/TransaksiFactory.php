@@ -15,9 +15,10 @@ class TransaksiFactory extends Factory
     {
         return [
             'tgl_transaksi' => $this->faker->date(),
-            'pengguna_id' => 1,
+            'pelanggan_id' => 1,
             'total_harga' => 1000,
-            'oleh' => $this->faker->name()
+            'oleh' => $this->faker->name(),
+            'token' => $this->faker->unique()->bothify('??#?##?#?') // panjang lebih dari 8
         ];
     }
 }

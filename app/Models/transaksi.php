@@ -12,10 +12,13 @@ class transaksi extends Model
     protected $guarded = [
         'id'
     ];
-
-    public function pengguna()
+    public function user()
     {
-        return $this->belongsTo(pengguna::class);
+        return $this->belongsTo(pelanggan::class, 'user_id');
+    }
+    public function pelanggan()
+    {
+        return $this->belongsTo(pelanggan::class);
     }
 
     public function detail_transaksi()

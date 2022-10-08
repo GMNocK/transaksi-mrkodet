@@ -22,7 +22,7 @@
             @foreach ($transaksis as $t)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $t->pengguna->nama }}</td>
+                <td>{{ $t->pelanggan->nama }}</td>
                 <td>{{ $t->tgl_transaksi }}</td>
                 <td>{{ $t->total_harga }}</td>
                 <td>{{ $t->oleh }}</td>
