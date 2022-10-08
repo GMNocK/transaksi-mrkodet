@@ -29,7 +29,7 @@ class DashboardUsersController extends Controller
     {
         $validateData = $request->validate([
             'username' => 'required|max:255',
-            'email' => 'required|email:dns',
+            'email' => 'required|email',
             'password' => 'required|min:8'
         ]);
 
@@ -62,6 +62,6 @@ class DashboardUsersController extends Controller
     
     public function destroy(user $user)
     {
-        //
+        
     }
 }

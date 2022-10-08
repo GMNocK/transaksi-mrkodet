@@ -5,7 +5,7 @@
   <h1 class="h2">My Transaksi</h1>
 </div>
 
-<h2><a href="/dashboard/users/create" class="text-decoration-none text-center btn btn-primary"><span data-feather="user-plus"></span> Tambah Data</a></h2>
+<h2><a href="/dashboard/users/create" class="text-decoration-none text-center btn btn-primary"><span data-feather="user-plus" style="margin-bottom: 4px"></span> Tambah Data</a></h2>
       <div class="table-responsive col-lg-11">
         <table class="table table-striped table-sm">
           <thead>
