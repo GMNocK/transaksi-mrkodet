@@ -28,7 +28,7 @@ class User extends Authenticatable
         'id'
     ];
 
-    public function pelanggan()
+    public function user()
     {
         return $this->hasMany(pelanggan::class, 'user_id');
     

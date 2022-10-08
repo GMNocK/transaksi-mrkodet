@@ -26,7 +26,7 @@
                         ></a>
                     </div>
                     <span>or use your email for registration</span>
-                    <input type="text" name="name" placeholder="Name" required value="{{ old('name') }}"/>
+                    <input type="text" name="nama" placeholder="nama" required value="{{ old('nama') }}"/>
                     <input type="text" name="username" placeholder="Username" required value="{{ old('username') }}" />
                     <input type="email" name="email" placeholder="Email" required value="{{ old('email') }}" />
                     <input type="password" name="password" placeholder="Password" required />

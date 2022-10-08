@@ -16,9 +16,9 @@ class CreateKaryawansTable extends Migration
         Schema::create('karyawans', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->text('alamat');
-            $table->string('no_tlp')->unique();
-            $table->foreignId('user_id');
+            $table->text('alamat')->nullable();
+            $table->string('no_tlp')->unique()->nullable();
+            $table->foreignId('user_id')->default(1);
             $table->timestamps();
         });
     }

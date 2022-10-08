@@ -6,6 +6,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardUsersController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,19 +21,19 @@ use App\Http\Controllers\DashboardUsersController;
 
 Route::get('/', [HomeController::class, 'index'])->middleware('guest');
 
-Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
-Route::post('/login', [LoginController::class, 'authenticate']);
-Route::post('/logout', [LoginController::class, 'logout']);
+Route::get('/register', [UserController::class, 'register'])->middleware('guest');
+Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
+Route::post('/login' ,[UserController::class, 'loginAction']);
+Route::post('/register', [UserController::class, 'registerAction']);
 
-Route::post('/register', [RegisterController::class, 'store']);
+Route::post('/logout', [UserController::class, 'logout']);
 
-Route::get('/admin', [LoginController::class, 'admin'])->name('admin');
-
+// ---------------------------------------------------------------------
 
 Route::get('/dashboard', function ()
 {
     return view('dashboard.index',[
-        'title' => 'dasboard'
+        'title' => 'dashboard'
     ]);
 })->middleware('auth'); 
 

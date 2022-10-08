@@ -4,6 +4,10 @@
 <form action="/dashboard/users/" method="POST">
     @csrf
     <div class="my-3 col-8">
+      <label for="nama" class="form-label">nama</label>
+      <input type="text" class="form-control" id="nama" name="nama">
+    </div>
+    <div class="my-3 col-8">
       <label for="username" class="form-label">Username</label>
       <input type="text" class="form-control" id="username" name="username">
     </div>
