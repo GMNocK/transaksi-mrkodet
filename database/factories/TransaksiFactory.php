@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TransaksiFactory extends Factory
@@ -18,7 +19,7 @@ class TransaksiFactory extends Factory
             'pelanggan_id' => 1,
             'total_harga' => 1000,
             'oleh' => $this->faker->name(),
-            'token' => $this->faker->unique()->bothify('??#?##?#?') // panjang lebih dari 8
+            'token' =>  Str::random(10) // $this->faker->unique()->bothify('??#?##?#?') // panjang lebih dari 8
         ];
     }
 }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class laporanPelanggan extends Model
+class LaporanPelanggan extends Model
 {
     use HasFactory;
 
@@ -13,6 +13,6 @@ class laporanPelanggan extends Model
 
     public function pelanggan()
     {
-        return $this->belongsTo(pelanggan::class);
+        return $this->belongsTo(Pelanggan::class);
     }
 }

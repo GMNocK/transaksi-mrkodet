@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 
 class DashboardUsersController extends Controller
 {
-    
     public function index()
     {
+        $this->authorize('mustBeAdmin');
         return view('dashboard.user.index', [
             'users' => user::all()
         ]);

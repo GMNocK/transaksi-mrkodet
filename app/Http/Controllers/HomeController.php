@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     
     public function index()
-    {
+    { 
         return view('Home', [
             'title' => 'Home',
             'app' => 'Pengelolaan Transaksi'

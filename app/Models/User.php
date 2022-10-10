@@ -30,16 +30,16 @@ class User extends Authenticatable
 
     public function user()
     {
-        return $this->hasMany(pelanggan::class, 'user_id');
+        return $this->hasMany(Pelanggan::class, 'user_id');
     
     }
     public function admin()
     {
-        return $this->hasMany(admin::class);
+        return $this->hasMany(Admin::class);
     }
 
     public function karyawan()
     {
-        return $this->hasMany(karyawan::class);
+        return $this->hasMany(Karyawan::class);
     }
 }

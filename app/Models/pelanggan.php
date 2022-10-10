@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class pelanggan extends Model
+class Pelanggan extends Model
 {
     use HasFactory;
 
@@ -17,11 +17,11 @@ class pelanggan extends Model
     }
     public function transaksi()
     {
-        return $this->hasMany(transaksi::class, 'pelanggan_id');
+        return $this->hasMany(Transaksi::class, 'pelanggan_id');
     }
 
     public function laporanPelanggan()
     {
-        return $this->hasMany(laporanPelanggan::class);
+        return $this->hasMany(LaporanPelanggan::class);
     }
 }

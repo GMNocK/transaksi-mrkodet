@@ -13,12 +13,15 @@
             Transaksi
           </a>
         </li>
+
+        @can('mustBeAdmin')
         <li class="nav-item">
           <a class="nav-link {{ Request::is('dashboard/users*') ? 'active' : '' }}" href="/dashboard/users/">
             <span data-feather="user" class="align-text-bottom"></span>
             Karyawan
           </a>
         </li>
+        @endcan
       </ul>
 
       <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
@@ -28,12 +31,17 @@
         </a>
       </h6>
       <ul class="nav flex-column mb-2">
+        
+        @can('costumer')
         <li class="nav-item">
           <a class="nav-link" href="#">
             <span data-feather="file-text" class="align-text-bottom"></span>
-            Current month
+            Your Reports
           </a>
         </li>
+        @endcan
+
+        @can('mustBeAdmin')
         <li class="nav-item">
           <a class="nav-link" href="#">
             <span data-feather="file-text" class="align-text-bottom"></span>
@@ -52,6 +60,8 @@
             Year-end sale
           </a>
         </li>
+        @endcan
+
       </ul>
     </div>
   </nav>

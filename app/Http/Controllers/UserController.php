@@ -31,7 +31,7 @@ class UserController extends Controller
         ]);
         pelanggan::create($pelanggansData);
 
-        return redirect('/login')->with('success', 'Register SuccessFully. Please Login!');
+        return redirect(route('login'))->with('success', 'Register SuccessFully. Please Login!');
     }
 
     public function login()

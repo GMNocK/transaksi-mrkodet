@@ -2,9 +2,7 @@
 
 use App\Http\Controllers\DashboardTransController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardUsersController;
 use App\Http\Controllers\UserController;
 
@@ -35,7 +33,7 @@ Route::get('/dashboard', function ()
     return view('dashboard.index',[
         'title' => 'dashboard'
     ]);
-})->middleware('auth'); 
+})->middleware('auth')->name('dashboard'); 
 
 Route::resource('/dashboard/users', DashboardUsersController::class)->middleware('auth');
 

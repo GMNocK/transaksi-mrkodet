@@ -5,9 +5,10 @@
   <h1 class="h2">My Detail Transaksi</h1>
 </div>
 
-<h2 class="mb-5">Transaksi tanggal {!! $transaksis->tgl_transaksi !!}</h2>
+<h2 class="mb-5" hidden>Transaksi tanggal {{ $transaksi->tgl_transaksi }}</h2>
       
-        <h4 class="mb-4">Nama : {{ $transaksis->pelanggan->nama }}</h4>
+        <h4 class="mb-4">Nama : {{ $transaksi->pelanggan->nama }}</h4>
+        <h3></h3>
         <table style="margin-left: 40px; font-size: 18px">
           <tr class="bg-primary text-center">
             <th style="width: 10em" class="p-3">Barang</th>
@@ -15,20 +16,20 @@
             <th style="width: 6em" class="p-3">Jumlah</th>
             <th style="width: 10em" class="p-3">Total</th>
           </tr>
-        @foreach ($transaksis->detail_transaksi as $d)
-              <tr class="bg-light">
-                <td class="p-3">{{ $d->nama_barang }}</td>
-                <td class="p-3 text-center">{{ $d->harga }}</td>
-                <td class="p-3 text-center">{{ $d->jumlah }}</td>
-                <td class="p-3 text-center">{{ $d->harga * $d->jumlah }}</td>
-              </tr>
+          @foreach ($transaksi->detail_transaksi as $i)                    
+          <tr class="bg-light">
+            <td class="p-3">{{ $i->nama_barang }}</td>
+            <td class="p-3 text-center">{{ $i->harga }}</td>
+            <td class="p-3 text-center">{{ $i->jumlah }}</td>
+            <td class="p-3 text-center">{{ $i->harga * $i->jumlah }}</td>
+          </tr>
           @endforeach
-              <tr>
-                <td></td>
-                <td></td>
-                <td style="font-size: 18px" class="text-center"><p><b>Total harga : </b></p></td>
-                <td><p class="text-center">{{ $transaksis->total_harga }}</p></td>
-              </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td style="font-size: 18px" class="text-center"><p><b>Total harga : </b></p></td>
+            <td><p class="text-center">{{ $transaksi->total_harga }}</p></td>
+          </tr>
           </table>
 
           <a href="/dashboard/transaksis" class="btn btn-primary mx-5 ">Kembali</a>

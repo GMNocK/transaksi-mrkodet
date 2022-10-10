@@ -5,7 +5,15 @@
   <h1 class="h2">Transaksi Mister Kodet</h1>
 </div>
 
-<h2><a href="/dashboard/transaksis/create" class="text-center btn btn-primary btn-sm"><span data-feather="plus-circle" class="align-text-bottom text-center" style="margin-bottom: 1px"></span> Create New Transaksi</a></h2>
+@can('mustBeAdmin')
+<h2>
+  <a href="/dashboard/transaksis/create" class="text-center btn btn-primary btn-sm">
+    <span data-feather="plus-circle" class="align-text-bottom text-center" style="margin-bottom: 1px"></span> 
+    Create New Transaksi
+  </a>
+</h2>
+@endcan
+
       <div class="table-responsive col-lg-11">
         <table class="table table-striped table-sm">
           <thead>
@@ -22,12 +30,14 @@
             @foreach ($transaksis as $t)
             <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
-                <td>{{ $t->pelanggan->nama }}</td>
+                <td>{{ $t->pelanggan->nama }}</td>                
                 <td>{{ $t->tgl_transaksi }}</td>
                 <td>{{ $t->total_harga }}</td>
                 <td>{{ $t->oleh }}</td>
                 <td style="text-align: center">
-                    <a href="/dashboard/transaksis/{{ $t->token }}" class="badge bg-primary"><span data-feather="eye"></span></a>
+
+                  <a href="/dashboard/transaksis/{{ $t->token }}" class="badge bg-primary"><span data-feather="eye"></span></a>
+                    @can('mustBeAdmin')
                     
                     <form action="/dashboard/transaksis/{{ $t->token }}" method="post" class="d-inline" onclick="return confirm('Yakin Untuk Menghapus?');">
                       @method('delete')
@@ -36,7 +46,12 @@
                         <span data-feather="x-circle"></span>
                       </button>
                     </form>
-                    <a href="/dashboard/transaksis/{{ $t->token }}/edit" class="badge bg-warning"><span data-feather="edit"></span></a>
+                    
+                    <a href="/dashboard/transaksis/{{ $t->token }}/edit" class="badge bg-warning">
+                      <span data-feather="edit"></span>
+                    </a>
+                    @endcan
+
                     <form action="#" method="post" class="d-inline">
                       
                       @csrf

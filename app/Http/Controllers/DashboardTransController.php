@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\transaksi;
+use App\Models\Transaksi;
 use App\Http\Controllers\Controller;
-use App\Models\pelanggan;
+use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -15,10 +15,15 @@ class DashboardTransController extends Controller
     
     public function index()
     {
-        
+        if (auth()->user()->level == 'Admin') {
+            return view('dashboard.transaksi.index', [
+                'transaksis' => Transaksi::all(),
+                'pelanggans' => Pelanggan::all()
+            ]); 
+        }
         return view('dashboard.transaksi.index', [
-            'transaksis' => transaksi::where('pelanggan_id', auth()->user()->id)->get(),
-            'pelanggans' => pelanggan::all()
+            'transaksis' => Transaksi::where('pelanggan_id', auth()->user()->id)->get(),
+            'pelanggans' => Pelanggan::all()
         ]); 
     }
 
@@ -26,7 +31,7 @@ class DashboardTransController extends Controller
     public function create()
     {
         return view('dashboard.transaksi.create', [
-            'pelanggans' => pelanggan::all()
+            'pelanggans' => Pelanggan::all()
         ]);
     }
 
@@ -46,7 +51,7 @@ class DashboardTransController extends Controller
         // ka12lk21 /3asd
         $validateData['token'] = Str::before($validateData['token'], '/');
 
-        transaksi::create($validateData);
+        Transaksi::create($validateData);
 
         return redirect('/dashboard/transaksis/');
 
@@ -57,28 +62,29 @@ class DashboardTransController extends Controller
     }
 
     
-    public function show(transaksi $transaksi)
+    public function show(Transaksi $transaksi)
     {
         // -------------------------- DISINI ----------------------------
-        
+        // return $transaksi->detail_transaksi;
         return view('dashboard.transaksi.detail', [
-            'transaksis' => transaksi::where('id', $transaksi->id)->get(),
-            'pelanggans' => pelanggan::all()
+            'transaksi' => $transaksi,
+            'transaksis' => Transaksi::with(['Pelanggan','Detail_transaksi'])->where('token', $transaksi->token)->get(),
+            'pelanggans' => Pelanggan::all()
         ]);
         
     }
 
     
-    public function edit(transaksi $transaksi)
+    public function edit(Transaksi $transaksi)
     {
         return view('dashboard.transaksi.edit', [
             'transaksis' => $transaksi,
-            'pelanggans' => pelanggan::all()
+            'pelanggans' => Pelanggan::all()
         ]);
     }
 
     
-    public function update(Request $request, transaksi $transaksi)
+    public function update(Request $request, Transaksi $transaksi)
     {
         $validateData = $request->validate([
             'tgl_transaksi' => 'required|date',
@@ -87,16 +93,16 @@ class DashboardTransController extends Controller
         ]);
         $validateData['token'] = $transaksi->token;
 
-        transaksi::where('id', $transaksi->id)
+        Transaksi::where('id', $transaksi->id)
                     ->update($validateData);
 
         return redirect('/dashboard/transaksis/')->with('succes','Update berhasil');
     }
 
     
-    public function destroy(transaksi $transaksi)
+    public function destroy(Transaksi $transaksi)
     {
-        transaksi::destroy($transaksi->id);
+        Transaksi::destroy($transaksi->id);
 
         return redirect('/dashboard/transaksis/');
 
