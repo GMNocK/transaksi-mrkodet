@@ -25,8 +25,16 @@
                 <td>{{ $s->email }}</td>
                 <td>{{ $s->level }}</td>
                 <td style="text-align: center">
-                    <a href="{{-- delete --}}"><span data-feather="x-circle" class="align-text-bottom text-danger" style="margin-right: 4px" ></span></a>
-                    <a href="{{-- edit / update --}}"><span data-feather="edit" class="align-text-bottom text-danger" style="margin-right: 4px" ></span></a>                    
+                    <form action="/dashboard/users/{{ $s->id }}" method="POST" class="d-inline" onclick="return alert('Yakin Untuk Menghapus?');">
+                    @method('delete')
+                    @csrf
+                    <button class="badge bg-danger border-0">
+                      <span data-feather="x-circle"></span>
+                    </button>
+                    </form>
+                    <a class="badge bg-warning my-sm-1" href="/dashboard/users/{{ $s->id }}/edit">
+                      <span data-feather="edit" class="text-danger"></span>
+                    </a>                    
                 </td>
             </tr>    
             @endforeach

@@ -19,7 +19,7 @@ class CreateLaporanKaryawansTable extends Migration
             $table->string('excerpt');
             $table->text('body');
             $table->timestamp('send_at');
-            $table->foreignId('karyawan_id');
+            $table->foreignId('karyawan_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

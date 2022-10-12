@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\user;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\karyawan;
+use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Http\Request;
 
 class DashboardUsersController extends Controller
@@ -20,6 +21,7 @@ class DashboardUsersController extends Controller
     
     public function create()
     {
+        $this->authorize('mustBeAdmin');
         return view('dashboard.user.create', [
 
         ]);
@@ -28,6 +30,7 @@ class DashboardUsersController extends Controller
     
     public function store(Request $request)
     {
+        $this->authorize('mustBeAdmin');
         $validateData = $request->validate([
             'username' => 'required|max:255',
             'email' => 'required|email',
@@ -39,13 +42,16 @@ class DashboardUsersController extends Controller
 
         user::create($validateData);
 
+        return User::where('level','karyawan')->latesh()->get();
+
         $userData = $request->validate([
             'nama' => 'required'
         ]);
+        // return $request;
 
-        karyawan::create($userData);
+        // karyawan::create($userData);
 
-        return redirect('/dashboard/users');
+        return redirect(route('users.index'));
     }
 
     
@@ -57,18 +63,38 @@ class DashboardUsersController extends Controller
     
     public function edit(user $user)
     {
-        //
+        $this->authorize('mustBeAdmin');
+        return view('dashboard.user.edit',[
+            'user' => $user,
+            'karyawan' => $user->karyawan,
+            'pelanggans' => $user->pelanggan,
+            'Admin' => $user->admin,
+        ]);
     }
 
     
     public function update(Request $request, user $user)
     {
-        //
+        $this->authorize('mustBeAdmin');
+        $validateData = $request->validate([
+            'username' => 'required|string|max:255',
+            'email' => 'required|email',
+            'password' => 'required|max:255'
+        ]);
+
+        $validateData['password'] = bcrypt($validateData['password']);
+
+        $user->update($validateData);
+
+        return redirect(route('users.index'));
     }
 
     
     public function destroy(user $user)
     {
-        
+        $this->authorize('mustBeAdmin');
+        User::destroy($user->id);
+
+        return redirect(route('users.index'));
     }
 }

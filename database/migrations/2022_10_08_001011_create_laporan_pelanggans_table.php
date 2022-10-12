@@ -19,7 +19,7 @@ class CreateLaporanPelanggansTable extends Migration
             $table->string('excerpt');
             $table->text('body');
             $table->timestamp('send_at');
-            $table->foreignId('pelanggan_id');
+            $table->foreignId('pelanggan_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

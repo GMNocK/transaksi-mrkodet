@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use App\Http\Controllers\Controller;
+use App\Models\Karyawan;
 use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,21 +16,27 @@ class DashboardTransController extends Controller
     
     public function index()
     {
-        if (auth()->user()->level == 'Admin') {
+        // return Transaksi::where('pelanggan_id', auth()->user()->id)->get();
+        $userLevel = auth()->user()->level;
+        if ($userLevel == 'karyawan' || $userLevel == 'Admin') {
             return view('dashboard.transaksi.index', [
                 'transaksis' => Transaksi::all(),
                 'pelanggans' => Pelanggan::all()
             ]); 
         }
-        return view('dashboard.transaksi.index', [
-            'transaksis' => Transaksi::where('pelanggan_id', auth()->user()->id)->get(),
-            'pelanggans' => Pelanggan::all()
-        ]); 
+        if ($userLevel == 'costumer') {            
+            return view('dashboard.transaksi.index', [
+                'transaksis' => Transaksi::where('pelanggan_id', auth()->user()->id)->get(),
+                'pelanggans' => Pelanggan::all()
+            ]);
+        }
+        return abort(403);
     }
 
     
     public function create()
     {
+        $this->authorize('karyawan');
         return view('dashboard.transaksi.create', [
             'pelanggans' => Pelanggan::all()
         ]);
@@ -38,6 +45,7 @@ class DashboardTransController extends Controller
     
     public function store(Request $request)
     {
+        $this->authorize('karyawan');
         $validateData = $request->validate([
             'tgl_transaksi' => 'required|date',
             'pelanggan_id' => 'required',
@@ -48,7 +56,6 @@ class DashboardTransController extends Controller
 
         $validateData['token'] = Str::limit($validateData['token'], 16, '');        
         $validateData['token'] = Str::after($validateData['token'], '$2y$10$');
-        // ka12lk21 /3asd
         $validateData['token'] = Str::before($validateData['token'], '/');
 
         Transaksi::create($validateData);
@@ -77,15 +84,18 @@ class DashboardTransController extends Controller
     
     public function edit(Transaksi $transaksi)
     {
+        $this->authorize('karyawan');
         return view('dashboard.transaksi.edit', [
             'transaksis' => $transaksi,
             'pelanggans' => Pelanggan::all()
         ]);
+        
     }
 
     
     public function update(Request $request, Transaksi $transaksi)
     {
+        $this->authorize('karyawan');
         $validateData = $request->validate([
             'tgl_transaksi' => 'required|date',
             'pelanggan_id' => 'required',
@@ -93,8 +103,7 @@ class DashboardTransController extends Controller
         ]);
         $validateData['token'] = $transaksi->token;
 
-        Transaksi::where('id', $transaksi->id)
-                    ->update($validateData);
+        $transaksi->update($validateData);
 
         return redirect('/dashboard/transaksis/')->with('succes','Update berhasil');
     }
@@ -102,6 +111,7 @@ class DashboardTransController extends Controller
     
     public function destroy(Transaksi $transaksi)
     {
+        $this->authorize('karyawan');
         Transaksi::destroy($transaksi->id);
 
         return redirect('/dashboard/transaksis/');

@@ -18,7 +18,7 @@ class CreateKaryawansTable extends Migration
             $table->string('nama');
             $table->text('alamat')->nullable();
             $table->string('no_tlp')->unique()->nullable();
-            $table->foreignId('user_id')->default(1);
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
