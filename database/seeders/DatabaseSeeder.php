@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\admin;
+use App\Models\Barang;
 use App\Models\detail_transaksi;
 use App\Models\karyawan;
 use App\Models\laporanKaryawan;
@@ -32,11 +33,24 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
             'level' => 'Admin',
         ]);
+        User::create([
+            'username' => 'karyawan',
+            'email' => 'karyawan@gmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('1234'),
+            'remember_token' => Str::random(10),
+            'level' => 'karyawan',
+        ]);
+
+        $this->call([
+            BarangSeeder::class
+        ]);
 
         User::factory(5)->create();
         admin::factory(3)->create();
         karyawan::factory(3)->create();
         pelanggan::factory(5)->create();
+        // Barang::factory(5)->create();
         transaksi::factory(5)->create();
         detail_transaksi::factory(5)->create();
         laporanPelanggan::factory(3)->create();

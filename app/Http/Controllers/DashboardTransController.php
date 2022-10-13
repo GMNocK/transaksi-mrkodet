@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use App\Http\Controllers\Controller;
+use App\Models\Barang;
 use App\Models\Karyawan;
 use App\Models\Pelanggan;
 use Illuminate\Http\Request;
@@ -87,7 +88,8 @@ class DashboardTransController extends Controller
         $this->authorize('karyawan');
         return view('dashboard.transaksi.edit', [
             'transaksis' => $transaksi,
-            'pelanggans' => Pelanggan::all()
+            'pelanggans' => Pelanggan::all(),
+            'barangs' => Barang::all();
         ]);
         
     }

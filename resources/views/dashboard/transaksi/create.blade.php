@@ -20,6 +20,23 @@
             <input type="number" class="form-control" id="TotalHarga" name="total_harga">
             <div id="emailHelp" class="form-text">Harga</div>
         </div>
+        
+        <div class="row g-3 align-items-center mt-4">
+            <div class="col-auto">
+                <select name="" id="">
+                    <option value="{{  }}">{{  }}</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
+            </div>
+            <div class="col-auto">
+                <span id="passwordHelpInline" class="form-text">
+                Must be 8-20 characters long.
+                </span>
+            </div>
+        </div>
+        
         <input type="submit" value="Tambah" class="btn btn-outline-primary mt-3">           
     </form>
 @endsection

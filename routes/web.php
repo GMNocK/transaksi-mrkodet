@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardTransController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardUsersController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -38,3 +39,7 @@ Route::get('/dashboard', function ()
 Route::resource('/dashboard/users', DashboardUsersController::class)->middleware('auth');
 
 Route::resource('/dashboard/transaksis', DashboardTransController::class)->middleware('auth');
+
+// Route::get('transaksis/report', [ReportController::class, 'index']);
+
+Route::resource('transaksis/report', ReportController::class)->middleware('auth');

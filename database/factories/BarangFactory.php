@@ -3,9 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
-class Detail_TransaksiFactory extends Factory
+class BarangFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -15,10 +14,8 @@ class Detail_TransaksiFactory extends Factory
     public function definition()
     {
         return [
-            'barang_id' => mt_rand(1,4),
-            'transaksi_id' => mt_rand(1,3),
-            'jumlah' => mt_rand(1,4),
-            'harga' => 15000,
+            // 'nama_barang' => $this->faker->goo,
+            // 'harga' => 15000,
         ];
     }
 }

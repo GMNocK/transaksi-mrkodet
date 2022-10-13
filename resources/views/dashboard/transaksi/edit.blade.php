@@ -10,9 +10,10 @@
         </div>
         <div class="my-3 col-8">
             <label for="pelanggan" class="form-label">Nama Pelanggan</label>
-            <select name="pelanggan_id" id="pelanggan" class="form-select mt-2">   
+            <select name="pelanggan_id" id="pelanggan" class="form-select">   
+                {{-- <option selected>{{ $transaksis->pelanggan->nama }}</option> --}}
                     @foreach ($pelanggans as $p)
-                    <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                        <option value="{{ $p->id }}" {{ $p->nama == $transaksis->pelanggan->nama ? 'selected' : '' }}>{{ $p->nama }}</option>
                     @endforeach
             </select>
         </div>

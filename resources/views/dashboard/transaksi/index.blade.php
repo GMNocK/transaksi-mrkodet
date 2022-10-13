@@ -5,7 +5,7 @@
   <h1 class="h2">Transaksi Mister Kodet</h1>
 </div>
 
-@can('mustBeAdmin')
+@can('karyawan')
 <h2>
   <a href="/dashboard/transaksis/create" class="text-center btn btn-primary btn-sm">
     <span data-feather="plus-circle" class="align-text-bottom text-center" style="margin-bottom: 1px"></span> 
@@ -37,7 +37,7 @@
                 <td style="text-align: center">
 
                   <a href="/dashboard/transaksis/{{ $t->token }}" class="badge bg-primary"><span data-feather="eye"></span></a>
-                    @can('mustBeAdmin')
+                    @can('karyawan')
                     
                     <form action="/dashboard/transaksis/{{ $t->token }}" method="post" class="d-inline" onclick="return confirm('Yakin Untuk Menghapus?');">
                       @method('delete')
@@ -51,14 +51,13 @@
                       <span data-feather="edit"></span>
                     </a>
                     @endcan
-
-                    <form action="#" method="post" class="d-inline">
-                      
-                      @csrf
+                    @cannot('karyawan')                      
+                    <a href="/transaksis/report/create">
                       <button class="badge bg-danger border-0">
                         <span data-feather="alert-circle"></span>
                       </button>
-                    </form>
+                    </a>
+                    @endcannot
                     
                 </td>
             </tr>    
