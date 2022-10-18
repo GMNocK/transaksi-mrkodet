@@ -15,6 +15,7 @@ class UserController extends Controller
     {
         return view('login');
     }
+    
     public function registerAction(Request $request)
     {
         $validateData = $request->validate([

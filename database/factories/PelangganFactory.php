@@ -17,7 +17,7 @@ class PelangganFactory extends Factory
             'nama' => $this->faker->name(),
             'alamat' => $this->faker->address(),
             'no_tlp' => $this->faker->phoneNumber(),
-            'user_id' => 1
+            'user_id' => mt_rand(3,4),
         ];
     }
 }

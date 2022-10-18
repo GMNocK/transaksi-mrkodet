@@ -29,8 +29,8 @@ class DatabaseSeeder extends Seeder
             'username' => 'DeadMan',
             'email' => 'yukie@gmail.com',
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'password' => bcrypt('1234'),
+            'remember_token' => 123,
             'level' => 'Admin',
         ]);
         User::create([
@@ -38,22 +38,29 @@ class DatabaseSeeder extends Seeder
             'email' => 'karyawan@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('1234'),
-            'remember_token' => Str::random(10),
+            'remember_token' => 123,
             'level' => 'karyawan',
+        ]);
+        User::create([
+            'username' => 'costumer',
+            'email' => 'pengguna@gmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('1234'),
+            'remember_token' => Str::random(10),
+            'level' => 'costumer',
         ]);
 
         $this->call([
             BarangSeeder::class
         ]);
 
-        User::factory(5)->create();
+        User::factory(9)->create();
         admin::factory(3)->create();
         karyawan::factory(3)->create();
         pelanggan::factory(5)->create();
-        // Barang::factory(5)->create();
-        transaksi::factory(5)->create();
-        detail_transaksi::factory(5)->create();
-        laporanPelanggan::factory(3)->create();
-        laporanKaryawan::factory(2)->create();
+        transaksi::factory(25)->create();
+        detail_transaksi::factory(50)->create();
+        laporanPelanggan::factory(15)->create();
+        laporanKaryawan::factory(3)->create();
     }
 }

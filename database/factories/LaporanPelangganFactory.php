@@ -14,11 +14,11 @@ class LaporanPelangganFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->paragraph(),
-            'excerpt' => $this->faker->paragraph(),
+            'title' => $this->faker->sentence(),
+            'excerpt' => $this->faker->sentence(),
             'body' => $this->faker->paragraph(),
             'send_at' => $this->faker->dateTime(),
-            'pelanggan_id' => mt_rand(1, 3)
+            'pelanggan_id' => mt_rand(1, 4)
         ];
     }
 }

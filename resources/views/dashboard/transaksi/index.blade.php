@@ -30,9 +30,9 @@
             @foreach ($transaksis as $t)
             <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
-                <td>{{ $t->pelanggan->nama }}</td>                
+                <td>{{ $t->pelanggan->user->username }}</td>                
                 <td>{{ $t->tgl_transaksi }}</td>
-                <td>{{ $t->total_harga }}</td>
+                <td>Rp.{{ $t->total_harga }}</td>
                 <td>{{ $t->oleh }}</td>
                 <td style="text-align: center">
 
@@ -52,7 +52,7 @@
                     </a>
                     @endcan
                     @cannot('karyawan')                      
-                    <a href="/transaksis/report/create">
+                    <a href="{{ route('report.create') }}">
                       <button class="badge bg-danger border-0">
                         <span data-feather="alert-circle"></span>
                       </button>

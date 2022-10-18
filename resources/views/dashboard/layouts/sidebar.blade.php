@@ -34,7 +34,7 @@
         
         @can('costumer')
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="/transaksis/report">
             <span data-feather="file-text" class="align-text-bottom"></span>
             Your Reports
           </a>

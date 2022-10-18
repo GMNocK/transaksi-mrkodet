@@ -21,7 +21,7 @@ class DashboardTransController extends Controller
         $userLevel = auth()->user()->level;
         if ($userLevel == 'karyawan' || $userLevel == 'Admin') {
             return view('dashboard.transaksi.index', [
-                'transaksis' => Transaksi::all(),
+                'transaksis' => Transaksi::orderBy('tgl_transaksi','desc')->get(),
                 'pelanggans' => Pelanggan::all()
             ]); 
         }
@@ -39,13 +39,15 @@ class DashboardTransController extends Controller
     {
         $this->authorize('karyawan');
         return view('dashboard.transaksi.create', [
-            'pelanggans' => Pelanggan::all()
+            'pelanggans' => Pelanggan::all(),
+            'barangs' => Barang::all()
         ]);
     }
 
     
     public function store(Request $request)
     {
+        // return $request;
         $this->authorize('karyawan');
         $validateData = $request->validate([
             'tgl_transaksi' => 'required|date',
@@ -89,7 +91,7 @@ class DashboardTransController extends Controller
         return view('dashboard.transaksi.edit', [
             'transaksis' => $transaksi,
             'pelanggans' => Pelanggan::all(),
-            'barangs' => Barang::all();
+            'barangs' => Barang::all()
         ]);
         
     }

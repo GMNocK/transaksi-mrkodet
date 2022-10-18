@@ -15,7 +15,7 @@ class LaporanKaryawanFactory extends Factory
     {
         return [
             'title' => $this->faker->paragraph(),
-            'excerpt' => $this->faker->paragraph(),
+            'excerpt' => $this->faker->sentence(),
             'body' => $this->faker->paragraph(),
             'send_at' => $this->faker->dateTime(),
             'karyawan_id' => mt_rand(1, 2)

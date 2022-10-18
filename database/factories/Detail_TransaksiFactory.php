@@ -16,9 +16,9 @@ class Detail_TransaksiFactory extends Factory
     {
         return [
             'barang_id' => mt_rand(1,4),
-            'transaksi_id' => mt_rand(1,3),
+            'transaksi_id' => mt_rand(1,10),
             'jumlah' => mt_rand(1,4),
-            'harga' => 15000,
+            'harga' => 150000,
         ];
     }
 }

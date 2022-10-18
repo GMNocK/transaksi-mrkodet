@@ -41,8 +41,7 @@ class DashboardUsersController extends Controller
         $validateData['password'] = bcrypt($request['password']);
 
         user::create($validateData);
-
-        return User::where('level','karyawan')->latesh()->get();
+        // return User::where('level','karyawan')->get();
 
         $userData = $request->validate([
             'nama' => 'required'

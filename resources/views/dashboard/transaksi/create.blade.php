@@ -15,28 +15,45 @@
                 @endforeach
             </select>
         </div>
+        
+        {{-- INI BUAT PILIHAN BARANG YANG DIBELI --}}
+        
+        {{-- <div class="row g-3 align-items-center mt-4">
+            <div class="col-auto">
+                <select name="" id="" class="form-select">
+                    @foreach ($barangs as $b)                        
+                    <option value="{{ $b->id }}">{{ $b->nama_barang }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-auto">
+                <select name="harga" id="harga" class="form-select">
+                    @foreach ($barangs as $b)                        
+                    <option value="{{ $b->harga }}">Rp. {{ $b->harga }}</option>
+                    @endforeach                              
+                </select>
+            </div>
+            <div class="col-auto">
+            </div>
+            <div class="col-auto">
+                <select name="ukuran" id="ukuran" class="form-select" onchange="load();">
+                   <option value="A">1 Kg</option>         
+                   <option value="B">1/2 Kg</option>         
+                   <option value="C">1/4 Kg</option>         
+                </select>
+            </div>
+        </div> --}}
+
+        
         <div class="my-3 col-8">
             <label for="TotalHarga" class="form-label">Total Harga</label>
             <input type="number" class="form-control" id="TotalHarga" name="total_harga">
             <div id="emailHelp" class="form-text">Harga</div>
         </div>
         
-        <div class="row g-3 align-items-center mt-4">
-            <div class="col-auto">
-                <select name="" id="">
-                    <option value="{{  }}">{{  }}</option>
-                </select>
-            </div>
-            <div class="col-auto">
-                <input type="text" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
-            </div>
-            <div class="col-auto">
-                <span id="passwordHelpInline" class="form-text">
-                Must be 8-20 characters long.
-                </span>
-            </div>
-        </div>
-        
         <input type="submit" value="Tambah" class="btn btn-outline-primary mt-3">           
     </form>
+    
+
+    <script src="{{ asset('js/createtrans.js') }}"></script>
 @endsection
