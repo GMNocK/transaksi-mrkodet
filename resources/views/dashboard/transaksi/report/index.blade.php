@@ -19,13 +19,13 @@
             
         <tr>
             <td>{{ $loop->iteration }}</td>
-            <td>{{ $l->title }}</td>
+            <td>{{ $l->excerpt }}</td>
             <td>{{ $l->send_at }}</td>
             <td style="text-align: center">
 
-                <a href="/transaksis/report/{{ $l->id }}" class="badge bg-primary"><span data-feather="eye"></span></a>                 
+                <a href="/transaksi/reports/{{ $l->id }}" class="badge bg-primary"><span data-feather="eye"></span></a>                 
                   
-                  <form action="/transaksis/report/{{ $l->id }}" method="post" class="d-inline" onclick="return confirm('Yakin Untuk Menghapus?');">
+                  <form action="/transaksi/reports/{{ $l->id }}" method="post" class="d-inline" onclick="return confirm('Yakin Untuk Menghapus?');">
                     @method('delete')
                     @csrf
                     <button class="badge bg-danger border-0">
@@ -33,7 +33,7 @@
                     </button>
                   </form>
                   
-                  <a href="/transaksis/report/{{ $l->id }}/edit" class="badge bg-warning">
+                  <a href="/transaksi/reports/{{ $l->id }}/edit/" class="badge bg-warning">
                     <span data-feather="edit"></span>
                   </a>                                                            
                   

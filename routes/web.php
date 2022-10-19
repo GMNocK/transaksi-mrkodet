@@ -4,8 +4,10 @@ use App\Http\Controllers\DashboardTransController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardUsersController;
+use App\Http\Controllers\LaporanKaryawanController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
+use App\Models\LaporanKaryawan;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,4 +44,6 @@ Route::resource('/dashboard/transaksis', DashboardTransController::class)->middl
 
 // Route::get('transaksis/report', [ReportController::class, 'index']);
 
-Route::resource('transaksis/report', ReportController::class)->middleware('auth');
+Route::resource('/transaksi/reports', ReportController::class)->middleware('auth');
+
+Route::resource('/laporankaryawans', LaporanKaryawanController::class)->middleware('auth');

@@ -18,7 +18,7 @@ class LaporanKaryawanFactory extends Factory
             'excerpt' => $this->faker->sentence(),
             'body' => $this->faker->paragraph(),
             'send_at' => $this->faker->dateTime(),
-            'karyawan_id' => mt_rand(1, 2)
+            'karyawan_id' => 1
         ];
     }
 }

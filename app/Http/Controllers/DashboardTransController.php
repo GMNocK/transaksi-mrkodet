@@ -73,7 +73,7 @@ class DashboardTransController extends Controller
 
     
     public function show(Transaksi $transaksi)
-    {
+    {        
         // -------------------------- DISINI ----------------------------
         // return $transaksi->detail_transaksi;
         return view('dashboard.transaksi.detail', [

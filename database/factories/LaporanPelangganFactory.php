@@ -18,7 +18,7 @@ class LaporanPelangganFactory extends Factory
             'excerpt' => $this->faker->sentence(),
             'body' => $this->faker->paragraph(),
             'send_at' => $this->faker->dateTime(),
-            'pelanggan_id' => mt_rand(1, 4)
+            'pelanggan_id' => mt_rand(1, 7)
         ];
     }
 }

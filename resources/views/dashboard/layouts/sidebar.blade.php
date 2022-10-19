@@ -18,23 +18,24 @@
         <li class="nav-item">
           <a class="nav-link {{ Request::is('dashboard/users*') ? 'active' : '' }}" href="/dashboard/users/">
             <span data-feather="user" class="align-text-bottom"></span>
-            Karyawan
+            Users
           </a>
         </li>
         @endcan
       </ul>
 
       <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-        <span>Saved reports</span>
+        <span>Reports</span>
         <a class="link-secondary" href="#" aria-label="Add a new report">
           <span data-feather="plus-circle" class="align-text-bottom"></span>
         </a>
       </h6>
+
       <ul class="nav flex-column mb-2">
         
         @can('costumer')
         <li class="nav-item">
-          <a class="nav-link" href="/transaksis/report">
+          <a class="nav-link {{ Request::is('transaksi/reports*') ? 'active' : '' }}" href="/transaksi/reports">
             <span data-feather="file-text" class="align-text-bottom"></span>
             Your Reports
           </a>
@@ -43,21 +44,23 @@
 
         @can('mustBeAdmin')
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link {{ Request::is('laporan*') ? 'active' : '' }}" href="/laporankaryawans">
             <span data-feather="file-text" class="align-text-bottom"></span>
-            Last quarter
+            Today
           </a>
         </li>
+
         <li class="nav-item">
           <a class="nav-link" href="#">
             <span data-feather="file-text" class="align-text-bottom"></span>
-            Social engagement
+            This Month
           </a>
         </li>
+
         <li class="nav-item">
           <a class="nav-link" href="#">
             <span data-feather="file-text" class="align-text-bottom"></span>
-            Year-end sale
+            This Year
           </a>
         </li>
         @endcan

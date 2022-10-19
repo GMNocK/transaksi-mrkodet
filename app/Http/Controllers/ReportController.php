@@ -9,6 +9,7 @@ use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class ReportController extends Controller
 {
@@ -19,61 +20,84 @@ class ReportController extends Controller
         $user = $ul->find('id', auth()->user()->id);
 
         $string =  Pelanggan::where('user_id', $user)->get();
-
-        $pelangganLogin = $string->find('user_id', $user);
+        foreach ($string as $i) {
+            $pelangganLogin = $i->id;
+        }
 
         $ret = LaporanPelanggan::where('pelanggan_id', $pelangganLogin)->get();
 
         return view('dashboard.transaksi.report.index', [
-            'LaporanPelanggans' => $ret, //LaporanPelanggan::where('pelanggan_id', auth()->user())->get(),
+            'LaporanPelanggans' => $ret, 
         ]);
     }
 
     
     public function create()
     {
-        $usid = User::where('id', auth()->user()->id)->get();
-        $useride = $usid->find('id', auth()->user()->id);
-
-        $pelid = Pelanggan::where('user_id', $useride)->get();
-
-        return $pelangganId = $pelid->find('user_id', $useride);
-        return LaporanPelanggan::where('pelanggan_id', auth()->user()->id);
-
         return view('dashboard.transaksi.report.create', [
-            'pelanggans' => LaporanPelanggan::where('pelanggan_id', auth()->user()->id),
+            'pelanggans' => Pelanggan::where('user_id', auth()->user()->id)->get()  ,
         ]);
     }
 
     
     public function store(Request $request)
     {
-        return $request;
-        return $request['hidden'];
+        $validateData = $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+            'pelanggan_id' => 'required',
+        ]);
+        $validateData['excerpt'] = Str::limit($validateData['body'], 15, '...');
+
+        $date = Carbon::now()->toDateTimeString();        
+        $validateData['send_at'] = $date;  
+
+        LaporanPelanggan::create($validateData);
+
+        // return $date = Carbon::now()->toDateTimeString();
+        
+        return redirect('/transaksi/reports/');
     }
 
     
-    public function show(LaporanPelanggan $laporanPelanggan)
+    public function show(LaporanPelanggan $report)
     {
-        return "Hai Saya Yukie";
+        return view('dashboard.transaksi.report.detail',[
+            'laporanpelanggan' => $report, 
+        ]);
     }
 
 
-    public function edit(LaporanPelanggan $laporanPelanggan)
+    public function edit(LaporanPelanggan $report)
     {
-        //
+        return view('dashboard.transaksi.report.edit', [
+            'LaporanPelanggan' => $report
+        ]);
     }
 
     
-    public function update(Request $request, LaporanPelanggan $laporanPelanggan)
+    public function update(Request $request, LaporanPelanggan $report)
     {
-        //
+        $validateData = $request->validate([
+            'title' => 'required|min:10',
+            'body' => 'required'
+        ]);
+        LaporanPelanggan::where('id', $report->id)->update($validateData);
+
+
+        return redirect('/transaksi/reports/');   
     }
 
 
-    public function destroy(LaporanPelanggan $laporanPelanggan)
+    public function destroy(LaporanPelanggan $report)
     {
-        return $laporanPelanggan->id;
-        // LaporanPelanggan::destroy($laporanPelanggan->id);
+        LaporanPelanggan::destroy($report->id);
+
+        return redirect('/transaksi/reports/');
+    }
+
+    public function createReport(Transaksi $transaksi)
+    {
+        return $transaksi;
     }
 }

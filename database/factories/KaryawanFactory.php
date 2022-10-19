@@ -17,7 +17,7 @@ class KaryawanFactory extends Factory
             'nama' => $this->faker->name(),
             'alamat' => $this->faker->address(),
             'no_tlp' => $this->faker->unique()->phoneNumber(),
-            'user_id' => 3
+            'user_id' => 2
         ];
     }
 }

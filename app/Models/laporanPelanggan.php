@@ -15,4 +15,8 @@ class LaporanPelanggan extends Model
     {
         return $this->belongsTo(Pelanggan::class);
     }
+    public function getRouteKeyName()
+    {
+        return 'id';   
+    }
 }

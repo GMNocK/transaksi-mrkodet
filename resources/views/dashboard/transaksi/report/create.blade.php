@@ -1,45 +1,31 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-<form action="/transaksis/report/" method="POST">
+<form action="/transaksi/reports/" method="POST">
     @csrf
 
-    <form action="{{ route('report.store') }}" method="POST">
+    <form action="/transaksi/reports/" method="POST">
       <!-- Name input -->
       <div class="form-outline col-10 my-4">
-        <label class="form-label" for="form4Example1">Name</label>
-        <input type="text" id="form4Example1" class="form-control" />
+        <label class="form-label" for="form4Example1">Title \ Judul</label>
+        <input type="text" id="form4Example1" class="form-control" name="title" />
       </div>
-
-      
-      <!-- Email input -->
-      <div class="form-outline mb-4">
-        <input type="email" id="form4Example2" class="form-control" />
-        <label class="form-label" for="form4Example2">Email address</label>
-      </div>
-      
+            
       <div class="form-floating">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-        <label for="floatingTextarea2">Comments</label>
+        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="body"></textarea>
+        <label for="floatingTextarea2">Isi laporan</label>
       </div>      
-    
-      <!-- Checkbox -->
-      <div class="form-check mb-4">
-        <input class="form-check-input me-2" type="checkbox" value="" id="form4Example4" checked />
-        <label class="form-check-label" for="form4Example4">
-          Send me a copy of this message
-        </label>
-      </div>
-    <input type="hidden" value="{{ auth()->user()->id }}" name="hidden">
-    <input type="hidden" value="{{ $pelanggans }}" name="hidden">
 
+    @foreach ($pelanggans as $i)        
+    <input type="hidden" value="{{ $i->id }}" name="pelanggan_id">
+    @endforeach
     
       <!-- Submit button -->
-      <button type="submit" class="btn btn-primary btn-block mb-4">
+      <button type="submit" class="btn btn-primary btn-block my-4">
         Send
       </button>
       
-
+{{-- 
       <div class="my-3 col-8">
         <label for="nama" class="form-label">nama</label>
         <input type="text" class="form-control" id="nama" name="nama">
@@ -59,7 +45,7 @@
       <div class="my-3 col-8">
         <label for="Password1" class="form-label">Password</label>
         <input type="password" class="form-control" id="Password1" name="password">
-      </div>
+      </div> --}}
     
   </form>
 

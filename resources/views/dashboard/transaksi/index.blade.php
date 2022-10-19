@@ -51,8 +51,9 @@
                       <span data-feather="edit"></span>
                     </a>
                     @endcan
+                    
                     @cannot('karyawan')                      
-                    <a href="{{ route('report.create') }}">
+                    <a href="{{ route('reports.create') }}">
                       <button class="badge bg-danger border-0">
                         <span data-feather="alert-circle"></span>
                       </button>
