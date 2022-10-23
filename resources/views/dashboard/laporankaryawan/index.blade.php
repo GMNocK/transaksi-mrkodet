@@ -2,7 +2,12 @@
 
 @section('container')
 
-  <a href="/laporankaryawans/create"><button class="btn btn-primary my-4">Buat Laporan</button></a>
+@can('karyawan')
+    
+<a href="/laporankaryawans/create">
+  <button class="btn btn-primary my-4">Buat Laporan</button>
+</a>
+@endcan
 
     <div class="table-responsive col-lg-11">
         <table class="table table-striped table-sm">

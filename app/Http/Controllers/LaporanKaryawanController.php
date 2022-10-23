@@ -4,86 +4,90 @@ namespace App\Http\Controllers;
 
 use App\Models\laporanKaryawan;
 use App\Http\Controllers\Controller;
+use App\Models\Karyawan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 
 class LaporanKaryawanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-        // return now()->toArray(); 
-        // return laporanKaryawan::where('send_at', '<' , now())->get();
+        // $today = date('Y-m-d'); 
+        // $Day = Str::afterLast($today, '-');
+        // $tomorrow = $Day + 1;
+        // $Bday = Str::beforeLast($today, '-');
 
-        return view('dashboard.laporankaryawan.index',[
-            'laporankaryawans' => laporanKaryawan::all(),
+        // $date = "$Bday-$tomorrow";
+
+        // $ini = now()->toArray();
+
+        // return $date;   
+        // $itu = "$date 00-00-00";       
+
+        // return $ini->where('send_at', '<', $tomorrow)->get();
+
+        // return laporanKaryawan::orderBy('send_at')->whereYear('send_at', '2022')->get();
+
+        return view('dashboard.laporankaryawan.index',[            
+            // 'laporankaryawans' => laporanKaryawan::orderBy('send_at', 'desc')->whereDate('send_at', Date('Y-m-d'))->get(), 
+            'laporankaryawans' => laporanKaryawan::all()
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
-    {
-        return view('dashboard.laporankaryawan.create');
+    { 
+        $ls =  Karyawan::where('user_id', auth()->user()->id)->get();
+        
+        foreach ($ls as $l) {
+            $idK = $l->id;
+        }
+
+        return view('dashboard.laporankaryawan.create', [
+            'ik' => $idK,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
-        return "INI BUAT SIMPAN LAPORAN HARIAN";
+
+        $validateData = $request->validate([
+            'title' => 'required|min:1',
+            'body' => 'required|min:10',
+            'karyawan_id' => 'required'
+        ]);
+
+        $validateData['excerpt'] = Str::limit($validateData['body'], 30, '...');
+
+        $validateData['send_at'] = date('Y-m-d H-i-s');
+
+        // laporanKaryawan::create($validateData);
+
+        return redirect(route('/laporankaryawans'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\LaporanKaryawan  $laporanKaryawan
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show(laporanKaryawan $laporankaryawan)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\LaporanKaryawan  $laporanKaryawan
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit(laporanKaryawan $laporankaryawan)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\LaporanKaryawan  $laporanKaryawan
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, laporanKaryawan $laporankaryawan)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\LaporanKaryawan  $laporanKaryawan
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy(laporanKaryawan $laporankaryawan)
     {
         laporanKaryawan::destroy($laporankaryawan->id);

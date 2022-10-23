@@ -51,16 +51,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-            BarangSeeder::class
+            BarangSeeder::class,
+            
         ]);
 
-        User::factory(12)->create();
+        User::factory(20)->create();
         admin::factory(1)->create();
         karyawan::factory(1)->create();
         pelanggan::factory(7)->create();
         transaksi::factory(25)->create();
         detail_transaksi::factory(50)->create();
         laporanPelanggan::factory(50)->create();
-        laporanKaryawan::factory(20)->create();
+        laporanKaryawan::factory(45)->create();
     }
 }

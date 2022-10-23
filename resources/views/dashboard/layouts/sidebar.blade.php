@@ -37,7 +37,15 @@
         <li class="nav-item">
           <a class="nav-link {{ Request::is('transaksi/reports*') ? 'active' : '' }}" href="/transaksi/reports">
             <span data-feather="file-text" class="align-text-bottom"></span>
-            Your Reports
+            My Reports
+          </a>
+        </li>
+        @endcan
+        @can('karyawan')
+        <li class="nav-item">
+          <a class="nav-link {{ Request::is('laporankaryawans*') ? 'active' : '' }}" href="/laporankaryawans">
+            <span data-feather="file-text" class="align-text-bottom"></span>
+            My Reports
           </a>
         </li>
         @endcan
