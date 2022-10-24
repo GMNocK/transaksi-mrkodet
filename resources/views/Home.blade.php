@@ -1,8 +1,0 @@
-@extends('layouts.main')
-
-@section('name')
-    <div class="a">
-        <h1>Selamat Datang</h1>
-        <a href="/login">Login</a>
-    </div>
-@endsection

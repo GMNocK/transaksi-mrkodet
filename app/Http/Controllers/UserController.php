@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function register()
     {
-        return view('login');
+        return view('register');
     }
     
     public function registerAction(Request $request)
@@ -27,10 +27,10 @@ class UserController extends Controller
         $validateData['password'] = bcrypt($validateData['password']);
         User::create($validateData);
 
-        $pelanggansData = $request->validate([
-            'nama' =>'required'
-        ]);
-        pelanggan::create($pelanggansData);
+        // $pelanggansData = $request->validate([
+        //     'nama' =>'required'
+        // ]);
+        // pelanggan::create($pelanggansData);
 
         return redirect(route('login'))->with('success', 'Register SuccessFully. Please Login!');
     }

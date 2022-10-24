@@ -7,7 +7,7 @@ use App\Http\Controllers\DashboardUsersController;
 use App\Http\Controllers\LaporanKaryawanController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
-use App\Models\LaporanKaryawan;
+use App\Http\Controllers\ReportForAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,11 +20,9 @@ use App\Models\LaporanKaryawan;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->middleware('guest');
-
-Route::get('/register', [UserController::class, 'register'])->middleware('guest');
-Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
+Route::get('/', [UserController::class, 'login'])->name('login')->middleware('guest');
 Route::post('/login' ,[UserController::class, 'loginAction']);
+Route::get('/register', [UserController::class, 'register'])->middleware('guest');
 Route::post('/register', [UserController::class, 'registerAction']);
 
 Route::post('/logout', [UserController::class, 'logout']);
@@ -47,3 +45,5 @@ Route::resource('/dashboard/transaksis', DashboardTransController::class)->middl
 Route::resource('/transaksi/reports', ReportController::class)->middleware('auth');
 
 Route::resource('/laporankaryawans', LaporanKaryawanController::class)->middleware('auth');
+
+Route::get('/apa', [ReportForAdminController::class , 'todayKaryawan']);
