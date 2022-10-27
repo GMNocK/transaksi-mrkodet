@@ -16,8 +16,9 @@ class CreateDetailTransaksisTable extends Migration
         Schema::create('detail_transaksis', function (Blueprint $table) {
             $table->foreignId('transaksi_id')->constrained()->cascadeOnDelete();
             $table->foreignId('barang_id')->constrained()->cascadeOnDelete();
+            $table->integer('harga_satuan');
             $table->integer('jumlah');
-            $table->integer('harga');
+            $table->integer('subtotal');
             $table->timestamps();
         });
     }

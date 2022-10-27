@@ -17,8 +17,9 @@ class Detail_TransaksiFactory extends Factory
         return [
             'barang_id' => mt_rand(1,4),
             'transaksi_id' => mt_rand(1,10),
+            'harga_satuan' => 150000,
             'jumlah' => mt_rand(1,4),
-            'harga' => 150000,
+            'subtotal' => 150000 * mt_rand(1,4),
         ];
     }
 }

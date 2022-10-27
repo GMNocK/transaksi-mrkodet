@@ -18,14 +18,14 @@
         
         {{-- INI BUAT PILIHAN BARANG YANG DIBELI --}}
         
-        {{-- <div class="row g-3 align-items-center mt-4">
+        <div class="row g-3 align-items-center mt-4">
             <div class="col-auto">
-                <select name="" id="" class="form-select">
-                    @foreach ($barangs as $b)                        
+                <select name="barang" id="barang-select" class="form-select">
+                    @foreach ($barangs as $b)
                     <option value="{{ $b->id }}">{{ $b->nama_barang }}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> {{--
             <div class="col-auto">
                 <select name="harga" id="harga" class="form-select">
                     @foreach ($barangs as $b)                        
@@ -45,15 +45,30 @@
         </div> --}}
 
         
+        <div class="grid text-center">
+            <div class="g-col-4">
+                <input type="number" name="ini">
+            </div>
+            <div class="g-col-4">
+                <input type="text" name="jumlah">
+            </div>
+        </div>
+  
+        
         <div class="my-3 col-8">
             <label for="TotalHarga" class="form-label">Total Harga</label>
             <input type="number" class="form-control" id="TotalHarga" name="total_harga">
             <div id="emailHelp" class="form-text">Harga</div>
         </div>
         
+
         <input type="submit" value="Tambah" class="btn btn-outline-primary mt-3">           
     </form>
     
 
-    <script src="{{ asset('js/createtrans.js') }}"></script>
+    <script>
+         function ini() {
+            const a = document.Q
+         }
+    </script>
 @endsection

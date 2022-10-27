@@ -48,6 +48,12 @@
             My Reports
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link {{ Request::is('karyawan/laporanuser*') ? 'active' : '' }}" href="/karyawan/laporanuser">
+            <span data-feather="file-text" class="align-text-bottom"></span>
+            User Reports
+          </a>
+        </li>
         @endcan
 
         @can('mustBeAdmin')

@@ -11,12 +11,18 @@ class LaporanPelanggan extends Model
 
     protected $guarded = ['id'];
 
+    public function getRouteKeyName()
+    {
+        return 'id';   
+    }
+
     public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class);
     }
-    public function getRouteKeyName()
+
+    public function feedbackkaryawan()
     {
-        return 'id';   
+        return $this->belongsTo(feedbackkaryawan::class);
     }
 }

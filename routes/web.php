@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\DashboardTransController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardUsersController;
+use App\Http\Controllers\FeedbackKaryawanController;
+use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\LaporanKaryawanController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
@@ -44,6 +45,15 @@ Route::resource('/dashboard/transaksis', DashboardTransController::class)->middl
 
 Route::resource('/transaksi/reports', ReportController::class)->middleware('auth');
 
+// Route::resource('/laporankaryawans', LaporanKaryawanController::class)->middleware('auth');
 Route::resource('/laporankaryawans', LaporanKaryawanController::class)->middleware('auth');
 
-Route::get('/apa', [ReportForAdminController::class , 'todayKaryawan']);
+Route::get('/karyawan/laporanuser', [KaryawanController::class, 'pelangganReport'])->middleware('auth');
+
+Route::post('/karyawan/laporanuser/reply/{laporanPelanggan}', [KaryawanController::class, 'replyPelangganR'])->name('indexReply')->middleware('auth');
+
+// Route::post('/karyawan/laporanuser/reply', [KaryawanController::class, 'FeedbackKaryawan'])->middleware('auth');
+Route::resource('/karyawan/laporanuser/reply', FeedbackKaryawanController::class)->middleware('auth');
+
+
+Route::get('/apa', [ReportForAdminController::class , 'index']);

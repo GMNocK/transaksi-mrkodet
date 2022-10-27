@@ -54,7 +54,7 @@ class UserController extends Controller
             return redirect()->intended('/dashboard');
         }
 
-        return redirect('/login')->withErrors('failed','Login Failed, Username or Pasword wrong');
+        return redirect('/')->withErrors('failed','Login Failed, Username or Pasword wrong');
     }
 
     public function logout(Request $request)
@@ -65,6 +65,6 @@ class UserController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/');
     }
 }

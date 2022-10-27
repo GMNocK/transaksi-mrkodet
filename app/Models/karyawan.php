@@ -22,4 +22,9 @@ class Karyawan extends Model
     {
         return $this->hasMany(LaporanKaryawan::class);
     }
+
+    public function feedbackkaryawan()
+    {
+        return $this->hasMany(FeedbackKaryawan::class);
+    }
 }

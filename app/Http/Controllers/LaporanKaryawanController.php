@@ -14,24 +14,7 @@ class LaporanKaryawanController extends Controller
     
     public function index()
     {
-        // $today = date('Y-m-d'); 
-        // $Day = Str::afterLast($today, '-');
-        // $tomorrow = $Day + 1;
-        // $Bday = Str::beforeLast($today, '-');
-
-        // $date = "$Bday-$tomorrow";
-
-        // $ini = now()->toArray();
-
-        // return $date;   
-        // $itu = "$date 00-00-00";       
-
-        // return $ini->where('send_at', '<', $tomorrow)->get();
-
-        // return laporanKaryawan::orderBy('send_at')->whereYear('send_at', '2022')->get();
-
-        return view('dashboard.laporankaryawan.index',[            
-            // 'laporankaryawans' => laporanKaryawan::orderBy('send_at', 'desc')->whereDate('send_at', Date('Y-m-d'))->get(), 
+        return view('dashboard.karyawan.laporankaryawan.index',[
             'laporankaryawans' => laporanKaryawan::all()
         ]);
     }
@@ -45,7 +28,7 @@ class LaporanKaryawanController extends Controller
             $idK = $l->id;
         }
 
-        return view('dashboard.laporankaryawan.create', [
+        return view('dashboard.karyawan.laporankaryawan.create', [
             'ik' => $idK,
         ]);
     }
@@ -60,31 +43,44 @@ class LaporanKaryawanController extends Controller
             'karyawan_id' => 'required'
         ]);
 
-        $validateData['excerpt'] = Str::limit($validateData['body'], 30, '...');
+        $validateData['excerpt'] = Str::limit($validateData['body'], 50, '...');
 
         $validateData['send_at'] = date('Y-m-d H-i-s');
 
-        // laporanKaryawan::create($validateData);
+        laporanKaryawan::create($validateData);
 
-        return redirect(route('/laporankaryawans'));
+        return redirect(route('laporankaryawans.index'));
     }
 
     
     public function show(laporanKaryawan $laporankaryawan)
     {
-        //
+        // return $laporankaryawan;
+        return view('dashboard.karyawan.laporankaryawan.show', [
+            'laporankaryawans' => $laporankaryawan,
+        ]);
     }
 
     
     public function edit(laporanKaryawan $laporankaryawan)
     {
-        //
+        return view('dashboard.karyawan.laporankaryawan.edit', [
+            'laporankaryawan' => $laporankaryawan,
+        ]);
     }
 
     
     public function update(Request $request, laporanKaryawan $laporankaryawan)
     {
-        //
+        $validateData = $request->validate([
+            'title' => 'required|min:3',
+            'body' => 'required|min:10'
+        ]);
+        $validateData['excerpt'] = Str::limit($validateData['body'], 50, '...');
+
+        $laporankaryawan->update($validateData);
+
+        return redirect(route('laporankaryawans.index'));
     }
 
     

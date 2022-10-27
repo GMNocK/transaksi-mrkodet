@@ -19,9 +19,9 @@
           @foreach ($transaksi->detail_transaksi as $i)                    
           <tr class="bg-light">
             <td class="p-3">{{ $i->barang->nama_barang }}</td>
-            <td class="p-3 text-center">{{ $i->harga }}</td>
+            <td class="p-3 text-center">{{ $i->harga_satuan }}</td>
             <td class="p-3 text-center">{{ $i->jumlah }}</td>
-            <td class="p-3 text-center">{{ $i->harga * $i->jumlah }}</td>
+            <td class="p-3 text-center">{{ $i->harga_satuan * $i->jumlah }}</td>
           </tr>
           @endforeach
           <tr>

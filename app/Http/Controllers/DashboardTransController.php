@@ -21,8 +21,8 @@ class DashboardTransController extends Controller
         $userLevel = auth()->user()->level;
         if ($userLevel == 'karyawan' || $userLevel == 'Admin') {
             return view('dashboard.transaksi.index', [
-                'transaksis' => Transaksi::orderBy('tgl_transaksi','desc')->get(),
-                'pelanggans' => Pelanggan::all()
+                'transaksis' => Transaksi::orderBy('tgl_transaksi','desc')->with(['pelanggan.user'])->get(),
+                // 'pelanggans' => Pelanggan::all()
             ]); 
         }
         if ($userLevel == 'costumer') {            
@@ -54,6 +54,7 @@ class DashboardTransController extends Controller
             'pelanggan_id' => 'required',
             'total_harga' => 'required|min:4'
         ]);
+        
         $validateData['oleh'] = auth()->user()->username; // isi dengan nama dari tabel pelanggan
         $validateData['token'] = password_hash($validateData['tgl_transaksi'], PASSWORD_DEFAULT);
 
@@ -63,7 +64,11 @@ class DashboardTransController extends Controller
 
         Transaksi::create($validateData);
 
-        return redirect('/dashboard/transaksis/');
+
+        return $request;
+
+
+        // return redirect('/dashboard/transaksis/');
 
 
         // Note Ini harus input ke detail transaksi juga, caranya lewat form, select nama barang -> total nya berapa. nanti di generate total harga nya. sebelum itu harus ada tabel barang dulu. biar nanti barangnya ngambil dari tabel barang, di tabel detail transaksi field nama barangnya ilangin, ganti  foreign ke tabel barang. balik lagi. buat nama barang yang dipilih bakalan di input ke detail transaksi dengan id barang sekalian sama jumlah yang dibelinya. input ini ke tabel detail transaksi, kalau input ke tabel transaksinya tgl nya di input di form awal, pengguna idnya juga sama, total harga dari yang awal jumlah dari sum(harga barang * jumlah) oleh nya sama kaya syntax yang udah ada. 
