@@ -55,5 +55,12 @@ Route::post('/karyawan/laporanuser/reply/{laporanPelanggan}', [KaryawanControlle
 // Route::post('/karyawan/laporanuser/reply', [KaryawanController::class, 'FeedbackKaryawan'])->middleware('auth');
 Route::resource('/karyawan/laporanuser/reply', FeedbackKaryawanController::class)->middleware('auth');
 
+Route::get('/admin/laporan/karyawan', [ReportForAdminController::class , 'indexKaryawan']);
+Route::get('/admin/laporan/karyawan/today', [ReportForAdminController::class , 'todayKaryawan']);
+Route::get('/admin/laporan/karyawan/thisMonth', [ReportForAdminController::class , 'thisMonthKaryawan']);
+Route::get('/admin/laporan/karyawan/thisYear', [ReportForAdminController::class , 'thisYearKaryawan']);
 
-Route::get('/apa', [ReportForAdminController::class , 'index']);
+Route::get('/admin/laporan/pelanggan', [ReportForAdminController::class , 'indexPelanggan']);
+Route::get('/admin/laporan/pelanggan/today', [ReportForAdminController::class , 'todayPelanggan']);
+Route::get('/admin/laporan/pelanggan/thisMonth', [ReportForAdminController::class , 'thisMonthPelanggan']);
+Route::get('/admin/laporan/pelanggan/thisYear', [ReportForAdminController::class , 'thisYearPelanggan']);

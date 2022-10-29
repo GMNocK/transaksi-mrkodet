@@ -24,17 +24,18 @@ class FeedbackKaryawanController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'Fk' => 'required|min:10',
+            'body' => 'required|min:10',
         ]);
-
         $kar = Karyawan::where('user_id', auth()->user()->id)->get();
         foreach ($kar as $i) {
             $idk = $i->id;
         }
+        $validateData['karyawan_id'] = $idk;
+        $validateData['laporan_pelanggan_id'] = $request->hidden;
 
-        return 'kuliah';
-        
         FeedbackKaryawan::create($validateData);
+
+        return redirect('/karyawan/laporanuser');
     }
 
     
@@ -58,6 +59,8 @@ class FeedbackKaryawanController extends Controller
     
     public function destroy(FeedbackKaryawan $feedbackKaryawan)
     {
-        //
+        FeedbackKaryawan::destroy($feedbackKaryawan);
+
+        return redirect('/dashboard');
     }
 }

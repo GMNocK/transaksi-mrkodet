@@ -15,6 +15,9 @@ class CreateFeedbackKaryawansTable extends Migration
     {
         Schema::create('feedback_karyawans', function (Blueprint $table) {
             $table->id();
+            $table->string('body');
+            $table->foreignId('karyawan_id')->constrained();
+            $table->foreignId('laporan_pelanggan_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

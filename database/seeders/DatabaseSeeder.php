@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\admin;
 use App\Models\Barang;
 use App\Models\detail_transaksi;
+use App\Models\FeedbackAdmin;
+use App\Models\FeedbackKaryawan;
 use App\Models\karyawan;
 use App\Models\laporanKaryawan;
 use App\Models\laporanPelanggan;
@@ -52,7 +54,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             BarangSeeder::class,
-            
         ]);
 
         User::factory(20)->create();
@@ -63,5 +64,8 @@ class DatabaseSeeder extends Seeder
         detail_transaksi::factory(50)->create();
         laporanPelanggan::factory(50)->create();
         laporanKaryawan::factory(45)->create();
+
+        FeedbackAdmin::factory(10)->create();
+        FeedbackKaryawan::factory(10)->create();
     }
 }

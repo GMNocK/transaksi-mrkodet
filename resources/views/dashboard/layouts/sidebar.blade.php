@@ -1,3 +1,12 @@
+{{-- <style>
+  .hide {
+    transition: all .3s;
+  }
+  .show {
+    transition: all .3s;
+  }
+</style> --}}
+
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
     <div class="position-sticky pt-3 sidebar-sticky">
       <ul class="nav flex-column">
@@ -34,51 +43,128 @@
       <ul class="nav flex-column mb-2">
         
         @can('costumer')
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('transaksi/reports*') ? 'active' : '' }}" href="/transaksi/reports">
-            <span data-feather="file-text" class="align-text-bottom"></span>
-            My Reports
-          </a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('transaksi/reports*') ? 'active' : '' }}" href="/transaksi/reports">
+              <span data-feather="file-text" class="align-text-bottom"></span>
+              My Reports
+            </a>
+          </li>
         @endcan
+
         @can('karyawan')
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('laporankaryawans*') ? 'active' : '' }}" href="/laporankaryawans">
-            <span data-feather="file-text" class="align-text-bottom"></span>
-            My Reports
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('karyawan/laporanuser*') ? 'active' : '' }}" href="/karyawan/laporanuser">
-            <span data-feather="file-text" class="align-text-bottom"></span>
-            User Reports
-          </a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('laporankaryawans*') ? 'active' : '' }}" href="/laporankaryawans">
+              <span data-feather="file-text" class="align-text-bottom"></span>
+              My Reports
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('karyawan/laporanuser*') ? 'active' : '' }}" href="/karyawan/laporanuser">
+              <span data-feather="file-text" class="align-text-bottom"></span>
+              User Reports
+            </a>
+          </li>
         @endcan
 
         @can('mustBeAdmin')
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('laporan*') ? 'active' : '' }}" href="/laporankaryawans">
-            <span data-feather="file-text" class="align-text-bottom"></span>
-            Today
-          </a>
-        </li>
+          <li class="nav-item" id="lkdToggle">
+            <a class="nav-link {{ Request::is('admin/laporan/karyawan*') ? 'active' : '' }}">
+              <span data-feather="file-text" class="align-text-bottom"></span>
+              Laporan Karyawan
+            </a>
+          </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <span data-feather="file-text" class="align-text-bottom"></span>
-            This Month
-          </a>
-        </li>
+          <div id="laporanKaryawanDropdown" class="ms-3 {{ Request::is('admin/laporan/karyawan*') ? 'active' : 'hide' }}">
+            <li class="nav-item">
+              <a class="nav-link {{ Request::is('admin/laporan/karyawan') ? 'active' : '' }}" href="/admin/laporan/karyawan">
+                <span data-feather="file-text" class="align-text-bottom"></span>
+                All
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ Request::is('admin/laporan/karyawan/today') ? 'active' : '' }}" href="/admin/laporan/karyawan/today">
+                <span data-feather="file-text" class="align-text-bottom"></span>
+                Today
+              </a>
+            </li>
+  
+            <li class="nav-item">
+              <a class="nav-link {{ Request::is('admin/laporan/karyawan/thisMonth') ? 'active' : '' }}" href="/admin/laporan/karyawan/thisMonth">
+                <span data-feather="file-text" class="align-text-bottom"></span>
+                This Month
+              </a>
+            </li>
+  
+            <li class="nav-item">
+              <a class="nav-link {{ Request::is('admin/laporan/karyawan/thisYear') ? 'active' : '' }}" href="/admin/laporan/karyawan/thisYear">
+                <span data-feather="file-text" class="align-text-bottom"></span>
+                This Year
+              </a>
+            </li>
+          </div>
+        @endcan
 
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <span data-feather="file-text" class="align-text-bottom"></span>
-            This Year
-          </a>
-        </li>
+          
+
+        @can('mustBeAdmin')
+          <li class="nav-item" id="lpdToggle">
+            <a class="nav-link {{ Request::is('admin/laporan/pelanggan*') ? 'active' : '' }}">
+              <span data-feather="file-text" class="align-text-bottom"></span>
+              Laporan Pelanggan
+            </a>
+          </li>
+
+          <div id="laporanPelangganDropdown" class="ms-3 {{ Request::is('admin/laporan/pelanggan*') ? 'active' : 'hide' }}">
+            <li class="nav-item">
+              <a class="nav-link {{ Request::is('admin/laporan/pelanggan') ? 'active' : '' }}" href="/admin/laporan/pelanggan">
+                <span data-feather="file-text" class="align-text-bottom"></span>
+                All
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ Request::is('admin/laporan/pelanggan/today') ? 'active' : '' }}" href="/admin/laporan/pelanggan/today">
+                <span data-feather="file-text" class="align-text-bottom"></span>
+                Today
+              </a>
+            </li>
+  
+            <li class="nav-item">
+              <a class="nav-link {{ Request::is('admin/laporan/pelanggan/thisMonth') ? 'active' : '' }}" href="/admin/laporan/pelanggan/thisMonth">
+                <span data-feather="file-text" class="align-text-bottom"></span>
+                This Month
+              </a>
+            </li>
+  
+            <li class="nav-item">
+              <a class="nav-link {{ Request::is('admin/laporan/pelanggan/thisYear') ? 'active' : '' }}" href="/admin/laporan/pelanggan/thisYear">
+                <span data-feather="file-text" class="align-text-bottom"></span>
+                This Year
+              </a>
+            </li>
+          </div>
         @endcan
 
       </ul>
     </div>
   </nav>
+
+  <script>
+    const reportKMenu = document.querySelector('#laporanKaryawanDropdown');
+    const reportKToggle = document.querySelector('#lkdToggle');
+
+    const reportPMenu = document.querySelector('#laporanPelangganDropdown');
+    const reportPToggle = document.querySelector('#lpdToggle');
+
+    reportKToggle.addEventListener('click', function () { 
+      // reportKMenu.classList.toggle('d-none');
+      reportKMenu.classList.toggle('show');
+      reportKMenu.classList.toggle('hide');
+    });
+
+    reportPToggle.addEventListener('click', function () { 
+      // reportPMenu.classList.toggle('d-none');
+      reportPMenu.classList.toggle('show');
+      reportPMenu.classList.toggle('hide');
+    });
+
+  </script>

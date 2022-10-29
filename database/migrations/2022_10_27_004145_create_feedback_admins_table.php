@@ -15,6 +15,9 @@ class CreateFeedbackAdminsTable extends Migration
     {
         Schema::create('feedback_admins', function (Blueprint $table) {
             $table->id();
+            $table->string('body');
+            $table->foreignId('laporan_karyawan_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('admin_id')->constrained();
             $table->timestamps();
         });
     }

@@ -5,7 +5,7 @@
         @csrf
         <div class="my-3 col-8">
             <label for="tanggal" class="form-label">Tanggal</label>
-            <input type="date" class="form-control" id="tanggal" name="tgl_transaksi">            
+            <input type="date" class="form-control" id="tanggal" name="tgl_transaksi" value="{{ date('Y-m-d') }}">            
         </div>
         <div class="my-3 col-8">
             <label for="pelanggan" class="form-label">Nama Pelanggan</label>
@@ -17,42 +17,48 @@
         </div>
         
         {{-- INI BUAT PILIHAN BARANG YANG DIBELI --}}
-        
-        <div class="row g-3 align-items-center mt-4">
-            <div class="col-auto">
-                <select name="barang" id="barang-select" class="form-select">
-                    @foreach ($barangs as $b)
-                    <option value="{{ $b->id }}">{{ $b->nama_barang }}</option>
-                    @endforeach
-                </select>
-            </div> {{--
-            <div class="col-auto">
-                <select name="harga" id="harga" class="form-select">
-                    @foreach ($barangs as $b)                        
-                    <option value="{{ $b->harga }}">Rp. {{ $b->harga }}</option>
-                    @endforeach                              
-                </select>
+        <div class="row">
+            <div class="col-3 text-center">
+                <label for="#" class="fs-5">Nama barang</label>
             </div>
-            <div class="col-auto">
+            <div class="col-2 text-center">
+                <label for="#" class="fs-5">Harga</label>
             </div>
-            <div class="col-auto">
-                <select name="ukuran" id="ukuran" class="form-select" onchange="load();">
-                   <option value="A">1 Kg</option>         
-                   <option value="B">1/2 Kg</option>         
-                   <option value="C">1/4 Kg</option>         
-                </select>
+            <div class="col-2 text-center">
+                <label for="#" class="fs-5">Ukuran</label>
             </div>
-        </div> --}}
-
-        
-        <div class="grid text-center">
-            <div class="g-col-4">
-                <input type="number" name="ini">
+            <div class="col-2 text-center">
+                <label for="#" class="fs-5">Quantity</label>
             </div>
-            <div class="g-col-4">
-                <input type="text" name="jumlah">
+            <div class="col-2 text-center">
+                <label for="#" class="fs-5">SubTotal</label>
             </div>
         </div>
+
+        <div class="row g-3 align-items-center my-1">
+            @foreach ($barangs as $b)
+            <div class="col-3">
+                <input type="text" id="3" class="form-control" name="barang{{ $loop->iteration }}" value="{{ $b->nama_barang }}">
+            </div>
+
+            <div class="col-2">
+                <input type="text" class="form-control" name="harga{{ $loop->iteration }}" value="{{ $b->harga }}">
+            </div>
+            <div class="col-2">
+                <input type="text" class="form-control" name="ukuran{{ $loop->iteration }}" value="{{ $b->ukuran }}">
+            </div>
+            <div class="col-2">
+                <input type="number" id="qty" name="quantity{{ $loop->iteration }}" class="form-control" value="{{ $qty = old('quantity', 0) }}" onchange="load();">
+            </div>
+
+            <div class="col-2">
+                <input type="number" name="subtotal{{ $loop->iteration }}" class="form-control" value="{{ $b->harga * $qty }}" readonly>
+            </div>
+            
+            @endforeach
+        </div>
+        
+        
   
         
         <div class="my-3 col-8">
@@ -66,9 +72,22 @@
     </form>
     
 
-    <script>
-         function ini() {
-            const a = document.Q
-         }
-    </script>
+    {{-- <script>
+        const a = document.querySelectorAll('.form-control');
+        const b = document.querySelector('#tanggal');
+        const c = document.querySelectorAll('#qty');
+        const d = document.querySelector('.apa');
+
+        console.log(b.value);
+        function load() {
+
+            apa();
+        }
+        function apa() {            
+            c.forEach((item) => {
+                item.classList
+            });
+        }
+    </script> --}}
+    <script src="{{ asset('js/createtrans.js') }}"></script>
 @endsection

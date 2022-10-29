@@ -46,6 +46,7 @@ class UserController extends Controller
             'email' => 'required',
             'password' => 'required'
         ]);
+        // return $credentials;
         $level = User::where('email', $credentials['email'])->get('level');
         $credentials['level'] = $level;
        
@@ -66,5 +67,10 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function forgotPw()
+    {
+        return view('auth/forgot');
     }
 }

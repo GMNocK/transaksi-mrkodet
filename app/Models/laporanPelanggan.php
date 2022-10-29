@@ -21,6 +21,11 @@ class LaporanPelanggan extends Model
         return $this->belongsTo(Pelanggan::class);
     }
 
+    public function karyawan()
+    {
+        return $this->belongsTo(Karyawan::class);
+    }
+
     public function feedbackkaryawan()
     {
         return $this->belongsTo(feedbackkaryawan::class);

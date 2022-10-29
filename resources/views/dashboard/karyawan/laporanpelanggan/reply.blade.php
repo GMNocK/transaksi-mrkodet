@@ -27,7 +27,8 @@
             @csrf
                 <div class="col-7 my-3 bg-light float-end" style="border-radius: 10px; padding: 15px 25px">
                     <div class="fs-7">
-                        <textarea class="form-control " placeholder="Leave a comment here" style="height: 200px" name="Fk"></textarea>                        
+                        <textarea class="form-control " placeholder="Leave a comment here" style="height: 200px" name="body"></textarea>
+                        <input type="hidden" name="hidden" value="{{ $laporanpelanggan->id }}">                      
                     </div>
                     <div class="mt-2">
                         <button class="btn btn-outline-success float-end">Send</button>
