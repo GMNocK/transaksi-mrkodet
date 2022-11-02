@@ -7,10 +7,12 @@ use App\Models\pelanggan;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
+    
+
     public function register()
     {
         return view('register');
@@ -53,6 +55,10 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {                
             $request->session()->regenerate();
             return redirect()->intended('/dashboard');
+        } elseif (Auth::check()) {
+
+            return redirect('/dashboard');
+            
         }
 
         return redirect('/')->withErrors('failed','Login Failed, Username or Pasword wrong');
@@ -69,8 +75,100 @@ class UserController extends Controller
         return redirect('/');
     }
 
+    public function resetPw(Request $request)
+    {
+        return view('auth.resetPw');
+    }
+    public function resetPwAction(Request $request)
+    {
+        $validateData = $request->validate([
+            'email' => 'required|email',
+            'newPassword' => 'required|min:8',
+            'confirmNewPassword' => 'required|same:newPassword'
+        ]);
+        $update['password'] = bcrypt($validateData['newPassword']);        
+
+        $data =  User::where('email', $validateData['email'])->get();
+        $cek = $data->count();
+
+        if ($cek == 1) {
+            User::where('email', $validateData['email'])->update($update);
+
+            // return User::where('password', $update['password'])->get();
+            return redirect('/');
+
+        } else {  
+            
+            return redirect('/resetPassword')->with('error', 'Email Not Match');
+        }        
+    }
+
+
+
+
     public function forgotPw()
     {
         return view('auth/forgot');
+    }
+
+    public function forgotGetEmail(Request $request)
+    {
+        $validateData = $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        $user = User::where('email', $validateData['email'])->get();
+        
+        $cek = $user->count('id');
+        
+        // return $validateData;
+        if ($cek == 0) {
+
+            return 'a';
+
+        } elseif ($cek == 1) {
+
+            return view('auth.forgotGetPw', [
+                'email' => $validateData['email']
+            ]);
+            
+        } else {
+            
+            return abort(403);
+            
+        }
+
+
+    }
+    
+    public function forgotGetlastPw(Request $request)
+    {
+        $validateData = $request->validate([
+            'password' => 'required|min:4',
+            'passwordSame' => 'required|same:password|min:4',
+            'email' => 'required'
+        ]);
+        // return $validateData;
+        // $data = User::where('email', $validateData['email'])->get();
+        // return $validateData;
+        $data = DB::select('select * from users where email = ?', [$validateData['email']]);
+        // return $data[0]->password;
+
+        $dataCek = User::where('password', 'like', $data[0]->password)->where('email', $validateData['email'])->get();
+
+        $cek = $dataCek->count();
+
+        if ($cek == 1) {
+
+            return redirect('/resetPassword');
+
+        } elseif ($cek == 0) {
+
+            return redirect('/forgot')->withErrors('failed', 'Not Match');
+
+        } else {
+            return abort(403);
+        }
+
     }
 }

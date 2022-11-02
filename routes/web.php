@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardTransController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardUsersController;
@@ -26,16 +28,20 @@ Route::post('/login' ,[UserController::class, 'loginAction']);
 Route::get('/register', [UserController::class, 'register'])->middleware('guest');
 Route::post('/register', [UserController::class, 'registerAction']);
 
-Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 
-// ---------------------------------------------------------------------
+// FORGOT PASSWORD
+Route::get('/forgot', [UserController::class, 'forgotPw'])->name('forgotPw');
+Route::post('/forgotNext', [UserController::class, 'forgotGetEmail']);
+Route::post('/forgotLast', [UserController::class, 'forgotGetLastPw']);
 
-Route::get('/dashboard', function ()
-{
-    return view('dashboard.index',[
-        'title' => 'dashboard'
-    ]);
-})->middleware('auth')->name('dashboard'); 
+// RESET PASSWORD
+Route::get('/resetPassword', [UserController::class, 'resetPw']);
+Route::post('/resetPassword/action', [UserController::class, 'resetPwAction']);
+
+// --------------------------------------------------------------------------------------------------
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard'); 
 
 Route::resource('/dashboard/users', DashboardUsersController::class)->middleware('auth');
 
@@ -63,4 +69,6 @@ Route::get('/admin/laporan/karyawan/thisYear', [ReportForAdminController::class 
 Route::get('/admin/laporan/pelanggan', [ReportForAdminController::class , 'indexPelanggan']);
 Route::get('/admin/laporan/pelanggan/today', [ReportForAdminController::class , 'todayPelanggan']);
 Route::get('/admin/laporan/pelanggan/thisMonth', [ReportForAdminController::class , 'thisMonthPelanggan']);
+
+
 Route::get('/admin/laporan/pelanggan/thisYear', [ReportForAdminController::class , 'thisYearPelanggan']);

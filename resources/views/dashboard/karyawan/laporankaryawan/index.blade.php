@@ -59,4 +59,8 @@
         </table>
       </div>
 
+      <div class="d-flex justify-content-end col-11">
+        {{ $laporankaryawans->links() }}
+      </div>
+
 @endsection

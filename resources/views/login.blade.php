@@ -109,7 +109,7 @@
                         <input type="password" name="password" placeholder="Password" required>
                     </div>
                     <div class="forgot">
-                        <p><a href="#">Forgot password?</a></p>
+                        <p><a href="/forgot">Forgot password?</a></p>
                     </div>
                     <div class="inputBx">                        
                         <input type="submit" value="Sign in">

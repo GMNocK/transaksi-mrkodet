@@ -7,30 +7,40 @@ use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Karyawan;
 use App\Models\Pelanggan;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 
 class DashboardTransController extends Controller
 {
     
     public function index()
-    {
-        // return Transaksi::where('pelanggan_id', auth()->user()->id)->get();
-        $userLevel = auth()->user()->level;
+    {        
+        // $ini = DB::select('select * from users where email = ?', ['aku@gmail.com']);
+        
+        // $apa = User::where('password', 'like', $ini[0]->password )->get();
+
+        // $itu = $ini[0]->password;
+
+        // return User::where('password', $apa[0]->password)->where('email', $ini[0]->email)->get();
+
+        $userLevel = auth()->user()->level;        
         if ($userLevel == 'karyawan' || $userLevel == 'Admin') {
             return view('dashboard.transaksi.index', [
-                'transaksis' => Transaksi::orderBy('tgl_transaksi','desc')->with(['pelanggan.user'])->get(),
-                // 'pelanggans' => Pelanggan::all()
+                'transaksis' => Transaksi::orderBy('tgl_transaksi','desc')->with(['pelanggan.user'])->paginate(10),
             ]); 
         }
         if ($userLevel == 'costumer') {            
             return view('dashboard.transaksi.index', [
-                'transaksis' => Transaksi::where('pelanggan_id', auth()->user()->id)->get(),
+                'transaksis' => Transaksi::where('pelanggan_id', auth()->user()->id)->paginate(10),
                 'pelanggans' => Pelanggan::all()
             ]);
         }
+
         return abort(403);
     }
 

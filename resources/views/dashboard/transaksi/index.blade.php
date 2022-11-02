@@ -67,4 +67,8 @@
           </tbody>
         </table>
       </div>
+
+      <div class="d-flex justify-content-end col-11 mt-2">
+        {{ $transaksis->links() }}
+      </div>
 @endsection

@@ -31,4 +31,8 @@
         </div>
     </div>
 
+    <div class="d-flex justify-content-end col-11">
+        {{ $laporanpelanggans->links() }}
+    </div>
+
 @endsection

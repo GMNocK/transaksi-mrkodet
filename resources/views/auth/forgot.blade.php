@@ -4,39 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    {{-- BootStrap CSS --}}
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+
     <title>Forgot Password</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    
 </head>
 <body>
-    <section>
-        <div class="imgBx">
-            <img src="img/basrengpic.jpg" alt="Basreng">
-        </div>
-        <div class="contentBx">
-            <div class="formBx">
-                <h2>Login</h2>
-                <form action="/login" method="POST">
-                    @csrf
-                    <div class="inputBx">
-                        <span>Email Address</span>
-                        <input type="text" name="email" placeholder="Your email" value="{{ old('email') }}" required>
+    
+    <div class="container" style="height: 100vh">
+        <div class="row h-100 ">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="col-6 d-flex align-items-center">
+                    <div class="col-12 bg-white p-2">
+                        <form action="forgotNext" method="post">
+                            @csrf
+                            <div class="col-xs-1-12">
+                                <div class="card p-3 bg-light rounded-5">
+                                    <div class="card-body">
+                                        <h3 class="card-title text-center mb-5">Get Email</h3>
+                                        <input type="email" name="email" class="form-control mb-4" placeholder="Your Email" value="{{ old('email') }}">
+                                        <div class="col-12 m-0 p-0">
+                                            <button class="btn btn-outline-primary btn-block">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="inputBx">
-                        <span>Password</span>
-                        <input type="password" name="password" placeholder="Password" required>
-                    </div>
-                    <div class="forgot">
-                        <p><a href="#">Forgot password?</a></p>
-                    </div>
-                    <div class="inputBx">                        
-                        <input type="submit" value="Sign in">
-                    </div>
-                    <div class="inputBx">   
-                        <p>Don't have an account? <a href="/register">Sign up</a></p>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+
 </body>
 </html>

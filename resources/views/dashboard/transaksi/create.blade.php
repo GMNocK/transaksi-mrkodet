@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-    <form action="/dashboard/transaksis/" method="post">
+    <form action="/dashboard/transaksis/    " method="post">
         @csrf
         <div class="my-3 col-8">
             <label for="tanggal" class="form-label">Tanggal</label>
@@ -15,44 +15,47 @@
                 @endforeach
             </select>
         </div>
+        <input type="text" id="apaa" name="apa">
         
         {{-- INI BUAT PILIHAN BARANG YANG DIBELI --}}
-        <div class="row">
+        <div class="row" >
             <div class="col-3 text-center">
-                <label for="#" class="fs-5">Nama barang</label>
+                <label for="#" id="barang" class="fs-5">Nama barang</label>
             </div>
             <div class="col-2 text-center">
-                <label for="#" class="fs-5">Harga</label>
+                <label for="#" id="harga" class="fs-5">Harga</label>
             </div>
             <div class="col-2 text-center">
-                <label for="#" class="fs-5">Ukuran</label>
+                <label for="#" id="ukuran" class="fs-5">Ukuran</label>
             </div>
             <div class="col-2 text-center">
-                <label for="#" class="fs-5">Quantity</label>
+                <label for="#" id="qty" class="fs-5">Quantity</label>
             </div>
-            <div class="col-2 text-center">
-                <label for="#" class="fs-5">SubTotal</label>
+            <div class="col-3 text-center">
+                <label for="#" id="subt" class="fs-5">SubTotal</label>
             </div>
         </div>
 
         <div class="row g-3 align-items-center my-1">
             @foreach ($barangs as $b)
             <div class="col-3">
-                <input type="text" id="3" class="form-control" name="barang{{ $loop->iteration }}" value="{{ $b->nama_barang }}">
+                <input type="text" id="3" class="form-control barang" name="barang{{ $loop->iteration }}" value="{{ $b->nama_barang }}">
             </div>
 
             <div class="col-2">
-                <input type="text" class="form-control" name="harga{{ $loop->iteration }}" value="{{ $b->harga }}">
-            </div>
-            <div class="col-2">
-                <input type="text" class="form-control" name="ukuran{{ $loop->iteration }}" value="{{ $b->ukuran }}">
-            </div>
-            <div class="col-2">
-                <input type="number" id="qty" name="quantity{{ $loop->iteration }}" class="form-control" value="{{ $qty = old('quantity', 0) }}" onchange="load();">
+                <input type="text" class="form-control hargaBarang" name="harga{{ $loop->iteration }}" value="{{ $b->harga }}">
             </div>
 
             <div class="col-2">
-                <input type="number" name="subtotal{{ $loop->iteration }}" class="form-control" value="{{ $b->harga * $qty }}" readonly>
+                <input type="text" class="form-control ukuranBarang" name="ukuran{{ $loop->iteration }}" value="{{ $b->ukuran }}">
+            </div>
+
+            <div class="col-2">
+                <input type="number" name="quantity{{ $loop->iteration }}" class="form-control qty" value="{{ $qty = old('quantity', 0) }}">
+            </div>
+
+            <div class="col-3">
+                <input type="number" name="subtotal{{ $loop->iteration }}" class="form-control subtotal" value="{{ $b->harga * $qty }}" readonly>
             </div>
             
             @endforeach
@@ -71,23 +74,5 @@
         <input type="submit" value="Tambah" class="btn btn-outline-primary mt-3">           
     </form>
     
-
-    {{-- <script>
-        const a = document.querySelectorAll('.form-control');
-        const b = document.querySelector('#tanggal');
-        const c = document.querySelectorAll('#qty');
-        const d = document.querySelector('.apa');
-
-        console.log(b.value);
-        function load() {
-
-            apa();
-        }
-        function apa() {            
-            c.forEach((item) => {
-                item.classList
-            });
-        }
-    </script> --}}
     <script src="{{ asset('js/createtrans.js') }}"></script>
 @endsection

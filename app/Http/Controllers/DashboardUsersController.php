@@ -14,7 +14,7 @@ class DashboardUsersController extends Controller
     {
         $this->authorize('mustBeAdmin');
         return view('dashboard.user.index', [
-            'users' => user::all()
+            'users' => user::where('level', 'costumer')->orWhere('level', 'karyawan')->paginate(10),
         ]);
     }
 
