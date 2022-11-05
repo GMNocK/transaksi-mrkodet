@@ -51,6 +51,12 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
             'level' => 'costumer',
         ]);
+        pelanggan::create([
+            'nama' => 'Pelanggan',
+            'alamat' => 'Jawa Barat',
+            'no_tlp' => '+62800 0000 1000',
+            'user_id' => '3',
+        ]);
 
         $this->call([
             BarangSeeder::class,
@@ -59,7 +65,7 @@ class DatabaseSeeder extends Seeder
         User::factory(20)->create();
         admin::factory(1)->create();
         karyawan::factory(1)->create();
-        pelanggan::factory(7)->create();
+        pelanggan::factory(16)->create();
         transaksi::factory(25)->create();
         detail_transaksi::factory(50)->create();
         laporanPelanggan::factory(50)->create();

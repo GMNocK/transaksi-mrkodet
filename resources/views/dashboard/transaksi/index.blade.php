@@ -30,7 +30,7 @@
             @foreach ($transaksis as $t)
             <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
-                <td>{{ $t->pelanggan->user->username }}</td>                
+                <td>{{ $t->pelanggan->nama }}</td>                
                 <td>{{ $t->tgl_transaksi }}</td>
                 <td>Rp.{{ $t->total_harga }}</td>
                 <td>{{ $t->oleh }}</td>

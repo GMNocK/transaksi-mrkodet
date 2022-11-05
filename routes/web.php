@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardTransController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardUsersController;
+use App\Http\Controllers\DataPelangganController;
 use App\Http\Controllers\FeedbackKaryawanController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\LaporanKaryawanController;
@@ -72,3 +73,5 @@ Route::get('/admin/laporan/pelanggan/thisMonth', [ReportForAdminController::clas
 
 
 Route::get('/admin/laporan/pelanggan/thisYear', [ReportForAdminController::class , 'thisYearPelanggan']);
+
+Route::resource('/dashboard/dataPelanggan', DataPelangganController::class)->middleware('auth');

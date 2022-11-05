@@ -14,7 +14,7 @@ class FeedbackAdminFactory extends Factory
     public function definition()
     {
         return [
-            'body' => $this->faker->paragraph(),
+            'body' => $this->faker->sentence(12),
             'laporan_karyawan_id' => mt_rand(1,10),
             'admin_id' => 1,
         ];

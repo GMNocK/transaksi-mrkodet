@@ -13,13 +13,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
-
+use LengthException;
 
 class DashboardTransController extends Controller
 {
     
     public function index()
     {        
+        
         // $ini = DB::select('select * from users where email = ?', ['aku@gmail.com']);
         
         // $apa = User::where('password', 'like', $ini[0]->password )->get();
@@ -28,16 +29,17 @@ class DashboardTransController extends Controller
 
         // return User::where('password', $apa[0]->password)->where('email', $ini[0]->email)->get();
 
-        $userLevel = auth()->user()->level;        
+        $userLevel = auth()->user()->level; 
         if ($userLevel == 'karyawan' || $userLevel == 'Admin') {
             return view('dashboard.transaksi.index', [
                 'transaksis' => Transaksi::orderBy('tgl_transaksi','desc')->with(['pelanggan.user'])->paginate(10),
             ]); 
         }
         if ($userLevel == 'costumer') {            
+            $pelanggan = Pelanggan::where('user_id', auth()->user()->id)->get();
+
             return view('dashboard.transaksi.index', [
-                'transaksis' => Transaksi::where('pelanggan_id', auth()->user()->id)->paginate(10),
-                'pelanggans' => Pelanggan::all()
+                'transaksis' => Transaksi::where('pelanggan_id', $pelanggan[0]->id)->paginate(10),
             ]);
         }
 
@@ -62,7 +64,7 @@ class DashboardTransController extends Controller
         $validateData = $request->validate([
             'tgl_transaksi' => 'required|date',
             'pelanggan_id' => 'required',
-            'total_harga' => 'required|min:4'
+            // 'totharga' => 'required|'
         ]);
         
         $validateData['oleh'] = auth()->user()->username; // isi dengan nama dari tabel pelanggan
@@ -70,7 +72,21 @@ class DashboardTransController extends Controller
 
         $validateData['token'] = Str::limit($validateData['token'], 16, '');        
         $validateData['token'] = Str::after($validateData['token'], '$2y$10$');
-        $validateData['token'] = Str::before($validateData['token'], '/');
+        $validateData['token'] = Str::before($validateData['token'], '/');        
+
+        $totharga = 91;
+        for ($i=0; $i < 20; $i++) { 
+
+            // for ($b=0; $b < ; $b++) { 
+            //     # code...
+            // }
+
+            $har = 'harga'.$i;
+            echo $request->$har . ".."; 
+            echo $totharga = $request->$har + $totharga;
+        }
+
+        return 'HAIIII';
 
         Transaksi::create($validateData);
 

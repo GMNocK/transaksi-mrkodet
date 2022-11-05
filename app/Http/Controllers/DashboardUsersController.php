@@ -47,8 +47,9 @@ class DashboardUsersController extends Controller
             'nama' => 'required'
         ]);
         // return $request;
+        $userData['user_id'] = '3';
 
-        // karyawan::create($userData);
+        karyawan::create($userData);
 
         return redirect(route('users.index'));
     }

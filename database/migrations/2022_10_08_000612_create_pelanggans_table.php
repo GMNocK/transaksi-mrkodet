@@ -18,7 +18,7 @@ class CreatePelanggansTable extends Migration
             $table->string('nama');
             $table->text('alamat')->nullable();
             $table->string('no_tlp')->unique()->nullable();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->unique()->nullable();
             $table->timestamps();
         });
     }

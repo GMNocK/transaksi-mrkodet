@@ -23,6 +23,15 @@
           </a>
         </li>
 
+		@cannot('costumer')			
+			<li class="nav-item">
+				<a class="nav-link {{ Request::is('dashboard/dataPelanggan*') ? 'active' : '' }}" href="/dashboard/dataPelanggan/">
+					<span data-feather="file" class="align-text-bottom"></span>
+					Data Pelanggan
+				</a>
+			</li>
+		@endcannot
+
         @can('mustBeAdmin')
         <li class="nav-item">
           <a class="nav-link {{ Request::is('dashboard/users*') ? 'active' : '' }}" href="/dashboard/users/">
@@ -239,22 +248,22 @@
 
 
   <script>
-    const reportKMenu = document.querySelector('#laporanKaryawanDropdown');
-    const reportKToggle = document.querySelector('#lkdToggle');
+    // const reportKMenu = document.querySelector('#laporanKaryawanDropdown');
+    // const reportKToggle = document.querySelector('#lkdToggle');
 
-    const reportPMenu = document.querySelector('#laporanPelangganDropdown');
-    const reportPToggle = document.querySelector('#lpdToggle');
+    // const reportPMenu = document.querySelector('#laporanPelangganDropdown');
+    // const reportPToggle = document.querySelector('#lpdToggle');
 
-    reportKToggle.addEventListener('click', function () { 
-      // reportKMenu.classList.toggle('d-none');
-      reportKMenu.classList.toggle('show');
-      reportKMenu.classList.toggle('hide');
-    });
+    // reportKToggle.addEventListener('click', function () { 
+    //   // reportKMenu.classList.toggle('d-none');
+    //   reportKMenu.classList.toggle('show');
+    //   reportKMenu.classList.toggle('hide');
+    // });
 
-    reportPToggle.addEventListener('click', function () { 
-      // reportPMenu.classList.toggle('d-none');
-      reportPMenu.classList.toggle('show');
-      reportPMenu.classList.toggle('hide');
-    });
+    // reportPToggle.addEventListener('click', function () { 
+    //   // reportPMenu.classList.toggle('d-none');
+    //   reportPMenu.classList.toggle('show');
+    //   reportPMenu.classList.toggle('hide');
+    // });
 
   </script>
