@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use function PHPUnit\Framework\returnSelf;
+
 class UserController extends Controller
 {
     
@@ -29,10 +31,30 @@ class UserController extends Controller
         $validateData['password'] = bcrypt($validateData['password']);
         User::create($validateData);
 
-        // $pelanggansData = $request->validate([
-        //     'nama' =>'required'
-        // ]);
-        // pelanggan::create($pelanggansData);
+        $dataPelBaru = User::orderByDesc('id')->limit(1)->get('id');
+        
+        $pelanggansData['nama'] = $validateData['username'];
+        $pelanggansData['user_id'] = $dataPelBaru[0]->id;
+        $pelanggansData;
+        pelanggan::create($pelanggansData);
+
+        // $credentials['email'] = $validateData['email'];
+        // $credentials['password'] = $validateData['password'];
+
+        // $level = User::where('email', $credentials['email'])->get('level');
+        
+        // $credentials['level'] = $level;
+
+        // if (Auth::attempt($credentials)) {                
+
+        //     $request->session()->regenerate();
+        //     return redirect()->intended('/dashboard');
+            
+        // } elseif (Auth::check()) {
+
+        //     return redirect('/dashboard');
+            
+        // }
 
         return redirect(route('login'))->with('success', 'Register SuccessFully. Please Login!');
     }
@@ -48,13 +70,14 @@ class UserController extends Controller
             'email' => 'required',
             'password' => 'required'
         ]);
-        // return $credentials;
         $level = User::where('email', $credentials['email'])->get('level');
         $credentials['level'] = $level;
        
-        if (Auth::attempt($credentials)) {                
+        if (Auth::attempt($credentials)) {            
+
             $request->session()->regenerate();
             return redirect()->intended('/dashboard');
+
         } elseif (Auth::check()) {
 
             return redirect('/dashboard');

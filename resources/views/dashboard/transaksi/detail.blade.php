@@ -21,7 +21,7 @@
             <td class="p-3">{{ $i->barang->nama_barang }}</td>
             <td class="p-3 text-center">{{ $i->harga_satuan }}</td>
             <td class="p-3 text-center">{{ $i->jumlah }}</td>
-            <td class="p-3 text-center">{{ $i->harga_satuan * $i->jumlah }}</td>
+            <td class="p-3 text-center">{{ $i->subtotal }}</td>
           </tr>
           @endforeach
           <tr>

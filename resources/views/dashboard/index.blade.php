@@ -112,4 +112,16 @@
     @endcan
 
 </div>
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+
+<script src="{{ asset('js/DashboardChart.js') }}"></script>
+<script src="js/js/DashboardChart.js"></script>
+
+<script src="mySweetAlert.js"></script>
+
+  
+  
+
 @endsection

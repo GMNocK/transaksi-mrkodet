@@ -33,7 +33,11 @@ class DataPelangganController extends Controller
             'alamat' => 'required',
         ]);
 
-        Pelanggan::create($validateData);
+        $validateData['user_id'] = 1;
+
+        Pelanggan::create($validateData); 
+
+
 
         return redirect(route('dataPelanggan.index'));
     }

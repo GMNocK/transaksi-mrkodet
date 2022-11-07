@@ -18,7 +18,9 @@ class CreateTransaksisTable extends Migration
             $table->date('tgl_transaksi');
             $table->foreignId('pelanggan_id')->constrained()->cascadeOnDelete();
             $table->integer('total_harga');
-            $table->string('oleh');
+            $table->string('status');
+            $table->string('tipe_bayar');
+            $table->string('pencatat');
             $table->string('token')->unique();
             $table->timestamps();
         });

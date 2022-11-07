@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaksi;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
+use App\Models\Detail_transaksi;
 use App\Models\Karyawan;
 use App\Models\Pelanggan;
 use App\Models\User;
@@ -19,17 +20,8 @@ class DashboardTransController extends Controller
 {
     
     public function index()
-    {        
-        
-        // $ini = DB::select('select * from users where email = ?', ['aku@gmail.com']);
-        
-        // $apa = User::where('password', 'like', $ini[0]->password )->get();
-
-        // $itu = $ini[0]->password;
-
-        // return User::where('password', $apa[0]->password)->where('email', $ini[0]->email)->get();
-
-        $userLevel = auth()->user()->level; 
+    {
+        $userLevel = auth()->user()->level;
         if ($userLevel == 'karyawan' || $userLevel == 'Admin') {
             return view('dashboard.transaksi.index', [
                 'transaksis' => Transaksi::orderBy('tgl_transaksi','desc')->with(['pelanggan.user'])->paginate(10),
@@ -62,39 +54,65 @@ class DashboardTransController extends Controller
         // return $request;
         $this->authorize('karyawan');
         $validateData = $request->validate([
-            'tgl_transaksi' => 'required|date',
             'pelanggan_id' => 'required',
-            // 'totharga' => 'required|'
+            'tanggal' => 'required|date',
+            'TotalBayar' => 'required|min:2',
+            'status' => 'required',
+            'tipe_bayar' => 'required',
         ]);
         
-        $validateData['oleh'] = auth()->user()->username; // isi dengan nama dari tabel pelanggan
-        $validateData['token'] = password_hash($validateData['tgl_transaksi'], PASSWORD_DEFAULT);
+        // return $validateData['TotalBayar'];
+
+        $validateData['pencatat'] = auth()->user()->username; // isi dengan nama dari tabel pelanggan
+        $validateData['token'] = password_hash($validateData['tanggal'], PASSWORD_DEFAULT);
 
         $validateData['token'] = Str::limit($validateData['token'], 16, '');        
         $validateData['token'] = Str::after($validateData['token'], '$2y$10$');
         $validateData['token'] = Str::before($validateData['token'], '/');        
 
-        $totharga = 91;
-        for ($i=0; $i < 20; $i++) { 
+        $transaksi = new Transaksi([
+            'pelanggan_id' => $validateData['pelanggan_id'],
+            'tgl_transaksi' => $validateData['tanggal'],
+            'total_harga' => $validateData['TotalBayar'],
+            'status' => $validateData['status'],
+            'tipe_bayar' => $validateData['tipe_bayar'],
+            'pencatat' => $validateData['pencatat'],
+            'token' => $validateData['token'],
+        ]);
 
-            // for ($b=0; $b < ; $b++) { 
-            //     # code...
-            // }
+        $transaksi->save();
 
+        // MASUK KE DETAIL TRANSAKSI
+        $transaksiId = Transaksi::orderByDesc('id')->limit(1)->get('id');
+        // return $transaksi[0]->id;    
+
+        for ($i=1; $i <= 20; $i++) { 
+
+            $nambar = 'BR'.$i;
             $har = 'harga'.$i;
-            echo $request->$har . ".."; 
-            echo $totharga = $request->$har + $totharga;
+            $ukuran = 'ukuran'.$i;
+            $jumlah = 'jumlah'.$i;
+            $subtotal = 'subtotal'.$i;
+
+            
+            if ($request->$subtotal != 0 && $request->$subtotal != '') {
+                $barangId = Barang::where('nama_barang', $request->$nambar)->get('id');
+                
+                $detailTransaksi = new Detail_transaksi([
+                    'transaksi_id' => $transaksiId[0]->id,
+                    'barang_id' => $barangId[0]->id,
+                    'harga_satuan' => $request->$har,
+                    'ukuran' => $request->$ukuran,
+                    'jumlah' => $request->$jumlah,
+                    'subtotal' => $request->$subtotal,
+                ]);
+
+                $detailTransaksi->save();
+            }                    
         }
 
-        return 'HAIIII';
 
-        Transaksi::create($validateData);
-
-
-        return $request;
-
-
-        // return redirect('/dashboard/transaksis/');
+        return redirect('/dashboard/transaksis/');
 
 
         // Note Ini harus input ke detail transaksi juga, caranya lewat form, select nama barang -> total nya berapa. nanti di generate total harga nya. sebelum itu harus ada tabel barang dulu. biar nanti barangnya ngambil dari tabel barang, di tabel detail transaksi field nama barangnya ilangin, ganti  foreign ke tabel barang. balik lagi. buat nama barang yang dipilih bakalan di input ke detail transaksi dengan id barang sekalian sama jumlah yang dibelinya. input ini ke tabel detail transaksi, kalau input ke tabel transaksinya tgl nya di input di form awal, pengguna idnya juga sama, total harga dari yang awal jumlah dari sum(harga barang * jumlah) oleh nya sama kaya syntax yang udah ada. 
@@ -119,10 +137,13 @@ class DashboardTransController extends Controller
     public function edit(Transaksi $transaksi)
     {
         $this->authorize('karyawan');
+        $detailTransaksi = Detail_transaksi::where('transaksi_id', $transaksi->id)->get();
+
         return view('dashboard.transaksi.edit', [
             'transaksis' => $transaksi,
             'pelanggans' => Pelanggan::all(),
-            'barangs' => Barang::all()
+            'barangs' => Barang::all(),
+            'detailtransaksis' => $detailTransaksi,
         ]);
         
     }
@@ -130,6 +151,7 @@ class DashboardTransController extends Controller
     
     public function update(Request $request, Transaksi $transaksi)
     {
+        return $request;
         $this->authorize('karyawan');
         $validateData = $request->validate([
             'tgl_transaksi' => 'required|date',
@@ -149,7 +171,7 @@ class DashboardTransController extends Controller
         $this->authorize('karyawan');
         Transaksi::destroy($transaksi->id);
 
-        return redirect('/dashboard/transaksis/');
+        return redirect('/dashboard/transaksis/')->with('successDelete', 'Berhasil Dihapus');
 
     }
 }

@@ -33,22 +33,24 @@
                 <td>{{ $t->pelanggan->nama }}</td>                
                 <td>{{ $t->tgl_transaksi }}</td>
                 <td>Rp.{{ $t->total_harga }}</td>
-                <td>{{ $t->oleh }}</td>
+                <td>{{ $t->pencatat }}</td>
                 <td style="text-align: center">
 
-                  <a href="/dashboard/transaksis/{{ $t->token }}" class="badge bg-primary"><span data-feather="eye"></span></a>
+                  <a href="/dashboard/transaksis/{{ $t->token }}" class="badge bg-primary h-100">
+                    <i class="fa-solid fa-eye"></i>
+                  </a>
                     @can('karyawan')
                     
                     <form action="/dashboard/transaksis/{{ $t->token }}" method="post" class="d-inline" onclick="return confirm('Yakin Untuk Menghapus?');">
                       @method('delete')
                       @csrf
-                      <button class="badge bg-danger border-0">
-                        <span data-feather="x-circle"></span>
+                      <button class="badge h-100 bg-danger border-0">
+                        <i class="fa-solid fa-trash"></i>
                       </button>
                     </form>
                     
                     <a href="/dashboard/transaksis/{{ $t->token }}/edit" class="badge bg-warning">
-                      <span data-feather="edit"></span>
+                      <i class="fa-regular fa-pen-to-square"></i>
                     </a>
                     @endcan
                     

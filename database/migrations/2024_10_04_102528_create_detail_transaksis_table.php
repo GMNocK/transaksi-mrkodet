@@ -17,6 +17,7 @@ class CreateDetailTransaksisTable extends Migration
             $table->foreignId('transaksi_id')->constrained()->cascadeOnDelete();
             $table->foreignId('barang_id')->constrained()->cascadeOnDelete();
             $table->integer('harga_satuan');
+            $table->string('ukuran', 10);
             $table->integer('jumlah');
             $table->integer('subtotal');
             $table->timestamps();
