@@ -1,37 +1,10 @@
-// const rowA = document.querySelectorAll('.selectrow ')[1];
-// console.log(rowA);
-// const col1 = rowA.querySelector('.col-3 input');
-// console.log(col1.value);
-
-// const harga = document.querySelectorAll('.hargaBarang');
-// const qtyy = document.querySelectorAll('.qty');
-// const h = document.querySelector('#apaa');
-
-// const rowSelect = document.querySelectorAll('.selectrow')
-
-// function qtyil() {
-//     if (this.value <= 0) {
-//         if (this.value < 0) {            
-//             alert('Sorry Input Cannot Be under 0')
-//         }
-//         this.value = 0
-//     }
-//     console.log(this.value)
-
-//     const ac = document.querySelector('div.col-3 .subtotal');
-//     ac.value = this.value * 60000;
-// }
-
-// qtyy.forEach((item) => item.addEventListener('change', qtyil));
-
 
 
 const select = document.querySelector('#BarangSelect');
 const menu = document.querySelectorAll('select option');
-const btnToList = document.querySelector('#btn');
 const btnTokeranjang = document.querySelector('#AdToKeranjang');
 
-const RowAddQty = document.querySelector('#FormAddQty');
+const RowAddQty = document.querySelector('#addBarangModal');
 
 let nomerBarang = 1;
 
@@ -41,114 +14,83 @@ const tBodyKeranjang = tblkeranjang.querySelector('tbody');
 
 // Masuk Ke DATABASE TRANSAKSI
 const totalBayar = document.getElementsByName('TotalBayar')[0];
+const InpCoba = document.querySelector('#cobaCoba');
 
-function CreateIconDeleteItemTblKeranjang() {
-    const tdAksi = document.createElement('td');
+let spanIcon;
 
-    const spanIcon = document.createElement('span');
+let cobaCoba = [];
 
-    tdAksi.appendChild(spanIcon);
+totalBayar.value = "Rp.0";
 
-    spanIcon.classList.add('badge');
-    spanIcon.classList.add('bg-danger');
-    spanIcon.classList.add('border-0');
 
-    spanIcon.style.cursor = 'pointer';
+function inputAtributSet(inpnb , inphb, inpub, inpqty, inpst, itemnb, itemqty, itemub, itemst) {
+    inpnb.setAttribute('readonly', '');
 
-    return tdAksi;
+    inphb.setAttribute('readonly', '');
+
+    inpub.setAttribute('readonly', '');
+
+    inpqty.setAttribute('readonly', '');
+
+    inpst.setAttribute('readonly', '');
+
+    inpnb.classList.add('text-dark');
+    inphb.classList.add('text-dark');
+    inpub.classList.add('text-dark');
+    inpqty.classList.add('text-dark');
+    inpst.classList.add('text-dark');
+    
+    inpnb.classList.add('text-center');
+    inphb.classList.add('text-center');
+    inpub.classList.add('text-center');
+    inpqty.classList.add('text-center');
+    inpst.classList.add('text-center');
+    
+    inpnb.classList.add('border-0');
+    inphb.classList.add('border-0');
+    inpub.classList.add('border-0');
+    inpqty.classList.add('border-0');
+    inpst.classList.add('border-0');
+
+    inpnb.classList.add('bg-transparent');
+    inphb.classList.add('bg-transparent');
+    inpub.classList.add('bg-transparent');
+    inpqty.classList.add('bg-transparent');
+    inpst.classList.add('bg-transparent');
+
+
+    inpnb.classList.add('nama-barang');
+    inphb.classList.add('harga-barang');
+    inpub.classList.add('ukuran-barang');
+    inpqty.classList.add('jumlah-beli');
+    inpst.classList.add('sub-total');
+    
+    // var itu = "" + itemst.value;
+    // let ambil = itu.slice(3,itu.length);
+    // console.log(parseInt(ambil));
+
+    inpnb.setAttribute('value', itemnb.value);
+    inphb.setAttribute('value', 'Rp.60000');
+    inpub.setAttribute('value', itemub.value);
+    inpqty.setAttribute('value', itemqty.value);
+    inpst.setAttribute('value',  "Rp."+itemst);
+
+    inpnb.setAttribute('name', "BR" + nomerBarang);
+    inphb.setAttribute('name', 'harga' + nomerBarang);
+    inpub.setAttribute('name', 'ukuran' + nomerBarang);
+    inpqty.setAttribute('name', 'jumlah' + nomerBarang);
+    inpst.setAttribute('name', 'subtotal' + nomerBarang);
+
+    cobaCoba.push(nomerBarang);
+    InpCoba.value = cobaCoba;
+    console.log(cobaCoba);
+    nomerBarang++;
 }
-
-function inputForm() {
-    RowAddQty.innerHTML = "";
-
-    const input1 = document.createElement('input');
-
-    const selectUkuran = document.createElement('select');
-    const pilihanUkuran1 = document.createElement('option');
-    const pilihanUkuran2 = document.createElement('option');
-    const pilihanUkuran3 = document.createElement('option');
-    const pilihanUkuran4 = document.createElement('option');
-
-    pilihanUkuran1.setAttribute('value', '1');
-    pilihanUkuran1.innerHTML = '1 KG';
-
-    pilihanUkuran2.setAttribute('value', '1/2');
-    pilihanUkuran2.innerHTML = '1/2 Kg';
-
-    pilihanUkuran3.setAttribute('value', '1/4'); 
-    pilihanUkuran3.innerHTML = '1/4 KG';
-
-    pilihanUkuran4.setAttribute('value', '3000');
-    pilihanUkuran4.innerHTML = 'Ukuran 3000';
-
-    selectUkuran.appendChild(pilihanUkuran1);
-    selectUkuran.appendChild(pilihanUkuran2);
-    selectUkuran.appendChild(pilihanUkuran3);
-    selectUkuran.appendChild(pilihanUkuran4);
-
-    selectUkuran.setAttribute('onchange' , 'GetSubTotal();');
-    selectUkuran.setAttribute('id', 'pilihanUkuran');
-
-    const input3 = document.createElement('input');
-    const input4 = document.createElement('input');
-
-    const div1 = document.createElement('div');
-    const div2 = document.createElement('div');
-    const div3 = document.createElement('div');
-    const div4 = document.createElement('div');
-
-    let HargaValue ;
-
-    div1.setAttribute('class', 'col-3');
-    div2.setAttribute('class', 'col-3');
-    div3.setAttribute('class', 'col-3');
-    div4.setAttribute('class', 'col-3');
-
-    input1.setAttribute('value', select.value);
-    input1.setAttribute('id', 'NamBarList');
-    input1.setAttribute('disabled', true);
-    input1.setAttribute('readonly', true);
-    if (select.value == "Sistik") {
-            HargaValue = 64000;
-    } else {
-        HargaValue = 60000;
-    }
-
-    // input2.setAttribute('value', HargaValue);
-    // input2.classList.add('iniHarga');
-
-    input3.setAttribute('type', 'number');
-    input3.setAttribute('value', '1');
-    input3.classList.add('iniQty');
-    
-    
-    input1.classList.add('form-control');
-    selectUkuran.classList.add('form-control');
-    input3.classList.add('form-control');
-    
-
-    input4.setAttribute('disabled', true);
-    input4.setAttribute('value',HargaValue);
-    input4.classList.add('form-control');
-    input4.classList.add('subTotal');
-
-    input3.setAttribute('onchange' , 'GetSubTotal();');
-
-    div1.appendChild(input1);
-    div2.appendChild(selectUkuran);
-    div3.appendChild(input3);
-    div4.appendChild(input4);
-
-    RowAddQty.appendChild(div1);
-    RowAddQty.appendChild(div2);
-    RowAddQty.appendChild(div3);
-    RowAddQty.appendChild(div4);
-}
-
-
 
 function addToKeranjang() {
-    // BUAT FORM INPUT UNTUK KE DATABASE DETAIL BARANG
+
+    let buat = 1;
+
     const NamBarInput = document.createElement('input');
     const HarBarInput = document.createElement('input');
     const ukuranInput = document.createElement('input');
@@ -157,120 +99,170 @@ function addToKeranjang() {
     
     // GET FROM LIST
     const namaBarang = RowAddQty.querySelector('#NamBarList');
-    const SubTotal = RowAddQty.querySelector('.subTotal');
-    const qtyFromList = RowAddQty.querySelector('.iniQty');
+    const qtyFromList = RowAddQty.querySelector('#iniQty');
     const UkuranBarang = RowAddQty.querySelector('#pilihanUkuran');
-    
+    const SubTotalFromInp = RowAddQty.querySelector('#subTotal');
+    let dariSubtot = ""+ SubTotalFromInp.value;
+    let subtot = parseInt(dariSubtot.slice(3,dariSubtot.length));
+
     const tdAksi = document.createElement('td');
-
-    const spanIcon = document.createElement('span');
-
-
-    // NamBarInput.setAttribute('disabled', '');
-    NamBarInput.setAttribute('readonly', '');
-
-    // HarBarInput.setAttribute('disabled', '');
-    HarBarInput.setAttribute('readonly', '');
-
-    // ukuranInput.setAttribute('disabled', '');
-    ukuranInput.setAttribute('readonly', '');
-
-    // qtyInput.setAttribute('disabled', '');
-    qtyInput.setAttribute('readonly', '');
-
-    // subtotalInput.setAttribute('disabled', '');
-    subtotalInput.setAttribute('readonly', '');
-
-    NamBarInput.classList.add('border-0');
-    HarBarInput.classList.add('border-0');
-    ukuranInput.classList.add('border-0');
-    qtyInput.classList.add('border-0');
-    subtotalInput.classList.add('border-0');
-
-    NamBarInput.classList.add('bg-transparent');
-    HarBarInput.classList.add('bg-transparent');
-    ukuranInput.classList.add('bg-transparent');
-    qtyInput.classList.add('bg-transparent');
-    subtotalInput.classList.add('bg-transparent');
-
-    NamBarInput.setAttribute('value', namaBarang.value);
-    HarBarInput.setAttribute('value', '60000');
-    ukuranInput.setAttribute('value', UkuranBarang.value);
-    qtyInput.setAttribute('value', qtyFromList.value);
-    subtotalInput.setAttribute('value',  SubTotal.value);
-
-    NamBarInput.setAttribute('name', "BR" + nomerBarang);
-    HarBarInput.setAttribute('name', 'harga' + nomerBarang);
-    ukuranInput.setAttribute('name', 'ukuran' + nomerBarang);
-    qtyInput.setAttribute('name', 'jumlah' + nomerBarang);
-    subtotalInput.setAttribute('name', 'subtotal' + nomerBarang);
-
-    nomerBarang++;
-
-    tdAksi.appendChild(spanIcon);
-
-    spanIcon.classList.add('badge');
-    spanIcon.classList.add('bg-danger');
-    spanIcon.classList.add('border-0');
-
-    spanIcon.style.cursor = 'pointer';
-
-    spanIcon.innerHTML = 'X';
-
-    const tr = document.createElement('tr');
-
-    const tdNo = document.createElement('td');
-    const tdNamaBarang = document.createElement('td');
-    const tdHargaSatuan = document.createElement('td');
-    const tdUkuran = document.createElement('td');
-    const tdQuantity = document.createElement('td');
-    const tdSubTotal = document.createElement('td');
-
-    tdNamaBarang.setAttribute('name', 'nambar');
-
-    // TD NO LIST
-    tdNo.innerHTML = '1';
-
-    // tdNo.appendChild(NamBarInput);
-    tdNamaBarang.appendChild(NamBarInput);
-    tdHargaSatuan.appendChild(HarBarInput);
-    tdUkuran.appendChild(ukuranInput);
-    tdQuantity.appendChild(qtyInput);
-    tdSubTotal.appendChild(subtotalInput);
-
-    tr.appendChild(tdNo);
-    tr.appendChild(tdNamaBarang);
-    tr.appendChild(tdHargaSatuan);
-    tr.appendChild(tdUkuran);
-    tr.appendChild(tdQuantity);
-    tr.appendChild(tdSubTotal);
-    tr.appendChild(tdAksi);
-
-    tBodyKeranjang.appendChild(tr);
-
     
-    console.log(parseInt(subtotalInput.value))
+    const FaDelete = document.createElement('span');
+    
+    inputAtributSet(
+        NamBarInput, HarBarInput, ukuranInput, qtyInput, subtotalInput,
+        namaBarang, qtyFromList, UkuranBarang, subtot
+        );
 
-    totalBayar.value = parseInt(subtotalInput.value) + parseInt(totalBayar.value);
+    const isiTblKer = tBodyKeranjang.querySelectorAll('tr');
+
+    if (isiTblKer != null) {        
+        isiTblKer.forEach((item) => {
+    
+            const tdInambar = item.querySelector('td .nama-barang');
+            const tdhbar = item.querySelector('td .harga-barang');
+            const tdIukbar = item.querySelector('td .ukuran-barang');
+            const tdIqty = item.querySelector('td .jumlah-beli');
+            const tdIsubtot = item.querySelector('td .sub-total');
+
+            // Ambil Angka dari subtot
+            let subtotKeranjang = "" + tdIsubtot.value;
+            let hasilSubtot = parseInt(subtotKeranjang.slice(3,subtotKeranjang.length));
+
+            if (tdInambar != null && tdIukbar.value != null) {
+
+                if (tdInambar.value == NamBarInput.value && tdIukbar.value == ukuranInput.value) {
+                    tdIqty.value = parseInt(tdIqty.value) + 1;
+                    
+                    tdIsubtot.value = "Rp."+ (hasilSubtot + parseInt(subtot));
+
+                    buat = 0;               
+                }
+
+            } 
+            
+        });
+    }
+
+    if (buat == 1) {
+        
+        // BUAT FORM INPUT UNTUK KE DATABASE DETAIL BARANG
+    
+        
+        tdAksi.appendChild(FaDelete);
+        tdAksi.classList.add('text-center');
+    
+        iconDltMaker(FaDelete)
+    
+        const tr = document.createElement('tr');
+    
+        const tdNo = document.createElement('td');
+        const tdNamaBarang = document.createElement('td');
+        const tdHargaSatuan = document.createElement('td');
+        const tdUkuran = document.createElement('td');
+        const tdQuantity = document.createElement('td');
+        const tdSubTotal = document.createElement('td');
+    
+        tdNamaBarang.setAttribute('name', 'nambar');
+    
+        // TD NO LIST
+        tdNo.innerHTML = '1';
+    
+        // tdNo.appendChild(NamBarInput);
+        tdNamaBarang.appendChild(NamBarInput);
+        tdHargaSatuan.appendChild(HarBarInput);
+        tdUkuran.appendChild(ukuranInput);
+        tdQuantity.appendChild(qtyInput);
+        tdSubTotal.appendChild(subtotalInput);
+
+        tdNo.classList.add('text-center');
+        tdNamaBarang.classList.add('text-center');
+        tdHargaSatuan.classList.add('text-center');
+        tdUkuran.classList.add('text-center');
+        tdQuantity.classList.add('text-center');
+        tdSubTotal.classList.add('text-center');
+    
+        tdNamaBarang.classList.add('nambar');
+        tdHargaSatuan.classList.add('harbar');
+        tdUkuran.classList.add('ukuran');
+        tdQuantity.classList.add('qty');
+        tdSubTotal.classList.add('subTotal');
+    
+        tr.appendChild(tdNo);
+        tr.appendChild(tdNamaBarang);
+        tr.appendChild(tdHargaSatuan);
+        tr.appendChild(tdUkuran);
+        tr.appendChild(tdQuantity);
+        tr.appendChild(tdSubTotal);
+        tr.appendChild(tdAksi);
+    
+        tBodyKeranjang.appendChild(tr);
+    
+        
+    }
+    
+    let getTotalBayar = ""+ totalBayar.value;
+    let hasilTotalBayar = parseInt(getTotalBayar.slice(3,getTotalBayar.length));
+    console.log(hasilTotalBayar + "   " + getTotalBayar);
+    totalBayar.value = "Rp." + (subtot + hasilTotalBayar);
+    spanIcon = document.querySelectorAll('span.fa');
+    
+    spanIcon.forEach((item) => {
+        item.addEventListener('click', DeleteItemTblKer);
+    });
+
+    buat =1;    
 }
 
 
-function iyu() {
-    
+function iconDltMaker(span) {
+    span.classList.add('fa');
+    span.classList.add('fa-trash-alt');
+    span.classList.add('text-center');
+
+    span.style.cursor = 'pointer';
 }
 
+
+function DeleteItemTblKer() {
+    spanIcon.forEach((item) => {
+      item.classList.remove('d-none');
+    });
+    let parentA = this.parentNode;
+    let tblRow = parentA.parentNode;
+    
+    
+    const tdSubTotal = tblRow.querySelector('td.subTotal');
+    const inputSubTot = tdSubTotal.querySelector('input');
+    
+    // console.log(inputSubTot);
+    
+    let getTotal = "" + totalBayar.value;
+    let total = parseInt(getTotal.slice(3,getTotal.length));
+
+    let getSubTot = inputSubTot.value + "";
+    let subTot = parseInt(getSubTot.slice(3, getSubTot.length));
+    totalBayar.value = "Rp."+ (total - subTot);
+    
+    tBodyKeranjang.removeChild(tblRow);
+}
 
 
 function GetSubTotal() {
-    const qty = RowAddQty.querySelector('.iniQty');
-    const subTotal = RowAddQty.querySelector('.subTotal');
+    const qty = RowAddQty.querySelector('#iniQty');
+    const subTotal = RowAddQty.querySelector('#subTotal');
     const ukuran = RowAddQty.querySelector('#pilihanUkuran');
 
-    
     if (qty.value == 0) {
         qty.value = 1;
         
-        alert('Jumlah tidak boleh kurang dari 1');
+        Swal.fire({
+            position: 'top',
+            icon: 'warning',
+            title: 'Pembelian Tidak Bisa (nol)',
+            showConfirmButton: false,
+            timer: 1500
+        });
     }
 
     let ukuranIni;
@@ -287,14 +279,45 @@ function GetSubTotal() {
         
     }
 
-    subTotal.value = ukuranIni * qty.value;
+    let subtotalVar = ukuranIni * qty.value
+    let ini = "" + subtotalVar;
+    console.log("Panjang huruf : "+ ini.length);
+    subTotal.value = "Rp."+subtotalVar;
+    btnTokeranjang.addEventListener('click', addToKeranjang);
 }
 
 
+const btnAddToKeranjang = document.querySelector('#btnAddBarangToKeranjangModal');
 
-btnToList.addEventListener('click', inputForm);
-btnTokeranjang.addEventListener('click', addToKeranjang)
+btnAddToKeranjang.addEventListener('click', () => {
+    const namaBarang = RowAddQty.querySelector('#NamBarList');
+    const qtyFromList = RowAddQty.querySelector('#iniQty');
+    const UkuranBarang = RowAddQty.querySelector('#pilihanUkuran');
+    const SubTotalFromInp = RowAddQty.querySelector('#subTotal');
+
+    let ukuranIni;
+    if (UkuranBarang.value == '1') {
+        ukuranIni = 60000 * 1;
+    } else if (UkuranBarang.value == '1/2') {
+        ukuranIni = 60000 * 1 / 2;
+    } else  if (UkuranBarang.value == '1/4') {
+        ukuranIni = 60000 * 1 / 4;
+    } else if (UkuranBarang.value == '3000') {
+        ukuranIni = 3000;
+    } else {
+        ukuranIni = 60000
+    }
+    qtyFromList.value = 1;
+
+    let subtotalVar = ukuranIni * qtyFromList.value;
+    let ini = "" + subtotalVar;
+    console.log("Panjang huruf : "+ ini.length);
+
+    SubTotalFromInp.value = "Rp."+subtotalVar;
+
+    btnTokeranjang.addEventListener('click', addToKeranjang); 
+    qtyFromList.addEventListener('keypress', GetSubTotal); 
+    qtyFromList.addEventListener('change', GetSubTotal); 
+});
 
 
-
-inputForm();

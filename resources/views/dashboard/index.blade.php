@@ -112,14 +112,16 @@
     @endcan
 
 </div>
-<div>
-    <canvas id="myChart"></canvas>
-</div>
+
+@cannot('costumer')
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>    
+@endcannot
 
 <script src="{{ asset('js/DashboardChart.js') }}"></script>
-<script src="js/js/DashboardChart.js"></script>
 
-<script src="mySweetAlert.js"></script>
+<script src="{{ asset('js/mySweetAlert.js') }}"></script>
 
   
   

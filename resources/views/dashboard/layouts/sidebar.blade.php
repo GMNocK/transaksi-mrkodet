@@ -10,18 +10,31 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
    <div class="position-sticky pt-3 sidebar-sticky">
       <ul class="nav flex-column">
+
         <li class="nav-item">
-          <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" aria-current="page" href="/dashboard">
-            <i class="fa fa-dashcube me-2" aria-hidden="true"></i>
-            Dashboard
-          </a>
+			<a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" aria-current="page" href="/dashboard">
+				<i class="fa fa-stack-overflow me-2" aria-hidden="true"></i>
+				Dashboard
+			</a>
         </li>
+
+		@cannot('costumer')
         <li class="nav-item">
-          <a class="nav-link {{ Request::is('dashboard/transaksis*') ? 'active' : '' }}" href="/dashboard/transaksis/">
-            <i class="fas fa-paypal me-2"></i>
-            Transaksi
-          </a>
+			<a class="nav-link {{ Request::is('dashboard/transaksis*') ? 'active' : '' }}" href="/dashboard/transaksis/">
+				<i class="fas fa-paypal me-2"></i>
+				Transaksi
+			</a>
         </li>
+		@endcannot
+		
+		@can('costumer')
+			<li class="nav-item">
+				<a class="nav-link {{ Request::is('dashboard/transaksis*') ? 'active' : '' }}" href="/dashboard/transaksis/">
+					<i class="fas fa-paypal me-2"></i>
+					Pesanan
+				</a>
+			</li>
+		@endcan
 
 		@cannot('costumer')			
 			<li class="nav-item">
@@ -40,6 +53,7 @@
           </a>
         </li>
         @endcan
+
       </ul>
 
 		<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">

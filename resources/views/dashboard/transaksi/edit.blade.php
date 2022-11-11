@@ -26,12 +26,13 @@
 
         <div class="row mb-3">
             <div class="col-4">
-                <span class="btn btn-outline-secondary fw-semibold">
-                    <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>
+                <span class="btn btn-outline-secondary fw-semibold" data-bs-toggle="modal" data-bs-target="#addBarangModal" >
+                    <i class="fa fa-plus-circle me-3" aria-hidden="true"></i>
                     Tambah Barang
                 </span>
             </div>
         </div>
+
         <div class="table-responsive col-lg-11 mb-5">
             <table class="table table-striped table-sm" id="Keranjang">
                 <thead class="bg-secondary text-light px-3">
@@ -52,24 +53,22 @@
                                 {{ $loop->iteration }}
                             </td>
                             <td class="text-center">
-                                <input type="text" value="{{ $det->barang->nama_barang }}" readonly class="text-dark text-center border-0 bg-transparent" name="barang{{ $loop->iteration }}">
+                                <input type="text" value="{{ $det->barang->nama_barang }}" readonly class="text-dark text-center border-0 bg-transparent nama-barang" name="barang{{ $loop->iteration }}">
                             </td>
                             <td class="text-center">
-                                <input type="text" value="{{ $det->harga_satuan }}" readonly class=" disabled text-dark text-center border-0 bg-transparent" name="hargaSatuan{{ $loop->iteration }}">
+                                <input type="text" value="{{ $det->harga_satuan }}" readonly class="text-dark text-center border-0 bg-transparent harga-barang" name="hargaSatuan{{ $loop->iteration }}">
                             </td>
                             <td class="text-center">
-                                <input type="text" value="{{ $det->ukuran }}" readonly class="text-dark text-center border-0 bg-transparent" name="ukuran{{ $loop->iteration }}">
+                                <input type="text" value="{{ $det->ukuran }}" readonly class="text-dark text-center border-0 bg-transparent ukuran-barang" name="ukuran{{ $loop->iteration }}">
                             </td>
                             <td class="text-center">
-                                <input type="text" value="{{ $det->jumlah }}" readonly class="text-dark text-center border-0 bg-transparent" name="jml{{ $loop->iteration }}">
+                                <input type="text" value="{{ $det->jumlah }}" readonly class="text-dark text-center border-0 bg-transparent jumlah-beli" name="jml{{ $loop->iteration }}">
                             </td>
                             <td class="text-center">
-                                <input type="text" value="Rp. {{ $det->subtotal }}" readonly class="text-dark text-center border-0 bg-transparent" name="subtotal{{ $loop->iteration }}">
+                                <input type="text" value="Rp.{{ $det->subtotal }}" readonly class="text-dark text-center border-0 bg-transparent sub-total" name="subtotal{{ $loop->iteration }}">
                             </td>
                             <td class="text-center">
-                                <a href="" class="link-dark">
-                                    <i class="fas fa-edit link"></i>
-                                </a>
+                                <i class="fas fa-edit link"></i>
                             </td>
                         </tr>
                     @endforeach
@@ -83,8 +82,8 @@
                 <div class="col-6">
                     <div class="row mt-4">
                         <div class="col-12 d-flex align-items-center justify-content-center ">
-                            <label for="" class="fs-6 col-5 ">Total Harga</label>
-                            <input type="text" readonly name="totalHarga" class="form-control " value="{{ $transaksis->total_harga }}">
+                            <label for="" class="fs-6 col-5">Total Harga</label>
+                            <input type="text" readonly name="totalHarga" class="form-control" id="totalHarga" value="{{ $transaksis->total_harga }}">
                         </div>
                     </div>
                     <div class="row my-2">
@@ -117,13 +116,93 @@
         </div>       
     </form>
 
-    <script>
-        Swal.fire({
-            position: 'top-end',
-            icon: 'info',
-            title: 'Please Read The Docs!',
-            showConfirmButton: false,
-            timer: 1500
-        })
-    </script>
+    <!-- Modal Add Barang Ke keranjang-->
+    <div class="modal fade" id="addBarangModal" tabindex="-1" aria-labelledby="addBarangModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark bg-opacity-75 bg-gradient">
+                    <h1 class="modal-title fs-5 text-light" id="addBarangModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="NamBarModal" class="form-label mb-1 text-secondary">Nama Barang</label>
+                        <select class="form-control text-secondary" id="NamBarModal" onchange="GetSubTotal();">
+                            @foreach ($barangs as $b)                        
+                            <option value="{{ $b->nama_barang }}" class="{{ $b->harga }}">{{ $b->nama_barang }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pilihanUkuran" class="form-label mb-1 text-secondary">Ukuran Barang</label>
+                        <select class="form-control text-secondary" id="pilihanUkuran" onchange="GetSubTotal();">
+                            <option value="1" class="">1 Kg</option>
+                            <option value="1/2" class="">1/2 Kg</option>
+                            <option value="1/4" class="">1/4 Kg</option>
+                            <option value="3000" class="">Ukuran 3000</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="iniQty" class="form-label mb-1 text-secondary">Jumlah Barang</label>                           
+                        <input type="number" class="form-control text-secondary" id="iniQty" value="1" onchange="GetSubTotal();">
+                    </div>         
+                    <div class="mb-3">
+                        <label for="subTotal" class="form-label mb-1 text-secondary">Harga Total</label>
+                        <input type="text" class="form-control text-secondary" id="subTotal" readonly  value="60000">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="btnAddToKeranjang" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal Edit Barang yang Di keranjang --}}
+    <div class="modal fade" id="editBarangDariKeranjang" tabindex="-1" aria-labelledby="addBarangModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addBarangModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="#">
+                        @csrf
+                        <div class="mb-3">
+                            <select class="form-control" id="NamBarList" onchange="GetSubTotal();">
+                                @foreach ($barangs as $b)                        
+                                <option value="{{ $b->nama_barang }}" class="{{ $b->harga }}">{{ $b->nama_barang }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <select class="form-control" id="pilihanUkuran" onchange="GetSubTotal();">    
+                                <option value="1" class="">1 Kg</option>
+                                <option value="1/2" class="">1/2 Kg</option>
+                                <option value="1/4" class="">1/4 Kg</option>
+                                <option value="3000" class="">Ukuran 3000</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <input type="number" class="form-control" id="iniQty" value="1" onchange="GetSubTotal();">
+                        </div>         
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="subTotal" readonly value="60000">
+                        </div>         
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="{{ asset('js/editTrans.js') }}"></script>
+
 @endsection

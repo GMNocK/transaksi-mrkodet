@@ -4,101 +4,85 @@
 
     <form action="/dashboard/transaksis/" method="post">
         @csrf
-        <div class="col-12 my-4 d-flex justify-content-between align-items-center mb-5">
-            <div class="linked">
-                <a class="fs-3 {{ Request::is('dashboard*') ? 'disabled link-dark text-decoration-none' : '' }}" style="font-weight: 400">{{ Request::is('dashboard*') ? 'Dashboard / ' : '' }}</a>
-                <a class="fs-3 {{ Request::is('dashboard/transaksis*') ? 'disabled link-dark text-decoration-none' : '' }}" style="font-weight: 400">{{ Request::is('dashboard/transaksis*') ? 'Transaksi / ' : 'as' }}</a>
-                <a href="" class="fs-3 " style="font-weight: 400">{{ Request::is('dashboard/transaksis/create') ? 'Create' : '' }}</a>
-            </div>
-            <div class="apa d-flex justify-content-center">
-                <div class="tgl fs-5" style="font-weight: 500">
+        <div class="col-12 mt-5 mb-4 d-flex justify-content-between align-items-center">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/dashboard" class="link-primary">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="/dashboard/transaksis" class="link-primary">Transaksi</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Create</li>
+                </ol>
+            </nav>
+            <div class="col-6 text-end">
+                <span class="fs-6 fw-semibold me-2">
                     {{ date('Y-m-d') }}
-                </div>
-                <div class="icon mx-3">
-                    <span data-feather="calendar" class="w-100 h-100"></span>
-                </div>
+                    <i class="fas fa-calendar-alt ms-2"></i>
+                </span>                    
             </div>
-        </div>  
+        </div>
 
         <div class="row">
-            <div class="col-4 mb-3">
+            <div class="col-4">
                 <input type="hidden" name="tanggal" value="{{ date('Y-m-d') }}" hidden>
-                <label for="NamaPelanggan">Nama Pelanggan</label>
+                <label for="NamaPelanggan" class="ms-1 mb-1">Nama Pelanggan</label>
                 <select class="form-control" name="pelanggan_id" id="NamaPelanggan">
                     @foreach ($pelanggans as $p)                        
                     <option value="{{ $p->id }}" class="{{ $p->nama }}">{{ $p->nama }}</option>
                     @endforeach
                 </select>
             </div>
-            <div class="col-4 mb-3">
-
-                <label for="">Add Item</label>
-                <select class="form-control" id="BarangSelect">
-                    @foreach ($barangs as $b)                        
-                    <option value="{{ $b->nama_barang }}" class="{{ $b->harga }}">{{ $b->nama_barang }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="col-3 mb-4">
-            <myButton id="btn" class="btn btn-outline-success">Tekan</myButton>
-        </div>
-
-        <div class="row mb-4" id="FormAddQty">
-            <div class="col-3">
-                <input type="text" class="form-control" value="Ini Form Test" onchange="">
-            </div>
-            <div class="col-3">
-                <input type="text" class="form-control" value="Ini Form Test">
-            </div>
-            <div class="col-3">
-                <input type="text" class="form-control" value="Ini Form Test">
-            </div>
-            <div class="col-3">
-                <input type="text" class="form-control" value="Ini Form Test">
+            <div class="col-md-4 col-sm-4 d-flex align-items-end">
+                <a  class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    Data Pelanggan
+                </a>
             </div>
         </div>
         
-        <div class="col-12">
-            <MyButton class="btn btn-outline-success mb-5" id="AdToKeranjang">Tambah keranjang</MyButton>
+        <br class="my-2">
+        <div class="row mb-3">
+            <div class="col-4">
+                <span class="btn btn-outline-secondary fw-semibold" data-bs-toggle="modal" data-bs-target="#addBarangModal" id="btnAddBarangToKeranjangModal">
+                    <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>
+                    Tambah Barang
+                </span>
+            </div>
         </div>
-
-        <br class="mb-4">
-
-        <div class="table-responsive col-lg-11">
+        <div class="table-responsive col-lg-11 mb-5">
             <table class="table table-striped table-sm" id="Keranjang">
-                <thead>
+                <thead class="bg-secondary text-light px-3">
                     <tr>
-                        <th scope="col" class="text-center">No</th>
-                        <th scope="col" class="text-center">Nama Barang</th>
-                        <th scope="col" class="text-center">Harga Satuan</th>
-                        <th scope="col" class="text-center" style="max-width: 30px">Ukuran</th>
-                        <th scope="col" class="text-center">Quantity</th>
-                        <th scope="col" class="text-center">SubTotal</th>
-                        <th scope="col" class="text-center"></th>
+                        <th scope="col" class="text-center p-2 ps-3 border-0">No</th>
+                        <th scope="col" class="text-center p-2 border-0">Nama Barang</th>
+                        <th scope="col" class="text-center p-2 border-0">Harga Per Kg</th>
+                        <th scope="col" class="text-center p-2 border-0">Ukuran</th>
+                        <th scope="col" class="text-center p-2 border-0">Quantity</th>
+                        <th scope="col" class="text-center p-2 border-0">SubTotal</th>
+                        <th scope="col" class="text-center p-2 pe-3 border-0">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{-- INI ISI TABEL KERANJANG --}}
                     {{-- <tr>
-                        <td class="text-center bg-danger">1</td>
                         <td class="text-center">
-                            <input type="text" value="Basreng Pedas" disabled class="text-dark text-center border-0 bg-transparent">
+                            1
                         </td>
                         <td class="text-center">
-                            <input type="text" value="Rp.60.000" disabled class=" disabled text-dark text-center border-0 bg-transparent">
-                        </td>
-                        <td class="text-center bg-warning">
-                            <input type="text" value="1 Kg." disabled class="text-dark text-center border-0 bg-transparent">
+                            <input type="text" value="Basreng Pedas" readonly class="text-dark text-center border-0 bg-transparent">
                         </td>
                         <td class="text-center">
-                            <input type="text" value="10" disabled class="text-dark text-center border-0 bg-transparent">
+                            <input type="text" value="Rp.60.000" readonly class="text-dark text-center border-0 bg-transparent">
                         </td>
                         <td class="text-center">
-                            <input type="text" value="Rp.600.000" disabled class="text-dark text-center border-0 bg-transparent">
+                            <input type="text" value="1 Kg." readonly class="text-dark text-center border-0 bg-transparent">
                         </td>
                         <td class="text-center">
-                            <img src="{{ asset('img/trash-2.svg') }}">
+                            <input type="text" value="10" readonly class="text-dark text-center border-0 bg-transparent">
+                        </td>
+                        <td class="text-center">
+                            <input type="text" value="Rp.600.000" readonly class="text-dark text-center border-0 bg-transparent">
+                        </td>
+                        <td class="text-center">
+                            <i class="fas fa-trash-alt"></i>
                         </td>
                     </tr> --}}
                 </tbody>
@@ -132,6 +116,8 @@
             </div>
          </div>
         
+         <input type="hidden" name="cobaiIn" id="cobaCoba">
+
          <div class="row">
             <div class="col-6">
                 <input type="submit" value="Tambah" class="btn btn-outline-primary my-3 w-100">           
@@ -139,5 +125,76 @@
          </div>
     </form>   
     
+    <div class="modal fade" id="exampleModal" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form method="POST" action="/added/DataPelanggan">
+        @csrf
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Pelanggan Baru</h1>
+                    {{-- <button type="button" class="btn-close btn-close-white" aria-label="Close" data-bs-dismiss="modal"></button> --}}
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Nama Pelanggan :</label>
+                            <input type="text" class="form-control" name="namaPelanggan" id="pelangganNama">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Keterangan :</label>
+                            <textarea class="form-control" name="Ket" id="keteranganText"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Tambah Pelanggan</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="addBarangModal" data-bs-backdrop="static" aria-labelledby="addBarangModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header bg-dark bg-opacity-75 bg-gradient text-white">
+                <h1 class="modal-title fs-4 fw-semibold" id="addBarangModalLabel">Tambah Barang</h1>
+                <button type="button" class="btn-close btn-close-white" aria-label="Close" data-bs-dismiss="modal"></button>
+                {{-- <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+            </div>
+            <div class="modal-body">
+                <form>
+                    @csrf
+                    <div class="mb-3">
+                        <select class="form-control" id="NamBarList" onchange="GetSubTotal();">
+                            @foreach ($barangs as $b)                        
+                            <option value="{{ $b->nama_barang }}" class="{{ $b->harga }}">{{ $b->nama_barang }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-control" id="pilihanUkuran" onchange="GetSubTotal();">
+                            <option value="1" class="">1 Kg</option>
+                            <option value="1/2" class="">1/2 Kg</option>
+                            <option value="1/4" class="">1/4 Kg</option>
+                            <option value="3000" class="">Ukuran 3000</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" class="form-control" id="iniQty" value="1">
+                    </div>         
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="subTotal" value="60000">
+                    </div>         
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+              <button type="button" class="btn btn-primary" id="AdToKeranjang" data-bs-dismiss="modal">Tambah Ke Keranjang</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
     <script src="{{ asset('js/createtrans.js') }}"></script>
 @endsection

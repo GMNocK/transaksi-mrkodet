@@ -35,9 +35,15 @@ class DataPelangganController extends Controller
 
         $validateData['user_id'] = 1;
 
+        $user = new User([
+            'username' => $validateData['nama'],
+            'email' => $validateData['nama'] . "@gmail.com",
+            'password' => 1234,
+            ''
+        ]);
         Pelanggan::create($validateData); 
 
-
+        
 
         return redirect(route('dataPelanggan.index'));
     }
@@ -81,5 +87,30 @@ class DataPelangganController extends Controller
 
         return redirect('/dashboard/dataPelanggan');
 
+    }
+
+    public function FastAddedData(Request $request)
+    {
+        $validateData = $request->validate([
+            'namaPelanggan' => 'required',
+            'Ket' => 'required|min:5',
+        ]);
+
+        $PelangganId = User::orderBy('id', 'DESC')->limit(1)->get('id');
+        
+        // $PelangganAccount = new User([
+        //     'username' => $validateData['namaPelanggan'],
+        // ]);
+        
+        $pelangganData = new Pelanggan([
+            'nama' => $validateData['namaPelanggan'],
+            'Keterangan' => $validateData['Ket'],
+            'user_id' => $PelangganId[0]->id + 1,
+        ]);
+
+        $pelangganData->save();
+
+
+        return redirect(route('transaksis.create'));
     }
 }

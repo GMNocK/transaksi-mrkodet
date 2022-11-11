@@ -8,7 +8,7 @@
 @can('karyawan')
 <h2>
   <a href="/dashboard/transaksis/create" class="text-center btn btn-primary btn-sm">
-    <span data-feather="plus-circle" class="align-text-bottom text-center" style="margin-bottom: 1px"></span> 
+    <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>
     Create New Transaksi
   </a>
 </h2>
@@ -30,7 +30,7 @@
             @foreach ($transaksis as $t)
             <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
-                <td>{{ $t->pelanggan->nama }}</td>                
+                <td>{{ $t->pelanggan->nama }}</td>
                 <td>{{ $t->tgl_transaksi }}</td>
                 <td>Rp.{{ $t->total_harga }}</td>
                 <td>{{ $t->pencatat }}</td>
@@ -41,6 +41,10 @@
                   </a>
                     @can('karyawan')
                     
+                    <a href="/dashboard/transaksis/{{ $t->token }}/edit" class="badge bg-success">
+                      <i class="fa-regular fa-pen-to-square"></i>
+                    </a>
+
                     <form action="/dashboard/transaksis/{{ $t->token }}" method="post" class="d-inline" onclick="return confirm('Yakin Untuk Menghapus?');">
                       @method('delete')
                       @csrf
@@ -49,15 +53,12 @@
                       </button>
                     </form>
                     
-                    <a href="/dashboard/transaksis/{{ $t->token }}/edit" class="badge bg-warning">
-                      <i class="fa-regular fa-pen-to-square"></i>
-                    </a>
                     @endcan
                     
                     @cannot('karyawan')                      
                     <a href="{{ route('reports.create') }}">
                       <button class="badge bg-danger border-0">
-                        <span data-feather="alert-circle"></span>
+                        <i class="fa fa-file" aria-hidden="true"></i>
                       </button>
                     </a>
                     @endcannot

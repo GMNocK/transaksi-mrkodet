@@ -8,21 +8,31 @@
     <meta name="generator" content="Hugo 0.104.2">
     <title>Mr Kodet</title>    
 
+
+    {{-- CSS Linked --}}
+      {{-- Bootstrap --}}
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+      
+      
+      {{-- BOXICONS AS FONT --}}
+      {{-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> --}}
+      
+      {{-- FONT AWESOME --}}
+      <link rel="stylesheet" href="{{ asset('fontawesome/css/all.css') }}">
+      
+      {{-- Animate.css --}}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     
-    
-    {{-- Bootstrap --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    
+    {{-- End CSS Linked --}}
+
+    {{-- Font Google --}}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
     <!-- Custom styles for this template -->
     <link href="/css/dashboard.css" rel="stylesheet">
-    
-    {{-- BOXICONS AS FONT --}}
-    {{-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> --}}
-    
-    {{-- FONT AWESOME --}}
-    <link rel="stylesheet" href="{{ asset('fontawesome/css/all.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('favicon.ico') }}"> --}}
 
+    <link rel="stylesheet" href="/css/editStyle.css">
+    
     {{-- dropdown trans --}}
     <style>
       #laporanKaryawanDropdown.hide {
@@ -40,15 +50,17 @@
         display: block;
         transition: all 1s;
       }
-      </style>
+    </style>
 
+    {{-- JavaScript --}}
       {{-- Chart Js --}}
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       
       {{-- Sweet Alert 2 --}}
       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-      
+    {{-- End Js --}}
+
   </head>
   <body background="#dfdfdf">
     
@@ -82,54 +94,27 @@
     {{-- <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script> --}}
 
     {{-- FONT AWESOME --}}
-    <script src="https://kit.fontawesome.com/8f710bdca8.js" crossorigin="anonymous"></script>
+    {{-- <script src="https://kit.fontawesome.com/8f710bdca8.js" crossorigin="anonymous"></script> --}}
 
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script>
+        moment().format();
+    </script>
+
+
+    {{-- {{ Request::is('dashboard') ? '<script src="js/dashboard.js"></script>' : '' }} --}}
+    
+    @if (Request::is('dashboard'))
+      <script src="js/dashboard.js"></script>
+        
+    @else
+        
+    @endif
 
     {{-- COSTUM JS --}}
     <script src="/js/dashboard.js"></script>
-       
-    {{-- <script>
-        Swal.fire({
-          title: 'Error!',
-          text: 'Do you want to continue',
-          icon: 'error',
-          timer: 3500,
-          confirmButtonText: 'Close'
-        })
-    </script>
-         --}}
-    {{-- <script>
-      const labels = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-      ];
-    
-      const data = {
-        labels: labels,
-        datasets: [{
-          label: 'My First dataset',
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
-          data: [0, 10, 5, 2, 20, 30, 45],
-        }]
-      };
-    
-      const config = {
-        type: 'line',
-        data: data,
-        options: {}
-      };
-    </script>
-    <script>
-      const myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-      );
-    </script> --}}
-    
-  </body>
+
+   
+</body>
 </html>
+    

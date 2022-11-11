@@ -20,11 +20,11 @@ class DashboardTransController extends Controller
 {
     
     public function index()
-    {
+    {        
         $userLevel = auth()->user()->level;
         if ($userLevel == 'karyawan' || $userLevel == 'Admin') {
             return view('dashboard.transaksi.index', [
-                'transaksis' => Transaksi::orderBy('tgl_transaksi','desc')->with(['pelanggan.user'])->paginate(10),
+                'transaksis' => Transaksi::orderBy('created_at','desc')->with(['pelanggan.user'])->paginate(10),
             ]); 
         }
         if ($userLevel == 'costumer') {            
@@ -44,49 +44,50 @@ class DashboardTransController extends Controller
         $this->authorize('karyawan');
         return view('dashboard.transaksi.create', [
             'pelanggans' => Pelanggan::all(),
-            'barangs' => Barang::all()
+            'barangs' => Barang::all(),
         ]);
     }
 
     
     public function store(Request $request)
     {
-        // return $request;
         $this->authorize('karyawan');
+
+        $ini = $request->cobaiIn;
+        $panjang = Str::afterLast($ini, ',');
+        
         $validateData = $request->validate([
             'pelanggan_id' => 'required',
             'tanggal' => 'required|date',
             'TotalBayar' => 'required|min:2',
             'status' => 'required',
             'tipe_bayar' => 'required',
+            'cobaiIn' => 'required',            
         ]);
+        // return $request;
         
-        // return $validateData['TotalBayar'];
-
-        $validateData['pencatat'] = auth()->user()->username; // isi dengan nama dari tabel pelanggan
         $validateData['token'] = password_hash($validateData['tanggal'], PASSWORD_DEFAULT);
-
+        
         $validateData['token'] = Str::limit($validateData['token'], 16, '');        
         $validateData['token'] = Str::after($validateData['token'], '$2y$10$');
         $validateData['token'] = Str::before($validateData['token'], '/');        
-
+        
+        
+        
+        // MASUK KE DB TRANSAKSI
         $transaksi = new Transaksi([
             'pelanggan_id' => $validateData['pelanggan_id'],
             'tgl_transaksi' => $validateData['tanggal'],
-            'total_harga' => $validateData['TotalBayar'],
+            'total_harga' => Str::after($validateData['TotalBayar'],'.'),
             'status' => $validateData['status'],
             'tipe_bayar' => $validateData['tipe_bayar'],
-            'pencatat' => $validateData['pencatat'],
+            'pencatat' => auth()->user()->username,         // Diambil Dari yang sedang login
             'token' => $validateData['token'],
         ]);
 
         $transaksi->save();
-
-        // MASUK KE DETAIL TRANSAKSI
-        $transaksiId = Transaksi::orderByDesc('id')->limit(1)->get('id');
-        // return $transaksi[0]->id;    
-
-        for ($i=1; $i <= 20; $i++) { 
+        
+        for ($i=1; $i <= $panjang; $i++) { 
 
             $nambar = 'BR'.$i;
             $har = 'harga'.$i;
@@ -94,23 +95,32 @@ class DashboardTransController extends Controller
             $jumlah = 'jumlah'.$i;
             $subtotal = 'subtotal'.$i;
 
+            // MASUK KE DETAIL TRANSAKSI
+            $transaksiId = Transaksi::orderByDesc('id')->limit(1)->get('id');
+
+            // echo $request->$subtotal . $har . $ukuran . $jumlah . $subtotal
             
-            if ($request->$subtotal != 0 && $request->$subtotal != '') {
+            if ($request->$nambar != '') {
+
                 $barangId = Barang::where('nama_barang', $request->$nambar)->get('id');
-                
+                $hargaSatuan = Str::after($request->$har, 'Rp.');
+                $ukurandb = Str::after($request->$ukuran, 'Rp.');
+                $subtotaldb = Str::after($request->$subtotal, 'Rp.');
+
+
                 $detailTransaksi = new Detail_transaksi([
                     'transaksi_id' => $transaksiId[0]->id,
                     'barang_id' => $barangId[0]->id,
-                    'harga_satuan' => $request->$har,
-                    'ukuran' => $request->$ukuran,
+                    'harga_satuan' => $hargaSatuan,
+                    'ukuran' => $ukurandb,
                     'jumlah' => $request->$jumlah,
-                    'subtotal' => $request->$subtotal,
+                    'subtotal' => $subtotaldb,
                 ]);
 
                 $detailTransaksi->save();
+
             }                    
         }
-
 
         return redirect('/dashboard/transaksis/');
 
@@ -128,7 +138,8 @@ class DashboardTransController extends Controller
         return view('dashboard.transaksi.detail', [
             'transaksi' => $transaksi,
             'transaksis' => Transaksi::with(['Pelanggan','Detail_transaksi'])->where('token', $transaksi->token)->get(),
-            'pelanggans' => Pelanggan::all()
+            'pelanggans' => Pelanggan::all(),
+            'detailTrans' => $transaksi->detail_transaksi,
         ]);
         
     }
@@ -150,9 +161,9 @@ class DashboardTransController extends Controller
 
     
     public function update(Request $request, Transaksi $transaksi)
-    {
-        return $request;
+    {        
         $this->authorize('karyawan');
+
         $validateData = $request->validate([
             'tgl_transaksi' => 'required|date',
             'pelanggan_id' => 'required',

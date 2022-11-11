@@ -28,7 +28,7 @@
                 <td style="text-align: center">
 
                     <a href="/laporankaryawans/{{ $l->id }}" class="badge bg-primary">
-                        <span data-feather="eye"></span>
+                      <i class="fa fa-eye" aria-hidden="true"></i>
                     </a>
                     
                     
@@ -36,12 +36,12 @@
                       @method('delete')
                       @csrf
                       <button class="badge bg-danger border-0">
-                        <span data-feather="x-circle"></span>
+                        <i class="fas fa-trash-alt    "></i>
                       </button>
                     </form>
                     
                     <a href="/laporankaryawans/{{ $l->id }}/edit" class="badge bg-warning">
-                      <span data-feather="edit"></span>
+                      <i class="fas fa-edit"></i>
                     </a>                    
                     
                     {{-- <a href="/laporankaryawans/">

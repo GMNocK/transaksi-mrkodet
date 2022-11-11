@@ -24,6 +24,12 @@ use App\Http\Controllers\ReportForAdminController;
 |
 */
 
+Route::get('/ini', function ()
+{
+    return view('dab');
+});
+
+
 Route::get('/', [UserController::class, 'login'])->name('login')->middleware('guest');
 Route::post('/login' ,[UserController::class, 'loginAction']);
 Route::get('/register', [UserController::class, 'register'])->middleware('guest');
@@ -74,4 +80,7 @@ Route::get('/admin/laporan/pelanggan/thisMonth', [ReportForAdminController::clas
 
 Route::get('/admin/laporan/pelanggan/thisYear', [ReportForAdminController::class , 'thisYearPelanggan']);
 
+
 Route::resource('/dashboard/dataPelanggan', DataPelangganController::class)->middleware('auth');
+
+Route::post('/added/DataPelanggan', [DataPelangganController::class, 'FastAddedData'])->name('dpFasterAdd')->middleware('auth');

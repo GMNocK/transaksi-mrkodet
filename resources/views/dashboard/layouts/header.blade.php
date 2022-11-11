@@ -11,8 +11,8 @@
 				<input type="text" class="form-control bg-light border-0 small" style="height: 32px" placeholder="Search for..."
 					aria-label="Search" aria-describedby="basic-addon2">
 				<div class="input-group-append" style="height: 32px">
-					<button class="btn btn-primary rounded-1 align-items-self d-flex" style="height: 100%" type="button">
-						<span data-feather="search" class="h-100"></span>
+					<button class="btn btn-primary rounded-0 align-items-self d-flex" style="height: 100%" type="button">
+						<i class="fa fa-search" aria-hidden="true"></i>
 					</button>
 				</div>
 			</div>

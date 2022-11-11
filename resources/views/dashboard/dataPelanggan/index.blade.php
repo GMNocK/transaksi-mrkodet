@@ -33,17 +33,17 @@
                                 <td>{{ $s->no_tlp }}</td>
                                 <td style="text-align: center">
                                     <a href="/dashboard/dataPelanggan/{{ $s->id }}" class="badge bg-primary btn-success border-0">
-                                        <span data-feather="eye"></span>
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                     <form action="/dashboard/dataPelanggan/{{ $s->id }}" method="POST" class="d-inline" onclick="return alert('Yakin Untuk Menghapus?');">
                                         @method('delete')
                                         @csrf
                                         <button class="badge bg-danger border-0">
-                                            <span data-feather="x-circle"></span>
+                                            <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
                                     <a class="badge bg-warning my-sm-1" href="/dashboard/dataPelanggan/{{ $s->id }}/edit">
-                                        <span data-feather="edit" class="text-danger"></span>
+                                        <i class="fas fa-edit"></i>
                                     </a>                    
                                 </td>
                             </tr>    

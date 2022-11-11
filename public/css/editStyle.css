@@ -1,0 +1,22 @@
+.showThis {
+    animation: muncul .3s ease-in alternate;
+}
+
+.hideThis {
+    opacity: 0;
+    animation: hiddeen .3s ease-in alternate;
+}
+
+@keyframes muncul {
+    0% {
+        opacity: 0;
+        top: 45vh;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes hiddeen {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
