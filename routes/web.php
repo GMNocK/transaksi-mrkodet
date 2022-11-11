@@ -9,9 +9,11 @@ use App\Http\Controllers\DataPelangganController;
 use App\Http\Controllers\FeedbackKaryawanController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\LaporanKaryawanController;
+use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportForAdminController;
+use App\Http\Middleware\Pelanggan;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,10 +26,6 @@ use App\Http\Controllers\ReportForAdminController;
 |
 */
 
-Route::get('/ini', function ()
-{
-    return view('dab');
-});
 
 
 Route::get('/', [UserController::class, 'login'])->name('login')->middleware('guest');
@@ -84,3 +82,16 @@ Route::get('/admin/laporan/pelanggan/thisYear', [ReportForAdminController::class
 Route::resource('/dashboard/dataPelanggan', DataPelangganController::class)->middleware('auth');
 
 Route::post('/added/DataPelanggan', [DataPelangganController::class, 'FastAddedData'])->name('dpFasterAdd')->middleware('auth');
+
+
+Route::middleware(['pelanggan', 'auth'])->group(function () {
+    
+    Route::get('/myDashboard', function ()
+    {
+        return view('myDashboard.pages.dashboard');
+    });
+
+    Route::resource('/pelanggan/pesanan', PesananController::class);
+    Route::get('/myDashboard/pesanan/history', [PesananController::class, 'history']);
+    
+});

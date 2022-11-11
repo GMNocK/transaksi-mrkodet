@@ -39,7 +39,7 @@ class DashboardController extends Controller
                 'lk' => LaporanKaryawan::all()->count(),
             ]);
         }
-        if (auth()->user()->level == 'costumer') {
+        if (auth()->user()->level == 'pelanggan') {
             return view('dashboard.index', [
                 'transaksi' => Transaksi::all()->count(),
                 'customer' => Pelanggan::all()->count(),

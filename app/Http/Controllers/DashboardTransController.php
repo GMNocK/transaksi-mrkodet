@@ -27,7 +27,7 @@ class DashboardTransController extends Controller
                 'transaksis' => Transaksi::orderBy('created_at','desc')->with(['pelanggan.user'])->paginate(10),
             ]); 
         }
-        if ($userLevel == 'costumer') {            
+        if ($userLevel == 'pelanggan') {            
             $pelanggan = Pelanggan::where('user_id', auth()->user()->id)->get();
 
             return view('dashboard.transaksi.index', [

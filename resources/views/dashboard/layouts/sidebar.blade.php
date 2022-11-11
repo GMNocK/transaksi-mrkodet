@@ -13,30 +13,37 @@
 
         <li class="nav-item">
 			<a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" aria-current="page" href="/dashboard">
-				<i class="fa fa-stack-overflow me-2" aria-hidden="true"></i>
+				<i class="fa fa-sliders me-2" aria-hidden="true"></i>
 				Dashboard
 			</a>
         </li>
 
-		@cannot('costumer')
+		@cannot('pelanggan')
         <li class="nav-item">
 			<a class="nav-link {{ Request::is('dashboard/transaksis*') ? 'active' : '' }}" href="/dashboard/transaksis/">
-				<i class="fas fa-paypal me-2"></i>
+				<i class="fa-solid fa-grid"></i>	
 				Transaksi
 			</a>
         </li>
 		@endcannot
 		
-		@can('costumer')
+		@can('pelanggan')
 			<li class="nav-item">
-				<a class="nav-link {{ Request::is('dashboard/transaksis*') ? 'active' : '' }}" href="/dashboard/transaksis/">
-					<i class="fas fa-paypal me-2"></i>
+				<a class="nav-link {{ Request::is('dashboard/pesan*') ? 'active' : '' }}" href="/dashboard/pesan">
+					<i class="fas fa-id-card-alt me-2"></i>
 					Pesanan
+				</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link {{ Request::is('dashboard/pesanan/history*') ? 'active' : '' }}" href="/dashboard/pesan">
+					<i class="fa fa-cart-plus" aria-hidden="true"></i>
+					History
 				</a>
 			</li>
 		@endcan
 
-		@cannot('costumer')			
+		@cannot('pelanggan')			
 			<li class="nav-item">
 				<a class="nav-link {{ Request::is('dashboard/dataPelanggan*') ? 'active' : '' }}" href="/dashboard/dataPelanggan/">
 					<i class="fa fa-file-text me-2" aria-hidden="true"></i>
@@ -65,7 +72,7 @@
 
 		<ul class="nav flex-column mb-2">
 			
-				@can('costumer')
+				@can('pelanggan')
 					<li class="nav-item">
 						<a class="nav-link {{ Request::is('transaksi/reports*') ? 'active' : '' }}" href="/transaksi/reports">
 						<span data-feather="file-text" class="align-text-bottom"></span>

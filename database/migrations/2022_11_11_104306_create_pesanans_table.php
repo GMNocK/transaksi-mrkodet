@@ -6,11 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePesanansTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    
     public function up()
     {
         Schema::create('pesanans', function (Blueprint $table) {
@@ -18,16 +14,16 @@ class CreatePesanansTable extends Migration
             $table->foreignId('pelanggan_id')->constrained()->cascadeOnDelete();
             $table->timestamp('waktu_pesan');
             $table->integer('total_harga');
+            $table->string('status');
+            // belum dibaca, dibaca, diproses, dikirim, selesai
+            $table->string('tipePembayaran'); 
+            // transfer, cod, tunai
             $table->string('kode')->unique();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    
     public function down()
     {
         Schema::dropIfExists('pesanans');

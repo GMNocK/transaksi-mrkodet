@@ -18,7 +18,7 @@
       {{-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> --}}
       
       {{-- FONT AWESOME --}}
-      <link rel="stylesheet" href="{{ asset('fontawesome/css/all.css') }}">
+      <link rel="stylesheet" href="{{ asset('fontawesome/css/all.css') }}" type="text/css">
       
       {{-- Animate.css --}}
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -94,7 +94,7 @@
     {{-- <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script> --}}
 
     {{-- FONT AWESOME --}}
-    {{-- <script src="https://kit.fontawesome.com/8f710bdca8.js" crossorigin="anonymous"></script> --}}
+    <script src="https://kit.fontawesome.com/8f710bdca8.js" crossorigin="anonymous"></script>
 
     <script src="{{ asset('js/moment.js') }}"></script>
     <script>
@@ -104,12 +104,7 @@
 
     {{-- {{ Request::is('dashboard') ? '<script src="js/dashboard.js"></script>' : '' }} --}}
     
-    @if (Request::is('dashboard'))
-      <script src="js/dashboard.js"></script>
-        
-    @else
-        
-    @endif
+    
 
     {{-- COSTUM JS --}}
     <script src="/js/dashboard.js"></script>

@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    @cannot('costumer')
+    @cannot('pelanggan')
         
     <div class="col-xl-4 col-md-6 mb-4">
         <div class="card border-start-success shadow h-100 py-2">
@@ -113,7 +113,7 @@
 
 </div>
 
-@cannot('costumer')
+@cannot('pelanggan')
     <div>
         <canvas id="myChart"></canvas>
     </div>    

@@ -1,8 +1,12 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
+    
+@extends('dashboard.layouts.main')
 
-    <form action="/dashboard/transaksis/" method="post">
+@section('container')
+
+    <form action="/dashboard/pesan/" method="post">
         @csrf
         <div class="col-12 mt-5 mb-4 d-flex justify-content-between align-items-center">
             <nav aria-label="breadcrumb">
@@ -48,7 +52,7 @@
             </div>
         </div>
         <div class="table-responsive col-lg-11 mb-5">
-            <table class="table table-striped table-sm table-hover" id="Keranjang">
+            <table class="table table-striped table-sm" id="Keranjang">
                 <thead class="bg-secondary text-light px-3">
                     <tr>
                         <th scope="col" class="text-center p-2 ps-3 border-0">No</th>
@@ -95,7 +99,6 @@
                 <input type="text" readonly name="TotalBayar" class="form-control " value="0">
             </div>
          </div>
-
          <div class="row my-2">
             <div class="col-6 d-flex align-items-center justify-content-center ">
                 <label for="" class="fs-6 col-5 ">Status Transaksi</label>
@@ -106,7 +109,6 @@
                 </select>
             </div>
          </div>
-
          <div class="row my-2">
             <div class="col-6 d-flex align-items-center justify-content-center ">
                 <label for="" class="fs-6 col-5 ">Tipe Pembayaran</label>
@@ -199,4 +201,6 @@
     </div>
 
     <script src="{{ asset('js/createtrans.js') }}"></script>
+@endsection
+
 @endsection
