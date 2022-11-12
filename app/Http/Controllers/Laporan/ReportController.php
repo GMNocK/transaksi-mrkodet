@@ -26,7 +26,7 @@ class ReportController extends Controller
 
         $ret = LaporanPelanggan::where('pelanggan_id', $pelangganLogin)->get();
 
-        return view('dashboard.transaksi.report.index', [
+        return view('myDashboard.pages.pelanggan.laporan.Lsaya', [
             'LaporanPelanggans' => $ret, 
         ]);
     }
@@ -99,5 +99,10 @@ class ReportController extends Controller
     public function createReport(Transaksi $transaksi)
     {
         return $transaksi;
+    }
+
+    public function history(LaporanPelanggan $laporanPelanggan)
+    {
+        return view('myDashboard.pages.pelanggan.laporan.History');
     }
 }

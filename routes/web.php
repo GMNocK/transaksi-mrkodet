@@ -18,6 +18,10 @@ use App\Http\Controllers\Data\PesananController;
 use App\Http\Controllers\Data\DataPelangganController;
 use App\Http\Controllers\Data\TransaksiController;
 
+use App\Http\Controllers\Rekap\RekapPesananController;
+use App\Http\Controllers\Rekap\RekapLPelangganController;
+use App\Http\Controllers\Rekap\RekapTransaksiController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -93,6 +97,8 @@ Route::middleware(['auth'])->group(function () {
         
         Route::get('/myDashboard/pesanan/history', [PesananController::class, 'history']);
         
+        Route::resource('LaporanSaya', ReportController::class);
+        Route::get('/Laporan/History', [ReportController::class, 'history']);        
     });
     
     Route::middleware(['IsKaryawan', 'IsAdmin'])->group(function () {
@@ -107,9 +113,12 @@ Route::middleware(['auth'])->group(function () {
         
         Route::get('/laporanPelanggan', [KaryawanController::class, 'pelangganReport']);
         Route::post('/karyawan/laporanuser/reply/{laporanPelanggan}', [KaryawanController::class, 'replyPelangganR'])->name('indexReply');
-        
-        
+                
         Route::resource('/laporanPelanggan/Feedback', FeedbackKaryawanController::class);
+
+        Route::resource('/Rekap/pesanan', RekapPesananController::class);
+        Route::resource('/Rekap/Transaksi', RekapTransaksiController::class);
+        Route::resource('/Rekap/laporanPelanggan', RekapLPelangganController::class);
     });
     
     Route::post('/logout', [UserController::class, 'logout']);

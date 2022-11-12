@@ -14,7 +14,7 @@ class PesananController extends Controller
     public function index()
     {
         if (auth()->user()->level == 'karyawan') {
-            return view('myDashboard.pages.karyawan.LPelanggan.Lpelanggan', [
+            return view('myDashboard.pages.karyawan.pesanan.daftarPesanan', [
                 'pesanan' => Pesanan::all(),
             ]);
         }

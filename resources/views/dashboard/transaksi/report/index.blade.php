@@ -44,8 +44,8 @@
     </tbody>
 </table>
 </div>
-    <a href="{{ route('dashboard') }}">
-        <h1 class="btn btn-circle btn-success mt-5">Back</h1>
-    </a>
+<a href="{{ route('dashboard') }}">
+    <h1 class="btn btn-circle btn-success mt-5">Back</h1>
+</a>
     
 @endsection
