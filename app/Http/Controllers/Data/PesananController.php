@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Data;
 
 use App\Models\Pesanan;
 use App\Http\Controllers\Controller;
@@ -13,6 +13,11 @@ class PesananController extends Controller
     
     public function index()
     {
+        if (auth()->user()->level == 'karyawan') {
+            return view('myDashboard.pages.karyawan.LPelanggan.Lpelanggan', [
+                'pesanan' => Pesanan::all(),
+            ]);
+        }
         return view('myDashboard.pages.pelanggan.pesanan.pesan', [
             'pesananSaya' => Pesanan::where('pelanggan_id', auth()->user()->id),
         ]);
@@ -22,7 +27,7 @@ class PesananController extends Controller
     public function create()
     {
         return view('myDashboard.pages.pelanggan.pesanan.formPemesanan', [
-            'barangs' => Barang::all(),
+            'barangs' => Barang::paginate(4),
         ]);
     }
 

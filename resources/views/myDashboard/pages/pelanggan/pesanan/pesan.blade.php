@@ -4,13 +4,18 @@
     
         <div class="col-md-12 col-lg-12 col-xxl-8 d-flex">
             <div class="card flex-fill">
-                <div class="card-header">
+                <div class="card-header justify-content-between d-flex">
                     <div class="ms-2 col-md-4">
 
-                        <a href="/pelanggan/pesanan/create" class="link-secondary d-flex align-items-center">
+                        <a href="/pesanan/create" class="link-secondary d-flex align-items-center">
                             <i class="align-middle me-1 link-secondary" data-feather="plus-circle"></i>
                             <h6 class="card-title mb-0 link-secondary">Pesan Barang</h6>
                         </a>
+                    </div>
+                    <div class="col-md-4 d-flex justify-content-end">
+                        <h6 class="link-secondary card-title">
+                            Daftar pesanan saya
+                        </h6>
                     </div>
                 </div>
 

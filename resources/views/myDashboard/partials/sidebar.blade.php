@@ -1,8 +1,10 @@
 <nav id="sidebar" class="sidebar js-sidebar">
     <div class="sidebar-content js-simplebar">
 
-        <a class="sidebar-brand d-flex align-items-center py-1" href="/dashboard/">
-            <img src="{{ asset('img/basrengpic.jpg') }}" alt="." width="30px" class="me-2 navbar-brand">
+        <a class="sidebar-brand d-flex align-items-center py-1" href="/myDashboard/">
+            <div class="img navbar-brand py-2">
+                <img src="{{ asset('img/logo.png') }}" alt="." width="40px" class="me-3 rounded">
+            </div>
             <span class="align-middle">Mr. Kodet</span>
         </a>
 
@@ -16,44 +18,112 @@
                     <i class="align-middle" data-feather="sliders"></i> 
                     <span class="align-middle">Dashboard</span>
                 </a>
-            </li>            
+            </li>
             
-            <li class="sidebar-header">
-                Pesanan
-            </li>
+            @cannot('pelanggan')
+                
+                <li class="sidebar-header">
+                    Data
+                </li>
+                
+                <li class="sidebar-item {{ Request::is('transaksi*') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/transaksi">
+                        <i class="align-middle" data-feather="book"></i> 
+                        <span class="align-middle">Data Transaksi</span>
+                    </a>
+                </li>            
+                <li class="sidebar-item {{ Request::is('pesanan*') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/pesanan">
+                        <i class="align-middle" data-feather="book"></i> 
+                        <span class="align-middle">Data Pesanan</span>
+                    </a>
+                </li>            
+                <li class="sidebar-item {{ Request::is('dataPelanggan*') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/dataPelanggan">
+                        <i class="align-middle" data-feather="book"></i> 
+                        <span class="align-middle">Data Pelanggan</span>
+                    </a>
+                </li>
 
-            <li class="sidebar-item {{ Request::is('pelanggan/pesanan*') ? 'active' : '' }}">
-                <a class="sidebar-link text-decoration-none" href="/pelanggan/pesanan">
-                    <i class="align-middle" data-feather="shopping-bag"></i> 
-                    <span class="align-middle">Pesan</span>
-                </a>
-            </li>
+            @endcannot
+            
+            @can('pelanggan')
+                
+            
+                <li class="sidebar-header">
+                    Pesanan
+                </li>
 
-            <li class="sidebar-item {{ Request::is('myDashboard/pesanan/history') ? 'active' : '' }}">
-                <a class="sidebar-link text-decoration-none" href="/myDashboard/pesanan/history">
-                    <i class="align-middle" data-feather="activity"></i> 
-                    <span class="align-middle">History Pesanan</span>
-                </a>
-            </li>
+                <li class="sidebar-item {{ Request::is('pesananSaya*') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/pesananSaya">
+                        <i class="align-middle" data-feather="shopping-bag"></i> 
+                        <span class="align-middle">Pesan</span>
+                    </a>
+                </li>
 
+                <li class="sidebar-item {{ Request::is('myDashboard/pesanan/history') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/myDashboard/pesanan/history">
+                        <i class="align-middle" data-feather="activity"></i> 
+                        <span class="align-middle">History Pesanan</span>
+                    </a>
+                </li>
+
+            @endcan
+                  
             
             <li class="sidebar-header">
                 Laporan
             </li>
 
-            <li class="sidebar-item">
-                <a class="sidebar-link text-decoration-none" href="pages-sign-in.html">
-                    <i class="align-middle" data-feather="book"></i> 
-                    <span class="align-middle">Laporan</span>
+            @cannot('pelanggan')                            
+
+            <li class="sidebar-item {{ Request::is('laporanPelanggan') ? 'active' : '' }}">
+                <a class="sidebar-link text-decoration-none" href="/laporanPelanggan">
+                    <i class="align-middle" data-feather="file-text"></i> 
+                    <span class="align-middle">Laporan Pelanggan</span>
                 </a>
             </li>
 
-            <li class="sidebar-item">
-                <a class="sidebar-link text-decoration-none" href="pages-sign-in.html">
-                    <i class="align-middle" data-feather="activity"></i> 
-                    <span class="align-middle">History Laporan</span>
-                </a>
-            </li>
+            @endcannot
+            
+            @can('pelanggan')
+                
+                <li class="sidebar-item">
+                    <a class="sidebar-link text-decoration-none" href="pages-sign-in.html">
+                        <i class="align-middle" data-feather="book"></i> 
+                        <span class="align-middle">Laporan</span>
+                    </a>
+                </li>
+                
+                <li class="sidebar-item">
+                    <a class="sidebar-link text-decoration-none" href="pages-sign-in.html">
+                        <i class="align-middle" data-feather="activity"></i> 
+                        <span class="align-middle">History Laporan</span>
+                    </a>
+                </li>
+            
+            @endcan
+
+            @cannot('pelanggan')
+                
+                <li class="sidebar-header">
+                    Rekap
+                </li>
+                
+                <li class="sidebar-item {{ Request::is('myDashboard/pesanan/history') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/myDashboard/pesanan/history">
+                        <i class="align-middle" data-feather="clipboard"></i> 
+                        <span class="align-middle">Rekap Pesanan</span>
+                    </a>
+                </li>
+                
+                <li class="sidebar-item {{ Request::is('myDashboard/pesanan/history') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/myDashboard/pesanan/history">
+                        <i class="align-middle" data-feather="clipboard"></i> 
+                        <span class="align-middle">Rekap Transaksi</span>
+                    </a>
+                </li>
+            @endcannot
 
             {{--
             <li class="sidebar-item">

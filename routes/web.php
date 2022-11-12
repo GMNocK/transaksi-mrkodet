@@ -1,19 +1,22 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardTransController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardUsersController;
-use App\Http\Controllers\DataPelangganController;
-use App\Http\Controllers\FeedbackKaryawanController;
 use App\Http\Controllers\KaryawanController;
-use App\Http\Controllers\LaporanKaryawanController;
-use App\Http\Controllers\PesananController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ReportForAdminController;
-use App\Http\Middleware\Pelanggan;
+
+use App\Http\Controllers\Laporan\FeedbackKaryawanController;
+use App\Http\Controllers\Laporan\LaporanKaryawanController;
+use App\Http\Controllers\Laporan\ReportController;
+use App\Http\Controllers\Laporan\ReportForAdminController;
+
+use App\Http\Controllers\Data\PesananController;
+use App\Http\Controllers\Data\DataPelangganController;
+use App\Http\Controllers\Data\TransaksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,23 +31,25 @@ use App\Http\Middleware\Pelanggan;
 
 
 
-Route::get('/', [UserController::class, 'login'])->name('login')->middleware('guest');
-Route::post('/login' ,[UserController::class, 'loginAction']);
-Route::get('/register', [UserController::class, 'register'])->middleware('guest');
-Route::post('/register', [UserController::class, 'registerAction']);
+Route::middleware(['guest'])->group(function () {
+    
+    Route::get('/', [AuthController::class, 'login'])->name('login');
+    Route::post('/login' ,[UserController::class, 'loginAction']);
+    Route::get('/register', [UserController::class, 'register'])->name('register');
+    Route::post('/register', [UserController::class, 'registerAction']);
 
-Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
+    // FORGOT PASSWORD
+    Route::get('/forgot', [UserController::class, 'forgotPw'])->name('forgotPw');
+    Route::post('/forgotNext', [UserController::class, 'forgotGetEmail']);
+    Route::post('/forgotLast', [UserController::class, 'forgotGetLastPw']);
 
-// FORGOT PASSWORD
-Route::get('/forgot', [UserController::class, 'forgotPw'])->name('forgotPw');
-Route::post('/forgotNext', [UserController::class, 'forgotGetEmail']);
-Route::post('/forgotLast', [UserController::class, 'forgotGetLastPw']);
+    // RESET PASSWORD
+    Route::get('/resetPassword', [UserController::class, 'resetPw']);
+    Route::post('/resetPassword/action', [UserController::class, 'resetPwAction']);
+});
 
-// RESET PASSWORD
-Route::get('/resetPassword', [UserController::class, 'resetPw']);
-Route::post('/resetPassword/action', [UserController::class, 'resetPwAction']);
 
-// --------------------------------------------------------------------------------------------------
+
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard'); 
 
@@ -59,12 +64,6 @@ Route::resource('/transaksi/reports', ReportController::class)->middleware('auth
 // Route::resource('/laporankaryawans', LaporanKaryawanController::class)->middleware('auth');
 Route::resource('/laporankaryawans', LaporanKaryawanController::class)->middleware('auth');
 
-Route::get('/karyawan/laporanuser', [KaryawanController::class, 'pelangganReport'])->middleware('auth');
-
-Route::post('/karyawan/laporanuser/reply/{laporanPelanggan}', [KaryawanController::class, 'replyPelangganR'])->name('indexReply')->middleware('auth');
-
-// Route::post('/karyawan/laporanuser/reply', [KaryawanController::class, 'FeedbackKaryawan'])->middleware('auth');
-Route::resource('/karyawan/laporanuser/reply', FeedbackKaryawanController::class)->middleware('auth');
 
 Route::get('/admin/laporan/karyawan', [ReportForAdminController::class , 'indexKaryawan']);
 Route::get('/admin/laporan/karyawan/today', [ReportForAdminController::class , 'todayKaryawan']);
@@ -79,19 +78,39 @@ Route::get('/admin/laporan/pelanggan/thisMonth', [ReportForAdminController::clas
 Route::get('/admin/laporan/pelanggan/thisYear', [ReportForAdminController::class , 'thisYearPelanggan']);
 
 
-Route::resource('/dashboard/dataPelanggan', DataPelangganController::class)->middleware('auth');
 
-Route::post('/added/DataPelanggan', [DataPelangganController::class, 'FastAddedData'])->name('dpFasterAdd')->middleware('auth');
+// Route::post('/added/DataPelanggan', [DataPelangganController::class, 'FastAddedData'])->name('dpFasterAdd')->middleware('auth');
 
 
-Route::middleware(['pelanggan', 'auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     
-    Route::get('/myDashboard', function ()
-    {
-        return view('myDashboard.pages.dashboard');
+    Route::get('/myDashboard', [DashboardController::class, 'myDashboard'])->name('myDashboard');
+    
+    Route::middleware(['IsPelanggan'])->group(function () {
+        
+        Route::resource('/pesananSaya', PesananController::class)->only('index');
+        Route::resource('/pesanan', PesananController::class)->except('index');
+        
+        Route::get('/myDashboard/pesanan/history', [PesananController::class, 'history']);
+        
     });
-
-    Route::resource('/pelanggan/pesanan', PesananController::class);
-    Route::get('/myDashboard/pesanan/history', [PesananController::class, 'history']);
     
+    Route::middleware(['IsKaryawan', 'IsAdmin'])->group(function () {
+        Route::resource('/transaksi', TransaksiController::class);
+
+        Route::resource('/pesanan', PesananController::class)->only(['index','show']);
+        
+        Route::resource('/dataPelanggan', DataPelangganController::class);
+        
+        // Route::resource('/laporanPelanggan', LaporanKaryawanController::class);
+
+        
+        Route::get('/laporanPelanggan', [KaryawanController::class, 'pelangganReport']);
+        Route::post('/karyawan/laporanuser/reply/{laporanPelanggan}', [KaryawanController::class, 'replyPelangganR'])->name('indexReply');
+        
+        
+        Route::resource('/laporanPelanggan/Feedback', FeedbackKaryawanController::class);
+    });
+    
+    Route::post('/logout', [UserController::class, 'logout']);
 });

@@ -9,6 +9,9 @@ use App\Models\Karyawan;
 use App\Models\LaporanKaryawan;
 use App\Models\LaporanPelanggan;
 use App\Http\Controllers\Controller;
+use App\Models\Barang;
+use App\Models\Pesanan;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -47,5 +50,15 @@ class DashboardController extends Controller
                 'karyawan' => Karyawan::all()->count(),
             ]);
         }
+    }
+
+    public function myDashboard()
+    {
+        return view('myDashboard.pages.dashboard', [
+            'barang' => Barang::all()->count(),
+            'transaksi' => Transaksi::all()->count(),
+            'pelanggan' => Pelanggan::all()->count(),
+            'pesanan' => Pesanan::all(),
+        ]);
     }
 }

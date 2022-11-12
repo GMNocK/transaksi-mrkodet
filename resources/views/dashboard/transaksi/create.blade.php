@@ -47,6 +47,7 @@
                 </span>
             </div>
         </div>
+        
         <div class="table-responsive col-lg-11 mb-5">
             <table class="table table-striped table-sm table-hover" id="Keranjang">
                 <thead class="bg-secondary text-light px-3">

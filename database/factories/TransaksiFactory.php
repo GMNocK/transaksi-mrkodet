@@ -5,13 +5,13 @@ namespace Database\Factories;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TransaksiFactory extends Factory 
+class TransaksiFactory extends Factory
 {
     public function definition()
     {
         return [
             'tgl_transaksi' => $this->faker->date(),
-            'pelanggan_id' => mt_rand(1,5),
+            'pesanan' => $this->faker->boolean(),
             'total_harga' => 15000,
             'status' => $this->faker->name(),
             'tipe_bayar' => $this->faker->name(),

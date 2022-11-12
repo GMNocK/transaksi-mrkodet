@@ -10,7 +10,7 @@ class KaryawanController extends Controller
 {
      public function pelangganReport()
      {
-         return view('dashboard.karyawan.laporanpelanggan.index', [
+         return view('myDashboard.pages.karyawan.LPelanggan.Lpelanggan', [
             'laporanpelanggans' => LaporanPelanggan::orderBy('send_at', 'desc')->with('pelanggan')->paginate(3),
          ]);
      }

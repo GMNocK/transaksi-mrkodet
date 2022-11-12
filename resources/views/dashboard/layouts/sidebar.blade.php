@@ -17,6 +17,12 @@
 				Dashboard
 			</a>
         </li>
+        <li class="nav-item">
+			<a class="nav-link {{ Request::is('myDashboard') ? 'active' : '' }}" aria-current="page" href="/myDashboard">
+				<i class="fa fa-sliders me-2" aria-hidden="true"></i>
+				Dashboard Baru
+			</a>
+        </li>
 
 		@cannot('pelanggan')
         <li class="nav-item">

@@ -14,27 +14,30 @@ class BarangSeeder extends Seeder
             'nama_barang' => 'Basreng Pedas',
             'harga' => 60000,
             'keterangan' => "Keripik Basreng Dengan Bumbu Pedas Tersedia dalam Ukuran : 1.Kg ,1/2.Kg ,1/4.Kg ,Ukuran Rp.3000.",
+            'foto' => 'img/basrengPedas.jpg',
         ]);
         Barang::create([
             'nama_barang' => 'Basreng Balado',
             'harga' => 60000,
             'keterangan' => "Keripik Basreng Dengan Bumbu Balado Tersedia dalam Ukuran : 1.Kg ,1/2.Kg ,1/4.Kg ,Ukuran Rp.3000.",
+            'foto' => 'img/basrengBalado.jpg',
         ]);
         Barang::create([
             'nama_barang' => 'Basreng Asin',
             'harga' => 60000,
             'keterangan' => "Keripik Basreng Dengan Bumbu Asin Tersedia dalam Ukuran : 1.Kg ,1/2.Kg ,1/4.Kg ,Ukuran Rp.3000.",
+            'foto' => 'img/basrengAsin.jpg',
         ]);
         // Barang::create([
         //     'nama_barang' => 'Basreng Extra Pedas',
         //     'harga' => 60000,
         //     'keterangan' => "Keripik Basreng Dengan Bumbu Extra Pedas Tersedia dalam Ukuran : 1.Kg ,1/2.Kg ,1/4.Kg ,Ukuran Rp.3000",
         // ]);
-        Barang::create([
-            'nama_barang' => 'Sistik',
-            'harga' => 64000,
-            'keterangan' => "Sistik Renyah Dan Enak Tersedia dalam Ukuran : 1.Kg ,1/2.Kg ,1/4.Kg.",
-        ]);
+        // Barang::create([
+        //     'nama_barang' => 'Sistik',
+        //     'harga' => 64000,
+        //     'keterangan' => "Sistik Renyah Dan Enak Tersedia dalam Ukuran : 1.Kg ,1/2.Kg ,1/4.Kg.",
+        // ]);
 
         // Setengah Kilo
 

@@ -15,7 +15,7 @@ class Detail_TransaksiFactory extends Factory
     public function definition()
     {
         return [
-            'barang_id' => mt_rand(1,4),
+            'barang_id' => mt_rand(1,3),
             'transaksi_id' => mt_rand(1,10),
             'harga_satuan' => 15000,
             'ukuran' => '1/4 KG',

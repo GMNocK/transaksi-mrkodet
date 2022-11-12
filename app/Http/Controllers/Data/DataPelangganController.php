@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Data;
 
 use App\Models\Pelanggan;
 use App\Http\Controllers\Controller;
@@ -12,8 +12,8 @@ class DataPelangganController extends Controller
     
     public function index()
     {
-        return view('dashboard.dataPelanggan.index', [
-            'pelanggans' => Pelanggan::orderBy('id', 'asc')->paginate(12),
+        return view('myDashboard.pages.karyawan.dataPelanggan.DPelanggan', [
+            'pelanggans' => Pelanggan::orderByDesc('id')->with(['pesanan'])->paginate(10),
         ]);
     }
 

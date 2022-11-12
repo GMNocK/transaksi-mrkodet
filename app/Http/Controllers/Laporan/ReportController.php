@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Laporan;
 
 use App\Models\LaporanPelanggan;
 use App\Http\Controllers\Controller;

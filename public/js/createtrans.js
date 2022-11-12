@@ -14,11 +14,13 @@ const tBodyKeranjang = tblkeranjang.querySelector('tbody');
 
 // Masuk Ke DATABASE TRANSAKSI
 const totalBayar = document.getElementsByName('TotalBayar')[0];
-const InpCoba = document.querySelector('#cobaCoba');
+const PanjangDetail = document.querySelector('#banyakBarang');
+
+const statusInput = document.querySelector('#status');
 
 let spanIcon;
 
-let cobaCoba = [];
+let banyakBarangDikeranjang = [];
 
 totalBayar.value = "Rp.0";
 
@@ -64,10 +66,6 @@ function inputAtributSet(inpnb , inphb, inpub, inpqty, inpst, itemnb, itemqty, i
     inpub.classList.add('ukuran-barang');
     inpqty.classList.add('jumlah-beli');
     inpst.classList.add('sub-total');
-    
-    // var itu = "" + itemst.value;
-    // let ambil = itu.slice(3,itu.length);
-    // console.log(parseInt(ambil));
 
     inpnb.setAttribute('value', itemnb.value);
     inphb.setAttribute('value', 'Rp.60000');
@@ -81,9 +79,8 @@ function inputAtributSet(inpnb , inphb, inpub, inpqty, inpst, itemnb, itemqty, i
     inpqty.setAttribute('name', 'jumlah' + nomerBarang);
     inpst.setAttribute('name', 'subtotal' + nomerBarang);
 
-    cobaCoba.push(nomerBarang);
-    InpCoba.value = cobaCoba;
-    console.log(cobaCoba);
+    banyakBarangDikeranjang.push(nomerBarang);
+    PanjangDetail.value = banyakBarangDikeranjang;
     nomerBarang++;
 }
 
@@ -107,7 +104,6 @@ function addToKeranjang() {
 
     const tdAksi = document.createElement('td');
     
-    const FaDelete = document.createElement('span');
     
     inputAtributSet(
         NamBarInput, HarBarInput, ukuranInput, qtyInput, subtotalInput,
@@ -132,7 +128,7 @@ function addToKeranjang() {
             if (tdInambar != null && tdIukbar.value != null) {
 
                 if (tdInambar.value == NamBarInput.value && tdIukbar.value == ukuranInput.value) {
-                    tdIqty.value = parseInt(tdIqty.value) + 1;
+                    tdIqty.value = parseInt(tdIqty.value) + parseInt(qtyFromList.value);
                     
                     tdIsubtot.value = "Rp."+ (hasilSubtot + parseInt(subtot));
 
@@ -148,11 +144,11 @@ function addToKeranjang() {
         
         // BUAT FORM INPUT UNTUK KE DATABASE DETAIL BARANG
     
+        iconDltMaker(tdAksi)
         
-        tdAksi.appendChild(FaDelete);
+        // tdAksi.appendChild(IconDelete);
         tdAksi.classList.add('text-center');
     
-        iconDltMaker(FaDelete)
     
         const tr = document.createElement('tr');
     
@@ -203,9 +199,9 @@ function addToKeranjang() {
     
     let getTotalBayar = ""+ totalBayar.value;
     let hasilTotalBayar = parseInt(getTotalBayar.slice(3,getTotalBayar.length));
-    console.log(hasilTotalBayar + "   " + getTotalBayar);
+
     totalBayar.value = "Rp." + (subtot + hasilTotalBayar);
-    spanIcon = document.querySelectorAll('span.fa');
+    spanIcon = document.querySelectorAll('i.fa');
     
     spanIcon.forEach((item) => {
         item.addEventListener('click', DeleteItemTblKer);
@@ -215,12 +211,20 @@ function addToKeranjang() {
 }
 
 
-function iconDltMaker(span) {
-    span.classList.add('fa');
-    span.classList.add('fa-trash-alt');
-    span.classList.add('text-center');
+function iconDltMaker(td) {
+    const icon = document.createElement('i');
 
-    span.style.cursor = 'pointer';
+    // icon.classList.add('align-middle');
+    // icon.setAttribute('data-feather', 'eye');
+
+    // KALAU PAKE Font Awesome
+    icon.classList.add('fa');
+    icon.classList.add('fa-trash-alt');
+    icon.classList.add('text-center');
+
+    icon.style.cursor = 'pointer';
+
+    td.appendChild(icon);
 }
 
 
@@ -231,12 +235,11 @@ function DeleteItemTblKer() {
     let parentA = this.parentNode;
     let tblRow = parentA.parentNode;
     
-    
+
+    // return console.log(parentA);
     const tdSubTotal = tblRow.querySelector('td.subTotal');
     const inputSubTot = tdSubTotal.querySelector('input');
-    
-    // console.log(inputSubTot);
-    
+
     let getTotal = "" + totalBayar.value;
     let total = parseInt(getTotal.slice(3,getTotal.length));
 
@@ -279,17 +282,17 @@ function GetSubTotal() {
         
     }
 
-    let subtotalVar = ukuranIni * qty.value
+    let subtotalVar = ukuranIni * qty.value;
     let ini = "" + subtotalVar;
-    console.log("Panjang huruf : "+ ini.length);
+
     subTotal.value = "Rp."+subtotalVar;
     btnTokeranjang.addEventListener('click', addToKeranjang);
 }
 
 
-const btnAddToKeranjang = document.querySelector('#btnAddBarangToKeranjangModal');
+const btnAddToKeranjangModal = document.querySelector('#btnAddBarangToKeranjangModal');
 
-btnAddToKeranjang.addEventListener('click', () => {
+btnAddToKeranjangModal.addEventListener('click', () => {
     const namaBarang = RowAddQty.querySelector('#NamBarList');
     const qtyFromList = RowAddQty.querySelector('#iniQty');
     const UkuranBarang = RowAddQty.querySelector('#pilihanUkuran');
@@ -311,7 +314,6 @@ btnAddToKeranjang.addEventListener('click', () => {
 
     let subtotalVar = ukuranIni * qtyFromList.value;
     let ini = "" + subtotalVar;
-    console.log("Panjang huruf : "+ ini.length);
 
     SubTotalFromInp.value = "Rp."+subtotalVar;
 
@@ -320,4 +322,13 @@ btnAddToKeranjang.addEventListener('click', () => {
     qtyFromList.addEventListener('change', GetSubTotal); 
 });
 
+statusInput.addEventListener('change', () => {
+    const tipeBayar = document.querySelector('#tipe_bayar');
 
+    if (statusInput.value == 'cashbond') { 
+        tipeBayar.setAttribute('disabled', '');
+        tipeBayar.setAttribute('value', 'null');
+    } else {
+        tipeBayar.removeAttribute('disabled');
+    }
+});

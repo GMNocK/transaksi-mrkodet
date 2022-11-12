@@ -121,9 +121,21 @@
 
 <script src="{{ asset('js/DashboardChart.js') }}"></script>
 
-<script src="{{ asset('js/mySweetAlert.js') }}"></script>
 
-  
+
+@if (session('loginOk'))
+    <script src="{{ asset('js/mySweetAlert.js') }}"></script>
+    <script>
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Selamat Datang {{ auth()->user()->username }}',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+@endif
+
   
 
 @endsection
