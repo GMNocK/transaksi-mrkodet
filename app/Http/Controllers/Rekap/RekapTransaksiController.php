@@ -13,7 +13,7 @@ class RekapTransaksiController extends Controller
     public function index()
     {
         return view('myDashboard.pages.karyawan.Rekap.RTransaksi',[
-            'transaksi' => Transaksi::paginate(3),
+            'transaksi' => Transaksi::whereDate('tgl_transaksi', date('Y-m-d'))->orderByDesc('tgl_transaksi')->paginate(5),
         ]);
     }
 

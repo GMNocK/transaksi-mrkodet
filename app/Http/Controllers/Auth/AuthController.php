@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\Echo_;
 
 class AuthController extends Controller
 {
@@ -25,6 +26,7 @@ class AuthController extends Controller
         ]);
 
         $validateData['password'] = bcrypt($validateData['password']);
+
         User::create($validateData);
 
         $dataPelBaru = User::orderByDesc('id')->limit(1)->get('id');
@@ -32,25 +34,9 @@ class AuthController extends Controller
         $pelanggansData['nama'] = $validateData['username'];
         $pelanggansData['user_id'] = $dataPelBaru[0]->id;
         $pelanggansData;
+
         Pelanggan::create($pelanggansData);
-
-        // $credentials['email'] = $validateData['email'];
-        // $credentials['password'] = $validateData['password'];
-
-        // $level = User::where('email', $credentials['email'])->get('level');
         
-        // $credentials['level'] = $level;
-
-        // if (Auth::attempt($credentials)) {                
-
-        //     $request->session()->regenerate();
-        //     return redirect()->intended('/dashboard');
-            
-        // } elseif (Auth::check()) {
-
-        //     return redirect('/dashboard');
-            
-        // }
 
         return redirect(route('login'))->with('success', 'Register SuccessFully. Please Login!');
     }
@@ -98,6 +84,7 @@ class AuthController extends Controller
     {
         return view('auth.resetPw');
     }
+
     public function resetPwAction(Request $request)
     {
         $validateData = $request->validate([
@@ -121,8 +108,6 @@ class AuthController extends Controller
             return redirect('/resetPassword')->with('error', 'Email Not Match');
         }        
     }
-
-
 
 
     public function forgotPw()
@@ -189,5 +174,24 @@ class AuthController extends Controller
             return abort(403);
         }
 
+    }
+
+    public function profile()
+    {
+        $dPelanggan = Pelanggan::where('user_id', auth()->user()->id)->get();
+        
+        return view('myDashboard.pages.Auth.profile', [
+            'data' => $dPelanggan,
+            'user' => auth()->user(), 
+        ]);
+    }
+
+    public function profileUpdate(Request $request, Pelanggan $pelanggan)
+    {
+        $validateData = $request->except('_token');
+
+        $pelanggan->update($validateData);
+
+        return redirect('/myDashboard')->with('succes','Berhasil Di simpan');
     }
 }

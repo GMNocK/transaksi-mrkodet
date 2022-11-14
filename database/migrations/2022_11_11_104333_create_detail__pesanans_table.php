@@ -12,8 +12,9 @@ class CreateDetailPesanansTable extends Migration
             $table->foreignId('pesanan_id')->constrained()->cascadeOnDelete();
             $table->foreignId('barang_id')->constrained()->cascadeOnDelete();
             $table->integer('hargaPerKg');
+            $table->string('ukuran', 10);
             $table->integer('jumlahPesan');
-            $table->integer('subTotal');
+            $table->integer('subtotal');
             $table->timestamps();
         });
     }

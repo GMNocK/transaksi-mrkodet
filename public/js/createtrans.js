@@ -66,6 +66,10 @@ function inputAtributSet(inpnb , inphb, inpub, inpqty, inpst, itemnb, itemqty, i
     inpub.classList.add('ukuran-barang');
     inpqty.classList.add('jumlah-beli');
     inpst.classList.add('sub-total');
+    
+    inpub.classList.add('w-100');
+    inpqty.classList.add('w-100');
+
 
     inpnb.setAttribute('value', itemnb.value);
     inphb.setAttribute('value', 'Rp.60000');
@@ -229,9 +233,7 @@ function iconDltMaker(td) {
 
 
 function DeleteItemTblKer() {
-    spanIcon.forEach((item) => {
-      item.classList.remove('d-none');
-    });
+    
     let parentA = this.parentNode;
     let tblRow = parentA.parentNode;
     

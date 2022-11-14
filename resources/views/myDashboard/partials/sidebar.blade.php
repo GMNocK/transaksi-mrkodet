@@ -3,7 +3,7 @@
 
         <a class="sidebar-brand d-flex align-items-center py-1" href="/myDashboard/">
             <div class="img navbar-brand py-2">
-                <img src="{{ asset('img/logo.png') }}" alt="." width="40px" class="me-3 rounded">
+                <img src="{{ asset('img/logo.png') }}" alt="." width="40px" class="me-3 avatar img-fluid rounded me-1">
             </div>
             <span class="align-middle">Mr. Kodet</span>
         </a>
@@ -32,8 +32,8 @@
                         <span class="align-middle">Data Transaksi</span>
                     </a>
                 </li>            
-                <li class="sidebar-item {{ Request::is('pesanan*') ? 'active' : '' }}">
-                    <a class="sidebar-link text-decoration-none" href="/pesanan">
+                <li class="sidebar-item {{ Request::is('pesananPelanggan*') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/pesananPelanggan">
                         <i class="align-middle" data-feather="book"></i> 
                         <span class="align-middle">Data Pesanan</span>
                     </a>
@@ -54,7 +54,7 @@
                     Pesanan
                 </li>
 
-                <li class="sidebar-item {{ Request::is('pesananSaya*') ? 'active' : '' }}">
+                <li class="sidebar-item {{ Request::is('pesananSaya*') ? 'active' : '' }} {{ Request::is('pesanan*') ? 'active' : '' }}">
                     <a class="sidebar-link text-decoration-none" href="/pesananSaya">
                         <i class="align-middle" data-feather="shopping-bag"></i> 
                         <span class="align-middle">Pesan</span>
@@ -196,7 +196,7 @@
                     You not Have Finish Answer Your Identity
                 </div>
                 <div class="d-grid">
-                    <a href="/dashboard/profile" class="btn btn-primary">Profile</a>
+                    <a href="/auth/profile" class="btn btn-primary">Profile</a>
                 </div>
             </div>
         </div>

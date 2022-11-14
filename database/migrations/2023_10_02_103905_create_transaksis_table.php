@@ -15,8 +15,8 @@ class CreateTransaksisTable extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('pesanan_id')->nullable();
             $table->date('tgl_transaksi');
-            $table->boolean('pesanan')->nullable();
             $table->integer('total_harga');
             $table->string('status');
             $table->string('tipe_bayar');

@@ -4,8 +4,9 @@
     
 <nav class="breadcrumb mb-4 col-md-12 justify-content-between">
     <div>
-        <a class="breadcrumb-item" href="#">myDashBoard</a>
-        <span class="breadcrumb-item active">Transaksi</span>
+        <a class="breadcrumb-item" href="/myDashboard">myDashBoard</a>
+        <a class="breadcrumb-item" href="/pesananPelanggan">Pesanan</a>
+        <span class="breadcrumb-item active">Rekap</span>
     </div>
 
     <div class="d-flex align-items-center breadcrumb-item active me-2">
@@ -19,21 +20,11 @@
     <div class="card flex-fill">
         <div class="card-header">
             <div class="col-md-4 mt-1">
-
-                @can('karyawan')
-                    
-                {{-- <a href="/transaksi/create" class="link-secondary d-flex align-items-center">
-                    <i class="align-middle me-1 link-secondary" data-feather="plus-circle"></i>
-                    <h6 class="card-title mb-0 link-secondary">Tambah Transaksi</h6>
-                </a> --}}
-                <h2>
-                    <a href="transaksi/create" class="text-center btn btn-outline-secondary">
-                        <i class="align-middle me-1 mb-1" data-feather="plus-circle"></i>
-                        {{-- <i class="fa fa-plus-circle me-2" aria-hidden="true"></i> --}}
-                        Buat Transaksi Baru
-                    </a>
-                </h2>
-                @endcan
+                
+                <a href="#" class="link-secondary d-flex align-items-center">
+                    <i class="align-middle me-1 link-secondary" data-feather="clipboard"></i>
+                    <h6 class="card-title mb-0 link-secondary">Rekap Pesanan Hari Ini</h6>
+                </a>
             </div>
         </div>
 
@@ -73,9 +64,9 @@
 
                     @foreach ($pesanan as $t)
                     <tr>
-                        <td>{{ $t->pesanan }}</td>
+                        <td>{{ $t->waktu_pesan }}</td>
                         <td>Rp.{{ $t->total_harga }}</td>
-                        <td>{{ $t->pencatat }}</td>
+                        <td>{{ $t->tipe_kirim }}</td>
                         <td class="text-center">
                             <span class="badge {{ $t->pesanan == '0' ? 'bg-danger' : 'bg-success' }} p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
                                 {{ $t->pesanan == '0' ? 'Offline' : 'Online' }}

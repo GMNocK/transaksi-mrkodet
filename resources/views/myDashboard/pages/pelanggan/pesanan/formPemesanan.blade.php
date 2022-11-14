@@ -27,89 +27,91 @@
 
 <br class="my-1">
 
-<div class="card flex-fill mt-4 p-1">
-    <div class="card-header">
-        <div class="ms-2 col-md-4">
-            <a href="#topContent" class="link-secondary d-flex align-items-center">
-                <i class="align-middle me-1 link-secondary" data-feather="plus-circle"></i>
-                <h6 class="card-title mb-0 link-secondary">Barang Barang</h6>
-            </a>
+<form action="/pesanan" method="post">
+@csrf
+    <div class="card flex-fill mt-4 p-1">
+        <div class="card-header">
+            <div class="ms-2 col-md-4">
+                <a href="#topContent" class="link-secondary d-flex align-items-center">
+                    <i class="align-middle me-1 link-secondary" data-feather="plus-circle"></i>
+                    <h6 class="card-title mb-0 link-secondary">Barang Barang</h6>
+                </a>
+            </div>
+        </div>
+
+        <div class="table-responsive col-12 mb-3">
+            <table class="table table-hover my-0 table-borderless table-striped" id="Keranjang">
+                <thead class="bg-secondary text-white shadow-sm">
+                    <tr>
+                        <th scope="col" class="text-center" style="width: 180px">Barang</th>
+                        <th scope="col" class="text-center">Harga / Kg</th>
+                        <th scope="col" class="text-center">Ukuran</th>
+                        <th scope="col" class="text-center">Jumlah</th>
+                        <th scope="col" class="text-center">Sub Total</th>
+                        <th scope="col" class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{-- <tr>
+                        <td>Project Apollo</td>
+                        <td class="">01/01/2021</td>
+                        <td class="">31/06/2021</td>
+                        <td><span class="badge bg-success">Done</span></td>
+                        <td class="">Vanessa Tucker</td>
+                    </tr> --}}
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <div class="table-responsive col-12 mb-3">
-        <table class="table table-hover my-0" id="Keranjang">
-            <thead class="bg-secondary text-white shadow-sm">
-                <tr>
-                    <th scope="col">Barang</th>
-                    <th scope="col" class="">Harga / Kg</th>
-                    <th scope="col" class="text-center">Ukuran</th>
-                    <th scope="col" class="text-center">Jumlah</th>
-                    <th scope="col" class="">Sub Total</th>
-                    <th scope="col" class="">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{-- <tr>
-                    <td>Project Apollo</td>
-                    <td class="">01/01/2021</td>
-                    <td class="">31/06/2021</td>
-                    <td><span class="badge bg-success">Done</span></td>
-                    <td class="">Vanessa Tucker</td>
-                </tr> --}}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="col-md-6 d-flex">
-    <div class="card flex-fill p-2">
-        <div class="row mt-4">
-            <div class="col-md-12 d-flex align-items-center justify-content-center ">
-                <label for="" class="fs-6 col-5 ">Total Bayar</label>
-                <input type="text" readonly name="TotalBayar" class="form-control " value="0">
+    <div class="col-md-6 d-flex">
+        <div class="card flex-fill p-2">
+            <div class="row mt-4">
+                <div class="col-md-12 d-flex align-items-center justify-content-center ">
+                    <label for="" class="fs-6 col-5 ">Total Bayar</label>
+                    <input type="text" readonly name="TotalBayar" class="form-control" id="TotalBayar" value="Rp.0">
+                </div>
             </div>
-        </div>
-    
-        <div class="row my-2">
-            <div class="col-md-12 d-flex align-items-center justify-content-center ">
-                <label for="" class="fs-6 col-5 ">Status Transaksi</label>
-                {{-- <input type="text" name="" class="form-control " value="0"> --}}
-                <select name="status" id="status" class="form-control">
-                    <option value="lunas">Lunas</option>
-                    <option value="cashbond">Cashbond</option>
-                </select>
+            
+            <div class="row my-2">
+                <div class="col-md-12 d-flex align-items-center justify-content-center ">
+                    <label for="" class="fs-6 col-5 ">Pengambilan Barang</label>
+                    <select name="tipePengiriman" id="pengiriman" class="form-control">
+                        <option value="kirim">Kirim ke Rumah</option>
+                        <option value="ambil">Ambil Di Toko</option>
+                    </select>
+                </div>
             </div>
-        </div>
-    
-        <div class="row my-2">
-            <div class="col-md-12 d-flex align-items-center justify-content-center ">
-                <label for="" class="fs-6 col-5 ">Tipe Pembayaran</label>
-                <select name="tipe_bayar" id="tipe_bayar" class="form-control">
-                    <option value="cod">COD / Bayar Ditempat</option>
-                    <option value="transfer">Transfer</option>
-                </select>
+            
+            <div class="row my-2">
+                <div class="col-md-12 d-flex align-items-center justify-content-center ">
+                    <label for="" class="fs-6 col-5 ">Tipe Pembayaran</label>
+                    <select name="tipe_bayar" id="tipe_bayar" class="form-control">
+                        <option value="cod">COD / Bayar Ditempat</option>
+                        <option value="transfer">Transfer</option>
+                    </select>
+                </div>
             </div>
-        </div>
-    
-        <input type="hidden" name="PanjangtblKeranjang" id="banyakBarang">
-    
-        <div class="row">
-            <div class="col-md-12">
-                <input type="submit" value="Tambah" class="btn btn-outline-primary my-3 w-100">           
+            
+            <input type="hidden" name="PanjangtblKeranjang" id="banyakBarang">
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="submit" value="Tambah" class="btn btn-outline-primary my-3 w-100">           
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
 
 
 <div class="modal fade" id="addBarangModal" aria-labelledby="addBarangModalLabel" aria-hidden="true">
-    <div class="modal-dialog col-md-5 col-lg-6 col-10 modal-dialog-centered bg-danger">
-      <div class="modal-content rounded-3 rounded-bottom">
-        <div class="modal-header bg-dark bg-opacity-75 rounded-2 rounded-bottom">
-            <h1 class="modal-title fs-4 fw-semibold text-white" id="addBarangModalLabel">Tambah Barang</h1>
-            <button type="button" class="btn-close btn-close-white" aria-label="Close" data-bs-dismiss="modal"></button>
-            {{-- <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+    <div class="modal-dialog col-md-5 col-lg-6 col-10 modal-dialog-centered">
+        <div class="modal-content rounded-3 rounded-bottom">
+            <div class="modal-header bg-dark bg-opacity-75 rounded-2 rounded-bottom">
+                <h1 class="modal-title fs-4 fw-semibold text-white" id="addBarangModalLabel">Tambah Barang</h1>
+                <button type="button" class="btn-close btn-close-white" aria-label="Close" data-bs-dismiss="modal"></button>
+                {{-- <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button> --}}
         </div>
         <div class="modal-body">
             <form>
@@ -145,6 +147,45 @@
 @can('pelanggan')
     <script src="{{ asset('js/formPelangganPesan.js') }}"></script>
 @endcan
+
+@if (session('IsNull'))
+    <script>
+        Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Pemesanan tidak bisa dilakukan',
+            showConfirmButton: false,
+            timer: 1400
+        });
+
+        setTimeout(() => {
+            Swal.fire({
+                position: 'center',
+                icon: 'info',
+                title: 'Silahkan isi identitas lengkap di profile',
+            }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                window.location = '/auth/profile';
+            } else if (result.isDenied) {
+                Swal.fire('Pemesanan Bisa dilakukan dengan identitas jelas')
+            }
+            });
+        }, 2000);
+    </script>
+@endif
+
+@if ($errors->any())
+    <script>
+        Swal.fire({
+            position: 'top',
+            icon: 'error',
+            title: 'keranjang Kosong',
+            showConfirmButton: false,
+            timer: 1400
+        });
+    </script>
+@endif
 
 
 @endsection

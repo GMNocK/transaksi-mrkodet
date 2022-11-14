@@ -11,8 +11,9 @@ class RekapPesananController extends Controller
     
     public function index()
     {
+        // return Pesanan::whereDate('waktu_pesan', date('Y-m-d'))->get();
         return view('myDashboard.pages.karyawan.Rekap.RPesanan', [
-            'pesanan' => Pesanan::paginate(2),
+            'pesanan' => Pesanan::whereDate('waktu_pesan', date('Y-m-d'))->paginate(5),
         ]);
     }
 

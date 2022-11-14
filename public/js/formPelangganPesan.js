@@ -4,6 +4,16 @@ const btnToKeranjang = document.querySelector('#AdToKeranjang');
 
 const tBodyKeranjang = document.querySelector('#Keranjang tbody')
 
+const totalBayar = document.querySelector('#TotalBayar');
+totalBayar.value = 'Rp.0';
+
+
+const PanjangDetail = document.querySelector('#banyakBarang');
+
+let nomerBarang = 1;
+let banyakBarangDikeranjang = [];
+let spanIcon;
+
 function ModalBarang() {
     
     const ambilParent = this.parentNode;
@@ -87,8 +97,7 @@ function GetSubTotal() {
     let subtotalVar = ukuranIni * qty.value;
     let ini = "" + subtotalVar;
     
-    const btnToKeranjang = document.querySelectorAll('#AdToKeranjang');
-    console.log(btnToKeranjang);
+    const btnToKeranjang = document.querySelector('#AdToKeranjang');
     subTotal.value = "Rp."+subtotalVar;
     btnToKeranjang.addEventListener('click', addToKeranjang);
 }
@@ -102,18 +111,51 @@ function addIconTblkeranjang(tdIconEdit) {
     icon.classList.add('fa');
     icon.classList.add('fa-trash-alt');
     icon.classList.add('link');
+
+    icon.style.cursor = 'pointer';
     
     tdIconEdit.appendChild(icon);
 }
 
+function DeleteItemTblKer() {
+    
+    spanIcon.forEach((item) => {
+        item.classList.remove('d-none');
+    });
+    let parentA = this.parentNode;
+    let tblRow = parentA.parentNode;
+    
+    
+    // return console.log(parentA);
+    const inputSubTot = tblRow.querySelector('td .sub-total');
+    // const inputSubTot = tdSubTotal.querySelector('input');
+
+    let getTotal = "" + totalBayar.value;
+    let total = parseInt(getTotal.slice(3,getTotal.length));
+
+    let getSubTot = inputSubTot.value + "";
+    let subTot = parseInt(getSubTot.slice(3, getSubTot.length));
+    totalBayar.value = "Rp."+ (total - subTot);
+    
+    tBodyKeranjang.removeChild(tblRow);
+
+
+    const isiTblKer = tBodyKeranjang.querySelectorAll('tr');
+    
+    if (isiTblKer.length == 0) {
+        banyakBarangDikeranjang = [];
+        PanjangDetail.value = [];
+    }
+}
+
 function addAtributTd(tdNo, tdNambar, tdHarSat, tdUkBar, tdJmlBar, tdSubTot) {
     
-    // tdNo.classList.add('text-center');
-    // tdNambar.classList.add('text-center');
-    // tdHarSat.classList.add('text-center');
-    // tdUkBar.classList.add('text-center');
-    // tdJmlBar.classList.add('text-center');
-    // tdSubTot.classList.add('text-center');
+    tdNo.classList.add('text-center');
+    tdNambar.classList.add('text-center');
+    tdHarSat.classList.add('text-center');
+    tdUkBar.classList.add('text-center');
+    tdJmlBar.classList.add('text-center');
+    tdSubTot.classList.add('text-center');
 }
 
 function addAtributInput(InpNamBar, InpHarSatuan, InpUkuranBar, InpJmlBar, InpSubTot) {
@@ -133,11 +175,11 @@ function addAtributInput(InpNamBar, InpHarSatuan, InpUkuranBar, InpJmlBar, InpSu
     InpJmlBar.classList.add('text-dark');
     InpSubTot.classList.add('text-dark');
 
-    // InpNamBar.classList.add('text-center');
-    // InpHarSatuan.classList.add('text-center');
+    InpNamBar.classList.add('text-center');
+    InpHarSatuan.classList.add('text-center');
     InpUkuranBar.classList.add('text-center');
     InpJmlBar.classList.add('text-center');
-    // InpSubTot.classList.add('text-center');
+    InpSubTot.classList.add('text-center');
 
     InpNamBar.classList.add('border-0');
     InpHarSatuan.classList.add('border-0');
@@ -156,7 +198,22 @@ function addAtributInput(InpNamBar, InpHarSatuan, InpUkuranBar, InpJmlBar, InpSu
     InpUkuranBar.classList.add('ukuran-barang');
     InpJmlBar.classList.add('jumlah-beli');
     InpSubTot.classList.add('sub-total');
+    
+    InpUkuranBar.classList.add('w-100');
+    InpJmlBar.classList.add('w-100');
+    
+    InpNamBar.setAttribute('name', "BR" + nomerBarang);
+    InpHarSatuan.setAttribute('name', 'harga' + nomerBarang);
+    InpUkuranBar.setAttribute('name', 'ukuran' + nomerBarang);
+    InpJmlBar.setAttribute('name', 'jumlah' + nomerBarang);
+    InpSubTot.setAttribute('name', 'subtotal' + nomerBarang);
+    
+    InpNamBar.style.width = '180px';
 
+
+    banyakBarangDikeranjang.push(nomerBarang);
+    PanjangDetail.value = banyakBarangDikeranjang;
+    nomerBarang++;
 }
 
 function addValueInp(InpNamBar, InpHarSatuan, InpUkuranBar, InpJmlBar, InpSubTot, subtotalvalue) {
@@ -166,10 +223,10 @@ function addValueInp(InpNamBar, InpHarSatuan, InpUkuranBar, InpJmlBar, InpSubTot
     const isijml = document.querySelector('#iniQty');
 
     InpNamBar.setAttribute('value', isinambar.value);
-    InpHarSatuan.setAttribute('value', 60000);
+    InpHarSatuan.setAttribute('value', 'Rp.' + 60000);
     InpUkuranBar.setAttribute('value', isiukbar.value);
     InpJmlBar.setAttribute('value', isijml.value);
-    InpSubTot.setAttribute('value', subtotalvalue);
+    InpSubTot.setAttribute('value', 'Rp.'+subtotalvalue);
 }
 
 function addToKeranjang() {
@@ -213,7 +270,6 @@ function addToKeranjang() {
             const tdIqty = item.querySelector('td .jumlah-beli');
             const tdIsubtot = item.querySelector('td .sub-total');
             
-            console.log(tdIsubtot);
             // Ambil Angka dari subtot
             let subtotKeranjang = "" + tdIsubtot.value;
             let hasilSubtot = parseInt(subtotKeranjang.slice(3,subtotKeranjang.length));
@@ -223,9 +279,9 @@ function addToKeranjang() {
                 if (tdInambar.value == InpNamBar.value && tdIukbar.value == InpUkuranBar.value) {
                     tdIqty.value = parseInt(tdIqty.value) + 1;
                     
-                    tdIsubtot.value = "Rp."+ (hasilSubtot + parseInt(dariSubtot));
+                    tdIsubtot.value = "Rp."+ (hasilSubtot + parseInt(subtot));
 
-                    buat = 0;               
+                    buat = 0;        
                 }
 
             } 
@@ -256,7 +312,13 @@ function addToKeranjang() {
 
     let getTotalBayar = ""+ totalBayar.value;
     let hasilTotalBayar = parseInt(getTotalBayar.slice(3,getTotalBayar.length));
-    console.log(hasilTotalBayar + "   " + getTotalBayar);
     totalBayar.value = "Rp." + (subtot + hasilTotalBayar);
+
+    spanIcon = document.querySelectorAll('i.fa');
+    
+    spanIcon.forEach((item) => {
+        item.addEventListener('click', DeleteItemTblKer);
+    });
 }
+
 

@@ -40,7 +40,7 @@ function GetSubTotal() {
 
     let subtotalVar = ukuranIni * qty.value
 
-    subTotal.value = subtotalVar;
+    subTotal.value = 'Rp.' + subtotalVar;
 }
 
 
@@ -73,7 +73,7 @@ function addToKeranjang() {
 
     addAtributInput( InpNamBar, InpHarSatuan, InpUkuranBar, InpJmlBar, InpSubTot);
 
-    addValueInp(InpNamBar, InpHarSatuan, InpUkuranBar, InpJmlBar, InpSubTot, isisubtot);
+    addValueInp(InpNamBar, InpHarSatuan, InpUkuranBar, InpJmlBar, InpSubTot, subtot);
 
     const isiTblKer = tBodyKeranjang.querySelectorAll('tr');
 
@@ -95,7 +95,7 @@ function addToKeranjang() {
                 if (tdInambar.value == InpNamBar.value && tdIukbar.value == InpUkuranBar.value) {
                     tdIqty.value = parseInt(tdIqty.value) + 1;
                     
-                    tdIsubtot.value = "Rp."+ (hasilSubtot + parseInt(dariSubtot));
+                    tdIsubtot.value = "Rp."+ (hasilSubtot + parseInt(subtot));
 
                     buat = 0;               
                 }
@@ -128,7 +128,6 @@ function addToKeranjang() {
 
     let getTotalBayar = ""+ totalBayar.value;
     let hasilTotalBayar = parseInt(getTotalBayar.slice(3,getTotalBayar.length));
-    console.log(hasilTotalBayar + "   " + getTotalBayar);
     totalBayar.value = "Rp." + (subtot + hasilTotalBayar);
 }
 
@@ -207,10 +206,10 @@ function addValueInp(InpNamBar, InpHarSatuan, InpUkuranBar, InpJmlBar, InpSubTot
     const isijml = document.querySelector('#iniQty');
 
     InpNamBar.setAttribute('value', isinambar.value);
-    InpHarSatuan.setAttribute('value', 60000);
+    InpHarSatuan.setAttribute('value', 'Rp.'+60000);
     InpUkuranBar.setAttribute('value', isiukbar.value);
     InpJmlBar.setAttribute('value', isijml.value);
-    InpSubTot.setAttribute('value', subtotalvalue);
+    InpSubTot.setAttribute('value', 'Rp.'+subtotalvalue);
 }
 
 

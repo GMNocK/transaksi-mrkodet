@@ -77,13 +77,17 @@
                                 1
                             </td>
                             <td class="text-center">
-                                <input type="text" value="Basreng Pedas" readonly class="text-dark text-center border-0 bg-transparent">
+                                <input type="text" value="Basreng Pedas" readonly 
+                                    class="text-dark text-center border-0 bg-transparent"
+                                >
                             </td>
                             <td class="text-center">
                                 <input type="text" value="Rp.60.000" readonly class="text-dark text-center border-0 bg-transparent">
                             </td>
                             <td class="text-center">
-                                <input type="text" value="1 Kg." readonly class="text-dark text-center border-0 bg-transparent">
+                                <input type="text" value="1 Kg." readonly 
+                                    class="text-dark text-center border-0 bg-transparent w-100"
+                                >
                             </td>
                             <td class="text-center">
                                 <input type="text" value="10" readonly class="text-dark text-center border-0 bg-transparent">

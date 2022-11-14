@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardTransController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardUsersController;
 use App\Http\Controllers\KaryawanController;
-use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Laporan\FeedbackKaryawanController;
 use App\Http\Controllers\Laporan\LaporanKaryawanController;
@@ -21,6 +21,7 @@ use App\Http\Controllers\Data\TransaksiController;
 use App\Http\Controllers\Rekap\RekapPesananController;
 use App\Http\Controllers\Rekap\RekapLPelangganController;
 use App\Http\Controllers\Rekap\RekapTransaksiController;
+use Psy\TabCompletion\AutoCompleter;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,18 +39,18 @@ use App\Http\Controllers\Rekap\RekapTransaksiController;
 Route::middleware(['guest'])->group(function () {
     
     Route::get('/', [AuthController::class, 'login'])->name('login');
-    Route::post('/login' ,[UserController::class, 'loginAction']);
-    Route::get('/register', [UserController::class, 'register'])->name('register');
-    Route::post('/register', [UserController::class, 'registerAction']);
+    Route::post('/login' ,[AuthController::class, 'loginAction']);
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/register', [AuthController::class, 'registerAction']);
 
     // FORGOT PASSWORD
-    Route::get('/forgot', [UserController::class, 'forgotPw'])->name('forgotPw');
-    Route::post('/forgotNext', [UserController::class, 'forgotGetEmail']);
-    Route::post('/forgotLast', [UserController::class, 'forgotGetLastPw']);
+    Route::get('/forgot', [AuthController::class, 'forgotPw'])->name('forgotPw');
+    Route::post('/forgotNext', [AuthController::class, 'forgotGetEmail']);
+    Route::post('/forgotLast', [AuthController::class, 'forgotGetLastPw']);
 
     // RESET PASSWORD
-    Route::get('/resetPassword', [UserController::class, 'resetPw']);
-    Route::post('/resetPassword/action', [UserController::class, 'resetPwAction']);
+    Route::get('/resetPassword', [AuthController::class, 'resetPw']);
+    Route::post('/resetPassword/action', [AuthController::class, 'resetPwAction']);
 });
 
 
@@ -103,13 +104,14 @@ Route::middleware(['auth'])->group(function () {
     
     Route::middleware(['IsKaryawan', 'IsAdmin'])->group(function () {
         Route::resource('/transaksi', TransaksiController::class);
+        Route::get('/delete/transaksi/{transaksi}', [TransaksiController::class, 'destroy']);
 
-        Route::resource('/pesanan', PesananController::class)->only(['index','show']);
-        
+        Route::get('/pesananPelanggan/{pesanan}', [PesananController::class, 'show'])->name('showPpelanggan');
+        Route::resource('/pesananPelanggan', PesananController::class)->only(['index']);
+
         Route::resource('/dataPelanggan', DataPelangganController::class);
         
         // Route::resource('/laporanPelanggan', LaporanKaryawanController::class);
-
         
         Route::get('/laporanPelanggan', [KaryawanController::class, 'pelangganReport']);
         Route::post('/karyawan/laporanuser/reply/{laporanPelanggan}', [KaryawanController::class, 'replyPelangganR'])->name('indexReply');
@@ -121,5 +123,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/Rekap/laporanPelanggan', RekapLPelangganController::class);
     });
     
-    Route::post('/logout', [UserController::class, 'logout']);
+    Route::get('/auth/profile', [AuthController::class, 'profile'])->name('profile');
+    Route::post('/auth/Profile/update/{pelanggan}', [AuthController::class, 'profileUpdate']);
+
+    Route::post('/logout', [AuthController::class, 'logout']);
 });

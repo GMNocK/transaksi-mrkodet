@@ -89,8 +89,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+
     <link rel="stylesheet" href="css/ce.css">
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <title>Login</title>
 </head>
 <body>
     <section>
@@ -123,5 +127,19 @@
             </div>
         </div>
     </section>
+
+    @if (session('success'))
+        
+    <script>
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: '{{ session('success') }}',
+            showConfirmButton: false,
+            timer: 1800
+        })
+    </script>
+    @endif
+
 </body>
 </html>

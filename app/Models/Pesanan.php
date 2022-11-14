@@ -9,15 +9,27 @@ class Pesanan extends Model
 {
     use HasFactory;
 
-    protected $guard = ['id'];
+    protected $guarded = [
+        'id'
+    ];
+
+    public function pesanan()
+    {
+        return $this->belongsTo(Transaksi::class);
+    }
 
     public function pelanggan()
     {
-        return $this->hasMany(Pelanggan::class, 'id');
+        return $this->belongsTo(Pelanggan::class);
     }
 
     public function detail_pesanan()
     {
         return $this->hasMany(Detail_Pesanan::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'kode';
     }
 }

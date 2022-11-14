@@ -68,8 +68,8 @@
                         <td>{{ $hargaTotal }}</td>
                         <td>{{ $transaksi->pencatat }}</td>
                         <td class="text-center">
-                            <span class="badge {{ $transaksi->pesanan == '0' ? 'bg-danger' : 'bg-success' }} p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
-                                {{ $transaksi->pesanan == '0' ? 'Offline' : 'Online' }}
+                            <span class="badge {{ $transaksi->pesanan_id == '' ? 'bg-danger' : 'bg-success' }} p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
+                                {{ $transaksi->pesanan_id == '' ? 'Offline' : 'Online' }}
                             </span>
                         </td>
                         <td style="text-align: center">
@@ -175,14 +175,14 @@
                             </a>
                         </td>
                     </tr> --}}
-                    @foreach ($detail as $d)                        
+                    @foreach ($detail as $d)                      
                         <tr>
                             <td>{{ $d->barang->nama_barang }}</td>
                             <td>Rp.{{ $d->subtotal }}</td>
                             <td>{{ $transaksi->pencatat }}</td>
                             <td class="text-center">
-                                <span class="badge {{ $transaksi->pesanan == '0' ? 'bg-danger' : 'bg-success' }} p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
-                                    {{ $transaksi->pesanan == '0' ? 'Offline' : 'Online' }}
+                                <span class="badge {{ $transaksi->pesanan_id == '' ? 'bg-danger' : 'bg-success' }} p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
+                                    {{ $transaksi->pesanan_id == '' ? 'Offline' : 'Online' }}
                                 </span>
                             </td>
                             <td style="text-align: center">

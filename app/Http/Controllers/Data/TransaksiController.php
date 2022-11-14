@@ -43,12 +43,11 @@ class TransaksiController extends Controller
 
     
     public function store(Request $request)
-    {        
+    {
         $this->authorize('karyawan');
 
         $ini = $request->PanjangtblKeranjang;
         $panjang = Str::afterLast($ini, ',');
-        
         $validateData = $request->validate([
             'TotalBayar' => 'required|min:2',
             'status' => 'required',
@@ -113,13 +112,13 @@ class TransaksiController extends Controller
             }                    
         }
 
-        return redirect('/transaksi');        
+        return redirect('/transaksi');
     }
 
     
     public function show(Transaksi $transaksi)
     {        
-        $totalharga = DB::select("select concat('Rp.',format(total_harga,0)) as hargaTotal FROM `transaksis` where id = ?", ['1']);        
+        $totalharga = DB::select("select concat('Rp.',format(total_harga,0)) as hargaTotal FROM `transaksis` where id = ?", [$transaksi->id]);        
 
         $detail = DB::select("select concat('Rp.',format(subtotal,0)) as apa from detail_transaksis where transaksi_id = ?", [$transaksi->id]);
         // return $detail;
@@ -134,18 +133,30 @@ class TransaksiController extends Controller
     
     public function edit(Transaksi $transaksi)
     {
-        //
+        $this->authorize('karyawan');
+        $detailTransaksi = Detail_transaksi::where('transaksi_id', $transaksi->id)->get();
+        // return $transaksi->pelanggan;
+        return view('myDashboard.pages.karyawan.dataTransaksi.Tedit', [
+            'transaksis' => $transaksi,
+            'pelanggans' => Pelanggan::all(),
+            'barangs' => Barang::all(),
+            'detailtransaksis' => $detailTransaksi,
+        ]);
     }
 
     
     public function update(Request $request, Transaksi $transaksi)
     {
-        //
+        return $request;
     }
 
     
     public function destroy(Transaksi $transaksi)
     {
-        //
+        $this->authorize('karyawan');
+        Transaksi::destroy($transaksi->id);
+
+        return redirect('/transaksi')->with('successDelete', 'Data Berhasil Dihapus');
+
     }
 }

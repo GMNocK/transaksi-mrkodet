@@ -15,7 +15,7 @@
 </nav>
 
 
-<div class="col-md-12 col-lg-12 col-xxl-8 d-flex">
+<div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
         <div class="card-header">
             <div class="col-md-4 mt-1">
@@ -77,8 +77,8 @@
                         <td>Rp.{{ $t->total_harga }}</td>
                         <td>{{ $t->pencatat }}</td>
                         <td class="text-center">
-                            <span class="badge {{ $t->pesanan == '0' ? 'bg-danger' : 'bg-success' }} p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
-                                {{ $t->pesanan == '0' ? 'Offline' : 'Online' }}
+                            <span class="badge {{ $t->pesanan_id == '' ? 'bg-danger' : 'bg-success' }} p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
+                                {{ $t->pesanan_id == '' ? 'Offline' : 'Online' }}
                             </span>
                         </td>
                         <td style="text-align: center">
@@ -95,20 +95,25 @@
                                     {{-- <i class="fa-regular fa-pen-to-square"></i> --}}
                                 </a>
                 
-                                <form action="transaksi/{{ $t->token }}" method="post" class="d-inline" onclick="return confirm('Yakin');">
+                                {{-- <form action="#" method="post" class="d-inline" onclick="return DltConfirm()">
                                     @method('delete')
                                     @csrf
-                                    <button class="btn btn-danger my-1">
+                                    <button class="btn btn-danger my-1 btnDelete" data-id="{{ $t->token }}" onclick="return DltConfirm()">
                                         <i class="align-middle" data-feather="trash-2"></i>
-                                        {{-- <i class="fa-solid fa-trash"></i> --}}
+                                        <i class="fa-solid fa-trash"></i>
                                     </button>
-                                </form>
+                                </form> --}}
+                                <a class="my-1 btnDelete" data-id="{{ $t->token }}">
+                                    <button class="btn btn-danger">
+                                        <i class="align-middle" data-feather="trash-2"></i>                                        
+                                    </button>
+                                </a>
                                 
                             @endcan
                             
                             @cannot('karyawan')                      
                                 {{-- <a href="{{ route('reports.create') }}"> --}}
-                                <a href="#" onclick="DltConfirm();">
+                                <a onclick="DltConfirm();">
                                     <button class="badge bg-danger border-0">
                                         <i class="fa fa-file" aria-hidden="true"></i>
                                     </button>
@@ -267,43 +272,18 @@
     {{ $transaksis->links() }}
 </div> --}}
 
-<script>
-    function DltConfirm() {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger'
-            },
-            buttonsStyling: false
-            })
+<script src="{{ asset('js/CostumJs/deleteConfirm.js') }}"></script>
 
-            swalWithBootstrapButtons.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    swalWithBootstrapButtons.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                    )
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                    'Cancelled',
-                    'Your imaginary file is safe :)',
-                    'error'
-                    )
-                }
-            })
-    }
+
+@if (session('successDelete'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: '{{ session("successDelete") }}',
+        showConfirmButton: false,
+        timer: 1500
+    })
 </script>
+@endif
 
 @endsection

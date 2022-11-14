@@ -73,12 +73,12 @@
 
                     @foreach ($transaksi as $t)
                     <tr>
-                        <td>{{ $t->pesanan }}</td>
+                        <td>{{ $t->tgl_transaksi }}</td>
                         <td>Rp.{{ $t->total_harga }}</td>
                         <td>{{ $t->pencatat }}</td>
                         <td class="text-center">
-                            <span class="badge {{ $t->pesanan == '0' ? 'bg-danger' : 'bg-success' }} p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
-                                {{ $t->pesanan == '0' ? 'Offline' : 'Online' }}
+                            <span class="badge {{ $t->pesanan_id == '0' ? 'bg-danger' : 'bg-success' }} p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
+                                {{ $t->pesanan_id == '0' ? 'Offline' : 'Online' }}
                             </span>
                         </td>
                         <td style="text-align: center">

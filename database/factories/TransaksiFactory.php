@@ -11,7 +11,6 @@ class TransaksiFactory extends Factory
     {
         return [
             'tgl_transaksi' => $this->faker->date(),
-            'pesanan' => $this->faker->boolean(),
             'total_harga' => 15000,
             'status' => $this->faker->name(),
             'tipe_bayar' => $this->faker->name(),

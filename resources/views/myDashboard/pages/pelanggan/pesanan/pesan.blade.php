@@ -24,69 +24,30 @@
                         <thead class="bg-secondary text-white shadow-sm">
                             <tr>
                                 <th scope="col">Name</th>
-                                <th scope="col" class="">Start Date</th>
+                                <th scope="col" class="">Waktu Pesan</th>
                                 <th scope="col" class="">End Date</th>
-                                <th scope="col">Status</th>
-                                <th scope="col" class="">Assignee</th>
+                                <th scope="col" class="text-center">Status</th>
+                                <th scope="col" class="text-center"></th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($pesananSaya as $p)
                             <tr>
-                                <td>Project Apollo</td>
-                                <td class="">01/01/2021</td>
-                                <td class="">31/06/2021</td>
-                                <td><span class="badge bg-success">Done</span></td>
-                                <td class="">Vanessa Tucker</td>
-                            </tr>
-                            <tr>
-                                <td>Project Fireball</td>
-                                <td class="">01/01/2021</td>
-                                <td class="">31/06/2021</td>
-                                <td><span class="badge bg-danger">Cancelled</span></td>
-                                <td class="">William Harris</td>
-                            </tr>
-                            <tr>
-                                <td>Project Hades</td>
-                                <td class="">01/01/2021</td>
-                                <td class="">31/06/2021</td>
-                                <td><span class="badge bg-success">Done</span></td>
-                                <td class="">Sharon Lessman</td>
-                            </tr>
-                            <tr>
-                                <td>Project Nitro</td>
-                                <td class="">01/01/2021</td>
-                                <td class="">31/06/2021</td>
-                                <td><span class="badge bg-warning">In progress</span></td>
-                                <td class="">Vanessa Tucker</td>
-                            </tr>
-                            <tr>
-                                <td>Project Phoenix</td>
-                                <td class="">01/01/2021</td>
-                                <td class="">31/06/2021</td>
-                                <td><span class="badge bg-success">Done</span></td>
-                                <td class="">William Harris</td>
-                            </tr>
-                            <tr>
-                                <td>Project X</td>
-                                <td class="">01/01/2021</td>
-                                <td class="">31/06/2021</td>
-                                <td><span class="badge bg-success">Done</span></td>
-                                <td class="">Sharon Lessman</td>
-                            </tr>
-                            <tr>
-                                <td>Project Romeo</td>
-                                <td class="">01/01/2021</td>
-                                <td class="">31/06/2021</td>
-                                <td><span class="badge bg-success">Done</span></td>
-                                <td class="">Christina Mason</td>
-                            </tr>
-                            <tr>
-                                <td>Project Wombat</td>
-                                <td class="">01/01/2021</td>
-                                <td class="">31/06/2021</td>
-                                <td><span class="badge bg-warning">In progress</span></td>
-                                <td class="">William Harris</td>
-                            </tr>
+                                <td>{{ $p->pelanggan->nama }}</td>
+                                <td class="">{{ $p->waktu_pesan }}</td>
+                                <td class="">Rp.{{ $p->total_harga }}</td>
+                                <td class="text-center">
+                                    <span class="badge bg-success" style="font-size: 14px">{{ $p->status }}</span>
+                                </td>
+                                <td class="text-center">
+                                    <a href="pesanan/{{ $p->kode }}" class="btn btn-primary my-1">
+                                        {{-- <a href="#" class="btn btn-primary my-1" onclick="DltConfirm();"> --}}
+                                        {{-- <i class="fa-solid fa-eye"></i> --}}
+                                        <i class="align-middle" data-feather="eye"></i>
+                                    </a>
+                                </td>
+                            </tr>                
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

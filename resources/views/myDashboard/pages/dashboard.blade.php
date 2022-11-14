@@ -11,6 +11,7 @@
                 <div class="w-100">
                     <div class="row">
                         <div class="col-sm-6">
+                            
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
@@ -31,6 +32,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">

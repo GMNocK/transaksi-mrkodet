@@ -14,10 +14,11 @@ class CreatePesanansTable extends Migration
             $table->foreignId('pelanggan_id')->constrained()->cascadeOnDelete();
             $table->timestamp('waktu_pesan');
             $table->integer('total_harga');
-            $table->string('status');
-            // belum dibaca, dibaca, diproses, dikirim, selesai
+            $table->string('tipe_kirim');
             $table->string('tipePembayaran'); 
             // transfer, cod, tunai
+            $table->string('status')->default('belum dibaca');
+            // belum dibaca, dibaca, diproses, dikirim, selesai
             $table->string('kode')->unique();
             $table->timestamps();
         });

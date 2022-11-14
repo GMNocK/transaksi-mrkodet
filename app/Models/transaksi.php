@@ -15,7 +15,7 @@ class Transaksi extends Model
     
     public function pelanggan()
     {
-        return $this->belongsTo(Pelanggan::class);
+        return $this->belongsTo(Pelanggan::class, 'id');
     }
 
     public function detail_transaksi()
@@ -23,8 +23,13 @@ class Transaksi extends Model
         return $this->hasMany(Detail_transaksi::class);
     }
 
+    public function pesanan()
+    {
+        return $this->hasOne(Pesanan::class);
+    }
+
     public function getRouteKeyName()
     {
-        return 'token';   
+        return 'token';
     }
 }
