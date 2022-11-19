@@ -126,6 +126,7 @@
                 </tbody>
             </table>
         </div>
+        
         <div class="d-flex justify-content-end col-12 mb-5">
             <span class="me-4">
                 {{ $transaksis->links() }}            

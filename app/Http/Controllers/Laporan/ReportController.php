@@ -16,15 +16,15 @@ class ReportController extends Controller
     
     public function index()
     {
-        $ul = User::where('id', auth()->user()->id)->get();
-        $user = $ul->find('id', auth()->user()->id);
+        $user = User::where('id', auth()->user()->id)->get('id')[0];
+        // return $user->id;
 
-        $string =  Pelanggan::where('user_id', $user)->get();
-        foreach ($string as $i) {
-            $pelangganLogin = $i->id;
-        }
+        $pelanggan =  Pelanggan::where('user_id', $user->id)->get()[0];
+        // foreach ($string as $i) {
+        //     $pelangganLogin = $i->id;
+        // }
 
-        $ret = LaporanPelanggan::where('pelanggan_id', $pelangganLogin)->get();
+        $ret = LaporanPelanggan::where('pelanggan_id', $pelanggan->id)->get();
 
         return view('myDashboard.pages.pelanggan.laporan.Lsaya', [
             'LaporanPelanggans' => $ret, 
@@ -103,6 +103,8 @@ class ReportController extends Controller
 
     public function history(LaporanPelanggan $laporanPelanggan)
     {
-        return view('myDashboard.pages.pelanggan.laporan.History');
+        return view('myDashboard.pages.pelanggan.laporan.History', [
+            'laporan' => LaporanPelanggan::whereDate('send_at', date('Y-m-d'))->get(),
+        ]);
     }
 }

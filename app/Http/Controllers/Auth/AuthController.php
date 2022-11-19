@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\Karyawan;
 use App\Models\Pelanggan;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -58,11 +60,11 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {            
 
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard')->with('loginOk', 'Selamat Berhasil Login');
+            return redirect()->intended('/myDashboard')->with('loginOk', 'Selamat Berhasil Login');
 
         } elseif (Auth::check()) {
 
-            return redirect('/dashboard');
+            return redirect('/myDashboard');
             
         }
 
@@ -178,20 +180,49 @@ class AuthController extends Controller
 
     public function profile()
     {
-        $dPelanggan = Pelanggan::where('user_id', auth()->user()->id)->get();
-        
-        return view('myDashboard.pages.Auth.profile', [
-            'data' => $dPelanggan,
-            'user' => auth()->user(), 
-        ]);
+        if (auth()->user()->level == 'pelanggan') {            
+            $dPelanggan = Pelanggan::where('user_id', auth()->user()->id)->get();
+            return view('myDashboard.pages.Auth.profile', [
+                'data' => $dPelanggan,
+                'user' => auth()->user(), 
+            ]);            
+        }
+        if (auth()->user()->level == 'karyawan') {            
+            $dataKaryawan = Karyawan::where('user_id', auth()->user()->id)->get();
+            return view('myDashboard.pages.Auth.profile', [
+                'data' => $dataKaryawan,
+                'user' => auth()->user(), 
+            ]);            
+        }
+        if (auth()->user()->level == 'admin') {            
+            $dataAdmin = Admin::where('user_id', auth()->user()->id)->get();
+            return view('myDashboard.pages.Auth.profile', [
+                'data' => $dataAdmin,
+                'user' => auth()->user(), 
+            ]);            
+        }
     }
 
     public function profileUpdate(Request $request, Pelanggan $pelanggan)
     {
         $validateData = $request->except('_token');
-
-        $pelanggan->update($validateData);
-
-        return redirect('/myDashboard')->with('succes','Berhasil Di simpan');
+        if (auth()->user()->level == 'pelanggan') {                        
+    
+            $pelanggan->update($validateData);
+    
+            return redirect('/auth/profile')->with('success','Berhasil Di simpan');
+        }
+        if (auth()->user()->level == 'karyawan') {            
+            $dataKaryawan = Karyawan::where('user_id', auth()->user()->id)->get()[0];
+            
+            $dataKaryawan->update($validateData);
+            return redirect('/auth/profile')->with('success','Berhasil Di simpan');
+        }
+        if (auth()->user()->level == 'admin') {            
+            $dataAdmin = Admin::where('user_id', auth()->user()->id)->get()[0];
+            
+            $dataAdmin->update($validateData);
+            return redirect('/auth/profile')->with('success','Berhasil Di simpan');
+        }
     }
 }

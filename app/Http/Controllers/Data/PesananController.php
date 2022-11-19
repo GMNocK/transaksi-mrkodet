@@ -10,6 +10,7 @@ use App\Models\Barang;
 use App\Models\Detail_Pesanan;
 use App\Models\Pelanggan;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PesananController extends Controller
@@ -21,14 +22,14 @@ class PesananController extends Controller
             // $itu = Pesanan::where('pelanggan_id', 18)->get();
             // return $itu[0];
             return view('myDashboard.pages.karyawan.pesanan.daftarPesanan', [
-                'pesanan' => Pesanan::all(),
+                'pesanan' => Pesanan::orderBy('status', 'asc')->paginate(10),
                 // 'waktuPesan' => $ini[0]
             ]);
         }
         $pelangganId = Pelanggan::where('user_id', auth()->user()->id)->get('id');
         // return $pelangganId[0]->id;
         return view('myDashboard.pages.pelanggan.pesanan.pesan', [
-            'pesananSaya' => Pesanan::where('pelanggan_id', $pelangganId[0]->id)->get(),
+            'pesananSaya' => Pesanan::where('pelanggan_id', $pelangganId[0]->id)->orderBy('status', 'desc')->get(),
         ]);
     }
 
@@ -45,9 +46,10 @@ class PesananController extends Controller
     {
         $this->authorize('pelanggan');
 
-        $pelanggan = Pelanggan::where('user_id', auth()->user()->id)->get();
+        $pelanggan = Pelanggan::where('user_id', auth()->user()->id)->get()[0];
+        // return $pelanggan->alamat;
 
-        if ($pelanggan[0]->alamat == '' || $pelanggan[0]->no_tlp == '') {
+        if ($pelanggan->alamat == '' || $pelanggan->no_tlp == '') {
             return redirect('/pesanan/create')
                         ->with('IsNull', 'Identitas Kosong');//'Maaf, Pemesanan tidak bisa dilakukan. Silahkan isi identitas lengkap di profile anda');
         }
@@ -56,15 +58,16 @@ class PesananController extends Controller
             'TotalBayar' => 'required|min:2',
             'tipePengiriman' => 'required',
             'tipe_bayar' => 'required',
-            'PanjangtblKeranjang' => 'required',
+            'PanjangtblKeranjang' => 'required',                        
         ]);
+
         // return $request->toArray();
         if ($validateData['PanjangtblKeranjang'] == [] || $request->TotalBayar == 'Rp.0') {
             return redirect('/pesanan/create')
                     ->with('IsNull', 'Identitas Kosong');
         }
 
-        $pelangganId = $pelanggan[0]->id;
+        $pelangganId = $pelanggan->id;
         
         // Diambil Dari pelanggan yang sedang login
 
@@ -87,8 +90,10 @@ class PesananController extends Controller
             'total_harga' => Str::after($validateData['TotalBayar'],'.'),
             'tipe_kirim' => $validateData['tipePengiriman'],
             'tipePembayaran' => $validateData['tipe_bayar'],
-            'kode' => $kode,
+            'kode' => $kode,    
+            'keterangan' => $request->ketTam,   
         ]);
+        
 
         $pesanan->save();
         
@@ -136,12 +141,18 @@ class PesananController extends Controller
         // $ini[] = Detail_Pesanan::where('pesanan_id', $pesanan->id)->get();
         // return $ini.toArray();
         if (auth()->user()->level != 'pelanggan') {
+
+            if ($pesanan->status == '1') {
+                $status = ['status' => 2];
+                $pesanan->update($status);
+            }
+
             return view('myDashboard.pages.karyawan.pesanan.detailPesan', [
                 'pesanan' => $pesanan,
                 'detail' => Detail_Pesanan::where('pesanan_id', $pesanan->id)->get()
             ]);
         }
-        // return Detail_Pesanan::where('pesanan_id', $pesanan->id)->get();
+
         return view('myDashboard.pages.pelanggan.pesanan.Pdetail', [
             'pesanan' => $pesanan,
             'detailPesanan' => Detail_Pesanan::where('pesanan_id', $pesanan->id)->get(),
@@ -150,7 +161,10 @@ class PesananController extends Controller
 
     public function edit(Pesanan $pesanan)
     {
-        //
+        return view('myDashboard.pages.pelanggan.pesanan.Pedit' ,[
+            'pesanan' => $pesanan,
+            'barangs' => Barang::all()
+        ]);
     }
 
     
@@ -162,11 +176,41 @@ class PesananController extends Controller
     
     public function destroy(Pesanan $pesanan)
     {
-        //
+        Pesanan::destroy($pesanan->id);
+
+        return redirect('/pesananSaya')->with('deleted', 'Pesanan Berhasil Dihapus');
     }
 
     public function history()
     {
-        return view('myDashboard.pages.pelanggan.pesanan.historyPesan');
+        return view('myDashboard.pages.pelanggan.pesanan.historyPesan', [
+            'pesananSaya' => Pesanan::whereDate('waktu_pesan', date('Y-m-d'))->get(),
+        ]);
+    }
+
+    
+    public function batal(Pesanan $pesanan)
+    {
+        $status = array('status' => 0);
+
+        $pesanan->update($status);
+
+        return redirect('/pesananSaya')->with('batal', 'Pesanan Berhasil Dibatalkan');
+    }
+
+
+    public function KaryawanAccept(Request $request, Pesanan $pesanan)
+    {
+        $status = 3;
+
+        if ($request->stat == '4') {
+            $status = 4;
+        }
+
+        $update = array('status' => $status);
+
+        $pesanan->update($update);
+        // Terima Kasih, Pesanan Anda kami terima. pemberitahuan lebih lanjut akan kami hubungi lewat whatsapp
+        return redirect(route('pesananPelanggan.index'))->with('berhasil', 'Pesanan telah diterima');
     }
 }

@@ -19,6 +19,12 @@
                     <span class="align-middle">Dashboard</span>
                 </a>
             </li>
+            <li class="sidebar-item {{ Request::is('profile*') ? 'active' : '' }}">
+                <a class="sidebar-link text-decoration-none" href="/profile">
+                    <i class="align-middle" data-feather="user"></i> 
+                    <span class="align-middle">Profile</span>
+                </a>
+            </li>
             
             @cannot('pelanggan')
                 
@@ -110,21 +116,21 @@
                     Rekap
                 </li>
                 
-                <li class="sidebar-item {{ Request::is('Rekap/pesanan*') ? 'active' : '' }}">
-                    <a class="sidebar-link text-decoration-none" href="/Rekap/pesanan">
+                <li class="sidebar-item {{ Request::is('Rekap/RPesanan*') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/Rekap/RPesanan">
                         <i class="align-middle" data-feather="clipboard"></i> 
                         <span class="align-middle">Rekap Pesanan</span>
                     </a>
                 </li>
                 
-                <li class="sidebar-item {{ Request::is('Rekap/Transaksi*') ? 'active' : '' }}">
-                    <a class="sidebar-link text-decoration-none" href="/Rekap/Transaksi">
+                <li class="sidebar-item {{ Request::is('Rekap/RTransaksi*') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/Rekap/RTransaksi">
                         <i class="align-middle" data-feather="clipboard"></i> 
                         <span class="align-middle">Rekap Transaksi</span>
                     </a>
                 </li>
-                <li class="sidebar-item {{ Request::is('Rekap/laporanPelanggan*') ? 'active' : '' }}">
-                    <a class="sidebar-link text-decoration-none" href="/Rekap/laporanPelanggan">
+                <li class="sidebar-item {{ Request::is('Rekap/RLaporanPelanggan*') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/Rekap/RLaporanPelanggan">
                         <i class="align-middle" data-feather="clipboard"></i> 
                         <span class="align-middle">Rekap laporan pelanggan</span>
                     </a>
@@ -193,10 +199,10 @@
             <div class="sidebar-cta-content">
                 <strong class="d-inline-block mb-2">Check Account</strong>
                 <div class="mb-3 text-sm">
-                    You not Have Finish Answer Your Identity
+                    Sebelum bisa memesan, diharapkan pelanggan dapat mengisi data diri terlebih dahulu
                 </div>
                 <div class="d-grid">
-                    <a href="/auth/profile" class="btn btn-primary">Profile</a>
+                    <a href="/profile" class="btn btn-primary">Profile</a>
                 </div>
             </div>
         </div>

@@ -150,7 +150,7 @@
                     <span class="text-dark">{{ auth()->user()->username }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="/auth/profile">
+                    <a class="dropdown-item" href="/profile">
                         <i class="align-middle me-1" data-feather="user"></i> 
                             Profile
                     </a>

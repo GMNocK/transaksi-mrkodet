@@ -41,7 +41,7 @@
             <div class="card-header">
                 <div class="ms-2 col-md-4">
     
-                    @can('karyawan')
+                    @can('pelanggan')
                         
                     {{-- <a href="/transaksi/create" class="link-secondary d-flex align-items-center">
                         <i class="align-middle me-1 link-secondary" data-feather="plus-circle"></i>
@@ -144,36 +144,7 @@
             </div>
         </div>
     </div>
-</form>   
-
-{{-- <div class="modal fade" id="exampleModal" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form method="POST" action="/added/DataPelanggan">
-    @csrf
-        <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Pelanggan Baru</h1>
-                <button type="button" class="btn-close btn-close-white" aria-label="Close" data-bs-dismiss="modal"></button>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Nama Pelanggan :</label>
-                        <input type="text" class="form-control" name="namaPelanggan" id="pelangganNama">
-                    </div>
-                    <div class="mb-3">
-                        <label for="message-text" class="col-form-label">Keterangan :</label>
-                        <textarea class="form-control" name="Ket" id="keteranganText"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary">Tambah Pelanggan</button>
-                </div>
-            </div>
-        </div>
-    </form>
-</div> --}}
+</form>  
 
 <div class="modal fade" id="addBarangModal" data-bs-backdrop="static" aria-labelledby="addBarangModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -234,5 +205,4 @@
         });
     </script>
 @endif
-
 @endsection

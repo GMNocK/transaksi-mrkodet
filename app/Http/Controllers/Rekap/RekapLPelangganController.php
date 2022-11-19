@@ -16,7 +16,7 @@ class RekapLPelangganController extends Controller
     public function index()
     {
         return view('myDashboard.pages.karyawan.Rekap.RLPelanggan', [
-            'lpelanggan' => LaporanPelanggan::paginate(10),
+            'lpelanggan' => LaporanPelanggan::whereDate('send_at', date('Y-m-d'))->paginate(10),
         ]);
     }
 

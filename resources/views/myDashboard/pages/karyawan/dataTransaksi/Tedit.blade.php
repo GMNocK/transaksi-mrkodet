@@ -55,7 +55,7 @@
                             <th scope="col" class="text-center p-2">Ukuran</th>
                             <th scope="col" class="text-center p-2">Quantity</th>
                             <th scope="col" class="text-center p-2">SubTotal</th>
-                            <th scope="col" class="text-center p-2 pe-3">Aksi</th>
+                            <th scope="col" class="text-center p-2 pe-3"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,7 +91,8 @@
                                     <input type="text" value="Rp.{{ $det->subtotal }}" readonly class="text-dark text-center border-0 bg-transparent sub-total" name="subtotal{{ $loop->iteration }}">
                                 </td>
                                 <td class="text-center">
-                                    <i class="fas fa-edit link"></i>
+                                    <i class="fas fa-edit link d-inline"></i>
+                                    <i class="fas fa-trash-alt link d-inline"></i>
                                 </td>
                             </tr>
                         @endforeach

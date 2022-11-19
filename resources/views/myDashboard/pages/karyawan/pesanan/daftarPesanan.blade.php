@@ -21,7 +21,7 @@
                         <th scope="col">Name</th>
                         <th scope="col" class="">Waktu pesan</th>
                         <th scope="col" class="">Total Harga</th>
-                        <th scope="col">Status</th>
+                        <th scope="col" class="text-center">Status</th>
                         <th scope="col" class=""></th>
                     </tr>
                 </thead>
@@ -32,7 +32,65 @@
                             {{-- <td class="">{{ $waktuPesan[($loop->iteration - 1)]->waktu_pesan }}</td> --}}
                             <td class="">{{ $i->waktu_pesan }}</td>
                             <td class="">Rp.{{ $i->total_harga }}</td>
-                            <td><span class="badge {{ $i->status == '123' ? 'bg-danger' : 'bg-success' }} ">{{ $i->status }}</span></td>
+                            <td class="text-center">
+                                @if ($i->status == '1')
+
+                                    <span class="badge bg-secondary fs-6">
+                                        Belum dibaca
+                                    </span>
+
+                                @else
+
+                                    @if ($i->status == '2')
+
+                                        <span class="badge bg-info fs-6">
+                                            Di Baca
+                                        </span>     
+
+                                    @endif
+
+                                    @if ($i->status == '3')
+
+                                        <span class="badge bg-success fs-6">
+                                            Di Terima
+                                        </span>                                        
+                                        
+                                    @endif
+
+                                    @if ($i->status == '4')
+
+                                        <span class="badge bg-warning fs-6">
+                                            Pesanan Di Proses
+                                        </span>                                        
+                                        
+                                    @endif
+
+                                    @if ($i->status == '5')
+
+                                        <span class="badge bg-warning fs-6">
+                                            Dikirim Ke tempat Tujuan
+                                        </span>                                        
+                                        
+                                    @endif
+                                    
+                                    @if ($i->status == '6')
+
+                                        <span class="badge bg-primary fs-6">
+                                            Selesai
+                                        </span>                                        
+                                        
+                                    @endif
+
+                                    @if ($i->status == '0')
+
+                                        <span class="badge bg-danger fs-6">
+                                            Batal
+                                        </span>                                        
+                                        
+                                    @endif
+                                    
+                                @endif
+                            </td>
                             <td style="text-align: center">
                                 <a href="pesananPelanggan/{{ $i->kode }}" class="btn btn-primary my-1">
                                 {{-- <a href="#" class="btn btn-primary my-1" onclick="DltConfirm();"> --}}
@@ -47,5 +105,16 @@
         </div>
     </div>
 </div>
+
+@if (session('berhasil'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '{{ session("berhasil") }}',
+            showConfirmButton: false,
+            timer: 1700
+        })
+    </script>
+@endif
 
 @endsection

@@ -2,24 +2,27 @@
 
 @section('content')
 
-<div class="col-md-12 col-lg-12 col-xxl-8 d-flex">
+<div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
+        <div class="card-header">
+            <div class="div"></div>
+        </div>
 
         <div class="table-responsive col-12 mt-4">        
-            <table class="table table-striped table-hover table-sm">
+            <table class="table table-striped table-hover">
                 <thead class="bg-secondary text-white shadow-sm">
                     <tr>
+                        <th scope="col">No</th>
+                        <th scope="col" style="min-width: 85px">Isi</th>
                         <th scope="col" style="min-width: 100px">Tanggal</th>
-                        <th scope="col" style="min-width: 85px">Total Harga</th>
-                        <th scope="col" style="min-width: 100px">Pencatat</th>
-                        <th scope="col" class="text-center" style="min-width:80px;">Action</th>
+                        <th scope="col" class="text-center" style="min-width: 90px"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($LaporanPelanggans as $l)
                         
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td class="text-center">{{ $loop->iteration }}</td>
                         <td>{{ $l->excerpt }}</td>
                         <td>{{ $l->send_at }}</td>
                         <td style="text-align: center">
@@ -38,7 +41,7 @@
                                 <span data-feather="edit"></span>
                               </a>                                                            
                               
-                          </td> 
+                        </td> 
                     </tr>
             
                     @endforeach

@@ -23,7 +23,7 @@
                 reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location = "/delete/transaksi/"+token+""                
+                        window.location = "/delete/transaksi/"+token+""            
                         
                     } else if (
                         /* Read more about handling dismissals below */

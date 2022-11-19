@@ -18,6 +18,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        
         // return $lsaya->whereMonth('send_at', date('m'))->whereYear('send_at', date('Y'))->get();
         if (auth()->user()->level == 'karyawan') {            
             $kar = Karyawan::where('user_id', auth()->user()->id)->get();
@@ -30,6 +31,7 @@ class DashboardController extends Controller
                 'admin' => Admin::all()->count(),
                 'karyawan' => Karyawan::all()->count(),
                 'ls' => $lsaya->count(),
+                'transJan' => Transaksi::whereDate('send_at', date('Y-m'))->get()
             ]);
         }
         if (auth()->user()->level == 'Admin') {
@@ -54,11 +56,26 @@ class DashboardController extends Controller
 
     public function myDashboard()
     {
+        // return ;        
         return view('myDashboard.pages.dashboard', [
             'barang' => Barang::all()->count(),
             'transaksi' => Transaksi::all()->count(),
             'pelanggan' => Pelanggan::all()->count(),
             'pesanan' => Pesanan::all(),
+            'transJan' => Transaksi::whereMonth('tgl_transaksi', 1)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
+            'transFeb' => Transaksi::whereMonth('tgl_transaksi', 2)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
+            'transApr' => Transaksi::whereMonth('tgl_transaksi', 3)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
+            'transMar' => Transaksi::whereMonth('tgl_transaksi', 4)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
+            'transMei' => Transaksi::whereMonth('tgl_transaksi', 5)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
+            'transJun' => Transaksi::whereMonth('tgl_transaksi', 6)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
+            'transJul' => Transaksi::whereMonth('tgl_transaksi', 7)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
+            'transAug' => Transaksi::whereMonth('tgl_transaksi', 8)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
+            'transSep' => Transaksi::whereMonth('tgl_transaksi', 9)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
+            'transOct' => Transaksi::whereMonth('tgl_transaksi', 10)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
+            'transNov' => Transaksi::whereMonth('tgl_transaksi', 11)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
+            'transDes' => Transaksi::whereMonth('tgl_transaksi', 12)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
+            'pesananCOD' => Pesanan::where('tipePembayaran', 'COD')->count(),
+            'pesananTransfer' => Pesanan::where('tipePembayaran', 'transfer')->count(),
         ]);
     }
 }

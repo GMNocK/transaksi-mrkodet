@@ -250,6 +250,13 @@ function DeleteItemTblKer() {
     totalBayar.value = "Rp."+ (total - subTot);
     
     tBodyKeranjang.removeChild(tblRow);
+
+    const isiTblKer = tBodyKeranjang.querySelectorAll('tr');
+    
+    if (isiTblKer.length == 0) {
+        banyakBarangDikeranjang = [];
+        PanjangDetail.value = [];
+    }
 }
 
 

@@ -31,20 +31,98 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($pesananSaya as $p)
+                            @foreach ($pesananSaya as $p)                            
                             <tr>
                                 <td>{{ $p->pelanggan->nama }}</td>
                                 <td class="">{{ $p->waktu_pesan }}</td>
                                 <td class="">Rp.{{ $p->total_harga }}</td>
                                 <td class="text-center">
-                                    <span class="badge bg-success" style="font-size: 14px">{{ $p->status }}</span>
+                                    @if ($p->status == '1')
+
+                                        <span class="badge bg-secondary">
+                                            Belum dibaca
+                                        </span>
+
+                                    @else
+
+                                        @if ($p->status == '2')
+
+                                            <span class="badge bg-info">
+                                                Di Baca
+                                            </span>
+
+                                        @endif
+
+                                        @if ($p->status == '3')
+
+                                            <span class="badge bg-success">
+                                                Di Terima
+                                            </span>
+                                            
+                                        @endif
+
+                                        @if ($p->status == '4')
+
+                                            <span class="badge bg-warning">
+                                                Pesanan Di Proses
+                                            </span>
+
+                                        @endif
+
+                                        @if ($p->status == '5')
+
+                                            <span class="badge bg-warning">
+                                                Dikirim Ke tempat Tujuan
+                                            </span>
+
+                                        @endif
+
+                                        @if ($p->status == '6')
+
+                                            <span class="badge bg-primary">
+                                                Selesai
+                                            </span>
+
+                                        @endif
+
+                                        @if ($p->status == '0')
+
+                                            <span class="badge bg-danger">
+                                                Batal
+                                            </span>
+
+                                        @endif
+
+                                    @endif
                                 </td>
                                 <td class="text-center">
                                     <a href="pesanan/{{ $p->kode }}" class="btn btn-primary my-1">
-                                        {{-- <a href="#" class="btn btn-primary my-1" onclick="DltConfirm();"> --}}
-                                        {{-- <i class="fa-solid fa-eye"></i> --}}
                                         <i class="align-middle" data-feather="eye"></i>
                                     </a>
+
+                                    @if ($p->status == '1' || $p->status == '2')
+                                        <a href="pesanan/{{ $p->kode }}/edit" class="btn btn-success my-1">
+                                            <i class="align-middle" data-feather="edit"></i>                                            
+                                        </a>
+
+                                        <a class="my-1 btnBatal" data-id="{{ $p->kode }}">
+                                            <button class="btn btn-danger">
+                                                Batal
+                                                {{-- <i class="align-middle" data-feather="trash-2"></i>                                         --}}
+                                            </button>
+                                        </a>
+                                    @else
+                                        @if ($p->status == '0')
+                                        
+                                            <a class="my-1 btnDelete" data-id="{{ $p->kode }}">
+                                                <button class="btn btn-danger">
+                                                    <i class="align-middle" data-feather="trash-2"></i>                                        
+                                                </button>
+                                            </a>
+                                            
+                                        @endif
+                                    @endif
+                                    {{-- {{ $p->status == 'di baca' || $p->status == 'belum di baca' ? '<a href="pesanan/{{ $p->kode }}" class="btn btn-primary my-1"><i class="align-middle" data-feather="eye"></i></a>' : ''}} --}}
                                 </td>
                             </tr>                
                             @endforeach
@@ -53,5 +131,118 @@
                 </div>
             </div>
         </div>
+
+{{-- Pembatalan Pesanan --}}
+<script>
+    const btnBatal = document.querySelectorAll('.btnBatal');
+
+    btnBatal.forEach((item) => {
+        const kode = item.getAttribute('data-id');
+        
+        item.addEventListener('click', () => {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mx-2',
+                    cancelButton: 'btn btn-danger mx-2'
+                },
+                buttonsStyling: false
+                })
+        
+                swalWithBootstrapButtons.fire({
+                    title: 'Yakin?',
+                    text: "Pesanan Akan Dibatalkan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Batalkan!',
+                    cancelButtonText: 'Tidak, Jangan DiBatalkan!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "/pesanan/batal/"+kode+"";      
+                        
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                        'Batal Untuk Membatalkan Pesanan',
+                        'Pesanan tetap bisa diproses',
+                        'error'
+                        )
+                    }
+                })
+        });  
+    });
+</script>
+
+{{-- Hapus Pesanan Yang sudah Dibatalkan --}}
+<script>
+    const btnDelete = document.querySelectorAll('.btnDelete');
+
+    btnDelete.forEach((item) => {
+        const kode = item.getAttribute('data-id');
+        
+        item.addEventListener('click', () => {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mx-2',
+                    cancelButton: 'btn btn-danger mx-2'
+                },
+                buttonsStyling: false
+                })
+        
+                swalWithBootstrapButtons.fire({
+                    title: 'Yakin?',
+                    text: "Pesanan Akan Hapus!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Tidak, Batal!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "/pesanan/delete/"+kode+"";      
+                        
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                        'Pesanan tidak dihapus',
+                        'Pesanan akan tetap dilist',
+                        'error'
+                        )
+                    }
+                })
+        });
+    });
+</script>
+
+
+@if (session('batal'))
+
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '{{ session("batal") }}',
+            showConfirmButton: false,
+            timer: 1700
+        })
+    </script>
+
+@endif
+
+@if (session('deleted'))
+
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '{{ session("deleted") }}',
+            showConfirmButton: false,
+            timer: 1700
+        })
+    </script>
+
+@endif
 
 @endsection

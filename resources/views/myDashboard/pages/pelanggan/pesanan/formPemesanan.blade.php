@@ -64,43 +64,58 @@
         </div>
     </div>
 
-    <div class="col-md-6 d-flex">
-        <div class="card flex-fill p-2">
-            <div class="row mt-4">
-                <div class="col-md-12 d-flex align-items-center justify-content-center ">
-                    <label for="" class="fs-6 col-5 ">Total Bayar</label>
-                    <input type="text" readonly name="TotalBayar" class="form-control" id="TotalBayar" value="Rp.0">
+    <div class="row">
+
+        <div class="col-md-6 d-flex">
+            <div class="card flex-fill p-2">
+                <div class="row mt-4">
+                    <div class="col-md-12 d-flex align-items-center justify-content-center ">
+                        <label for="" class="fs-6 col-5 ">Total Bayar</label>
+                        <input type="text" readonly name="TotalBayar" class="form-control" id="TotalBayar" value="Rp.0">
+                    </div>
                 </div>
-            </div>
-            
-            <div class="row my-2">
-                <div class="col-md-12 d-flex align-items-center justify-content-center ">
-                    <label for="" class="fs-6 col-5 ">Pengambilan Barang</label>
-                    <select name="tipePengiriman" id="pengiriman" class="form-control">
-                        <option value="kirim">Kirim ke Rumah</option>
-                        <option value="ambil">Ambil Di Toko</option>
-                    </select>
+                
+                <div class="row my-2">
+                    <div class="col-md-12 d-flex align-items-center justify-content-center ">
+                        <label for="" class="fs-6 col-5 ">Pengambilan Barang</label>
+                        <select name="tipePengiriman" id="pengiriman" class="form-control">
+                            <option value="kirim">Kirim ke Rumah</option>
+                            <option value="ambil">Ambil Di Toko</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="row my-2">
-                <div class="col-md-12 d-flex align-items-center justify-content-center ">
-                    <label for="" class="fs-6 col-5 ">Tipe Pembayaran</label>
-                    <select name="tipe_bayar" id="tipe_bayar" class="form-control">
-                        <option value="cod">COD / Bayar Ditempat</option>
-                        <option value="transfer">Transfer</option>
-                    </select>
+                
+                <div class="row my-2">
+                    <div class="col-md-12 d-flex align-items-center justify-content-center ">
+                        <label for="" class="fs-6 col-5 ">Tipe Pembayaran</label>
+                        <select name="tipe_bayar" id="tipe_bayar" class="form-control">
+                            <option value="cod">COD / Bayar Ditempat</option>
+                            <option value="transfer">Transfer</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            
-            <input type="hidden" name="PanjangtblKeranjang" id="banyakBarang">
-            
-            <div class="row">
-                <div class="col-md-12">
-                    <input type="submit" value="Tambah" class="btn btn-outline-primary my-3 w-100">           
+                
+                <input type="hidden" name="PanjangtblKeranjang" id="banyakBarang">
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="submit" value="Tambah" class="btn btn-outline-primary my-3 w-100">           
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="col-md-6 d-flex">
+            <div class="card flex-fill p-3">
+                
+                <div class="form-group">
+                  <label for="KetTambah">Keterangan Tambahan</label>
+                  <textarea class="form-control" name="ketTam" id="KetTambah" rows="5" placeholder="Anda Dapat Melakukan Request tambahan Seperti Pedas Nya tambah atau asinnya kurangin"></textarea>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 </form>
 

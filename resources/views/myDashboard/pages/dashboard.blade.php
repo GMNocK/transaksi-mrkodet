@@ -100,11 +100,24 @@
                 </div>
             </div>
 
+            {{-- <div class="col-xl-6 col-xxl-7">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+
+                        <h5 class="card-title mb-0">Recent Transaksi Last Month</h5>
+                    </div>
+                    <div class="card-body py-3">
+                        <div class="chart chart-sm">
+                            <canvas id="chartjs-dashboard-line"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
             <div class="col-xl-6 col-xxl-7">
                 <div class="card flex-fill w-100">
                     <div class="card-header">
 
-                        <h5 class="card-title mb-0">Recent Movement</h5>
+                        <h5 class="card-title mb-0">Recent Transaksi Last Month</h5>
                     </div>
                     <div class="card-body py-3">
                         <div class="chart chart-sm">
@@ -120,7 +133,7 @@
                 <div class="card flex-fill w-100">
                     <div class="card-header">
 
-                        <h5 class="card-title mb-0">Browser Usage</h5>
+                        <h5 class="card-title mb-0">Tipe Pembayaran Pesanan</h5>
                     </div>
                     <div class="card-body d-flex">
                         <div class="align-self-center w-100">
@@ -133,17 +146,17 @@
                             <table class="table mb-0">
                                 <tbody>
                                     <tr>
-                                        <td>Chrome</td>
-                                        <td class="text-end">4306</td>
+                                        <td>{{ "Cash On Delivery" }}</td>
+                                        <td class="text-end">{{ $pesananCOD }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Firefox</td>
-                                        <td class="text-end">3801</td>
+                                        <td>{{ "Transfer" }}</td>
+                                        <td class="text-end">{{ $pesananTransfer }}</td>
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <td>IE</td>
                                         <td class="text-end">1689</td>
-                                    </tr>
+                                    </tr> --}}
                                 </tbody>
                             </table>
                         </div>
@@ -265,18 +278,18 @@
                     backgroundColor: gradient,
                     borderColor: window.theme.primary,
                     data: [
-                        2115,
-                        1562,
-                        1584,
-                        1892,
-                        1587,
-                        1923,
-                        2566,
-                        2448,
-                        2805,
-                        3438,
-                        2917,
-                        3327
+                        {{ $transJan }},
+                        {{ $transFeb }},
+                        {{ $transApr }},
+                        {{ $transMar }},
+                        {{ $transMei }},
+                        {{ $transJun }},
+                        {{ $transJul }},
+                        {{ $transAug }},
+                        {{ $transSep }},
+                        {{ $transOct }},
+                        {{ $transNov }},
+                        {{ $transDes }}
                     ]
                 }]
             },
@@ -325,13 +338,12 @@
         new Chart(document.getElementById("chartjs-dashboard-pie"), {
             type: "pie",
             data: {
-                labels: ["Chrome", "Firefox", "IE"],
+                labels: ["COD", "Transfer"],
                 datasets: [{
-                    data: [4306, 3801, 1689],
+                    data: [{{ $pesananCOD }}, {{ $pesananTransfer }}],
                     backgroundColor: [
                         window.theme.primary,
                         window.theme.warning,
-                        window.theme.danger
                     ],
                     borderWidth: 5
                 }]

@@ -13,7 +13,7 @@ class TransaksiFactory extends Factory
             'tgl_transaksi' => $this->faker->date(),
             'total_harga' => 15000,
             'status' => $this->faker->name(),
-            'tipe_bayar' => $this->faker->name(),
+            'tipe_bayar' => 'Ambil Di Toko',
             'pencatat' => $this->faker->name(),
             'token' =>  Str::random(10) // $this->faker->unique()->bothify('??#?##?#?') // panjang lebih dari 8
         ];

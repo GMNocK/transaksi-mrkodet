@@ -15,7 +15,7 @@
             <div class="col-md-4 mt-1 d-flex justify-content-end align-items-center">
 
                 @can('karyawan')
-                <a href="Rekap/laporan/Pelanggan" class="text-center btn btn-outline-secondary">
+                <a href="Rekap/laporanPelanggan" class="text-center btn btn-outline-secondary">
                     <i class="align-middle me-1" data-feather="plus-circle"></i>
                     {{-- <i class="fa fa-plus-circle me-2" aria-hidden="true"></i> --}}
                     Buat Rekap
@@ -40,7 +40,7 @@
                         {{ $i->body }}
                     </div>
                     <div class="footer">
-                        <form action="/karyawan/laporanuser/reply/{{ $i->id }}" method="POST">
+                        <form action="/laporanPelanggan/reply/{{ $i->id }}/create" method="POST">
                             @csrf
                             <button class="text-primary fs-6 float-end me-3 mt-2 link-info border-0" style="background: none;">Reply</button>
                         </form>
@@ -58,5 +58,15 @@
     </div>
 </div>
 
+@if (session('balasBerhasil'))
+    <script>
+        Swal.fire({
+        icon: 'success',
+        title: '{{ session("balasBerhasil") }}',
+        showConfirmButton: false,
+        timer: 1500
+    })
+    </script>
+@endif
 
 @endsection

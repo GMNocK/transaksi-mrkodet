@@ -9,13 +9,14 @@
 
                 <a href="/pesanan/create" class="link-secondary d-flex align-items-center">
                     <i class="align-middle me-1 link-secondary" data-feather="plus-circle"></i>
-                    <h6 class="card-title mb-0 link-secondary">Pesan Barang</h6>
+                    <h6 class="card-title mb-0 link-secondary">Tambah Pelanggan</h6>
                 </a>
             </div>
             <div class="col-md-4 d-flex justify-content-end">
-                <h6 class="link-secondary card-title">
-                    Daftar pesanan saya
-                </h6>
+                <h5 class="link-secondary card-title">
+                    <i class="fa fa-book me-2" aria-hidden="true"></i>
+                    Data Pelanggan 
+                </h5>
             </div>
         </div>
 
@@ -26,8 +27,8 @@
                         <th scope="col">Nama</th>
                         <th scope="col" class="">Alamat</th>
                         <th scope="col" class="">No. Telepon</th>
-                        <th scope="col">Status</th>
                         <th scope="col" class="">Pesanan</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,8 +37,12 @@
                             <td>{{ $p->nama }}</td>
                             <td class="">{{ $p->alamat }}</td>
                             <td class="">{{ $p->no_tlp }}</td>
-                            <td><span class="badge bg-success">Done</span></td>
                             <td class="">{{ $p->pesanan == '[]' ? 'Tidak Pernah' : '$p->pesanan' }}</td>
+                            <td>
+                                <a href="/dataPelanggan/{{ $p->id }}" class="btn btn-primary">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+                            </td>
                         </tr>                        
                     @endforeach
                 </tbody>

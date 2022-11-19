@@ -18,43 +18,36 @@
         </div>
     </div>
 </div>
-<form action="/auth/Profile/update/{{ $data[0]->id }}" method="post">
+{{-- <form action="/auth/Profile/update/{{ $data[0]->id }}" method="post"> --}}
 @csrf
 
-<div class="row">
+
     <div class="col-8">
         <div class="card flex-fill">
             <div class="card-header">
-                Identitas Anda
-            </div>
-            <div class="p-3 fs-3 fw-semibold">
-                <img src="{{ asset('img/avatars/index.png') }}" alt="" class="rounded-5 me-4" width="70px">
-                <span class="namaTampil">
-                    {{ old('nama', auth()->user()->username) }}
-                </span>
-                <a class="link-primary fs-6 ms-2" data-bs-toggle="modal" data-bs-target="#editNama">
-                    Ubah
-                </a>
+                <div class="p-3 fs-4 fw-semibold">
+                    <img src="{{ asset('img/avatars/index.png') }}" alt="" class="rounded-5 me-3" width="35px">
+                    <span class="namaTampil">
+                       {{ $pelanggan->nama }}
+                    </span>
+                </div>
             </div>
             <div class="my-4"></div>
             <div class="col-12">
-                <input type="hidden" name="nama" id="namaPelanggan" value="{{ $data[0]->nama }}">
                 <div class="form-group">
                     <label for="NoTelpon" class="fs-4">No. Telepon</label>
-                    <input type="text" name="no_tlp" id="NoTelpon" class="form-control" value="{{ old('no_tlp', $data[0]->no_tlp) }}" aria-describedby="helpId">
+                    {{-- <input type="text" name="no_tlp" id="NoTelpon" class="form-control" value="{{ old('no_tlp', $data[0]->no_tlp) }}" aria-describedby="helpId"> --}}
                 </div>
                 <div class="form-group mb-2">
                     <label for="Alamat" class="fs-4">Alamat</label>
-                    <textarea class="form-control" name="alamat" id="Alamat" rows="3">{{ old('alamat', $data[0]->alamat) }}</textarea>
+                    {{-- <textarea class="form-control" name="alamat" id="Alamat" rows="3">{{ old('alamat', $data[0]->alamat) }}</textarea> --}}
                 </div>
                 <div class="d-flex justify-content-end my-3">
-                        <button id="btnSave" class="btn btn-primary my-2 text-white" role="button">Save</button>
-                    </div>
+                      
                 </div>
             </div>
-        </div>
+        </div>  
     </div>
-    
 </form>
 
 <div class="modal fade" id="editNama" aria-labelledby="editNamaLabel" aria-hidden="true">
@@ -68,7 +61,7 @@
             <div class="modal-body">
                     <div class="mb-3">
                         <label for="recipient-name" class="col-form-label">Nama lama :</label>
-                        <input type="text" class="form-control" value="{{ $data[0]->nama }}" name="namaPelanggan" id="pelangganNama">
+                        {{-- <input type="text" class="form-control" value="{{ $data[0]->nama }}" name="namaPelanggan" id="pelangganNama"> --}}
                     </div>
                     <div class="mb-3">
                         <label for="recipient-name" class="col-form-label">Nama baru :</label>
@@ -86,33 +79,4 @@
             </div>
         </div>
 </div>
-
-<script>
-    const btnUbahNama = document.querySelector('#btnUbahNama');
-    btnUbahNama.addEventListener('click', function () {
-        const namaPelangganInput = document.querySelector('#namaPelanggan');
-        const NamaBaru = document.querySelector('#namaBaru');
-        const namaTampil = document.querySelector('.namaTampil');
-
-        if (NamaBaru.value == '') {
-            Swal.fire('Nama Kosong');
-        } else {
-            namaTampil.innerHTML = NamaBaru.value;
-            namaPelangganInput.value = "{{ old("+NamaBaru+", $data[0]->nama) }}";
-        }
-    });
-</script>
-
-@if (session('success'))
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: '{{ session("success") }}',
-            showConfirmButton: false,
-            timer: 1600
-        })
-    </script>
-@endif
-
-
 @endsection

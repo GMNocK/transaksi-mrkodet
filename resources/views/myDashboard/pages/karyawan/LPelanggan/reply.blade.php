@@ -1,18 +1,19 @@
-@extends('dashboard.layouts.main')
+@extends('myDashboard.App')
 
-@section('container')
-    <div class="container bg-danger">
+@section('content')
+    <div class="container bg-white shadow-lg rounded">
         <div class="row justify-content-center">
-            <div class="col-10 my-3 bg-light" style="border-radius: 10px; padding: 15px 25px">
-                <div class="header">
-                    <img src="" alt=".." width="35px" height="35px">
+            <div class="col-10 my-3" style="border-radius: 10px; padding: 15px 25px">
+                <div class="header mb-3">
+                    {{-- <img src="" alt=".." width="35px" height="35px"> --}}
+                    <i class="fa fa-user-circle fs-5" aria-hidden="true"></i>
                     <span>{{ $laporanpelanggan->pelanggan->nama }}</span>
                     <div class="float-end me-2">{{ $laporanpelanggan->send_at }}</div>
                     <div class="mt-3 mb-2">
-                        <h5>{{ $laporanpelanggan->title }}</h5>
+                        <h4>{{ $laporanpelanggan->title }}</h4>
                     </div>
                 </div>
-                <div class="fs-7">
+                <div class="fs-5">
                     {{ $laporanpelanggan->body }}
                 </div>
                 <div class="float-end me-3">
@@ -23,15 +24,15 @@
         </div>
 
         <div class="row justify-content-end me-4">
-            <form action="/karyawan/laporanuser/reply" method="post">
+            <form action="/laporanPelanggan/reply" method="POST">
             @csrf
-                <div class="col-7 my-3 bg-light float-end" style="border-radius: 10px; padding: 15px 25px">
+                <div class="col-7 my-3 float-end" style="border-radius: 10px; padding: 15px 25px">
                     <div class="fs-7">
                         <textarea class="form-control " placeholder="Leave a comment here" style="height: 200px" name="body"></textarea>
-                        <input type="hidden" name="hidden" value="{{ $laporanpelanggan->id }}">                      
+                        <input type="hidden" name="lp" value="{{ $laporanpelanggan->id }}">                      
                     </div>
                     <div class="mt-2">
-                        <button class="btn btn-outline-success float-end">Send</button>
+                        <button class="btn btn-outline-success float-end">Balas</button>
                     </div>
                 </div>
 

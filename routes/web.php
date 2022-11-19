@@ -21,7 +21,6 @@ use App\Http\Controllers\Data\TransaksiController;
 use App\Http\Controllers\Rekap\RekapPesananController;
 use App\Http\Controllers\Rekap\RekapLPelangganController;
 use App\Http\Controllers\Rekap\RekapTransaksiController;
-use Psy\TabCompletion\AutoCompleter;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,36 +94,42 @@ Route::middleware(['auth'])->group(function () {
         
         Route::resource('/pesananSaya', PesananController::class)->only('index');
         Route::resource('/pesanan', PesananController::class)->except('index');
+        Route::get('/pesanan/batal/{pesanan}', [PesananController::class, 'batal']);
+        Route::get('/pesanan/delete/{pesanan}', [PesananController::class, 'destroy']);
         
         Route::get('/myDashboard/pesanan/history', [PesananController::class, 'history']);
         
         Route::resource('LaporanSaya', ReportController::class);
-        Route::get('/Laporan/History', [ReportController::class, 'history']);        
+        Route::get('/Laporan/History', [ReportController::class, 'history']);
     });
     
     Route::middleware(['IsKaryawan', 'IsAdmin'])->group(function () {
         Route::resource('/transaksi', TransaksiController::class);
         Route::get('/delete/transaksi/{transaksi}', [TransaksiController::class, 'destroy']);
 
+        // Terkait Pemesanan \ Pesanan
         Route::get('/pesananPelanggan/{pesanan}', [PesananController::class, 'show'])->name('showPpelanggan');
+        Route::post('/pesanan/accept/{pesanan}', [PesananController::class, 'KaryawanAccept']);
         Route::resource('/pesananPelanggan', PesananController::class)->only(['index']);
-
-        Route::resource('/dataPelanggan', DataPelangganController::class);
         
-        // Route::resource('/laporanPelanggan', LaporanKaryawanController::class);
+        Route::resource('/dataPelanggan', DataPelangganController::class);    
         
         Route::get('/laporanPelanggan', [KaryawanController::class, 'pelangganReport']);
-        Route::post('/karyawan/laporanuser/reply/{laporanPelanggan}', [KaryawanController::class, 'replyPelangganR'])->name('indexReply');
+        Route::post('/laporanPelanggan/reply/{laporanPelanggan}/create', [KaryawanController::class, 'replyPelangganR'])->name('indexReply');
+        Route::post('/laporanPelanggan/reply', [KaryawanController::class, 'StoreReply']);
                 
         Route::resource('/laporanPelanggan/Feedback', FeedbackKaryawanController::class);
 
-        Route::resource('/Rekap/pesanan', RekapPesananController::class);
-        Route::resource('/Rekap/Transaksi', RekapTransaksiController::class);
-        Route::resource('/Rekap/laporanPelanggan', RekapLPelangganController::class);
+        Route::resource('/Rekap/RPesanan', RekapPesananController::class);
+        Route::resource('/Rekap/RTransaksi', RekapTransaksiController::class);
+        Route::resource('/Rekap/RLaporanPelanggan', RekapLPelangganController::class);
+
     });
+
+    Route::get('/coba', [Controller::class, 'coba']);
     
-    Route::get('/auth/profile', [AuthController::class, 'profile'])->name('profile');
-    Route::post('/auth/Profile/update/{pelanggan}', [AuthController::class, 'profileUpdate']);
+    Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+    Route::post('/Profile/update/{pelanggan}', [AuthController::class, 'profileUpdate']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });

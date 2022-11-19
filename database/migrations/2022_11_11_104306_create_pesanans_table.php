@@ -17,8 +17,11 @@ class CreatePesanansTable extends Migration
             $table->string('tipe_kirim');
             $table->string('tipePembayaran'); 
             // transfer, cod, tunai
-            $table->string('status')->default('belum dibaca');
-            // belum dibaca, dibaca, diproses, dikirim, selesai
+            $table->tinyInteger('status')->default(1);
+            // belum dibaca, dibaca, diterima, diproses, dikirim, selesai, batal
+            //      1,          2,      3,       4,         5,       6,     0   
+            // sesuai urutan alias nomernya
+            $table->text('keterangan')->nullable();
             $table->string('kode')->unique();
             $table->timestamps();
         });

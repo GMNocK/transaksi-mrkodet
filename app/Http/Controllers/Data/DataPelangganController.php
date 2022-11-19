@@ -51,7 +51,7 @@ class DataPelangganController extends Controller
     
     public function show(Pelanggan $dataPelanggan)
     {
-        return view('dashboard.dataPelanggan.detailPelanggan', [
+        return view('myDashboard.pages.karyawan.dataPelanggan.Pdetail', [
             'pelanggan' => $dataPelanggan,
         ]);
     }

@@ -14,7 +14,7 @@ class FeedbackKaryawanFactory extends Factory
     public function definition()
     {
         return [
-            'body' => $this->faker->paragraph(),
+            'body' => $this->faker->paragraph(1),
             'laporan_pelanggan_id' => mt_rand(1,10),
             'karyawan_id' => 1,
         ];
