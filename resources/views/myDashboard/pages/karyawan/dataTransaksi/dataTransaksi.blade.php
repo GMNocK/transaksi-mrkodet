@@ -17,15 +17,9 @@
 
 <div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
-        <div class="card-header">
-            <div class="col-md-4 mt-1">
-
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="ms-2 col-md-4 justify-content-start d-flex">
                 @can('karyawan')
-                    
-                {{-- <a href="/transaksi/create" class="link-secondary d-flex align-items-center">
-                    <i class="align-middle me-1 link-secondary" data-feather="plus-circle"></i>
-                    <h6 class="card-title mb-0 link-secondary">Tambah Transaksi</h6>
-                </a> --}}
                 <h2>
                     <a href="transaksi/create" class="text-center btn btn-outline-secondary">
                         <i class="align-middle me-1 mb-1" data-feather="plus-circle"></i>
@@ -33,6 +27,16 @@
                         Buat Transaksi Baru
                     </a>
                 </h2>
+                @endcan
+            </div>
+            <div class="col-md-4 mt-1 d-flex justify-content-end align-items-center">
+
+                @can('karyawan')
+                    <a href="/Rekap/RTransaksi" class="text-center btn btn-outline-secondary">
+                        {{-- <i class="align-middle me-1" data-feather="plus-circle"></i> --}}
+                        <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>
+                        Buat Rekap
+                    </a>
                 @endcan
             </div>
         </div>
@@ -275,6 +279,11 @@
 
 <script src="{{ asset('js/CostumJs/deleteConfirm.js') }}"></script>
 
+{{-- <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        print();
+    });
+</script> --}}
 
 @if (session('successDelete'))
 <script>

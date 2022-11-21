@@ -99,7 +99,8 @@ Route::middleware(['auth'])->group(function () {
         
         Route::get('/myDashboard/pesanan/history', [PesananController::class, 'history']);
         
-        Route::resource('LaporanSaya', ReportController::class);
+        Route::get('/LaporanSaya', [ReportController::class, 'index']);
+        Route::resource('/Laporan', ReportController::class)->except('index');
         Route::get('/Laporan/History', [ReportController::class, 'history']);
     });
     

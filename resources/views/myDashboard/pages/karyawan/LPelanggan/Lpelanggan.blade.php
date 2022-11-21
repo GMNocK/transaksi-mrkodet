@@ -4,22 +4,21 @@
     
 <div class="col-md-12 col-lg-12 col-xxl-8 d-flex">
     <div class="card flex-fill">
-        <div class="card-header justify-content-between d-flex">
-            <div class="ms-2 col-md-4 justify-content-start d-flex">
-
-                <a href="#LaporanPelanggan" class=" d-flex align-items-center">
-                    <i class="align-middle me-1 link-secondary" data-feather="book"></i>
-                    <h6 class="card-title mb-0 link-secondary">Data Laporan Pelanggan</h6>
-                </a>
+        <div class="card-header justify-content-between d-flex align-content-center">
+            <div class="ol-md-4 ms-3 mt-2 d-flex justify-content-end align-items-center">
+                <h5 class="link-secondary card-title">
+                    <i class="fa fa-book me-2" aria-hidden="true"></i>
+                    Data Laporan Pelanggan
+                </h5>
             </div>
             <div class="col-md-4 mt-1 d-flex justify-content-end align-items-center">
 
                 @can('karyawan')
-                <a href="Rekap/laporanPelanggan" class="text-center btn btn-outline-secondary">
-                    <i class="align-middle me-1" data-feather="plus-circle"></i>
-                    {{-- <i class="fa fa-plus-circle me-2" aria-hidden="true"></i> --}}
-                    Buat Rekap
-                </a>
+                    <a href="/Rekap/RLaporanPelanggan" class="text-center btn btn-outline-secondary">
+                        {{-- <i class="align-middle me-1" data-feather="plus-circle"></i> --}}
+                        <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>
+                        Buat Rekap
+                    </a>
                 @endcan
             </div>
         </div>

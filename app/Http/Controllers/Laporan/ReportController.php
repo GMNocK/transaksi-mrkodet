@@ -34,7 +34,7 @@ class ReportController extends Controller
     
     public function create()
     {
-        return view('dashboard.transaksi.report.create', [
+        return view('myDashboard.pages.pelanggan.laporan.LCreate', [
             'pelanggans' => Pelanggan::where('user_id', auth()->user()->id)->get()  ,
         ]);
     }

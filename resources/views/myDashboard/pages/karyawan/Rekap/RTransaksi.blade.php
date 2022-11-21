@@ -18,21 +18,27 @@
 <div class="col-md-12 col-lg-12 col-xxl-8 d-flex">
     <div class="card flex-fill">
         <div class="card-header">
-            <div class="col-md-4 mt-1">
+            <div class="col-md-5 mt-1">
 
                 @can('karyawan')
-                    
-                {{-- <a href="/transaksi/create" class="link-secondary d-flex align-items-center">
-                    <i class="align-middle me-1 link-secondary" data-feather="plus-circle"></i>
-                    <h6 class="card-title mb-0 link-secondary">Tambah Transaksi</h6>
-                </a> --}}
-                <h2>
+                {{-- <h2>
                     <a href="transaksi/create" class="text-center btn btn-outline-secondary">
                         <i class="align-middle me-1 mb-1" data-feather="plus-circle"></i>
-                        {{-- <i class="fa fa-plus-circle me-2" aria-hidden="true"></i> --}}
+                        <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>
                         Buat Transaksi Baru
                     </a>
-                </h2>
+                </h2> --}}
+
+                <div class="form-group">
+                    <label for="filterRekap">Rekap Transaksi Berdasarkan tanggal</label>
+                    <select class="custom-select" name="" id="filterRekap">
+                        <option value="today" selected>Hari Ini</option>
+                        <option value="tmonth">Bulan Ini</option>
+                        <option value="tyear">Tahun Ini</option>
+                        <option value="yester">Kemarin</option>
+                    </select>
+                </div>
+
                 @endcan
             </div>
         </div>
@@ -79,11 +85,12 @@
                         <td class="text-center">
                             @if ($t->pesanan_id == '')                            
                                 <span class="badge bg-danger p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
-                                    X
+                                    Offline
                                 </span>
                             @else
                                 <span class="badge bg-success p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
-                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                    {{-- <i class="fa fa-check" aria-hidden="true"></i> --}}
+                                    Online
                                 </span>                                
                             @endif                            
                         </td>

@@ -25,7 +25,7 @@
                     <tr>
                         <th scope="col">Name</th>
                         <th scope="col" class="">Waktu Pesan</th>
-                        <th scope="col" class="">End Date</th>
+                        <th scope="col" class="">Total Harga</th>
                         <th scope="col" class="text-center">Status</th>
                         <th scope="col" class="text-center"></th>
                     </tr>

@@ -29,7 +29,7 @@ class PesananController extends Controller
         $pelangganId = Pelanggan::where('user_id', auth()->user()->id)->get('id');
         // return $pelangganId[0]->id;
         return view('myDashboard.pages.pelanggan.pesanan.pesan', [
-            'pesananSaya' => Pesanan::where('pelanggan_id', $pelangganId[0]->id)->orderBy('status', 'desc')->get(),
+            'pesananSaya' => Pesanan::where('pelanggan_id', $pelangganId[0]->id)->orderBy('waktu_pesan', 'desc')->get(),
         ]);
     }
 

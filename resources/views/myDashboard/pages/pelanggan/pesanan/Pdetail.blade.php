@@ -33,9 +33,63 @@
                         <td class="">{{ $pesanan->waktu_pesan }}</td>
                         <td class="">Rp.{{ $pesanan->total_harga }}</td>
                         <td class="text-center">
-                            <span class="badge {{ $pesanan->status == '123' ? 'bg-danger' : 'bg-success' }} ">
-                                {{ $pesanan->status }}
-                            </span>
+                            @if ($pesanan->status == '1')
+
+                                <span class="badge bg-secondary fs-6">
+                                    Belum dibaca
+                                </span>
+
+                            @else
+
+                                @if ($pesanan->status == '2')
+
+                                    <span class="badge bg-info fs-6">
+                                        Di Baca
+                                    </span>     
+
+                                @endif
+
+                                @if ($pesanan->status == '3')
+
+                                    <span class="badge bg-success fs-6">
+                                        Di Terima
+                                    </span>                                        
+                                    
+                                @endif
+
+                                @if ($pesanan->status == '4')
+
+                                    <span class="badge bg-warning fs-6">
+                                        Pesanan Di Proses
+                                    </span>                                        
+                                    
+                                @endif
+
+                                @if ($pesanan->status == '5')
+
+                                    <span class="badge bg-warning fs-6">
+                                        Dikirim Ke tempat Tujuan
+                                    </span>                                        
+                                    
+                                @endif
+                                
+                                @if ($pesanan->status == '6')
+
+                                    <span class="badge bg-primary fs-6">
+                                        Selesai
+                                    </span>                                        
+                                    
+                                @endif
+
+                                @if ($pesanan->status == '0')
+
+                                    <span class="badge bg-danger fs-6">
+                                        Batal
+                                    </span>                                        
+                                    
+                                @endif
+                                
+                            @endif
                         </td>                        
                     </tr>
                 </tbody>

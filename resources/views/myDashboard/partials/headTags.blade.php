@@ -22,7 +22,9 @@
 
 	<title>Dashboard - Mr. kodet</title>
 
-	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	
+	<script src="{{ asset('js/sweetAlert/sweetAlert2.js') }}"></script>
+	{{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 
     {{-- Font Google --}}
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">

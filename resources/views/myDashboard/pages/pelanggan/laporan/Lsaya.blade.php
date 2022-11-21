@@ -5,52 +5,63 @@
 <div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
         <div class="card-header">
-            <div class="div"></div>
+            <div class="ms-2 col-md-4 justify-content-start d-flex">
+
+                <a href="/Laporan/create" class="link-secondary d-flex align-items-center">
+                    <i class="align-middle me-2 link-secondary" data-feather="plus-circle"></i>
+                    <h6 class="card-title mb-0 link-secondary">Buat Laporan</h6>
+                </a>
+            </div>
         </div>
 
-        <div class="table-responsive col-12 mt-4">        
+        <div class="table-responsive col-12 mt-1">        
             <table class="table table-striped table-hover">
                 <thead class="bg-secondary text-white shadow-sm">
                     <tr>
                         <th scope="col">No</th>
-                        <th scope="col" style="min-width: 85px">Isi</th>
+                        <th scope="col" style="min-width: 85px">Judul</th>
                         <th scope="col" style="min-width: 100px">Tanggal</th>
-                        <th scope="col" class="text-center" style="min-width: 90px"></th>
+                        <th scope="col" class="text-center" style="min-width: 180px"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($LaporanPelanggans as $l)
-                        
+
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
-                        <td>{{ $l->excerpt }}</td>
+                        <td>{{ $l->title }}</td>
                         <td>{{ $l->send_at }}</td>
-                        <td style="text-align: center">
-            
-                            <a href="/transaksi/reports/{{ $l->id }}" class="badge bg-primary"><span data-feather="eye"></span></a>                 
-                              
-                              <form action="/transaksi/reports/{{ $l->id }}" method="post" class="d-inline" onclick="return confirm('Yakin Untuk Menghapus?');">
+                        <td class="text-center">
+                            @can('pelanggan')
+                                
+                            <a href="/transaksi/reports/{{ $l->id }}" class="btn btn-primary"><span data-feather="eye"></span></a>                 
+                            
+                            <form action="/transaksi/reports/{{ $l->id }}" method="post" class="d-inline" onclick="return confirm('Yakin Untuk Menghapus?');">
                                 @method('delete')
                                 @csrf
-                                <button class="badge bg-danger border-0">
-                                  <span data-feather="x-circle"></span>
+                                <button class="btn btn-danger">
+                                    <span data-feather="x-circle"></span>
                                 </button>
-                              </form>
-                              
-                              <a href="/transaksi/reports/{{ $l->id }}/edit/" class="badge bg-warning">
+                            </form>
+                            
+                            <a href="/transaksi/reports/{{ $l->id }}/edit/" class="btn btn-warning">
                                 <span data-feather="edit"></span>
-                              </a>                                                            
-                              
+                            </a>                                                            
+                            
+                            @endcan
                         </td> 
                     </tr>
             
                     @endforeach
                 </tbody>
             </table>
+            {{-- <a href="{{ route('dashboard') }}">
+                <h1 class="btn btn-circle btn-success my-2">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    Back
+                </h1>
+            </a> --}}
         </div>
-            <a href="{{ route('dashboard') }}">
-                <h1 class="btn btn-circle btn-success mt-5">Back</h1>
-            </a>
     </div>
 </div>
     

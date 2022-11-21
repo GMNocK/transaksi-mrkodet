@@ -132,9 +132,11 @@
             <form>
                 @csrf
                 <div class="mb-3">
+                    <label for="NamBarModal" class="form-label">Nama Barang</label>
                     <input type="text" class="form-control" id="NamBarModal" readonly>                
                 </div>
                 <div class="mb-3">
+                    <label for="NamBarModal" class="form-label">Ukuran Barang</label>
                     <select class="form-control" id="pilihanUkuran" onchange="GetSubTotal();">
                         <option value="1" class="">1 Kg</option>
                         <option value="1/2" class="">1/2 Kg</option>
@@ -143,9 +145,11 @@
                     </select>
                 </div>
                 <div class="mb-3">
+                    <label for="NamBarModal" class="form-label">Jumlah Barang</label>
                     <input type="number" class="form-control" id="iniQty" value="1">
                 </div>         
                 <div class="mb-3">
+                    <label for="NamBarModal" class="form-label">Total Harga</label>
                     <input type="text" class="form-control" id="subTotal" value="60000">
                 </div>         
             </form>
