@@ -22,7 +22,7 @@ class PesananController extends Controller
             // $itu = Pesanan::where('pelanggan_id', 18)->get();
             // return $itu[0];
             return view('myDashboard.pages.karyawan.pesanan.daftarPesanan', [
-                'pesanan' => Pesanan::orderBy('status', 'asc')->paginate(10),
+                'pesanan' => Pesanan::orderByDesc('waktu_pesan')->orderBy('status', 'asc')->paginate(10),
                 // 'waktuPesan' => $ini[0]
             ]);
         }

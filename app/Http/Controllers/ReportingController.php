@@ -1,0 +1,87 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use App\Models\Pesanan;
+use App\Models\Transaksi;
+use Illuminate\Http\Request;
+
+class ReportingController extends Controller
+{
+    public function transaksi(Request $request)
+    {
+        $request->validate(['typeRekap' => 'required']);
+
+        $transaksi = Transaksi::orderByDesc('tgl_transaksi');
+
+        if ($request->typeRekap == 'today') {
+            return view('myDashboard.pages.Reporting.pages.LTrans', [
+                'isi' => 'Sesuai Cetaknya Apa',
+                'transaksi' => $transaksi->whereDate('tgl_transaksi', date('Y-m-d'))->paginate(8),
+            ]);        }
+
+        if ($request->typeRekap == 'tmonth') {
+            return view('myDashboard.pages.Reporting.pages.LTrans', [
+                'transaksi' => $transaksi->whereMonth('tgl_transaksi' , date('m'))->whereYear('tgl_transaksi', date('Y'))->paginate(8),
+                'filter' => $request->typeRekap
+            ]);
+        }
+        if ($request->typeRekap == 'tyear') {
+            return view('myDashboard.pages.Reporting.pages.LTrans', [
+                'transaksi' => $transaksi->whereYear('tgl_transaksi', date('Y'))->paginate(8),
+                'filter' => $request->typeRekap
+            ]);
+        }
+        if ($request->typeRekap == 'yester') {
+            return view('myDashboard.pages.Reporting.pages.LTrans', [
+                'transaksi' => $transaksi->WhereDate('tgl_transaksi', (date('Y-m-') . (date('d')-1)))->paginate(8),
+                'filter' => $request->typeRekap
+            ]);
+        }
+        if ($request->typeRekap == 'all') {
+            return view('myDashboard.pages.Reporting.pages.LTrans', [
+                'transaksi' => $transaksi->paginate(8),
+                'filter' => $request->typeRekap
+            ]);
+        }
+    }
+
+    public function pesanan(Request $request)
+    {
+        $request->validate(['typeRekap' => 'required']);
+
+        $pesanans = Pesanan::orderByDesc('waktu_pesan');
+
+        if ($request->typeRekap == 'today') {
+            return view('myDashboard.pages.Reporting.pages.LPesanan', [
+                'isi' => 'Sesuai Cetaknya Apa',
+                'pesanan' => $pesanans->whereDate('waktu_pesan', date('Y-m-d'))->paginate(8),
+            ]);        }
+
+        if ($request->typeRekap == 'tmonth') {
+            return view('myDashboard.pages.Reporting.pages.LPesanan', [
+                'pesanan' => $pesanans->whereMonth('waktu_pesan' , date('m'))->whereYear('waktu_pesan', date('Y'))->paginate(8),
+                'filter' => $request->typeRekap
+            ]);
+        }
+        if ($request->typeRekap == 'tyear') {
+            return view('myDashboard.pages.Reporting.pages.LPesanan', [
+                'pesanan' => $pesanans->whereYear('waktu_pesan', date('Y'))->paginate(8),
+                'filter' => $request->typeRekap
+            ]);
+        }
+        if ($request->typeRekap == 'yester') {
+            return view('myDashboard.pages.Reporting.pages.LPesanan', [
+                'pesanan' => $pesanans->WhereDate('waktu_pesan', (date('Y-m-') . (date('d')-1)))->paginate(8),
+                'filter' => $request->typeRekap
+            ]);
+        }
+        if ($request->typeRekap == 'all') {
+            return view('myDashboard.pages.Reporting.pages.LPesanan', [
+                'pesanan' => $pesanans->paginate(8),
+                'filter' => $request->typeRekap
+            ]);
+        }
+    }
+}

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardUsersController;
 use App\Http\Controllers\KaryawanController;
 
+use App\Http\Controllers\ReportingController;
+
 use App\Http\Controllers\Laporan\FeedbackKaryawanController;
 use App\Http\Controllers\Laporan\LaporanKaryawanController;
 use App\Http\Controllers\Laporan\ReportController;
@@ -113,17 +115,20 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/pesanan/accept/{pesanan}', [PesananController::class, 'KaryawanAccept']);
         Route::resource('/pesananPelanggan', PesananController::class)->only(['index']);
         
-        Route::resource('/dataPelanggan', DataPelangganController::class);    
+        Route::resource('/dataPelanggan', DataPelangganController::class);
         
         Route::get('/laporanPelanggan', [KaryawanController::class, 'pelangganReport']);
         Route::post('/laporanPelanggan/reply/{laporanPelanggan}/create', [KaryawanController::class, 'replyPelangganR'])->name('indexReply');
         Route::post('/laporanPelanggan/reply', [KaryawanController::class, 'StoreReply']);
-                
+
         Route::resource('/laporanPelanggan/Feedback', FeedbackKaryawanController::class);
 
         Route::resource('/Rekap/RPesanan', RekapPesananController::class);
         Route::resource('/Rekap/RTransaksi', RekapTransaksiController::class);
         Route::resource('/Rekap/RLaporanPelanggan', RekapLPelangganController::class);
+        
+        Route::post('/Rekap/Pesanan', [ReportingController::class, 'pesanan']);
+        Route::post('/Rekap/Transaksi', [ReportingController::class, 'transaksi']);
 
     });
 

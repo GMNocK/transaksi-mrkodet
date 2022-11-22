@@ -486,7 +486,7 @@
     });
 </script>
 
-@if (session('loginOk'))    
+@if (session('loginOk'))
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             Swal.fire({

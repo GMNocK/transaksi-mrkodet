@@ -133,7 +133,7 @@
                             <td>{{ $i->barang->nama_barang }}</td>
                             {{-- <td class="">{{ $waktuPesan[($loop->iteration - 1)]->waktu_pesan }}</td> --}}
                             <td class="">Rp.{{ $i->hargaPerKg }}</td>
-                            <td class="text-center">{{ $i->ukuran }}.Kg</td>
+                            <td class="text-center">{{ $i->ukuran }} {{ $i->ukuran == '3000' ? 'Rupiah' : '.Kg' }}</td>
                             <td class="text-center">{{ $i->jumlahPesan }}</td>
                             <td class="text-center">
                                 Rp.{{ $i->subtotal }}                                    
@@ -151,7 +151,7 @@
         
         <div class="form-group">
           <label for="KetTambah">Keterangan Tambahan</label>
-          <textarea readonly class="form-control" name="ketTam" id="KetTambah" rows="5" placeholder="Anda Dapat Melakukan Request tambahan Seperti Pedas Nya tambah atau asinnya kurangin">{{ $pesanan->keterangan }}</textarea>
+          <textarea readonly class="form-control" name="ketTam" id="KetTambah" rows="5" placeholder="Tidak Ada">{{ $pesanan->keterangan }}</textarea>
         </div>
 
     </div>

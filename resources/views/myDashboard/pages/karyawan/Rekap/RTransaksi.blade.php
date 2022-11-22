@@ -2,7 +2,7 @@
 
 @section('content')
     
-<nav class="breadcrumb mb-4 col-md-12 justify-content-between">
+<nav class="breadcrumb mb-4 col-md-12 justify-content-between bg-transparent">
     <div>
         <a class="breadcrumb-item" href="#">myDashBoard</a>
         <span class="breadcrumb-item active">Transaksi</span>
@@ -15,30 +15,43 @@
 </nav>
 
 
-<div class="col-md-12 col-lg-12 col-xxl-8 d-flex">
+<div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
         <div class="card-header">
-            <div class="col-md-5 mt-1">
+            <div class="col-md-12 mt-1 d-flex justify-content-between">
 
                 @can('karyawan')
-                {{-- <h2>
-                    <a href="transaksi/create" class="text-center btn btn-outline-secondary">
-                        <i class="align-middle me-1 mb-1" data-feather="plus-circle"></i>
-                        <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>
-                        Buat Transaksi Baru
-                    </a>
-                </h2> --}}
 
-                <div class="form-group">
-                    <label for="filterRekap">Rekap Transaksi Berdasarkan tanggal</label>
-                    <select class="custom-select" name="" id="filterRekap">
-                        <option value="today" selected>Hari Ini</option>
-                        <option value="tmonth">Bulan Ini</option>
-                        <option value="tyear">Tahun Ini</option>
-                        <option value="yester">Kemarin</option>
-                    </select>
-                </div>
+                    <form action="/Rekap/RTransaksi" class="d-flex">
+                        <div class="form-group">
+                            <label for="filterRekap">Rekap Transaksi Berdasarkan</label>
+                            <select class="custom-select" name="filterTgl" id="filterRekap">
+                                <option value="today" {{ $filter == 'today' ? 'selected' : '' }} >Hari Ini</option>
+                                <option value="tmonth" {{ $filter == 'tmonth' ? 'selected' : '' }}>Bulan Ini</option>
+                                <option value="tyear" {{ $filter == 'tyear' ? 'selected' : '' }}>Tahun Ini</option>
+                                <option value="yester" {{ $filter == 'yester' ? 'selected' : '' }}>Kemarin</option>
+                                <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>Semua</option>
+                            </select>
+                        </div>
+                        <div class="form-group d-flex align-items-end ms-4">
+                            <button class="btn btn-success btn-lg">
+                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                                Refresh
+                            </button>
+                        </div>
+                    </form>
+                    <form action="/Rekap/Transaksi" method="post">
+                        @csrf
+                        <input type="hidden" id="forRekap" name="typeRekap" value="{{ old('filterTgl', 'today') }}">
+                        <div class="form-group d-flex align-items-end ms-4">
+                            <button class="btn btn-primary btn-lg">
+                                <i class="fa fa-print me-2" aria-hidden="true"></i>
+                                Cetak
+                            </button>
+                        </div>
 
+                    </form>
+                    
                 @endcan
             </div>
         </div>
@@ -114,5 +127,7 @@
 
     </div>
 </div>
+
+<script src="{{ asset('js/CostumJs/filterRekapTrans.js') }}"></script>
 
 @endsection

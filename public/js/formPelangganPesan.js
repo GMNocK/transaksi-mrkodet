@@ -111,6 +111,8 @@ function addIconTblkeranjang(tdIconEdit) {
     icon.classList.add('fa');
     icon.classList.add('fa-trash-alt');
     icon.classList.add('link');
+    icon.classList.add('fs-4');
+    icon.classList.add('text-danger');
 
     icon.style.cursor = 'pointer';
     

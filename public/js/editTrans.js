@@ -142,6 +142,8 @@ function addIconTblkeranjang(tdIconEdit) {
     icon.classList.add('fa');
     icon.classList.add('fa-edit');
     icon.classList.add('link');
+    icon.classList.add('text-success');
+    icon.classList.add('fs-4');
     
     tdIconEdit.appendChild(icon);
 }

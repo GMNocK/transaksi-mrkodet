@@ -225,6 +225,8 @@ function iconDltMaker(td) {
     icon.classList.add('fa');
     icon.classList.add('fa-trash-alt');
     icon.classList.add('text-center');
+    icon.classList.add('text-danger');
+    icon.classList.add('fs-4');
 
     icon.style.cursor = 'pointer';
 

@@ -79,8 +79,8 @@
                     <div class="col-md-12 d-flex align-items-center justify-content-center ">
                         <label for="" class="fs-6 col-5 ">Pengambilan Barang</label>
                         <select name="tipePengiriman" id="pengiriman" class="form-control">
-                            <option value="kirim">Kirim ke Rumah</option>
-                            <option value="ambil">Ambil Di Toko</option>
+                            <option value="Kirim Ke Rumah">Kirim ke Rumah</option>
+                            <option value="Ambil Di Toko">Ambil Di Toko</option>
                         </select>
                     </div>
                 </div>
@@ -89,8 +89,8 @@
                     <div class="col-md-12 d-flex align-items-center justify-content-center ">
                         <label for="" class="fs-6 col-5 ">Tipe Pembayaran</label>
                         <select name="tipe_bayar" id="tipe_bayar" class="form-control">
-                            <option value="cod">COD / Bayar Ditempat</option>
-                            <option value="transfer">Transfer</option>
+                            <option value="COD">COD / Bayar Ditempat</option>
+                            <option value="Transfer">Transfer</option>
                         </select>
                     </div>
                 </div>

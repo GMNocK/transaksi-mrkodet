@@ -11,10 +11,9 @@
 	<meta name="author" content="Mr. Kodet">
 	<meta name="keywords" content="online shop"> --}}
 
-	{{-- <link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+    {{-- Font Google --}}
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">	
 
-	<link rel="canonical" href="https://demo-basic.adminkit.io/" /> --}}
     <link rel="stylesheet" href="{{ asset('bootstrap/bootstrap.min.css') }}">
 	<link href="{{ asset('APP/app.css') }}" rel="stylesheet">
 
@@ -26,6 +25,4 @@
 	<script src="{{ asset('js/sweetAlert/sweetAlert2.js') }}"></script>
 	{{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 
-    {{-- Font Google --}}
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
