@@ -2,14 +2,14 @@
 
 @section('isi')
     
-<div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
-    <div class="card flex-fill p-3">
-        <div class="card-header fs-3 my-3 d-flex justify-content-center align-items-center">
+<div class="col-md-12 col-lg-12 col-xxl-12 d-flex p-0">
+    <div class="card flex-fill p-0">
+        <div class="card-header fs-3 d-flex justify-content-center align-items-center">
             <span>Laporan Transaksi</span>
         </div>
 
         <div class="table-responsive col-12 mb-4">
-            <table class="table table-hover my-0">
+            <table class="table my-0">
                 <thead class="">
                     <tr>
                         <th scope="col" style="min-width: 100px">Tanggal</th>
@@ -35,6 +35,13 @@
             </table>
         </div>
     </div>
+</div>
+
+<div id="kembali" class="my-3">
+    <a href="/Rekap/RTransaksi" class="btn btn-success btn-lg">
+        <i class="fa fa-arrow-left me-1" aria-hidden="true"></i>
+        Kembali
+    </a>
 </div>
 
 @endsection

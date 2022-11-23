@@ -122,11 +122,16 @@
                         <span class="align-middle">Rekap Pesanan</span>
                     </a>
                 </li>
-                
                 <li class="sidebar-item {{ Request::is('Rekap/RTransaksi*') ? 'active' : '' }}">
                     <a class="sidebar-link text-decoration-none" href="/Rekap/RTransaksi">
                         <i class="align-middle" data-feather="clipboard"></i> 
                         <span class="align-middle">Rekap Transaksi</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ Request::is('Rekap/RPelanggan*') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/Rekap/RPelanggan">
+                        <i class="align-middle" data-feather="clipboard"></i> 
+                        <span class="align-middle">Rekap Data Pelanggan</span>
                     </a>
                 </li>
                 <li class="sidebar-item {{ Request::is('Rekap/RLaporanPelanggan*') ? 'active' : '' }}">

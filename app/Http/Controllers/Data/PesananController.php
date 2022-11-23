@@ -86,6 +86,7 @@ class PesananController extends Controller
         
         // MASUK KE DB TRANSAKSI
         $pesanan = new Pesanan([
+            'waktu_pesan' => now(),
             'pelanggan_id' => $pelangganId,  
             'total_harga' => Str::after($validateData['TotalBayar'],'.'),
             'tipe_kirim' => $validateData['tipePengiriman'],
@@ -212,5 +213,41 @@ class PesananController extends Controller
         $pesanan->update($update);
         // Terima Kasih, Pesanan Anda kami terima. pemberitahuan lebih lanjut akan kami hubungi lewat whatsapp
         return redirect(route('pesananPelanggan.index'))->with('berhasil', 'Pesanan telah diterima');
+    }
+
+    public function KarAcceptProgress(Request $request, Pesanan $pesanan)
+    {
+        $status = 4;
+
+        if ($request->stat == '4') {
+            $status = 4;
+        }
+
+        $update = array('status' => $status);
+
+        $pesanan->update($update);
+
+        // Terima Kasih, Pesanan Anda kami terima. pemberitahuan lebih lanjut akan kami hubungi lewat whatsapp
+        return redirect(route('pesananPelanggan.index'))->with('terimaProgress', 'Pesanan Dalam Proses Pembuatan');
+    }
+
+    public function tandaiKirim(Request $request, Pesanan $pesanan)
+    {
+        $status = 5;
+
+        if ($request->finish) {
+            $status = 6;
+        }
+
+        $update = array('status' => $status);
+
+        $pesanan->update($update);
+
+        // Terima Kasih, Pesanan Anda kami terima. pemberitahuan lebih lanjut akan kami hubungi lewat whatsapp
+        if ($status == 5) {            
+            return redirect(route('pesananPelanggan.index'))->with('Dikirim', 'Pesanan Dalam Proses Pengiriman');
+        } else {
+            return redirect(route('pesananPelanggan.index'))->with('selesai', 'Pesanan Selesai');
+        }
     }
 }

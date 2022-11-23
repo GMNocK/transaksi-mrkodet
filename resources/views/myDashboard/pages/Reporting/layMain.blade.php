@@ -6,16 +6,26 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link rel="stylesheet" href="{{ asset('APP/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
 
-    <title>Laporan Transaksi</title>
+
+    <style>
+        @media print {
+            #kembali {
+                display: none;
+            }
+        }
+    </style>
+
+    <title>Cetak Laporan</title>
 </head>
 <body>
     
     <div class="wrapper">
-        <div class="container">
+        <div class="container-fluid">
 
             @yield('isi')
-
+            
         </div>
     </div>
 

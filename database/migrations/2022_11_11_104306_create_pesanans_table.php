@@ -12,7 +12,7 @@ class CreatePesanansTable extends Migration
         Schema::create('pesanans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pelanggan_id')->constrained()->cascadeOnDelete();
-            $table->timestamp('waktu_pesan');
+            $table->dateTime('waktu_pesan');
             $table->integer('total_harga');
             $table->string('tipe_kirim');
             $table->string('tipePembayaran'); 

@@ -16,14 +16,14 @@
 </nav>
 
 
-<div class="col-md-12 col-lg-12 col-xxl-8 d-flex">
+<div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
         <div class="card-header">
             <div class="col-md-12 mt-1 d-flex justify-content-between">
 
                 @can('karyawan')
 
-                    <form action="/Rekap/RPesanan" class="d-flex">
+                    <form action="/Rekap/RPelanggan" class="d-flex">
                         <div class="form-group">
                             <label for="filterRekap">Filter Berdasarkan</label>
                             <select class="custom-select" name="filterTgl" id="filterRekap">
@@ -41,7 +41,7 @@
                             </button>
                         </div>
                     </form>
-                    <form action="/Rekap/Pesanan" method="post">
+                    <form action="/Rekap/Pelanggan" method="post">
                         @csrf
                         <input type="hidden" id="forRekap" name="typeRekap" value="{{ old('filterTgl', 'today') }}">
                         <div class="form-group d-flex align-items-end ms-4">
@@ -61,23 +61,21 @@
             <table class="table table-hover table-striped my-0">
                 <thead class="bg-secondary text-white shadow-sm">
                     <tr>
-                        <th scope="col">Tanggal</th>
-                        <th scope="col">Pemesan</th>
-                        <th scope="col">Total Harga</th>
-                        <th scope="col">M.Pengiriman</th>
-                        <th scope="col">M.Bayar</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">Alamat</th>
+                        <th scope="col">No. Telepon</th>
+                        <th scope="col">Email</th>
                         <th scope="col" class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
 
-                    @foreach ($pesanan as $t)
+                    @foreach ($pelanggan as $t)
                     <tr>
-                        <td>{{ $t->waktu_pesan }}</td>
-                        <td>{{ $t->pelanggan->nama }}</td>
-                        <td>Rp.{{ $t->total_harga }}</td>
-                        <td>{{ $t->tipe_kirim }}</td>
-                        <td>{{ $t->tipePembayaran }}</td>
+                        <td>{{ $t->nama }}</td>
+                        <td>{{ $t->alamat }}</td>
+                        <td>{{ $t->no_tlp }}</td>
+                        <td>{{ $t->user->email }}</td>
                         <td style="text-align: center">
             
                             <a href="transaksi/{{ $t->token }}" class="btn btn-primary my-1">
@@ -92,14 +90,14 @@
         </div>
         <div class="d-flex justify-content-end col-12 mb-5">
             <span class="me-4">
-                {{ $pesanan->links() }}            
+                {{ $pelanggan->links() }}            
             </span>
         </div>
 
     </div>
 </div>
 
-<script src="{{ asset('js/CostumJs/filterRPesan.js') }}"></script>
+{{-- <script src="{{ asset('js/CostumJs/filterRPesan.js') }}"></script> --}}
 
 
 @endsection

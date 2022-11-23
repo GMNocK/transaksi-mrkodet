@@ -67,7 +67,7 @@
 
                                     @if ($i->status == '5')
 
-                                        <span class="badge bg-warning fs-6">
+                                        <span class="badge bg-primary bg-opacity-75 fs-6">
                                             Dikirim Ke tempat Tujuan
                                         </span>                                        
                                         
@@ -111,6 +111,39 @@
         Swal.fire({
             icon: 'success',
             title: '{{ session("berhasil") }}',
+            showConfirmButton: false,
+            timer: 1700
+        })
+    </script>
+@endif
+
+@if (session('terimaProgress'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '{{ session("terimaProgress") }}',
+            showConfirmButton: false,
+            timer: 1700
+        })
+    </script>
+@endif
+
+@if (session('selesai'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '{{ session("selesai") }}',
+            showConfirmButton: false,
+            timer: 1700
+        })
+    </script>
+@endif
+
+@if (session('Dikirim'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '{{ session("Dikirim") }}',
             showConfirmButton: false,
             timer: 1700
         })

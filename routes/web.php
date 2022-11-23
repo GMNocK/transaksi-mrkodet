@@ -20,6 +20,7 @@ use App\Http\Controllers\Data\PesananController;
 use App\Http\Controllers\Data\DataPelangganController;
 use App\Http\Controllers\Data\TransaksiController;
 
+use App\Http\Controllers\Rekap\RDatPelangganController;
 use App\Http\Controllers\Rekap\RekapPesananController;
 use App\Http\Controllers\Rekap\RekapLPelangganController;
 use App\Http\Controllers\Rekap\RekapTransaksiController;
@@ -113,6 +114,9 @@ Route::middleware(['auth'])->group(function () {
         // Terkait Pemesanan \ Pesanan
         Route::get('/pesananPelanggan/{pesanan}', [PesananController::class, 'show'])->name('showPpelanggan');
         Route::post('/pesanan/accept/{pesanan}', [PesananController::class, 'KaryawanAccept']);
+        Route::post('/pesanan/progress/{pesanan}', [PesananController::class, 'KarAcceptProgress']);
+        Route::post('/pesanan/dikirim/{pesanan}', [PesananController::class, 'tandaiKirim']);
+        Route::post('/pesanan/selesai/{pesanan}', [PesananController::class, 'tandaiKirim']);
         Route::resource('/pesananPelanggan', PesananController::class)->only(['index']);
         
         Route::resource('/dataPelanggan', DataPelangganController::class);
@@ -125,10 +129,12 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('/Rekap/RPesanan', RekapPesananController::class);
         Route::resource('/Rekap/RTransaksi', RekapTransaksiController::class);
+        Route::resource('/Rekap/RPelanggan', RDatPelangganController::class);
         Route::resource('/Rekap/RLaporanPelanggan', RekapLPelangganController::class);
         
         Route::post('/Rekap/Pesanan', [ReportingController::class, 'pesanan']);
         Route::post('/Rekap/Transaksi', [ReportingController::class, 'transaksi']);
+        Route::post('/Rekap/Pelanggan', [ReportingController::class, 'pelanggan']);
 
     });
 

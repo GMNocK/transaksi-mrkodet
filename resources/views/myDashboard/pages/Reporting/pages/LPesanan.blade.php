@@ -9,7 +9,7 @@
         </div>
 
         <div class="table-responsive col-12 mb-4">
-            <table class="table table-hover my-0">
+            <table class="table my-0">
                 <thead class="">
                     <tr>
                         <th scope="col" style="min-width: 100px">Tanggal Pesan</th>
@@ -33,6 +33,13 @@
             </table>
         </div>
     </div>
+</div>
+
+<div id="kembali" class="my-3">
+    <a href="/Rekap/RPesanan" class="btn btn-success btn-lg">
+        <i class="fa fa-arrow-left me-1" aria-hidden="true"></i>
+        Kembali
+    </a>
 </div>
 
 @endsection
