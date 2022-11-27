@@ -2,13 +2,13 @@
 
 @section('isi')
     
-<div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
-    <div class="card flex-fill p-3">
+<div class="col-md-12 col-lg-12 col-xxl-12 d-flex shadow-none">
+    <div class="card flex-fill p-3 shadow-none">
         <div class="card-header fs-3 my-3 d-flex justify-content-center align-items-center">
             <span>Laporan Pesanan</span>
         </div>
 
-        <div class="table-responsive col-12 mb-4">
+        <div class="table-responsive col-12 mb-4 shadow-none">
             <table class="table my-0">
                 <thead class="">
                     <tr>

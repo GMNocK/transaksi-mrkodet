@@ -34,20 +34,26 @@
                 
                 <li class="sidebar-item {{ Request::is('transaksi*') ? 'active' : '' }}">
                     <a class="sidebar-link text-decoration-none" href="/transaksi">
-                        <i class="align-middle" data-feather="book"></i> 
+                        <i class="align-middle" data-feather="book"></i>
                         <span class="align-middle">Data Transaksi</span>
                     </a>
                 </li>            
                 <li class="sidebar-item {{ Request::is('pesananPelanggan*') ? 'active' : '' }}">
                     <a class="sidebar-link text-decoration-none" href="/pesananPelanggan">
-                        <i class="align-middle" data-feather="book"></i> 
+                        <i class="align-middle" data-feather="book"></i>
                         <span class="align-middle">Data Pesanan</span>
                     </a>
                 </li>            
                 <li class="sidebar-item {{ Request::is('dataPelanggan*') ? 'active' : '' }}">
                     <a class="sidebar-link text-decoration-none" href="/dataPelanggan">
-                        <i class="align-middle" data-feather="book"></i> 
+                        <i class="align-middle" data-feather="book"></i>
                         <span class="align-middle">Data Pelanggan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ Request::is('produk*') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/produk">
+                        <i class="align-middle" data-feather="book"></i>
+                        <span class="align-middle">Data Produk</span>
                     </a>
                 </li>
 
@@ -85,7 +91,7 @@
 
             <li class="sidebar-item {{ Request::is('laporanPelanggan') ? 'active' : '' }}">
                 <a class="sidebar-link text-decoration-none" href="/laporanPelanggan">
-                    <i class="align-middle" data-feather="file-text"></i> 
+                    <i class="align-middle" data-feather="file-text"></i>
                     <span class="align-middle">Laporan Pelanggan</span>
                 </a>
             </li>
@@ -110,8 +116,8 @@
             
             @endcan
 
-            @cannot('pelanggan')
-                
+            @can('karyawan')
+
                 <li class="sidebar-header">
                     Rekap
                 </li>
@@ -140,7 +146,7 @@
                         <span class="align-middle">Rekap laporan pelanggan</span>
                     </a>
                 </li>
-            @endcannot
+            @endcan
 
             {{-- <li class="sidebar-header">
                 Hmmmm

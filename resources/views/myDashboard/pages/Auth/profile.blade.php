@@ -18,7 +18,7 @@
         </div>
     </div>
 </div>
-<form action="/auth/Profile/update/{{ $data[0]->id }}" method="post">
+<form action="/Profile/update/{{ $data[0]->id }}" method="post">
 @csrf
 
 <div class="row">
@@ -49,6 +49,7 @@
                 </div>
                 <div class="d-flex justify-content-end my-3">
                         <button id="btnSave" class="btn btn-primary my-2 text-white" role="button">Save</button>
+                        <a href="/kirim" id="sendEmailVerify" class="btn btn-success mx-2 my-2 text-white">Kirim Verifikasi</a>
                     </div>
                 </div>
             </div>

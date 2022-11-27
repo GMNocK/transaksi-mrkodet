@@ -146,7 +146,7 @@
     </div>
 </div>
 
-<div class="col-md-6 d-flex">
+<div class="col-md-12 d-flex">
     <div class="card flex-fill p-3">
         
         <div class="form-group">
@@ -154,7 +154,37 @@
           <textarea readonly class="form-control" name="ketTam" id="KetTambah" rows="5" placeholder="Tidak Ada">{{ $pesanan->keterangan }}</textarea>
         </div>
 
+        @if ($pesanan->status != 0)
+        <form action="/pesanan/bukti/upload/{{ $pesanan->kode }}" method="post" enctype="multipart/form-data">
+            @csrf
+            .<div class="form-group">
+                <label for="buktiBayar">Upload Bukti Pembayaran</label>
+                <input type="file" class="form-control" name="buktiBayar" id="">
+            </div>
+            <button type="submit" class="btn btn-primary">Kirim Bukti Bayar</button>
+        </form>
+        @endif
     </div>
 </div>
+
+@if ($pesanan->bukti == true)
+    @foreach ($pesanan->bukti_bayar_pesanan as $b)
+        <div class="row justify-content-center">
+            <div class="col-md-10 mt-5 mb-3 text-center">
+                <p class="fs-2 text-dark fw-bold">Bukti Pembayaran</p>
+            </div>
+        
+            <div class="col-md-10">
+                <div class="card flex-fill">
+                    <img class="card-img-top" src="{{ asset('storage/' . $b->bukti_bayar) }}" alt="">
+                    <div class="card-body mt-3">
+                        <h4 class="card-title text-dark">{{ $b->created_at }}</h4>
+                        <p class="card-text">{{ $b->bukti_bayar }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+@endif
 
 @endsection

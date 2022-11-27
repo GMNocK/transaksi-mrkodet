@@ -28,6 +28,11 @@ class Pesanan extends Model
         return $this->hasMany(Detail_Pesanan::class);
     }
 
+    public function bukti_bayar_pesanan()
+    {
+        return $this->hasMany(bukti_bayar_pesanan::class, 'pesanan_id');
+    }
+
     public function getRouteKeyName()
     {
         return 'kode';

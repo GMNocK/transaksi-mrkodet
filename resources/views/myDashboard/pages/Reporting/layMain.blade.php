@@ -22,7 +22,7 @@
 <body>
     
     <div class="wrapper">
-        <div class="container-fluid">
+        <div class="container-fluid shadow-none">
 
             @yield('isi')
             
@@ -33,7 +33,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {            
             print();
-        }, 250);
+        }, 100);
     });
 </script>
 

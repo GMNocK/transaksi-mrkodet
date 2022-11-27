@@ -101,6 +101,17 @@
     </div>
 </div>
 
+<div class="col-md-6 d-flex">
+    <div class="card flex-fill p-3">
+        
+        <div class="form-group">
+          <label for="KetTambah">Keterangan Tambahan</label>
+          <textarea class="form-control" name="ketTam" id="KetTambah" rows="5" placeholder="Tidak Ada Request">{{ $pesanan->keterangan }}</textarea>
+        </div>
+
+    </div>
+</div>
+
 @if ($pesanan->status == '1' || $pesanan->status == '2' || $pesanan->status == '3')
     
     @if ($pesanan->status == '3')

@@ -2,7 +2,7 @@
 
 @section('content')
     
-<div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
+{{-- <div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
         <div class="card-header">
             <div class="div"></div>
@@ -52,6 +52,6 @@
                 <h1 class="btn btn-circle btn-success mt-5">Back</h1>
             </a>
     </div>
-</div>
+</div> --}}
 
 @endsection

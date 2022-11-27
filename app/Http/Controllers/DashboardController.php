@@ -61,7 +61,7 @@ class DashboardController extends Controller
             'barang' => Barang::all()->count(),
             'transaksi' => Transaksi::all()->count(),
             'pelanggan' => Pelanggan::all()->count(),
-            'pesanan' => Pesanan::all(),
+            'pesanan' => Pesanan::latest()->limit(6)->get(),
             'transJan' => Transaksi::whereMonth('tgl_transaksi', 1)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
             'transFeb' => Transaksi::whereMonth('tgl_transaksi', 2)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),
             'transApr' => Transaksi::whereMonth('tgl_transaksi', 3)->whereYear('tgl_transaksi', (date('Y') - 1))->count(),

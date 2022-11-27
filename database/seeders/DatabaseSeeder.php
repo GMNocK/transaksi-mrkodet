@@ -65,7 +65,7 @@ class DatabaseSeeder extends Seeder
         admin::factory(1)->create();
         karyawan::factory(1)->create();
         pelanggan::factory(16)->create();
-        transaksi::factory(25)->create();
+        transaksi::factory(50)->create();
         detail_transaksi::factory(50)->create();
         laporanPelanggan::factory(50)->create();
         laporanKaryawan::factory(45)->create();

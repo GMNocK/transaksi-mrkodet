@@ -26,6 +26,7 @@
                                 <th scope="col">Name</th>
                                 <th scope="col" class="">Waktu Pesan</th>
                                 <th scope="col" class="">End Date</th>
+                                <th scope="col" class="text-center">Status Pesanan</th>
                                 <th scope="col" class="text-center">Status</th>
                                 <th scope="col" class="text-center"></th>
                             </tr>
@@ -96,21 +97,30 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
+                                    @if ($p->buktiBayar == '')
+                                        <span class="badge bg-danger">Belum Bayar</span>
+                                    @else
+                                        <span class="badge bg-success">Sudah Bayar</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
                                     <a href="pesanan/{{ $p->kode }}" class="btn btn-primary my-1">
                                         <i class="align-middle" data-feather="eye"></i>
                                     </a>
 
                                     @if ($p->status == '1' || $p->status == '2')
-                                        <a href="pesanan/{{ $p->kode }}/edit" class="btn btn-success my-1">
-                                            <i class="align-middle" data-feather="edit"></i>                                            
-                                        </a>
+                                        @if ($p->bukti == false)
+                                            <a href="pesanan/{{ $p->kode }}/edit" class="btn btn-success my-1">
+                                                <i class="align-middle" data-feather="edit"></i>                                            
+                                            </a>
 
-                                        <a class="my-1 btnBatal" data-id="{{ $p->kode }}">
-                                            <button class="btn btn-danger">
-                                                Batal
-                                                {{-- <i class="align-middle" data-feather="trash-2"></i>                                         --}}
-                                            </button>
-                                        </a>
+                                            <a class="my-1 btnBatal" data-id="{{ $p->kode }}">
+                                                <button class="btn btn-danger">
+                                                    Batal
+                                                    {{-- <i class="align-middle" data-feather="trash-2"></i>                                         --}}
+                                                </button>
+                                            </a>
+                                        @endif
                                     @else
                                         @if ($p->status == '0')
                                         

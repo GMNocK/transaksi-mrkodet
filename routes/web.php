@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\AuthController;
 
+use App\Http\Controllers\KirimEmailController;
+
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardTransController;
@@ -16,6 +18,7 @@ use App\Http\Controllers\Laporan\LaporanKaryawanController;
 use App\Http\Controllers\Laporan\ReportController;
 use App\Http\Controllers\Laporan\ReportForAdminController;
 
+use App\Http\Controllers\Data\ProdukController;
 use App\Http\Controllers\Data\PesananController;
 use App\Http\Controllers\Data\DataPelangganController;
 use App\Http\Controllers\Data\TransaksiController;
@@ -97,6 +100,7 @@ Route::middleware(['auth'])->group(function () {
         
         Route::resource('/pesananSaya', PesananController::class)->only('index');
         Route::resource('/pesanan', PesananController::class)->except('index');
+        Route::post('/pesanan/bukti/upload/{pesanan}', [PesananController::class, 'upload']);
         Route::get('/pesanan/batal/{pesanan}', [PesananController::class, 'batal']);
         Route::get('/pesanan/delete/{pesanan}', [PesananController::class, 'destroy']);
         
@@ -119,6 +123,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/pesanan/selesai/{pesanan}', [PesananController::class, 'tandaiKirim']);
         Route::resource('/pesananPelanggan', PesananController::class)->only(['index']);
         
+        Route::resource('/produk', ProdukController::class);
+        Route::get('/delete/produk/{produk}', [ProdukController::class, 'destroy']);
+        
         Route::resource('/dataPelanggan', DataPelangganController::class);
         
         Route::get('/laporanPelanggan', [KaryawanController::class, 'pelangganReport']);
@@ -139,6 +146,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::get('/coba', [Controller::class, 'coba']);
+    Route::get('/kirim', [KirimEmailController::class, 'emailVerify']);
     
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::post('/Profile/update/{pelanggan}', [AuthController::class, 'profileUpdate']);

@@ -53,7 +53,6 @@
                 {{ $laporanpelanggans->links() }}            
             </span>
         </div>
-
     </div>
 </div>
 

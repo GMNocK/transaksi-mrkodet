@@ -9,6 +9,8 @@ class Barang extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function detail_transaksi()
     {
         return $this->hasMany(Detail_transaksi::class);

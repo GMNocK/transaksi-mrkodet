@@ -7,9 +7,9 @@
         <div class="card-header justify-content-between d-flex">
             <div class="ms-2 col-md-4">
 
-                <a href="/pesanan/create" class="link-secondary d-flex align-items-center">
+                <a href="/Rekap/RPelanggan" class="link-secondary d-flex align-items-center">
                     <i class="align-middle me-1 link-secondary" data-feather="plus-circle"></i>
-                    <h6 class="card-title mb-0 link-secondary">Tambah Pelanggan</h6>
+                    <h6 class="card-title mb-0 link-secondary">Buat Rekap</h6>
                 </a>
             </div>
             <div class="col-md-4 d-flex justify-content-end">
@@ -35,9 +35,32 @@
                     @foreach ($pelanggans as $p)
                         <tr>
                             <td>{{ $p->nama }}</td>
-                            <td class="">{{ $p->alamat }}</td>
-                            <td class="">{{ $p->no_tlp }}</td>
-                            <td class="">{{ $p->pesanan == '[]' ? 'Tidak Pernah' : '$p->pesanan' }}</td>
+                            <td class="">
+                                @if ($p->alamat == '')
+                                <span class="text-danger fw-bold fs-5">
+                                    Belum Terisi
+                                </span>
+                                @else
+                                    {{ $p->alamat }}
+                                @endif
+                            </td>
+                            <td class="">
+                                @if ($p->no_tlp == '')
+                                <span class="text-danger fw-bold fs-5">
+                                    Belum Terisi
+                                </span>
+                                @else
+                                    {{ $p->no_tlp }}
+                                @endif
+                            </td>
+                            <td class="">
+                                @if ($p->pesanan == '[]')
+                                    Tidak Pernah
+                                @else
+                                    {{-- {{ $p->pesanan->count() }} --}}
+                                    Pernah
+                                @endif
+                            </td>
                             <td>
                                 <a href="/dataPelanggan/{{ $p->id }}" class="btn btn-primary">
                                     <i class="fa fa-eye" aria-hidden="true"></i>

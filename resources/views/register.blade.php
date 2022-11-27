@@ -5,9 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css/reg.css">
+    <link rel="stylesheet" href="css/ce.css">
 </head>
 <body>
+    @error('email')
+        {{ $message }}
+    @enderror
     <section>
         <div class="imgBx">
             <img src="img/basrengpic.jpg" alt="Basreng">

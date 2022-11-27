@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePesananRequest;
 use App\Http\Requests\UpdatePesananRequest;
 use App\Models\Barang;
+use App\Models\bukti_bayar_pesanan;
 use App\Models\Detail_Pesanan;
 use App\Models\Pelanggan;
 use Illuminate\Support\Facades\Hash;
@@ -51,7 +52,7 @@ class PesananController extends Controller
 
         if ($pelanggan->alamat == '' || $pelanggan->no_tlp == '') {
             return redirect('/pesanan/create')
-                        ->with('IsNull', 'Identitas Kosong');//'Maaf, Pemesanan tidak bisa dilakukan. Silahkan isi identitas lengkap di profile anda');
+                        ->with('IsNull', 'Identitas Kosong');   //'Maaf, Pemesanan tidak bisa dilakukan. Silahkan isi identitas lengkap di profile anda');
         }
 
         $validateData = $request->validate([
@@ -249,5 +250,26 @@ class PesananController extends Controller
         } else {
             return redirect(route('pesananPelanggan.index'))->with('selesai', 'Pesanan Selesai');
         }
+    }
+
+    public function upload(Pesanan $pesanan ,Request $request)
+    {
+        $validateData = $request->validate([
+            'buktiBayar' => 'required|file|image',
+        ]);
+        $validateData['buktiBayar'] = $request->file('buktiBayar')->store('bukti-bayar');
+
+        $bukti['bukti'] = true;
+
+        $pesanan->update($bukti);
+        
+        $bukti_bayar_pesanan = new bukti_bayar_pesanan([
+            'pesanan_id' => $pesanan->id,
+            'bukti_bayar' => $validateData['buktiBayar'],
+        ]);
+
+        $bukti_bayar_pesanan->save();
+
+        return redirect('/pesananSaya')->with('bukti', 'Bukti pembayaran terkirim');
     }
 }

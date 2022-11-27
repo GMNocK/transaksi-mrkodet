@@ -10,7 +10,7 @@ class TransaksiFactory extends Factory
     public function definition()
     {
         return [
-            'tgl_transaksi' => $this->faker->date(),
+            'tgl_transaksi' => $this->faker->dateTimeBetween('-2 years', '-1 week'),
             'total_harga' => 15000,
             'status' => $this->faker->name(),
             'tipe_bayar' => 'Ambil Di Toko',

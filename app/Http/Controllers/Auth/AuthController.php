@@ -206,23 +206,27 @@ class AuthController extends Controller
     public function profileUpdate(Request $request, Pelanggan $pelanggan)
     {
         $validateData = $request->except('_token');
-        if (auth()->user()->level == 'pelanggan') {                        
-    
+
+        $user = User::where('id', auth()->user()->id)->get()[0];
+        $user->update($validateData);
+
+        if (auth()->user()->level == 'pelanggan') {
+
             $pelanggan->update($validateData);
-    
-            return redirect('/auth/profile')->with('success','Berhasil Di simpan');
+
+            return redirect('/profile')->with('success','Berhasil Di simpan');
         }
-        if (auth()->user()->level == 'karyawan') {            
+        if (auth()->user()->level == 'karyawan') {
             $dataKaryawan = Karyawan::where('user_id', auth()->user()->id)->get()[0];
-            
+
             $dataKaryawan->update($validateData);
-            return redirect('/auth/profile')->with('success','Berhasil Di simpan');
+            return redirect('/profile')->with('success','Berhasil Di simpan');
         }
-        if (auth()->user()->level == 'admin') {            
+        if (auth()->user()->level == 'admin') {
             $dataAdmin = Admin::where('user_id', auth()->user()->id)->get()[0];
-            
+
             $dataAdmin->update($validateData);
-            return redirect('/auth/profile')->with('success','Berhasil Di simpan');
+            return redirect('/profile')->with('success','Berhasil Di simpan');
         }
     }
 }

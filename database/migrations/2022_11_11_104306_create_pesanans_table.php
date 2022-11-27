@@ -21,8 +21,9 @@ class CreatePesanansTable extends Migration
             // belum dibaca, dibaca, diterima, diproses, dikirim, selesai, batal
             //      1,          2,      3,       4,         5,       6,     0   
             // sesuai urutan alias nomernya
+            $table->boolean('bukti')->default(false);
             $table->text('keterangan')->nullable();
-            $table->string('kode')->unique();
+            $table->uuid('kode')->unique();
             $table->timestamps();
         });
     }

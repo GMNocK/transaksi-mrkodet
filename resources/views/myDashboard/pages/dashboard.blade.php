@@ -117,7 +117,7 @@
                 <div class="card flex-fill w-100">
                     <div class="card-header">
 
-                        <h5 class="card-title mb-0">Recent Transaksi Last Month</h5>
+                        <h5 class="card-title mb-0">Recent Transaksi Last Year</h5>
                     </div>
                     <div class="card-body py-3">
                         <div class="chart chart-sm">
@@ -195,8 +195,7 @@
             <div class="col-12 col-lg-8 col-xxl-9 d-flex">
                 <div class="card flex-fill">
                     <div class="card-header">
-
-                        <h5 class="card-title mb-0">Latest Projects</h5>
+                        <h5 class="card-title mb-0">Pesanan Terakhir</h5>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover my-0">
@@ -210,39 +209,79 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($pesanan as $i)                                    
                                 <tr>
-                                    <td>Project Apollo</td>
-                                    <td class="">01/01/2021</td>
-                                    <td class="">31/06/2021</td>
-                                    <td><span class="badge bg-success">Done</span></td>
-                                    <td class="">Vanessa Tucker</td>
+                                    <td>{{ $i->pelanggan->nama }}</td>
+                                    <td class="">{{ $i->waktu_pesan }}</td>
+                                    <td class="">{{ $i->total_harga }}</td>
+                                    <td class="text-center">
+                                        @if ($i->status == '1')
+                                        
+                                            <span class="badge bg-secondary fs-6">
+                                                Belum dibaca
+                                            </span>
+        
+                                        @else
+        
+                                            @if ($i->status == '2')
+        
+                                                <span class="badge bg-info fs-6">
+                                                    Di Baca
+                                                </span>     
+        
+                                            @endif
+        
+                                            @if ($i->status == '3')
+        
+                                                <span class="badge bg-success fs-6">
+                                                    Di Terima
+                                                </span>                                        
+                                                
+                                            @endif
+        
+                                            @if ($i->status == '4')
+        
+                                                <span class="badge bg-warning fs-6">
+                                                    Pesanan Di Proses
+                                                </span>                                        
+                                                
+                                            @endif
+        
+                                            @if ($i->status == '5')
+        
+                                                <span class="badge bg-primary bg-opacity-75 fs-6">
+                                                    Dikirim Ke tempat Tujuan
+                                                </span>                                        
+                                                
+                                            @endif
+                                            
+                                            @if ($i->status == '6')
+        
+                                                <span class="badge bg-primary fs-6">
+                                                    Selesai
+                                                </span>                                        
+                                                
+                                            @endif
+        
+                                            @if ($i->status == '0')
+        
+                                                <span class="badge bg-danger fs-6">
+                                                    Batal
+                                                </span>                                        
+                                                
+                                            @endif
+                                            
+                                        @endif
+                                    </td>
+                                    <td class="">{{ $i->tipePembayaran }}</td>
                                 </tr>
-                                <tr>
-                                    <td>Project Fireball</td>
-                                    <td class="">01/01/2021</td>
-                                    <td class="">31/06/2021</td>
-                                    <td><span class="badge bg-danger">Cancelled</span></td>
-                                    <td class="">William Harris</td>
-                                </tr>
-                                <tr>
-                                    <td>Project Hades</td>
-                                    <td class="">01/01/2021</td>
-                                    <td class="">31/06/2021</td>
-                                    <td><span class="badge bg-success">Done</span></td>
-                                    <td class="">Sharon Lessman</td>
-                                </tr>
-                                <tr>
-                                    <td>Project Nitro</td>
-                                    <td class="">01/01/2021</td>
-                                    <td class="">31/06/2021</td>
-                                    <td><span class="badge bg-warning">In progress</span></td>
-                                    <td class="">Vanessa Tucker</td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
             <div class="col-12 col-lg-4 col-xxl-3 d-flex">
                 <div class="card flex-fill w-100">
                     <div class="card-header">

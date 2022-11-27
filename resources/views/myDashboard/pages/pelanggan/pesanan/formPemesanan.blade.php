@@ -167,7 +167,7 @@
     <script src="{{ asset('js/formPelangganPesan.js') }}"></script>
 @endcan
 
-@if (session('IsNull'))
+@if (auth()->user()->alamat == '' || auth()->user()->no_tlp == '' || session('IsNull'))
     <script>
         Swal.fire({
             position: 'center',
@@ -185,7 +185,7 @@
             }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                window.location = '/auth/profile';
+                window.location = '/profile';
             } else if (result.isDenied) {
                 Swal.fire('Pemesanan Bisa dilakukan dengan identitas jelas')
             }
