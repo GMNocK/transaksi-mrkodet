@@ -15,12 +15,12 @@
     </div>
 </nav>
 
-@if ($transaksis->pesanan_id != '')
-    
+{{-- @if ($transaksis->pesanan_id != '')
+
 <nav class="breadcrumb mb-4 col-md-12 justify-content-between">
     <span class="fs-5  d-flex align-items-center fw-semibold ms-3">
         <i class="fa fa-user-circle link-dark fs-3 me-2" aria-hidden="true"></i>
-        {{ $transaksis->pesanan->id }}
+        {{ $transaksis->pesanan }}
     </span>
     
     <div class="d-flex align-items-center breadcrumb-item active me-2">
@@ -28,7 +28,7 @@
         <span>{{ $transaksis->tgl_transaksi }}</span>
     </div>
 </nav>
-@endif
+@endif --}}
 
 <form action="/transaksi/{{ $transaksis->token }}" method="post">
     @method('put')
@@ -62,7 +62,7 @@
                         @foreach ($detailtransaksis as $det)
                             <tr>
                                 <td class="text-center">
-                                    {{ $loop->iteration }}
+                                     {!! $ini = $loop->iteration !!}
                                 </td>
                                 <td class="text-center">
                                     <input type="text" value="{{ $det->barang->nama_barang }}" readonly 
@@ -91,13 +91,14 @@
                                     <input type="text" value="Rp.{{ $det->subtotal }}" readonly class="text-dark text-center border-0 bg-transparent sub-total" name="subtotal{{ $loop->iteration }}">
                                 </td>
                                 <td class="text-center">
-                                    <i class="fas fa-edit link d-inline"></i>
-                                    <i class="fas fa-trash-alt link d-inline"></i>
+                                    <i class="fas fa-edit link d-inline" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#editBarangDariKeranjang"></i>
+                                    <i class="fas fa-trash-alt link d-inline" style="cursor: pointer" onclick="deleteConfirm();"></i>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+                <input type="hidden" name="panjang" value="{{ $ini += 1 }}">
             </div>
         </div>
     </div>
@@ -148,7 +149,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-dark bg-opacity-75 bg-gradient">
-                <h1 class="modal-title fs-5 text-light" id="addBarangModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-4 fw-semibold text-light" id="addBarangModalLabel">Tambah Barang</h1>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -191,32 +192,27 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="addBarangModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="addBarangModalLabel">Edit Barang</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form method="POST" action="#">
                     @csrf
                     <div class="mb-3">
-                        <select class="form-control" id="NamBarList" onchange="GetSubTotal();">
-                            @foreach ($barangs as $b)                        
-                            <option value="{{ $b->nama_barang }}" class="{{ $b->harga }}">{{ $b->nama_barang }}</option>
-                            @endforeach
+                        <select class="form-control" disabled id="barangEdit" onchange="GetSubTotal();">
+                            
                         </select>
                     </div>
                     <div class="mb-3">
-                        <select class="form-control" id="pilihanUkuran" onchange="GetSubTotal();">    
-                            <option value="1" class="">1 Kg</option>
-                            <option value="1/2" class="">1/2 Kg</option>
-                            <option value="1/4" class="">1/4 Kg</option>
-                            <option value="3000" class="">Ukuran 3000</option>
+                        <select class="form-control" id="ukuranEdit" onchange="GetSubTotal();">    
+                            
                         </select>
                     </div>
                     <div class="mb-3">
-                        <input type="number" class="form-control" id="iniQty" value="1" onchange="GetSubTotal();">
+                        <input type="number" class="form-control" id="QtyEdit" value="0" onchange="GetSubTotal();">
                     </div>         
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="subTotal" readonly value="60000">
+                        <input type="text" class="form-control" id="subTotalEdit" readonly value="Rp.0">
                     </div>         
                 </form>
             </div>
@@ -227,8 +223,6 @@
         </div>
     </div>
 </div>
-
-
 
 <script src="{{ asset('js/editTrans.js') }}"></script>
 @endsection

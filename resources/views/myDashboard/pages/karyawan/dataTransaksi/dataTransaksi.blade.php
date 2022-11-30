@@ -53,28 +53,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- <tr>
-                        <td>Project Apollo</td>
-                        <td class="">01/01/2021</td>
-                        <td>
-                            <span class="badge bg-success">Done</span>
-                        </td>
-                        <td class="">Vanessa Tucker</td>
-                        <td class="text-center">
-                            <a href="/transaksi/create" class="btn btn-primary my-1">
-                                <i class="align-middle" data-feather="eye"></i>
-                            </a>
-
-                            <a href="/transaksi/create" class="btn btn-primary">
-                                <i class="align-middle" data-feather="eye"></i>
-                            </a>
-
-                            <a href="/transaksi/create" class="btn btn-primary my-1">
-                                <i class="align-middle" data-feather="eye"></i>
-                            </a>
-                        </td>
-                    </tr> --}}
-
+                    
                     @foreach ($transaksis as $t)
                     <tr>
                         <td>{{ $t->tgl_transaksi }}</td>
@@ -87,27 +66,16 @@
                         </td>
                         <td style="text-align: center">
             
-                            <a href="transaksi/{{ $t->token }}" class="btn btn-primary my-1">
-                            {{-- <a href="#" class="btn btn-primary my-1" onclick="DltConfirm();"> --}}
-                                {{-- <i class="fa-solid fa-eye"></i> --}}
+                            <a href="transaksi/{{ $t->token }}" class="btn btn-primary my-1" data-toggle="tooltip" data-placement="top" title="Lihat">
                                 <i class="align-middle" data-feather="eye"></i>
                             </a>
                             @can('karyawan')
                                 
-                                <a href="transaksi/{{ $t->token }}/edit" class="btn btn-success my-1">
+                                <a href="transaksi/{{ $t->token }}/edit" class="btn btn-success my-1" data-toggle="tooltip" data-placement="top" title="Edit">
                                     <i class="align-middle" data-feather="edit"></i>
-                                    {{-- <i class="fa-regular fa-pen-to-square"></i> --}}
                                 </a>
-                
-                                {{-- <form action="#" method="post" class="d-inline" onclick="return DltConfirm()">
-                                    @method('delete')
-                                    @csrf
-                                    <button class="btn btn-danger my-1 btnDelete" data-id="{{ $t->token }}" onclick="return DltConfirm()">
-                                        <i class="align-middle" data-feather="trash-2"></i>
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </form> --}}
-                                <a class="my-1 btnDelete" data-id="{{ $t->token }}">
+
+                                <a class="my-1 btnDelete" data-id="{{ $t->token }}" data-toggle="tooltip" data-placement="top" title="Hapus">
                                     <button class="btn btn-danger">
                                         <i class="align-middle" data-feather="trash-2"></i>                                        
                                     </button>
@@ -118,7 +86,7 @@
                             @cannot('karyawan')                      
                                 {{-- <a href="{{ route('reports.create') }}"> --}}
                                 <a onclick="DltConfirm();">
-                                    <button class="badge bg-danger border-0">
+                                    <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Laporkan">
                                         <i class="fa fa-file" aria-hidden="true"></i>
                                     </button>
                                 </a>
@@ -291,7 +259,18 @@
         icon: 'success',
         title: '{{ session("successDelete") }}',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1700
+    })
+</script>
+@endif
+
+@if (session('integrasi'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: '{{ session("integrasi") }}',
+        showConfirmButton: false,
+        timer: 1700
     })
 </script>
 @endif

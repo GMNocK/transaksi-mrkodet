@@ -32,7 +32,7 @@
                     Data
                 </li>
                 
-                <li class="sidebar-item {{ Request::is('transaksi*') ? 'active' : '' }}">
+                <li class="sidebar-item {{ Request::is('pesanan/transaksi') ? 'active' : '' }} {{ Request::is('transaksi*') ? 'active' : '' }}">
                     <a class="sidebar-link text-decoration-none" href="/transaksi">
                         <i class="align-middle" data-feather="book"></i>
                         <span class="align-middle">Data Transaksi</span>
@@ -73,6 +73,14 @@
                     </a>
                 </li>
 
+                {{-- <li class="sidebar-item {{ Request::is('pesanan/create*') ? 'active' : '' }} {{ Request::is('pesanan/create') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/pesanan/create">
+                        <i class="align-middle" data-feather="shopping-bag"></i> 
+                        <span class="align-middle">Buat Pesan</span>
+                    </a>
+                </li> --}}
+
+
                 <li class="sidebar-item {{ Request::is('myDashboard/pesanan/history') ? 'active' : '' }}">
                     <a class="sidebar-link text-decoration-none" href="/myDashboard/pesanan/history">
                         <i class="align-middle" data-feather="activity"></i> 
@@ -81,13 +89,24 @@
                 </li>
 
             @endcan
-                  
             
+
             <li class="sidebar-header">
                 Laporan
             </li>
 
-            @cannot('pelanggan')                            
+            @can('karyawan')
+                
+            <li class="sidebar-item {{ Request::is('laporanKaryawan') ? 'active' : '' }}">
+                <a class="sidebar-link text-decoration-none" href="/laporanKaryawan">
+                    <i class="align-middle" data-feather="file-text"></i>
+                    <span class="align-middle">Laporan Saya</span>
+                </a>
+            </li>
+
+            @endcan
+
+            @cannot('pelanggan')
 
             <li class="sidebar-item {{ Request::is('laporanPelanggan') ? 'active' : '' }}">
                 <a class="sidebar-link text-decoration-none" href="/laporanPelanggan">
@@ -95,8 +114,19 @@
                     <span class="align-middle">Laporan Pelanggan</span>
                 </a>
             </li>
-
+            
             @endcannot
+            
+            @can('mustBeAdmin')
+
+            <li class="sidebar-item {{ Request::is('laporanKaryawan') ? 'active' : '' }}">
+                <a class="sidebar-link text-decoration-none" href="/laporanKaryawan">
+                    <i class="align-middle" data-feather="file-text"></i>
+                    <span class="align-middle">Laporan Karyawan</span>
+                </a>
+            </li>
+                
+            @endcan
             
             @can('pelanggan')
                 

@@ -43,12 +43,12 @@
         <div class="table-responsive col-12 mb-4">
             <table class="table table-hover table-striped my-0">
                 <thead class="bg-secondary text-white shadow-sm">
-                    <tr>
-                        <th scope="col" style="min-width: 100px">Tanggal</th>
-                        <th scope="col" style="min-width: 85px">Total Harga</th>
-                        <th scope="col" style="min-width: 100px">Pencatat</th>
-                        <th scope="col" class="text-center" style="min-width: 90px">Pesanan</th>
-                        <th scope="col" class="text-center" style="min-width:80px;">Action</th>
+                    <tr class="">
+                        <th scope="col" style="min-width: 100px">Nama Barang</th>
+                        <th scope="col" style="min-width: 85px">Harga / Kg</th>
+                        {{-- <th scope="col" style="min-width: 100px">Keterangan</th> --}}
+                        <th scope="col" class="text-center" style="min-width: 90px">gambar</th>
+                        <th scope="col" class="text-center" style="min-width:80px;"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,24 +57,24 @@
                     <tr>
                         <td>{{ $t->nama_barang }}</td>
                         <td>Rp.{{ $t->harga }}</td>
-                        <td>{{ $t->keterangan }}</td>
+                        {{-- <td>{{ $t->keterangan }}</td> --}}
                         <td class="text-center">
                             <img src="{{ $t->foto }}" alt="" width="90px">
                         </td>
                         <td style="text-align: center">
             
-                            <a href="/produk/{{ $t->id }}" class="btn btn-primary my-1">
+                            <a href="/produk/{{ $t->id }}" class="btn btn-primary my-1" data-toggle="tooltip" data-placement="top" title="Lihat">
                             {{-- <a href="#" class="btn btn-primary my-1" onclick="DltConfirm();"> --}}
                                 {{-- <i class="fa-solid fa-eye"></i> --}}
                                 <i class="align-middle" data-feather="eye"></i>
                             </a>
                             @can('karyawan')
                                 
-                                <a href="produk/{{ $t->id }}/edit" class="btn btn-success my-1">
+                                <a href="produk/{{ $t->id }}/edit" class="btn btn-success my-1" data-toggle="tooltip" data-placement="top" title="Edit">
                                     <i class="align-middle" data-feather="edit"></i>
                                     {{-- <i class="fa-regular fa-pen-to-square"></i> --}}
                                 </a>                
-                                <a class="my-1 btnDelete" data-id="{{ $t->id }}">
+                                <a class="my-1 btnDelete" data-id="{{ $t->id }}" data-toggle="tooltip" data-placement="top" title="Hapus">
                                     <button class="btn btn-danger">
                                         <i class="align-middle" data-feather="trash-2"></i>                                        
                                     </button>
@@ -83,8 +83,8 @@
                             @endcan
                             
                             @cannot('karyawan')                      
-                                <a href="{{ route('reports.create') }}">                                
-                                    <button class="badge bg-danger border-0">
+                                <a href="{{ route('reports.create') }}" data-toggle="tooltip" data-placement="top" title="Laporkan">                                
+                                    <button class="btn btn-danger">
                                         <i class="fa fa-file" aria-hidden="true"></i>
                                     </button>
                                 </a>

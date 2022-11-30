@@ -25,7 +25,7 @@ class Transaksi extends Model
 
     public function pesanan()
     {
-        return $this->hasOne(Pesanan::class);
+        return $this->belongsTo(Pesanan::class, 'id');
     }
 
     public function getRouteKeyName()

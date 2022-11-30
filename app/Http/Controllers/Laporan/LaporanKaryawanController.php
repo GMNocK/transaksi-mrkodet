@@ -14,8 +14,8 @@ class LaporanKaryawanController extends Controller
     
     public function index()
     {
-        return view('dashboard.karyawan.laporankaryawan.index',[
-            'laporankaryawans' => laporanKaryawan::paginate(10)
+        return view('myDashboard.pages.Admin.laporanKaryawan',[
+            'laporankaryawans' => laporanKaryawan::paginate(12)
         ]);
     }
 

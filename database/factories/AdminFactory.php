@@ -15,7 +15,8 @@ class AdminFactory extends Factory
     {
         return [
             'nama' => $this->faker->name(),
-            'no_tlp' =>$this->faker->unique()->address(),
+            'alamat' => $this->faker->address(),
+            'no_tlp' =>$this->faker->unique()->phoneNumber(),
             'user_id' => 1
         ];
     }

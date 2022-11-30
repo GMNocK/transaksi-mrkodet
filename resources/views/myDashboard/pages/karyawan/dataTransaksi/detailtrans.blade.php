@@ -25,6 +25,9 @@
                         <th scope="col">Pencatat</th>
                         <th scope="col" class="text-center">Status</th>
                         <th scope="col" class="text-center" style="min-width: 90px">Pesanan</th>
+                        @if ($transaksi->pesanan_id != '')                            
+                        <th scope="col" class="text-center"></th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -63,6 +66,15 @@
                                 {{ $transaksi->pesanan_id == '' ? 'Offline' : 'Online' }}
                             </span>
                         </td>
+                        @if ($transaksi->pesanan_id != '')
+                        <td class="text-center">
+                            <a href="/pesananPelanggan/{{ $pesanan[0]->kode }}">
+                                <span class="btn btn-primary align-items-center">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </td>
+                        @endif
                     </tr>
                 </tbody>
             </table>

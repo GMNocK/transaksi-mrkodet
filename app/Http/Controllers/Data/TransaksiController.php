@@ -7,13 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Detail_transaksi;
 use App\Models\Pelanggan;
+use App\Models\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class TransaksiController extends Controller
 {
-    
+
     public function index()
     {
         $userLevel = auth()->user()->level;
@@ -117,16 +118,18 @@ class TransaksiController extends Controller
 
     
     public function show(Transaksi $transaksi)
-    {        
+    {
+        $pesanan = Pesanan::where('id', $transaksi->pesanan_id)->get();
+        // return $pesanan;
         $totalharga = DB::select("select concat('Rp.',format(total_harga,0)) as hargaTotal FROM `transaksis` where id = ?", [$transaksi->id]);        
 
         $detail = DB::select("select concat('Rp.',format(subtotal,0)) as apa from detail_transaksis where transaksi_id = ?", [$transaksi->id]);
         // return $detail;
         return view('myDashboard.pages.karyawan.dataTransaksi.detailtrans', [
             'transaksi' => $transaksi,
+            'pesanan' => $pesanan,
             'hargaTotal' => $totalharga[0]->hargaTotal,
             'detail' => Detail_transaksi::where('transaksi_id' , $transaksi->id)->paginate(5),
-            // 'subtotals' => $detail[1],
         ]);
     }
 
@@ -158,5 +161,20 @@ class TransaksiController extends Controller
 
         return redirect('/transaksi')->with('successDelete', 'Data Berhasil Dihapus');
 
+    }
+
+    public function lihatTransaksi(Request $request, Pesanan $pesanan)
+    {
+        $pesanan =Pesanan::where('id', $request->id)->get()[0];
+
+        $transaksi = Transaksi::where('pesanan_id', $request->id)->get()[0];
+        $totalharga = DB::select("select concat('Rp.',format(total_harga,0)) as hargaTotal FROM `transaksis` where id = ?", [$transaksi->id])[0];
+
+        return view('myDashboard.pages.karyawan.dataTransaksi.detailtrans', [
+            'transaksi' => $transaksi,
+            'pesanan' => $pesanan,
+            'hargaTotal' => $totalharga->hargaTotal,
+            'detail' => Detail_transaksi::where('transaksi_id' , $transaksi->id)->paginate(10),
+        ]);
     }
 }

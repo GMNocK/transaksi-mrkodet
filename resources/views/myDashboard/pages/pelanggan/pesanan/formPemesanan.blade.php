@@ -167,7 +167,7 @@
     <script src="{{ asset('js/formPelangganPesan.js') }}"></script>
 @endcan
 
-@if (auth()->user()->alamat == '' || auth()->user()->no_tlp == '' || session('IsNull'))
+@if (session('IsNull'))
     <script>
         Swal.fire({
             position: 'center',

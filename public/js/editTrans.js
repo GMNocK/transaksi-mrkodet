@@ -7,6 +7,21 @@ const tBodyKeranjang = document.querySelector('#Keranjang tbody')
 
 const totalBayar = document.querySelector('#totalHarga');
 
+const panjangDetail = document.getElementsByName('panjang')[0];
+let panjang = parseInt(panjangDetail.value) ;
+let totalForInput = 0;
+
+document.addEventListener('DOMContentLoaded', function () {
+    for (let i = 1; i < panjang; i++) {
+        let subtotal = document.getElementsByName('subtotal' + i)[0];
+        
+        // var totalForInput = 0;
+        // console.log(totalForInput);
+        totalForInput += parseInt((subtotal.value).slice(3, (subtotal.value).length));
+        totalBayar.value = 'Rp.' + totalForInput;
+    }
+});
+
 function GetSubTotal() {
     const qty = AddBarangModal.querySelector('#iniQty');
     const subTotal = AddBarangModal.querySelector('#subTotal');
@@ -69,7 +84,6 @@ function addToKeranjang() {
     const isisubtot = document.querySelector('#subTotal');
     let dariSubtot = ""+ isisubtot.value;
     let subtot = parseInt(dariSubtot.slice(3,dariSubtot.length));
-    console.log(subtot);
 
     addAtributInput( InpNamBar, InpHarSatuan, InpUkuranBar, InpJmlBar, InpSubTot);
 
@@ -156,6 +170,8 @@ function addAtributTd(tdNo, tdNambar, tdHarSat, tdUkBar, tdJmlBar, tdSubTot) {
     tdUkBar.classList.add('text-center');
     tdJmlBar.classList.add('text-center');
     tdSubTot.classList.add('text-center');
+
+    tdNo.innerHTML = panjang;
 }
 
 function addAtributInput(InpNamBar, InpHarSatuan, InpUkuranBar, InpJmlBar, InpSubTot) {

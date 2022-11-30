@@ -22,6 +22,7 @@
                         <th scope="col" class="">Waktu pesan</th>
                         <th scope="col" class="">Total Harga</th>
                         <th scope="col" class="text-center">Status</th>
+                        <th scope="col" class="text-center">Status Bayar</th>
                         <th scope="col" class=""></th>
                     </tr>
                 </thead>
@@ -91,11 +92,17 @@
                                     
                                 @endif
                             </td>
+                            <td class="text-center">
+                                    @if ($i->bukti == false)
+                                        <span class="badge bg-danger">Belum Bayar</span>
+                                    @else
+                                        <span class="badge bg-success">Sudah Bayar</span>
+                                    @endif
+                                </td>
                             <td style="text-align: center">
-                                <a href="pesananPelanggan/{{ $i->kode }}" class="btn btn-primary my-1">
-                                {{-- <a href="#" class="btn btn-primary my-1" onclick="DltConfirm();"> --}}
-                                    {{-- <i class="fa-solid fa-eye"></i> --}}
-                                    <i class="align-middle" data-feather="eye"></i>
+                                <a href="pesananPelanggan/{{ $i->kode }}" class="btn btn-primary my-1" data-toggle="tooltip" data-placement="top" title="Lihat">                                
+                                    <i class="fas fa-eye"></i>
+                                    {{-- <i class="align-middle" data-feather="eye"></i> --}}
                                 </a>
                             </td>
                         </tr>

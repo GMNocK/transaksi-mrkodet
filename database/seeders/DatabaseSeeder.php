@@ -10,6 +10,7 @@ use App\Models\karyawan;
 use App\Models\laporanKaryawan;
 use App\Models\laporanPelanggan;
 use App\Models\pelanggan;
+use App\Models\Pesanan;
 use App\Models\transaksi;
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -69,7 +70,7 @@ class DatabaseSeeder extends Seeder
         detail_transaksi::factory(50)->create();
         laporanPelanggan::factory(50)->create();
         laporanKaryawan::factory(45)->create();
-
+        Pesanan::factory(20)->create();
         FeedbackAdmin::factory(10)->create();
         FeedbackKaryawan::factory(10)->create();
     }

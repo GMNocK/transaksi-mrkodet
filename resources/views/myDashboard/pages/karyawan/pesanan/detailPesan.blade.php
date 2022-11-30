@@ -101,12 +101,12 @@
     </div>
 </div>
 
-<div class="col-md-6 d-flex">
+<div class="col-md-12 d-flex">
     <div class="card flex-fill p-3">
         
         <div class="form-group">
-          <label for="KetTambah">Keterangan Tambahan</label>
-          <textarea class="form-control" name="ketTam" id="KetTambah" rows="5" placeholder="Tidak Ada Request">{{ $pesanan->keterangan }}</textarea>
+            <label for="KetTambah">Keterangan Tambahan</label>
+            <textarea class="form-control" name="ketTam" id="KetTambah" readonly rows="5" placeholder="Tidak Ada Request">{{ $pesanan->keterangan }}</textarea>
         </div>
 
     </div>
@@ -123,17 +123,24 @@
         <div class="col-md-6 d-flex">
             <div class="card flex-fill p-3">
                 <div class="form-group mb-0">
-                    @if ($pesanan->status != '3')                        
+                    @if ($pesanan->status != '3')
                         <label for="Balasan">Berikan Balasan</label>
                         <textarea class="form-control" name="Reply" id="Balasan" rows="6" placeholder="Tambahkan Balasan Disini"></textarea>
+                    @endif
+                    @if ($pesanan->bukti == false)
+                        <p class="fs-4 text-dark fw-bold my-0">Pesanan Belum Dibayar</p>
                     @endif
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        @if ($pesanan->status == '3')                            
-                            <input type="submit" id="Proses" data-="{{ $pesanan->kode }}" value="Proses Pesanan" class="btn btn-primary btn-lg my-3 w-100">           
-                        @else                            
-                            <input type="submit" id="Terima" data-="{{ $pesanan->kode }}" value="Terima Pesanan" class="btn btn-primary btn-lg my-3 w-100">           
+                        @if ($pesanan->status == '3')
+                            @if ($pesanan->bukti == false)                            
+                                <input type="submit" id="Proses" data-="{{ $pesanan->kode }}" value="Proses Pesanan" class="btn btn-danger btn-lg my-3 w-100">
+                            @else
+                                <input type="submit" id="Proses" data-="{{ $pesanan->kode }}" value="Proses Pesanan" class="btn btn-primary btn-lg my-3 w-100">
+                            @endif
+                        @else
+                            <input type="submit" id="Terima" data-="{{ $pesanan->kode }}" value="Terima Pesanan" class="btn btn-primary btn-lg my-3 w-100">
                         @endif
                     </div>
                 </div>
@@ -147,22 +154,25 @@
 <div class="row">
     <div class="d-flex">
         @if ($pesanan->status == '4')
-            
-        <form action="/pesanan/dikirim/{{ $pesanan->kode }}" class="col-6" method="post">
-            @csrf
-            <div class="col-md-12 d-flex">
-                <div class="card flex-fill p-3">
-                    <div class="form-group mb-0">
-                        <label for="">Tandai Jika Barang Dalam Proses Pengiriman</label>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <input type="submit" id="Kirim" data-="{{ $pesanan->kode }}" value="Tandai Sebagai Dikirim" class="btn btn-info btn-lg my-3 w-100">           
+            @if ($pesanan->bukti === true)
+            <form action="/pesanan/dikirim/{{ $pesanan->kode }}" class="col-6" method="post">
+                @csrf
+                <div class="col-md-12 d-flex">
+                    <div class="card flex-fill p-3">
+                        <div class="form-group mb-0">
+                            <label for="">Tandai Jika Barang Dalam Proses Pengiriman</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="submit" id="Kirim" data-="{{ $pesanan->kode }}" value="Tandai Sebagai Dikirim" class="btn btn-info btn-lg my-3 w-100">           
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+            @else
+                
+            @endif
         @endif
         <form action="/pesanan/selesai/{{ $pesanan->kode }}" class="col-6" method="post">
         @csrf
@@ -182,6 +192,74 @@
         </form>
     </div>
 </div>
+@endif
+
+@if ($pesanan->status == 6)
+    @if ($trans_cek != 0)
+        <div class="row justify-content-center mt-4">
+            <div class="col-10">
+                <div class="card shadow-lg">
+                    <div class="card-body p-2">
+                        <div class="row justify-content-center">
+                            <div class="col-md-4">
+                                <h4 class="m-1 card-title text-center text-dark fs-3">Pesanan Selesai</h4>
+                            </div>
+                            <div class="col-3">
+                                <form action="/pesananPelanggan/{{ $pesanan->kode }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $pesanan->id }}">
+                                    <button class="btn btn-primary">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                        Lihat
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @else        
+    <div class="row">
+        <div class="d-flex">
+            <form action="/pesanan/{{ $pesanan->kode }}/transaksi" class="col-6" method="post">
+            @csrf
+                <div class="col-md-12 d-flex">
+                    <div class="card flex-fill p-3">
+                        <div class="form-group mb-0">
+                            <label for="">Integrasi Ke transaksi</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="submit" data-="{{ $pesanan->kode }}" value="Integrasi Ke transaksi" class="btn btn-primary btn-lg my-3 w-100">           
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    @endif
+@endif
+
+@if ($pesanan->bukti == true)
+    @foreach ($pesanan->bukti_bayar_pesanan as $b)
+        <div class="row justify-content-center">
+            <div class="col-md-10 mt-5 mb-3 text-center">
+                <p class="fs-2 text-dark fw-bold">Bukti Pembayaran</p>
+            </div>
+        
+            <div class="col-md-10">
+                <div class="card flex-fill">
+                    <img class="card-img-top" src="{{ asset('storage/' . $b->bukti_bayar) }}" alt="">
+                    <div class="card-body mt-3">
+                        <h4 class="card-title text-dark">{{ $b->created_at }}</h4>
+                        <p class="card-text">{{ $b->bukti_bayar }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endif
 
 @endsection

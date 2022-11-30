@@ -51,24 +51,24 @@ class AuthController extends Controller
     public function loginAction(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required',
-            'password' => 'required'
+            'email' => 'required|email',
+            'password' => 'required|min:4'
         ]);
         $level = User::where('email', $credentials['email'])->get('level');
         $credentials['level'] = $level;
        
-        if (Auth::attempt($credentials)) {            
+        if (Auth::attempt($credentials)) {
 
             $request->session()->regenerate();
             return redirect()->intended('/myDashboard')->with('loginOk', 'Selamat Berhasil Login');
 
         } elseif (Auth::check()) {
 
-            return redirect('/myDashboard');
+            return redirect('/');
             
         }
 
-        return redirect('/')->withErrors('failed','Login Failed, Username or Pasword wrong');
+        return redirect('/')->with('failed','Login Failed, Username or Pasword wrong');
     }
 
     public function logout(Request $request)
@@ -185,7 +185,7 @@ class AuthController extends Controller
             return view('myDashboard.pages.Auth.profile', [
                 'data' => $dPelanggan,
                 'user' => auth()->user(), 
-            ]);            
+            ]);
         }
         if (auth()->user()->level == 'karyawan') {            
             $dataKaryawan = Karyawan::where('user_id', auth()->user()->id)->get();
@@ -194,7 +194,7 @@ class AuthController extends Controller
                 'user' => auth()->user(), 
             ]);            
         }
-        if (auth()->user()->level == 'admin') {            
+        if (auth()->user()->level == 'Admin') {            
             $dataAdmin = Admin::where('user_id', auth()->user()->id)->get();
             return view('myDashboard.pages.Auth.profile', [
                 'data' => $dataAdmin,
@@ -222,7 +222,7 @@ class AuthController extends Controller
             $dataKaryawan->update($validateData);
             return redirect('/profile')->with('success','Berhasil Di simpan');
         }
-        if (auth()->user()->level == 'admin') {
+        if (auth()->user()->level == 'Admin') {
             $dataAdmin = Admin::where('user_id', auth()->user()->id)->get()[0];
 
             $dataAdmin->update($validateData);

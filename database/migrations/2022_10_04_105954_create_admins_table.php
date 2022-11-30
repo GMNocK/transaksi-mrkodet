@@ -16,6 +16,7 @@ class CreateAdminsTable extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
+            $table->string('alamat');
             $table->string('no_tlp')->unique();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

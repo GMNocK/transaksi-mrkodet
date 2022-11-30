@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class IsAdmin
+class IsOperator
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,9 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->level == 'Admin') {
-            return $next($request);
+        if (auth()->user()->level == 'karyawan'|| auth()->user()->level == 'Admin') {
+            return $next($request);            
         }
-        return redirect('/myDashboard');
-
+        return redirect('myDashboard');
     }
 }

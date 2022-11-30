@@ -33,6 +33,11 @@ class Pesanan extends Model
         return $this->hasMany(bukti_bayar_pesanan::class, 'pesanan_id');
     }
 
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class, 'pesanan_id');
+    }
+
     public function getRouteKeyName()
     {
         return 'kode';

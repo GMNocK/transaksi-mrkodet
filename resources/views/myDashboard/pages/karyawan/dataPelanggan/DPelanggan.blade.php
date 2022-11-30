@@ -62,7 +62,7 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="/dataPelanggan/{{ $p->id }}" class="btn btn-primary">
+                                <a href="/dataPelanggan/{{ $p->id }}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Lihat">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
                             </td>

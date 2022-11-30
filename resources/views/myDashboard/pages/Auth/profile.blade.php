@@ -49,7 +49,7 @@
                 </div>
                 <div class="d-flex justify-content-end my-3">
                         <button id="btnSave" class="btn btn-primary my-2 text-white" role="button">Save</button>
-                        <a href="/kirim" id="sendEmailVerify" class="btn btn-success mx-2 my-2 text-white">Kirim Verifikasi</a>
+                        <a href="/resetPassword" class="btn btn-success mx-2 my-2 text-white">Reset Password</a>
                     </div>
                 </div>
             </div>

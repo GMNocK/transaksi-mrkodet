@@ -159,7 +159,8 @@
             @csrf
             .<div class="form-group">
                 <label for="buktiBayar">Upload Bukti Pembayaran</label>
-                <input type="file" class="form-control" name="buktiBayar" id="">
+                <img class="img-preview img-fluid">
+                <input type="file" class="form-control" name="buktiBayar" id="image" onchange="imgPreview()">
             </div>
             <button type="submit" class="btn btn-primary">Kirim Bukti Bayar</button>
         </form>
@@ -168,12 +169,12 @@
 </div>
 
 @if ($pesanan->bukti == true)
-    @foreach ($pesanan->bukti_bayar_pesanan as $b)
         <div class="row justify-content-center">
             <div class="col-md-10 mt-5 mb-3 text-center">
                 <p class="fs-2 text-dark fw-bold">Bukti Pembayaran</p>
             </div>
-        
+            @foreach ($pesanan->bukti_bayar_pesanan as $b)
+
             <div class="col-md-10">
                 <div class="card flex-fill">
                     <img class="card-img-top" src="{{ asset('storage/' . $b->bukti_bayar) }}" alt="">
@@ -183,8 +184,25 @@
                     </div>
                 </div>
             </div>
+            @endforeach
         </div>
-    @endforeach
 @endif
+
+<script>
+    function imgPreview() {
+        const image = document.querySelector('#image');
+        const imagePreview = document.querySelector('.img-preview');
+
+        imagePreview.style.display = 'block';
+
+        const oFReader = new FileReader();
+        oFReader.readAsDataURL(image.files[0]);
+
+        oFReader.onload = function(oFREvent) {
+            imagePreview.src = oFREvent.target.result;
+            imagePreview.classList.add('mb-3');
+        }
+    }
+</script>
 
 @endsection

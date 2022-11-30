@@ -2,7 +2,7 @@
 
 @section('content')
     
-        <div class="col-md-12 col-lg-12 col-xxl-8 d-flex">
+        <div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
             <div class="card flex-fill">
                 <div class="card-header justify-content-between d-flex">
                     <div class="ms-2 col-md-4">
@@ -97,24 +97,24 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    @if ($p->buktiBayar == '')
+                                    @if ($p->bukti == false)
                                         <span class="badge bg-danger">Belum Bayar</span>
                                     @else
                                         <span class="badge bg-success">Sudah Bayar</span>
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    <a href="pesanan/{{ $p->kode }}" class="btn btn-primary my-1">
+                                    <a href="pesanan/{{ $p->kode }}" class="btn btn-primary my-1" data-toggle="tooltip" data-placement="top" title="Lihat">
                                         <i class="align-middle" data-feather="eye"></i>
                                     </a>
 
                                     @if ($p->status == '1' || $p->status == '2')
                                         @if ($p->bukti == false)
-                                            <a href="pesanan/{{ $p->kode }}/edit" class="btn btn-success my-1">
+                                            <a href="pesanan/{{ $p->kode }}/edit" class="btn btn-success my-1"data-toggle="tooltip" data-placement="top" title="Edit">
                                                 <i class="align-middle" data-feather="edit"></i>                                            
                                             </a>
 
-                                            <a class="my-1 btnBatal" data-id="{{ $p->kode }}">
+                                            <a class="my-1 btnBatal" data-id="{{ $p->kode }}" data-toggle="tooltip" data-placement="top" title="Batalkan Pesanan">
                                                 <button class="btn btn-danger">
                                                     Batal
                                                     {{-- <i class="align-middle" data-feather="trash-2"></i>                                         --}}
@@ -124,7 +124,7 @@
                                     @else
                                         @if ($p->status == '0')
                                         
-                                            <a class="my-1 btnDelete" data-id="{{ $p->kode }}">
+                                            <a class="my-1 btnDelete" data-id="{{ $p->kode }}"data-toggle="tooltip" data-placement="top" title="Hapus">
                                                 <button class="btn btn-danger">
                                                     <i class="align-middle" data-feather="trash-2"></i>                                        
                                                 </button>
@@ -228,6 +228,32 @@
     });
 </script>
 
+@if (session('IsNull'))
+    <script>
+        Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Pemesanan tidak bisa dilakukan',
+            showConfirmButton: false,
+            timer: 1400
+        });
+
+        setTimeout(() => {
+            Swal.fire({
+                position: 'center',
+                icon: 'info',
+                title: 'Silahkan isi identitas lengkap di profile',
+            }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                window.location = '/profile';
+            } else if (result.isDenied) {
+                Swal.fire('Pemesanan Bisa dilakukan dengan identitas jelas')
+            }
+            });
+        }, 2000);
+    </script>
+@endif
 
 @if (session('batal'))
 

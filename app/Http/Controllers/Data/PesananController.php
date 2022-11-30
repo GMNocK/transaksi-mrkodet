@@ -9,10 +9,14 @@ use App\Http\Requests\UpdatePesananRequest;
 use App\Models\Barang;
 use App\Models\bukti_bayar_pesanan;
 use App\Models\Detail_Pesanan;
+use App\Models\Detail_transaksi;
+use App\Models\Karyawan;
 use App\Models\Pelanggan;
+use App\Models\Transaksi;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use LengthException;
 
 class PesananController extends Controller
 {
@@ -23,7 +27,7 @@ class PesananController extends Controller
             // $itu = Pesanan::where('pelanggan_id', 18)->get();
             // return $itu[0];
             return view('myDashboard.pages.karyawan.pesanan.daftarPesanan', [
-                'pesanan' => Pesanan::orderByDesc('waktu_pesan')->orderBy('status', 'asc')->paginate(10),
+                'pesanan' => Pesanan::orderByDesc('bukti')->orderBy('waktu_pesan', 'desc')->orderBy('status', 'asc')->paginate(10),
                 // 'waktuPesan' => $ini[0]
             ]);
         }
@@ -37,8 +41,14 @@ class PesananController extends Controller
     
     public function create()
     {
+        $pelanggan = Pelanggan::where('user_id', auth()->user()->id)->get()[0];
+
+        if ($pelanggan->alamat == '' || $pelanggan->no_tlp == '') {
+            return redirect('/pesananSaya')->with('IsNull', 'Identitas Kosong');   //'Maaf, Pemesanan tidak bisa dilakukan. Silahkan isi identitas lengkap di profile anda');
+        }
+
         return view('myDashboard.pages.pelanggan.pesanan.formPemesanan', [
-            'barangs' => Barang::paginate(4),
+            'barangs' => Barang::paginate(3),
         ]);
     }
 
@@ -48,7 +58,6 @@ class PesananController extends Controller
         $this->authorize('pelanggan');
 
         $pelanggan = Pelanggan::where('user_id', auth()->user()->id)->get()[0];
-        // return $pelanggan->alamat;
 
         if ($pelanggan->alamat == '' || $pelanggan->no_tlp == '') {
             return redirect('/pesanan/create')
@@ -59,7 +68,7 @@ class PesananController extends Controller
             'TotalBayar' => 'required|min:2',
             'tipePengiriman' => 'required',
             'tipe_bayar' => 'required',
-            'PanjangtblKeranjang' => 'required',                        
+            'PanjangtblKeranjang' => 'required',
         ]);
 
         // return $request->toArray();
@@ -140,8 +149,12 @@ class PesananController extends Controller
 
     public function show(Pesanan $pesanan)
     {
-        // $ini[] = Detail_Pesanan::where('pesanan_id', $pesanan->id)->get();
-        // return $ini.toArray();
+        $transaksi_cek = 'ada';
+
+        $cek_trans = Transaksi::where('pesanan_id', $pesanan->id)->get()->count();
+        if ($cek_trans == 0) {
+            $transaksi_cek = 0;
+        }
         if (auth()->user()->level != 'pelanggan') {
 
             if ($pesanan->status == '1') {
@@ -151,12 +164,14 @@ class PesananController extends Controller
 
             return view('myDashboard.pages.karyawan.pesanan.detailPesan', [
                 'pesanan' => $pesanan,
-                'detail' => Detail_Pesanan::where('pesanan_id', $pesanan->id)->get()
+                'detail' => Detail_Pesanan::where('pesanan_id', $pesanan->id)->get(),
+                'trans_cek' => $transaksi_cek,
             ]);
         }
 
         return view('myDashboard.pages.pelanggan.pesanan.Pdetail', [
             'pesanan' => $pesanan,
+            'trans_cek' => $transaksi_cek,
             'detailPesanan' => Detail_Pesanan::where('pesanan_id', $pesanan->id)->get(),
         ]);
     }
@@ -172,7 +187,7 @@ class PesananController extends Controller
     
     public function update(UpdatePesananRequest $request, Pesanan $pesanan)
     {
-        //
+        return $pesanan;
     }
 
     
@@ -232,16 +247,18 @@ class PesananController extends Controller
         return redirect(route('pesananPelanggan.index'))->with('terimaProgress', 'Pesanan Dalam Proses Pembuatan');
     }
 
-    public function tandaiKirim(Request $request, Pesanan $pesanan)
+    public function tandaiKirimOrSelesai(Request $request, Pesanan $pesanan)
     {
         $status = 5;
 
         if ($request->finish) {
             $status = 6;
+            // $trans = 'ok';
         }
 
+        // $updt_trans = array('pesanan_id' => $pesanan->id);
         $update = array('status' => $status);
-
+        
         $pesanan->update($update);
 
         // Terima Kasih, Pesanan Anda kami terima. pemberitahuan lebih lanjut akan kami hubungi lewat whatsapp
@@ -250,6 +267,45 @@ class PesananController extends Controller
         } else {
             return redirect(route('pesananPelanggan.index'))->with('selesai', 'Pesanan Selesai');
         }
+    }
+
+    public function transIntegration(Pesanan $pesanan)
+    {
+        $tgl = Str::limit($pesanan->waktu_pesan, 10, '');
+        
+        $detailPesanan = Detail_Pesanan::where('pesanan_id', $pesanan->id)->get();
+        
+        $karyawan = Karyawan::where('user_id' , auth()->user()->id)->get()[0]->nama;
+
+        $transaksi = new Transaksi([
+            'pesanan_id' => $pesanan->id,
+            'tgl_transaksi' => $tgl,
+            'total_harga' => $pesanan->total_harga,
+            'status' => 'lunas',
+            'tipe_bayar' => $pesanan->tipePembayaran,
+            'pencatat' => $karyawan,
+            'token' => Str::random(10),
+        ]);
+
+        $transaksi->save();
+
+        $id_trans = Transaksi::orderByDesc('id')->limit(1)->get()[0]->id;
+
+        for ($i=0; $i < ($detailPesanan->count()); $i++) {
+            
+            $detail_trans = new Detail_transaksi([
+                'transaksi_id' => $id_trans,
+                'barang_id' => $detailPesanan[$i]->barang_id,
+                'harga_satuan' => $detailPesanan[$i]->hargaPerKg,
+                'ukuran' => $detailPesanan[$i]->ukuran,
+                'jumlah' => $detailPesanan[$i]->jumlahPesan,
+                'subtotal' => $detailPesanan[$i]->subtotal,
+            ]);
+
+            $detail_trans->save();
+        }
+
+        return redirect(route('transaksi.index'))->with('integrasi', 'Integrasi Berhasil');
     }
 
     public function upload(Pesanan $pesanan ,Request $request)

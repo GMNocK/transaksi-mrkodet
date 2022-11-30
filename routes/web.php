@@ -56,12 +56,11 @@ Route::middleware(['guest'])->group(function () {
     // RESET PASSWORD
     Route::get('/resetPassword', [AuthController::class, 'resetPw']);
     Route::post('/resetPassword/action', [AuthController::class, 'resetPwAction']);
+    Route::get('/new', function () {
+        return view('newLogin');
+    });
 });
 
-
-
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard'); 
 
 Route::resource('/dashboard/users', DashboardUsersController::class)->middleware('auth');
 
@@ -70,9 +69,6 @@ Route::resource('/dashboard/transaksis', DashboardTransController::class)->middl
 // Route::get('transaksis/report', [ReportController::class, 'index']);
 
 Route::resource('/transaksi/reports', ReportController::class)->middleware('auth');
-
-// Route::resource('/laporankaryawans', LaporanKaryawanController::class)->middleware('auth');
-Route::resource('/laporankaryawans', LaporanKaryawanController::class)->middleware('auth');
 
 
 Route::get('/admin/laporan/karyawan', [ReportForAdminController::class , 'indexKaryawan']);
@@ -84,12 +80,7 @@ Route::get('/admin/laporan/pelanggan', [ReportForAdminController::class , 'index
 Route::get('/admin/laporan/pelanggan/today', [ReportForAdminController::class , 'todayPelanggan']);
 Route::get('/admin/laporan/pelanggan/thisMonth', [ReportForAdminController::class , 'thisMonthPelanggan']);
 
-
 Route::get('/admin/laporan/pelanggan/thisYear', [ReportForAdminController::class , 'thisYearPelanggan']);
-
-
-
-// Route::post('/added/DataPelanggan', [DataPelangganController::class, 'FastAddedData'])->name('dpFasterAdd')->middleware('auth');
 
 
 Route::middleware(['auth'])->group(function () {
@@ -111,16 +102,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/Laporan/History', [ReportController::class, 'history']);
     });
     
-    Route::middleware(['IsKaryawan', 'IsAdmin'])->group(function () {
+    Route::middleware(['IsOperator'])->group(function () {
         Route::resource('/transaksi', TransaksiController::class);
         Route::get('/delete/transaksi/{transaksi}', [TransaksiController::class, 'destroy']);
-
+        Route::post('/pesanan/transaksi', [TransaksiController::class, 'lihatTransaksi']);
+        
         // Terkait Pemesanan \ Pesanan
         Route::get('/pesananPelanggan/{pesanan}', [PesananController::class, 'show'])->name('showPpelanggan');
         Route::post('/pesanan/accept/{pesanan}', [PesananController::class, 'KaryawanAccept']);
         Route::post('/pesanan/progress/{pesanan}', [PesananController::class, 'KarAcceptProgress']);
-        Route::post('/pesanan/dikirim/{pesanan}', [PesananController::class, 'tandaiKirim']);
-        Route::post('/pesanan/selesai/{pesanan}', [PesananController::class, 'tandaiKirim']);
+        Route::post('/pesanan/dikirim/{pesanan}', [PesananController::class, 'tandaiKirimOrSelesai']);
+        Route::post('/pesanan/selesai/{pesanan}', [PesananController::class, 'tandaiKirimOrSelesai']);
+        Route::post('/pesanan/{pesanan}/transaksi', [PesananController::class, 'transIntegration']);
         Route::resource('/pesananPelanggan', PesananController::class)->only(['index']);
         
         Route::resource('/produk', ProdukController::class);
@@ -131,9 +124,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/laporanPelanggan', [KaryawanController::class, 'pelangganReport']);
         Route::post('/laporanPelanggan/reply/{laporanPelanggan}/create', [KaryawanController::class, 'replyPelangganR'])->name('indexReply');
         Route::post('/laporanPelanggan/reply', [KaryawanController::class, 'StoreReply']);
+        
+
+        Route::resource('/laporanKaryawan', LaporanKaryawanController::class)->middleware('IsAdmin');
 
         Route::resource('/laporanPelanggan/Feedback', FeedbackKaryawanController::class);
-
+        
         Route::resource('/Rekap/RPesanan', RekapPesananController::class);
         Route::resource('/Rekap/RTransaksi', RekapTransaksiController::class);
         Route::resource('/Rekap/RPelanggan', RDatPelangganController::class);
@@ -142,7 +138,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/Rekap/Pesanan', [ReportingController::class, 'pesanan']);
         Route::post('/Rekap/Transaksi', [ReportingController::class, 'transaksi']);
         Route::post('/Rekap/Pelanggan', [ReportingController::class, 'pelanggan']);
-
+        
     });
 
     Route::get('/coba', [Controller::class, 'coba']);
