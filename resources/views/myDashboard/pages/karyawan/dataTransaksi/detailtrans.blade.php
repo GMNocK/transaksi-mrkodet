@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="col-md-12 col-lg-12 col-xxl-8 d-flex">
+<div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
         <div class="card-header">
             <div class="col-md-4 mt-1">
@@ -25,6 +25,7 @@
                         <th scope="col">Pencatat</th>
                         <th scope="col" class="text-center">Status</th>
                         <th scope="col" class="text-center" style="min-width: 90px">Pesanan</th>
+                        <th scope="col">Pembayaran</th>
                         @if ($transaksi->pesanan_id != '')                            
                         <th scope="col" class="text-center"></th>
                         @endif
@@ -66,6 +67,7 @@
                                 {{ $transaksi->pesanan_id == '' ? 'Offline' : 'Online' }}
                             </span>
                         </td>
+                        <td>{{ $transaksi->tipe_bayar }}</td>
                         @if ($transaksi->pesanan_id != '')
                         <td class="text-center">
                             <a href="/pesananPelanggan/{{ $pesanan[0]->kode }}">
@@ -83,7 +85,7 @@
     </div>
 </div>
     
-<div class="col-md-12 col-lg-12 col-xxl-8 d-flex mt-4">
+<div class="col-md-12 col-lg-12 col-xxl-12 d-flex mt-4">
     <div class="card flex-fill">
         <div class="card-header">
             <div class="col-md-4 mt-1">

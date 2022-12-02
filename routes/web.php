@@ -68,19 +68,19 @@ Route::resource('/dashboard/transaksis', DashboardTransController::class)->middl
 
 // Route::get('transaksis/report', [ReportController::class, 'index']);
 
-Route::resource('/transaksi/reports', ReportController::class)->middleware('auth');
+// Route::resource('/transaksi/reports', ReportController::class)->middleware('auth');
 
 
-Route::get('/admin/laporan/karyawan', [ReportForAdminController::class , 'indexKaryawan']);
-Route::get('/admin/laporan/karyawan/today', [ReportForAdminController::class , 'todayKaryawan']);
-Route::get('/admin/laporan/karyawan/thisMonth', [ReportForAdminController::class , 'thisMonthKaryawan']);
-Route::get('/admin/laporan/karyawan/thisYear', [ReportForAdminController::class , 'thisYearKaryawan']);
+// Route::get('/admin/laporan/karyawan', [ReportForAdminController::class , 'indexKaryawan']);
+// Route::get('/admin/laporan/karyawan/today', [ReportForAdminController::class , 'todayKaryawan']);
+// Route::get('/admin/laporan/karyawan/thisMonth', [ReportForAdminController::class , 'thisMonthKaryawan']);
+// Route::get('/admin/laporan/karyawan/thisYear', [ReportForAdminController::class , 'thisYearKaryawan']);
 
-Route::get('/admin/laporan/pelanggan', [ReportForAdminController::class , 'indexPelanggan']);
-Route::get('/admin/laporan/pelanggan/today', [ReportForAdminController::class , 'todayPelanggan']);
-Route::get('/admin/laporan/pelanggan/thisMonth', [ReportForAdminController::class , 'thisMonthPelanggan']);
+// Route::get('/admin/laporan/pelanggan', [ReportForAdminController::class , 'indexPelanggan']);
+// Route::get('/admin/laporan/pelanggan/today', [ReportForAdminController::class , 'todayPelanggan']);
+// Route::get('/admin/laporan/pelanggan/thisMonth', [ReportForAdminController::class , 'thisMonthPelanggan']);
 
-Route::get('/admin/laporan/pelanggan/thisYear', [ReportForAdminController::class , 'thisYearPelanggan']);
+// Route::get('/admin/laporan/pelanggan/thisYear', [ReportForAdminController::class , 'thisYearPelanggan']);
 
 
 Route::middleware(['auth'])->group(function () {
@@ -95,7 +95,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pesanan/batal/{pesanan}', [PesananController::class, 'batal']);
         Route::get('/pesanan/delete/{pesanan}', [PesananController::class, 'destroy']);
         
-        Route::get('/myDashboard/pesanan/history', [PesananController::class, 'history']);
+        Route::get('/pesananSaya/history', [PesananController::class, 'history']);
         
         Route::get('/LaporanSaya', [ReportController::class, 'index']);
         Route::resource('/Laporan', ReportController::class)->except('index');
@@ -125,9 +125,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/laporanPelanggan/reply/{laporanPelanggan}/create', [KaryawanController::class, 'replyPelangganR'])->name('indexReply');
         Route::post('/laporanPelanggan/reply', [KaryawanController::class, 'StoreReply']);
         
-
-        Route::resource('/laporanKaryawan', LaporanKaryawanController::class)->middleware('IsAdmin');
-
         Route::resource('/laporanPelanggan/Feedback', FeedbackKaryawanController::class);
         
         Route::resource('/Rekap/RPesanan', RekapPesananController::class);
@@ -139,6 +136,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/Rekap/Transaksi', [ReportingController::class, 'transaksi']);
         Route::post('/Rekap/Pelanggan', [ReportingController::class, 'pelanggan']);
         
+        Route::resource('/laporanSaya', LaporanKaryawanController::class)->middleware('IsKaryawan');
+        Route::resource('/laporanKaryawan', LaporanKaryawanController::class)->middleware('IsAdmin');
     });
 
     Route::get('/coba', [Controller::class, 'coba']);

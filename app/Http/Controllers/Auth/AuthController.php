@@ -180,19 +180,19 @@ class AuthController extends Controller
 
     public function profile()
     {
-        if (auth()->user()->level == 'pelanggan') {            
+        if (auth()->user()->level == 'pelanggan') {
             $dPelanggan = Pelanggan::where('user_id', auth()->user()->id)->get();
             return view('myDashboard.pages.Auth.profile', [
                 'data' => $dPelanggan,
-                'user' => auth()->user(), 
+                'user' => auth()->user(),
             ]);
         }
-        if (auth()->user()->level == 'karyawan') {            
+        if (auth()->user()->level == 'karyawan') {
             $dataKaryawan = Karyawan::where('user_id', auth()->user()->id)->get();
             return view('myDashboard.pages.Auth.profile', [
                 'data' => $dataKaryawan,
-                'user' => auth()->user(), 
-            ]);            
+                'user' => auth()->user(),
+            ]);
         }
         if (auth()->user()->level == 'Admin') {            
             $dataAdmin = Admin::where('user_id', auth()->user()->id)->get();

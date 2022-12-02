@@ -81,12 +81,12 @@
                 </li> --}}
 
 
-                <li class="sidebar-item {{ Request::is('myDashboard/pesanan/history') ? 'active' : '' }}">
-                    <a class="sidebar-link text-decoration-none" href="/myDashboard/pesanan/history">
+                {{-- <li class="sidebar-item {{ Request::is('pesananSaya/history') ? 'active' : '' }}">
+                    <a class="sidebar-link text-decoration-none" href="/pesananSaya/history">
                         <i class="align-middle" data-feather="activity"></i> 
                         <span class="align-middle">History Pesanan</span>
                     </a>
-                </li>
+                </li> --}}
 
             @endcan
             
@@ -97,8 +97,8 @@
 
             @can('karyawan')
                 
-            <li class="sidebar-item {{ Request::is('laporanKaryawan') ? 'active' : '' }}">
-                <a class="sidebar-link text-decoration-none" href="/laporanKaryawan">
+            <li class="sidebar-item {{ Request::is('laporanSaya') ? 'active' : '' }}">
+                <a class="sidebar-link text-decoration-none" href="/laporanSaya">
                     <i class="align-middle" data-feather="file-text"></i>
                     <span class="align-middle">Laporan Saya</span>
                 </a>
@@ -137,12 +137,12 @@
                     </a>
                 </li>
                 
-                <li class="sidebar-item {{ Request::is('Laporan/History') ? 'active' : '' }}">
+                {{-- <li class="sidebar-item {{ Request::is('Laporan/History') ? 'active' : '' }}">
                     <a class="sidebar-link text-decoration-none" href="/Laporan/History">
                         <i class="align-middle" data-feather="activity"></i> 
                         <span class="align-middle">History Laporan</span>
                     </a>
-                </li>
+                </li> --}}
             
             @endcan
 

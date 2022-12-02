@@ -121,6 +121,8 @@ class DashboardController extends Controller
             'pesan29' => Pesanan::whereDate('waktu_pesan', date('Y-' .$month . '-29'))->count(),
             'pesan30' => Pesanan::whereDate('waktu_pesan', date('Y-' .$month . '-30'))->count(),
             'pesan31' => Pesanan::whereDate('waktu_pesan', date('Y-' .$month . '-31'))->count(),
+            'Notif' => Pesanan::orderByDesc('waktu_pesan')->limit(4)->get(),
+            'message' => LaporanPelanggan::orderByDesc('send_at')->limit(4)->get(),
         ]);
     }
 }

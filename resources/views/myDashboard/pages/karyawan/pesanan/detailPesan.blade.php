@@ -128,7 +128,7 @@
                         <textarea class="form-control" name="Reply" id="Balasan" rows="6" placeholder="Tambahkan Balasan Disini"></textarea>
                     @endif
                     @if ($pesanan->bukti == false)
-                        <p class="fs-4 text-dark fw-bold my-0">Pesanan Belum Dibayar</p>
+                        <p class="fs-4 fw-bold my-0 text-danger">Pesanan Belum Dibayar</p>
                     @endif
                 </div>
                 <div class="row">
@@ -154,7 +154,7 @@
 <div class="row">
     <div class="d-flex">
         @if ($pesanan->status == '4')
-            @if ($pesanan->bukti === true)
+            @if ($pesanan->bukti == true)
             <form action="/pesanan/dikirim/{{ $pesanan->kode }}" class="col-6" method="post">
                 @csrf
                 <div class="col-md-12 d-flex">
@@ -242,7 +242,7 @@
     @endif
 @endif
 
-@if ($pesanan->bukti == true)
+@if ($pesanan->bukti == true && $trans_cek == 1)
     @foreach ($pesanan->bukti_bayar_pesanan as $b)
         <div class="row justify-content-center">
             <div class="col-md-10 mt-5 mb-3 text-center">

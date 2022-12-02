@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="table-responsive col-12 mt-1">        
+        <div class="table-responsive col-12 mt-1">
             <table class="table table-striped table-hover">
                 <thead class="bg-secondary text-white shadow-sm">
                     <tr>
@@ -34,9 +34,9 @@
                         <td class="text-center">
                             @can('pelanggan')
                                 
-                            <a href="/transaksi/reports/{{ $l->id }}" class="btn btn-primary"><span data-feather="eye"></span></a>                 
+                            <a href="/Laporan/{{ $l->id }}" class="btn btn-primary"><span data-feather="eye"></span></a>                 
                             
-                            <form action="/transaksi/reports/{{ $l->id }}" method="post" class="d-inline" onclick="return confirm('Yakin Untuk Menghapus?');">
+                            <form action="/Laporan/{{ $l->id }}" method="post" class="d-inline" onclick="return confirm('Yakin Untuk Menghapus?');">
                                 @method('delete')
                                 @csrf
                                 <button class="btn btn-danger">
@@ -44,7 +44,7 @@
                                 </button>
                             </form>
                             
-                            <a href="/transaksi/reports/{{ $l->id }}/edit/" class="btn btn-warning">
+                            <a href="/Laporan/{{ $l->id }}/edit/" class="btn btn-warning">
                                 <span data-feather="edit"></span>
                             </a>                                                            
                             

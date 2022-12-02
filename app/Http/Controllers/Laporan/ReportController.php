@@ -16,18 +16,11 @@ class ReportController extends Controller
     
     public function index()
     {
-        $user = User::where('id', auth()->user()->id)->get('id')[0];
-        // return $user->id;
-
-        $pelanggan =  Pelanggan::where('user_id', $user->id)->get()[0];
-        // foreach ($string as $i) {
-        //     $pelangganLogin = $i->id;
-        // }
-
-        $ret = LaporanPelanggan::where('pelanggan_id', $pelanggan->id)->get();
+        $pelanggan =  Pelanggan::where('user_id', auth()->user()->id)->get()[0];
+        $pelangganData = LaporanPelanggan::where('pelanggan_id', $pelanggan->id)->get();
 
         return view('myDashboard.pages.pelanggan.laporan.Lsaya', [
-            'LaporanPelanggans' => $ret, 
+            'LaporanPelanggans' => $pelangganData,
         ]);
     }
 
@@ -62,8 +55,8 @@ class ReportController extends Controller
     
     public function show(LaporanPelanggan $report)
     {
-        return view('dashboard.transaksi.report.detail',[
-            'laporanpelanggan' => $report, 
+        return view('myDashboard.pages.Diskusi.Lshow',[
+            'laporanPelanggan' => $report,
         ]);
     }
 

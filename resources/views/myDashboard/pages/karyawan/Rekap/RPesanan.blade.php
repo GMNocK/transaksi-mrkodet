@@ -16,7 +16,7 @@
 </nav>
 
 
-<div class="col-md-12 col-lg-12 col-xxl-8 d-flex">
+<div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
         <div class="card-header">
             <div class="col-md-12 mt-1 d-flex justify-content-between">

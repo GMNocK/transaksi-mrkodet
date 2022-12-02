@@ -15,21 +15,6 @@
     </div>
 </nav>
 
-{{-- @if ($transaksis->pesanan_id != '')
-
-<nav class="breadcrumb mb-4 col-md-12 justify-content-between">
-    <span class="fs-5  d-flex align-items-center fw-semibold ms-3">
-        <i class="fa fa-user-circle link-dark fs-3 me-2" aria-hidden="true"></i>
-        {{ $transaksis->pesanan }}
-    </span>
-    
-    <div class="d-flex align-items-center breadcrumb-item active me-2">
-        <i class="align-middle me-1" data-feather="calendar"></i>
-        <span>{{ $transaksis->tgl_transaksi }}</span>
-    </div>
-</nav>
-@endif --}}
-
 <form action="/transaksi/{{ $transaksis->token }}" method="post">
     @method('put')
     @csrf
@@ -62,18 +47,18 @@
                         @foreach ($detailtransaksis as $det)
                             <tr>
                                 <td class="text-center">
-                                     {!! $ini = $loop->iteration !!}
+                                     {!! $panjang = $loop->iteration !!}
                                 </td>
                                 <td class="text-center">
                                     <input type="text" value="{{ $det->barang->nama_barang }}" readonly 
                                             class="text-dark text-center border-0 bg-transparent nama-barang"  
-                                            name="barang{{ $loop->iteration }}"
+                                            name="BR{{ $loop->iteration }}"
                                         >
                                 </td>
                                 <td class="text-center">
                                     <input type="text" value="Rp.{{ $det->harga_satuan }}" readonly 
                                             class="text-dark text-center border-0 bg-transparent harga-barang" 
-                                            name="hargaSatuan{{ $loop->iteration }}"
+                                            name="harga{{ $loop->iteration }}"
                                             style="width: 160px"
                                         >
                                 </td>
@@ -85,20 +70,24 @@
                                         >
                                 </td>
                                 <td class="text-center">
-                                    <input type="text" value="{{ $det->jumlah }}" readonly class="text-dark text-center border-0 bg-transparent jumlah-beli" name="jml{{ $loop->iteration }}">
+                                    <input type="text" value="{{ $det->jumlah }}" readonly 
+                                            class="text-dark text-center border-0 bg-transparent jumlah-beli" 
+                                            name="jumlah{{ $loop->iteration }}"
+                                            style="width: 120px"
+                                        >
                                 </td>
                                 <td class="text-center">
                                     <input type="text" value="Rp.{{ $det->subtotal }}" readonly class="text-dark text-center border-0 bg-transparent sub-total" name="subtotal{{ $loop->iteration }}">
                                 </td>
                                 <td class="text-center">
                                     <i class="fas fa-edit link d-inline" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#editBarangDariKeranjang"></i>
-                                    <i class="fas fa-trash-alt link d-inline" style="cursor: pointer" onclick="deleteConfirm();"></i>
+                                    <i class="fas fa-trash-alt link d-inline" style="cursor: pointer"></i>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                <input type="hidden" name="panjang" value="{{ $ini += 1 }}">
+                <input type="hidden" name="panjang" value="{{ $panjang += 1 }}">
             </div>
         </div>
     </div>
@@ -199,30 +188,82 @@
                 <form method="POST" action="#">
                     @csrf
                     <div class="mb-3">
-                        <select class="form-control" disabled id="barangEdit" onchange="GetSubTotal();">
-                            
+                        <label for="barangEdit">Nama Barang</label>
+                        <select class="form-control" disabled id="barangEdit">
+                            <option></option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <select class="form-control" id="ukuranEdit" onchange="GetSubTotal();">    
-                            
+                        <label for="ukuranEdit">Ukuran Barang</label>
+                        <select class="form-control" id="ukuranEdit">    
+                            <option value="1" class="">1 Kg</option>
+                            <option value="1/2" class="">1/2 Kg</option>
+                            <option value="1/4" class="">1/4 Kg</option>
+                            <option value="3000" class="">Ukuran 3000</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <input type="number" class="form-control" id="QtyEdit" value="0" onchange="GetSubTotal();">
+                        <label for="QtyEdit">Jumlah Barang</label>
+                        <input type="number" class="form-control" id="QtyEdit" onchange="GetSubTotal();">
                     </div>         
                     <div class="mb-3">
+                        <label for="subTotalEdit">Subtotal</label>
                         <input type="text" class="form-control" id="subTotalEdit" readonly value="Rp.0">
                     </div>         
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" id="btnEditItemKeranjang" data-bs-dismiss="modal">Save changes</button>
             </div>
         </div>
     </div>
 </div>
+
+{{-- <script>
+    function deleteConfirm() {
+        
+    const btnDelete = document.querySelectorAll('.btnDelete');
+
+        btnDelete.forEach((item) => {
+            const token = item.getAttribute('data-id');
+            
+            item.addEventListener('click', () => {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success mx-2',
+                        cancelButton: 'btn btn-danger mx-2'
+                    },
+                    buttonsStyling: false
+                    })
+            
+                    swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location = "/delete/transaksi/"+token+""            
+                            
+                        } else if (
+                            /* Read more about handling dismissals below */
+                            result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Your imaginary file is safe :)',
+                            'error'
+                            )
+                        }
+                    })
+            });  
+        });
+    }
+</script> --}}
 
 <script src="{{ asset('js/editTrans.js') }}"></script>
 @endsection

@@ -6,7 +6,7 @@
     @csrf
     <div class="breadcrumb mb-4 col-md-12 justify-content-between">
         <div>        
-            <a class="breadcrumb-item" href="/myDashboard">myDashboard</a>
+            <a class="breadcrumb-item" href="/myDashboard">Dashboard</a>
             <a class="breadcrumb-item" href="/transaksi">Transaksi</a>
             <a class="breadcrumb-item active" aria-current="page">Create</a>
         </div>
@@ -36,7 +36,7 @@
         </div>
     </div> --}}
     
-    <div class="col-md-12 col-lg-12 col-xxl-8 d-flex">
+    <div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
         <div class="card flex-fill">
             <div class="card-header">
                 <div class="ms-2 col-md-4">
@@ -119,8 +119,8 @@
                     <label for="" class="fs-6 col-5 ">Status Transaksi</label>
                     {{-- <input type="text" name="" class="form-control " value="0"> --}}
                     <select name="status" id="status" class="form-control">
-                        <option value="lunas">Lunas</option>
-                        <option value="cashbond">Cashbond</option>
+                        <option value="1">Lunas</option>
+                        <option value="0">Cashbond</option>
                     </select>
                 </div>
             </div>
@@ -228,7 +228,7 @@
         Swal.fire({
             position: 'center',
             icon: 'error',
-            title: 'keranjang Kosong',
+            title: 'Error',
             showConfirmButton: false,
             timer: 1400
         });

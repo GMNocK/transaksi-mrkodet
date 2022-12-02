@@ -42,14 +42,15 @@
         </div>
 
         <div class="table-responsive col-12 mb-4">
-            <table class="table table-hover table-striped my-0">
+            <table class="table table-hover table-striped my-0" id="tbl_transaksi">
                 <thead class="bg-secondary text-white shadow-sm">
                     <tr>
                         <th scope="col" style="min-width: 100px">Tanggal</th>
                         <th scope="col" style="min-width: 85px">Total Harga</th>
                         <th scope="col" style="min-width: 100px">Pencatat</th>
                         <th scope="col" class="text-center" style="min-width: 90px">Pesanan</th>
-                        <th scope="col" class="text-center" style="min-width:80px;">Action</th>
+                        <th scope="col" class="text-center">Status</th>
+                        <th scope="col" class="text-center" style="min-width:80px;"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,17 +65,35 @@
                                 {{ $t->pesanan_id == '' ? 'Offline' : 'Online' }}
                             </span>
                         </td>
+                        <td class="text-center">
+                            @if ($t->status == false || $t->status == '')
+                                <span class="badge bg-danger p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em;">
+                                    Belum Bayar
+                                </span>
+                            @endif
+                            @if ($t->status == true)
+                                <span class="badge bg-success p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em;">
+                                    Lunas
+                                </span>
+                            @endif
+                        </td>
                         <td style="text-align: center">
             
                             <a href="transaksi/{{ $t->token }}" class="btn btn-primary my-1" data-toggle="tooltip" data-placement="top" title="Lihat">
                                 <i class="align-middle" data-feather="eye"></i>
                             </a>
-                            @can('karyawan')
-                                
-                                <a href="transaksi/{{ $t->token }}/edit" class="btn btn-success my-1" data-toggle="tooltip" data-placement="top" title="Edit">
-                                    <i class="align-middle" data-feather="edit"></i>
-                                </a>
+                            @if ($t->pesanan_id == '')                                
+                                @can('karyawan')
+                                    
+                                    <a href="transaksi/{{ $t->token }}/edit" class="btn btn-success my-1" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <i class="align-middle" data-feather="edit"></i>
+                                    </a>
+                                @endcan
+                                    
+                            @endif
 
+                            @can('karyawan')
+                                                        
                                 <a class="my-1 btnDelete" data-id="{{ $t->token }}" data-toggle="tooltip" data-placement="top" title="Hapus">
                                     <button class="btn btn-danger">
                                         <i class="align-middle" data-feather="trash-2"></i>                                        
@@ -99,11 +118,11 @@
             </table>
         </div>
         
-        <div class="d-flex justify-content-end col-12 mb-5">
+        {{-- <div class="d-flex justify-content-end col-12 mb-5">
             <span class="me-4">
                 {{ $transaksis->links() }}            
             </span>
-        </div>
+        </div> --}}
 
     </div>
 </div>
@@ -252,6 +271,12 @@
         print();
     });
 </script> --}}
+
+<script>
+    $(document).ready( function () {
+        $('#tbl_transaksi').DataTable();
+    });
+</script>
 
 @if (session('successDelete'))
 <script>

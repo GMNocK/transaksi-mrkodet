@@ -27,8 +27,7 @@ class PesananController extends Controller
             // $itu = Pesanan::where('pelanggan_id', 18)->get();
             // return $itu[0];
             return view('myDashboard.pages.karyawan.pesanan.daftarPesanan', [
-                'pesanan' => Pesanan::orderByDesc('bukti')->orderBy('waktu_pesan', 'desc')->orderBy('status', 'asc')->paginate(10),
-                // 'waktuPesan' => $ini[0]
+                'pesanan' => Pesanan::orderByDesc('bukti')->orderBy('waktu_pesan', 'desc')->orderBy('status', 'asc')->paginate(12),
             ]);
         }
         $pelangganId = Pelanggan::where('user_id', auth()->user()->id)->get('id');
@@ -149,11 +148,13 @@ class PesananController extends Controller
 
     public function show(Pesanan $pesanan)
     {
-        $transaksi_cek = 'ada';
-
         $cek_trans = Transaksi::where('pesanan_id', $pesanan->id)->get()->count();
         if ($cek_trans == 0) {
             $transaksi_cek = 0;
+        } elseif ($cek_trans == 1) {
+            $transaksi_cek = 1;
+        } else {
+            return redirect(route('pesananSaya.index'))->with('error', 'Maaf Terjadi kesalahan');
         }
         if (auth()->user()->level != 'pelanggan') {
 
@@ -281,7 +282,7 @@ class PesananController extends Controller
             'pesanan_id' => $pesanan->id,
             'tgl_transaksi' => $tgl,
             'total_harga' => $pesanan->total_harga,
-            'status' => 'lunas',
+            'status' => 1,
             'tipe_bayar' => $pesanan->tipePembayaran,
             'pencatat' => $karyawan,
             'token' => Str::random(10),

@@ -11,6 +11,7 @@ use App\Models\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class TransaksiController extends Controller
 {
@@ -25,7 +26,7 @@ class TransaksiController extends Controller
 
         if ($userLevel == 'karyawan' || $userLevel == 'Admin') {
             return view('myDashboard.pages.karyawan.dataTransaksi.dataTransaksi', [
-                'transaksis' => Transaksi::orderBy('created_at','desc')->with(['pelanggan.user'])->paginate(10),
+                'transaksis' => Transaksi::orderBy('created_at','desc')->with(['pelanggan.user'])->get(),//paginate(15),
             ]); 
         }        
 
@@ -53,7 +54,7 @@ class TransaksiController extends Controller
             'TotalBayar' => 'required|min:2',
             'status' => 'required',
             'tipe_bayar' => 'required',
-            'PanjangtblKeranjang' => 'required',            
+            'PanjangtblKeranjang' => 'required',
         ]);
         // return $request;
         $tanggal = now()->format('Y-m-d H-i-s');
@@ -150,7 +151,62 @@ class TransaksiController extends Controller
     
     public function update(Request $request, Transaksi $transaksi)
     {
-        return $request;
+        // return $request;
+        $validateData = $request->validate([
+            'totalHarga' => 'required',
+            'status' => 'required',
+            'tipe_bayar' => 'required',
+        ]);
+        
+        // Persiapan Data ke transaksi;
+        $token = Str::random(10);
+        $status = 1;
+
+        // Persiapan Data ke detail transaksi
+        $detailCount = Detail_transaksi::where('transaksi_id', $transaksi->id)->get()->count();        
+
+        for ($i=0; $i < $detailCount; $i++) {
+            DB::delete('delete from detail_transaksis where transaksi_id = ?', [$transaksi->id]);
+        }
+        
+        // UPDATE KE TABEL TRANSAKSI
+        
+        $data = [
+            'total_harga' => Str::after($validateData['totalHarga'],'.'),
+            'status' => $status,
+            'tipe_bayar' => $validateData['tipe_bayar'],
+            'token' => $token,
+        ];
+        $transaksi->update($data);
+
+        $tes = 1;
+        // MASUK KE DATABASE TABEL DETAIL TRANS
+        for ($i=1; $i < $request->panjang ; $i++) {
+
+            $barang = 'BR'.$i;
+            $harsat = 'harga'.$i;
+            $ukuran = 'ukuran'.$i;
+            $jml = 'jumlah'.$i;
+            $subtot = 'subtotal'.$i;
+            
+            if ($request->$barang != '') {
+                $tes += 1;
+                
+                $barangId = Barang::where('nama_barang', $request->$barang)->get('id')[0]->id;
+
+                $detailTransaksi = new Detail_transaksi([
+                    'transaksi_id' => $transaksi->id,
+                    'barang_id' => $barangId,
+                    'harga_satuan' => Str::after($request->$harsat, '.'),
+                    'ukuran' => $request->$ukuran,
+                    'jumlah' => $request->$jml,
+                    'subtotal' => Str::after($request->$subtot, '.'),
+                ]);
+        
+                $detailTransaksi->save();
+            }
+        }
+        return redirect('/transaksi');
     }
 
     

@@ -64,7 +64,8 @@
                         <th scope="col" style="min-width: 85px">Total Harga</th>
                         <th scope="col" style="min-width: 100px">Pencatat</th>
                         <th scope="col" class="text-center" style="min-width: 90px">Pesanan</th>
-                        <th scope="col" class="text-center" style="min-width:80px;">Action</th>
+                        <th scope="col" class="text-center" style="min-width: 90px">status</th>
+                        <th scope="col" class="text-center" style="min-width:80px;"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -106,6 +107,19 @@
                                     Online
                                 </span>                                
                             @endif                            
+                        </td>
+                        <td class="text-center">
+                            @if ($t->status == '' || $t->status == false)
+                                <span class="badge bg-danger p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
+                                    Belum Bayar
+                                </span>
+                            @endif
+                            @if ($t->status == true)
+                                <span class="badge bg-success p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
+                                    Lunas
+                                </span>
+                                
+                            @endif
                         </td>
                         <td style="text-align: center">
                             <a href="/transaksi/{{ $t->token }}" class="btn btn-primary my-1">

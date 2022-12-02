@@ -68,7 +68,7 @@
                                 {{-- <i class="fa-solid fa-eye"></i> --}}
                                 <i class="align-middle" data-feather="eye"></i>
                             </a>
-                            @can('karyawan')
+                            @can('mustBeAdmin')
                                 
                                 <a href="produk/{{ $t->id }}/edit" class="btn btn-success my-1" data-toggle="tooltip" data-placement="top" title="Edit">
                                     <i class="align-middle" data-feather="edit"></i>
@@ -82,13 +82,13 @@
                                 
                             @endcan
                             
-                            @cannot('karyawan')                      
-                                <a href="{{ route('reports.create') }}" data-toggle="tooltip" data-placement="top" title="Laporkan">                                
+                            @can('karyawan')                      
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="Laporkan">                                
                                     <button class="btn btn-danger">
                                         <i class="fa fa-file" aria-hidden="true"></i>
                                     </button>
                                 </a>
-                            @endcannot
+                            @endcan
                             
                         </td>
                     </tr>    

@@ -286,9 +286,9 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th class="">Start Date</th>
-                                <th class="">End Date</th>
-                                <th>Status</th>
+                                <th class="">Tanggal Pesan</th>
+                                <th class="">Total Harga</th>
+                                <th class="text-center">Status Pesanan</th>
                                 <th class="">Assignee</th>
                             </tr>
                         </thead>

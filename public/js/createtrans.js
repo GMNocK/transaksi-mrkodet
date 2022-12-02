@@ -336,10 +336,10 @@ btnAddToKeranjangModal.addEventListener('click', () => {
 statusInput.addEventListener('change', () => {
     const tipeBayar = document.querySelector('#tipe_bayar');
 
-    if (statusInput.value == 'cashbond') { 
-        tipeBayar.setAttribute('disabled', '');
-        tipeBayar.setAttribute('value', 'null');
+    if (statusInput.value == '0') { 
+        tipeBayar.setAttribute('readonly', '');
+        tipeBayar.setAttribute('value', '');
     } else {
-        tipeBayar.removeAttribute('disabled');
+        tipeBayar.removeAttribute('readonly');
     }
 });

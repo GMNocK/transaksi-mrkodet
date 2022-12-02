@@ -2,14 +2,22 @@
 const btnTokeranjang = document.querySelector("#btnAddToKeranjang");
 const AddBarangModal = document.querySelector('#addBarangModal');
 
+//  var modal edit
+
 // var Tbl keranjang
 const tBodyKeranjang = document.querySelector('#Keranjang tbody')
 
 const totalBayar = document.querySelector('#totalHarga');
 
+// const modalEdit = document.querySelector('#editBarangDariKeranjang .modal-body ');
+const modalEditForm = document.querySelector('#editBarangDariKeranjang .modal-body form');
+
 const panjangDetail = document.getElementsByName('panjang')[0];
+
 let panjang = parseInt(panjangDetail.value) ;
 let totalForInput = 0;
+let editedRow = 0;
+
 
 document.addEventListener('DOMContentLoaded', function () {
     for (let i = 1; i < panjang; i++) {
@@ -23,39 +31,81 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function GetSubTotal() {
-    const qty = AddBarangModal.querySelector('#iniQty');
-    const subTotal = AddBarangModal.querySelector('#subTotal');
-    const ukuran = AddBarangModal.querySelector('#pilihanUkuran');
-
-    if (qty.value == 0) {
-        qty.value = 1;
+    if (editedRow == 0) {
         
-        Swal.fire({
-            position: 'top',
-            icon: 'warning',
-            title: 'Pembelian Tidak Bisa (nol)',
-            showConfirmButton: false,
-            timer: 1500
-        });
-    }
+        const qty = AddBarangModal.querySelector('#iniQty');
+        const subTotal = AddBarangModal.querySelector('#subTotal');
+        const ukuran = AddBarangModal.querySelector('#pilihanUkuran');
+    
+        if (qty.value == 0) {
+            qty.value = 1;
+            
+            Swal.fire({
+                position: 'top',
+                icon: 'warning',
+                title: 'Pembelian Tidak Bisa (nol)',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    
+        let ukuranIni;
+    
+        if (ukuran.value == '1') {
+            ukuranIni = 60000 * 1;
+        } else if (ukuran.value == '1/2') {
+            ukuranIni = 60000 * 1 / 2;
+        } else  if (ukuran.value == '1/4') {
+            ukuranIni = 60000 * 1 / 4;
+        } else if (ukuran.value == '3000') {
+            ukuranIni = 3000;
+        } else {
+            
+        }
+    
+        let subtotalVar = ukuranIni * qty.value
+    
+        subTotal.value = 'Rp.' + subtotalVar;
 
-    let ukuranIni;
+    } else if (editedRow != '') {
+        const qty = modalEditForm.querySelector('#QtyEdit');
+        const subTotal = modalEditForm.querySelector('#subTotalEdit');
+        const ukuran = modalEditForm.querySelector('#ukuranEdit');
 
-    if (ukuran.value == '1') {
-        ukuranIni = 60000 * 1;
-    } else if (ukuran.value == '1/2') {
-        ukuranIni = 60000 * 1 / 2;
-    } else  if (ukuran.value == '1/4') {
-        ukuranIni = 60000 * 1 / 4;
-    } else if (ukuran.value == '3000') {
-        ukuranIni = 3000;
+        if (qty.value == 0) {
+            qty.value = 1;
+            
+            Swal.fire({
+                position: 'top',
+                icon: 'warning',
+                title: 'Pembelian Tidak Bisa (nol)',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    
+        let ukuranIni;
+    
+        if (ukuran.value == '1') {
+            ukuranIni = 60000 * 1;
+        } else if (ukuran.value == '1/2') {
+            ukuranIni = 60000 * 1 / 2;
+        } else  if (ukuran.value == '1/4') {
+            ukuranIni = 60000 * 1 / 4;
+        } else if (ukuran.value == '3000') {
+            ukuranIni = 3000;
+        } else {
+            
+        }
+        
+        let subtotalVar = ukuranIni * qty.value
+    
+        subTotal.value = 'Rp.' + subtotalVar;
+        
     } else {
-        
+
     }
 
-    let subtotalVar = ukuranIni * qty.value
-
-    subTotal.value = 'Rp.' + subtotalVar;
 }
 
 
@@ -91,11 +141,11 @@ function addToKeranjang() {
 
     const isiTblKer = tBodyKeranjang.querySelectorAll('tr');
 
-    if (isiTblKer != null) {        
+    if (isiTblKer != null) {
         isiTblKer.forEach((item) => {
     
             const tdInambar = item.querySelector('td .nama-barang');
-            const tdhbar = item.querySelector('td .harga-barang');
+            // const tdhbar = item.querySelector('td .harga-barang');
             const tdIukbar = item.querySelector('td .ukuran-barang');
             const tdIqty = item.querySelector('td .jumlah-beli');
             const tdIsubtot = item.querySelector('td .sub-total');
@@ -104,20 +154,25 @@ function addToKeranjang() {
             let subtotKeranjang = "" + tdIsubtot.value;
             let hasilSubtot = parseInt(subtotKeranjang.slice(3,subtotKeranjang.length));
 
+            const qtyFromModal = AddBarangModal.querySelector('#iniQty');
+
             if (tdInambar != null && tdIukbar.value != null) {
 
                 if (tdInambar.value == InpNamBar.value && tdIukbar.value == InpUkuranBar.value) {
-                    tdIqty.value = parseInt(tdIqty.value) + 1;
+                    tdIqty.value = parseInt(tdIqty.value) + parseInt(qtyFromModal.value);
                     
                     tdIsubtot.value = "Rp."+ (hasilSubtot + parseInt(subtot));
 
-                    buat = 0;               
+                    buat = 0;
+                    panjang -= 1;
                 }
 
             } 
             
         });
     }
+
+
 
     if (buat == 1) {
         
@@ -143,23 +198,141 @@ function addToKeranjang() {
     let getTotalBayar = ""+ totalBayar.value;
     let hasilTotalBayar = parseInt(getTotalBayar.slice(3,getTotalBayar.length));
     totalBayar.value = "Rp." + (subtot + hasilTotalBayar);
+    panjangDetail.value = panjang + 1;
+}
+
+iconRender();
+let editIcon = document.querySelectorAll('.fa-edit');
+editIcon.forEach((item) => {
+    item.addEventListener('click', sendEditData);
+});
+
+function iconRender() {
+    let deleteIcon = document.querySelectorAll('.fa-trash-alt');
+
+    deleteIcon.forEach((item) => {
+        item.addEventListener('click', function () {
+            let td = this.parentNode;
+            let tr = td.parentNode;
+            
+            tBodyKeranjang.removeChild(tr);
+
+            const subtot = parseInt(tr.querySelector('.sub-total').value.slice(3, this.length));
+
+            let getTotalBayar = ""+ totalBayar.value;
+            let hasilTotalBayar = parseInt(getTotalBayar.slice(3,getTotalBayar.length));
+            totalBayar.value = "Rp." + ((hasilTotalBayar - subtot));
+        })
+    });
+}
+
+
+function sendEditData() {
+    const btnEditItem = document.querySelector('#btnEditItemKeranjang');
+    btnEditItem.addEventListener('click', setItemEdit);
+
+    let td = this.parentNode;
+    let tr = td.parentNode;
+    editedRow = tr;
+
+    const namaBarang = tr.querySelector('td .nama-barang');
+    const ukuranBarang = tr.querySelector('td .ukuran-barang');
+    const jumlahBeli = tr.querySelector('td .jumlah-beli');
+    const subTotal = tr.querySelector('td .sub-total');
+
+    const selectUkuranBarang = modalEditForm.querySelector('#ukuranEdit');
+    const optionNamaBarang = modalEditForm.querySelector('#barangEdit option');
+    const inputUkuranEdit = modalEditForm.querySelector('#ukuranEdit option');
+    const inputQtyEdit = modalEditForm.querySelector('#QtyEdit');
+    const inputSubtotalEdit = modalEditForm.querySelector('#subTotalEdit');
+
+    optionNamaBarang.value = namaBarang.value;
+    optionNamaBarang.setAttribute('selected','');
+    optionNamaBarang.innerHTML = namaBarang.value;
+
+    // inputUkuranEdit.value = ukuranBarang.value;
+    // inputUkuranEdit.setAttribute('selected','');
+    // inputUkuranEdit.innerHTML = ukuranBarang.value + ' Kg';
+
+    // let isiUkuran = '1/2 Kg';
+    // const option = document.createElement('option');
+    // option.value = isiUkuran;
+    // option.innerHTML = isiUkuran;
+    
+    // selectUkuranBarang.appendChild(option);
+    
+    // const option2 = document.createElement('option');
+    // isiUkuran = '1 Kg';
+    // option2.value = isiUkuran;
+    // option2.innerHTML = isiUkuran;
+    // selectUkuranBarang.appendChild(option2);
+    
+    // const option3 = document.createElement('option');
+    // isiUkuran = '3000';
+    // option3.value = isiUkuran;
+    // option3.innerHTML = isiUkuran;
+    // selectUkuranBarang.appendChild(option3);
+
+    inputQtyEdit.value = jumlahBeli.value;
+    inputSubtotalEdit.value = subTotal.value;
 }
 
 
 
+function setItemEdit() {
+    const inputNamaBarang = modalEditForm.querySelector('#barangEdit');
+    const inputUkuranEdit = modalEditForm.querySelector('#ukuranEdit');
+    const inputQtyEdit = modalEditForm.querySelector('#QtyEdit');
+    const inputSubtotalEdit = modalEditForm.querySelector('#subTotalEdit');
+
+    const DataSet = editedRow.querySelectorAll('td');
+
+    const namaBarang = editedRow.querySelector('td .nama-barang');
+    const ukuranBarang = editedRow.querySelector('td .ukuran-barang');
+    const jumlahBeli = editedRow.querySelector('td .jumlah-beli');
+    const subTotal = editedRow.querySelector('td .sub-total');
+
+    let subtotalAwal = (""+subTotal.value).slice(3,this.length);
+
+    namaBarang.value = inputNamaBarang.value;
+    ukuranBarang.value = inputUkuranEdit.value;
+    jumlahBeli.value = inputQtyEdit.value;
+    subTotal.value = inputSubtotalEdit.value;
+
+    let dariSubtot = ""+ subTotal.value;
+    let subtot = parseInt(dariSubtot.slice(3,dariSubtot.length));
+
+    let getTotalBayar = ""+ totalBayar.value;
+    let hasilTotalBayar = parseInt(getTotalBayar.slice(3,getTotalBayar.length));
+    totalBayar.value = "Rp." + ((subtot + hasilTotalBayar) - subtotalAwal);
+
+    editedRow = 0;
+}
+
 function addIconTblkeranjang(tdIconEdit) {
 
-    const icon = document.createElement('i');
-    
+    const iconEdit = document.createElement('i');
+    const iconDelete = document.createElement('i');
+
     tdIconEdit.classList.add('text-center');
+
+    iconEdit.classList.add('fa');
+    iconEdit.classList.add('fa-edit');
+    iconEdit.classList.add('link');
+    iconEdit.style.cursor = 'pointer';
+
+    iconEdit.setAttribute('data-bs-toggle', 'modal');
+    iconEdit.setAttribute('data-bs-target', '#editBarangDariKeranjang');
+
+    iconDelete.classList.add('fa');
+    iconDelete.classList.add('fa-trash-alt');
+    iconDelete.classList.add('link');
+    iconDelete.style.cursor = 'pointer';
     
-    icon.classList.add('fa');
-    icon.classList.add('fa-edit');
-    icon.classList.add('link');
-    icon.classList.add('text-success');
-    icon.classList.add('fs-4');
-    
-    tdIconEdit.appendChild(icon);
+    iconEdit.addEventListener('click', sendEditData);
+    iconDelete.addEventListener('click', iconRender);
+    tdIconEdit.appendChild(iconEdit);
+    tdIconEdit.appendChild(iconDelete);
 }
 
 function addAtributTd(tdNo, tdNambar, tdHarSat, tdUkBar, tdJmlBar, tdSubTot) {
@@ -214,6 +387,13 @@ function addAtributInput(InpNamBar, InpHarSatuan, InpUkuranBar, InpJmlBar, InpSu
     InpUkuranBar.classList.add('ukuran-barang');
     InpJmlBar.classList.add('jumlah-beli');
     InpSubTot.classList.add('sub-total');
+
+    InpNamBar.setAttribute('name', 'BR' + panjang );
+    InpHarSatuan.setAttribute('name', 'harga' + panjang );
+    InpUkuranBar.setAttribute('name', 'ukuran' + panjang );
+    InpJmlBar.setAttribute('name', 'jumlah' + panjang );
+    InpSubTot.setAttribute('name', 'subtotal' + panjang );
+    panjang += + 1;
 
 }
 

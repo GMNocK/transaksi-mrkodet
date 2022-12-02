@@ -2,7 +2,7 @@
 
 @section('content')
     
-<div class="col-md-12 col-lg-12 col-xxl-8 d-flex">
+<div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
         <div class="card-header justify-content-between d-flex">
             <div class="ms-2 col-md-4">
