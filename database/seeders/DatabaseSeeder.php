@@ -56,10 +56,12 @@ class DatabaseSeeder extends Seeder
             'user_id' => '3',
         ]);
 
-        $this->call([
+        $this->call([            
             BarangSeeder::class,
             PesananSeeder::class,
             DetailPesananSeeder::class,
+            KategoriNotifSeeder::class,
+            NotificationSeeder::class,
         ]);
 
         User::factory(20)->create();

@@ -14,7 +14,8 @@ class CreateNotificationsTable extends Migration
             $table->text('detail');
             $table->string('potongan');
             $table->foreignId('user_id')->nullable()->constrained();
-            $table->foreignId('kategori_notif_id')->constrained();
+            $table->foreignId('kategori_notif_id')->constrained();            
+            $table->foreignId('pesanan_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

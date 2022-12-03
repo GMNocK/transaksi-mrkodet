@@ -38,8 +38,18 @@ class User extends Authenticatable
         return $this->hasMany(Admin::class);
     }
 
+    public function pelanggan()
+    {
+        return $this->hasMany(Pelanggan::class);
+    }
+
     public function karyawan()
     {
         return $this->hasMany(Karyawan::class);
+    }
+
+    public function notification()
+    {
+        return $this->hasMany(Notification::class);
     }
 }

@@ -2,28 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\notif;
+use App\Models\Notification;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorenotifRequest;
-use App\Http\Requests\UpdatenotifRequest;
+use App\Http\Requests\StorenotificationRequest;
+use App\Http\Requests\UpdatenotificationRequest;
 
-class NotifController extends Controller
+class NotificationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-        //
+        return view('myDashboard.pages.notifications.all');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
@@ -35,7 +27,7 @@ class NotifController extends Controller
      * @param  \App\Http\Requests\StorenotifRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorenotifRequest $request)
+    public function store(StorenotificationRequest $request)
     {
         //
     }
@@ -46,7 +38,7 @@ class NotifController extends Controller
      * @param  \App\Models\notif  $notif
      * @return \Illuminate\Http\Response
      */
-    public function show(notif $notif)
+    public function show(Notification $notif)
     {
         //
     }
@@ -57,7 +49,7 @@ class NotifController extends Controller
      * @param  \App\Models\notif  $notif
      * @return \Illuminate\Http\Response
      */
-    public function edit(notif $notif)
+    public function edit(Notification $notif)
     {
         //
     }
@@ -69,7 +61,7 @@ class NotifController extends Controller
      * @param  \App\Models\notif  $notif
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatenotifRequest $request, notif $notif)
+    public function update(UpdatenotificationRequest $request, Notification $notif)
     {
         //
     }
@@ -80,7 +72,7 @@ class NotifController extends Controller
      * @param  \App\Models\notif  $notif
      * @return \Illuminate\Http\Response
      */
-    public function destroy(notif $notif)
+    public function destroy(Notification $notif)
     {
         //
     }

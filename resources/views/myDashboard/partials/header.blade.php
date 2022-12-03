@@ -11,12 +11,28 @@
                 <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
                     <div class="position-relative">
                         <i class="align-middle" data-feather="bell"></i>
-                        <span class="indicator">4</span>
+                        @if (Request::is('myDashboard'))
+                            
+                            @if ($baNotif != 0)
+                                <span class="indicator">{{ $baNotif }}</span>
+                            @endif
+                            
+                        @else
+                        
+                            <span class="indicator">4</span>
+
+                        @endif
+
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
                     <div class="dropdown-menu-header">
-                        4 New Notifications
+                        @if (Request::is('myDashboard'))
+                            
+                            {{ $baNotif }} New Notifications
+                        @else
+                            4 New Notifications
+                        @endif
                     </div>
                     <div class="list-group">
                         @if (Request::is('myDashboard'))
@@ -29,13 +45,13 @@
                                             <i class="text-primary" data-feather="shopping-bag"></i>
                                         </div>
                                         <div class="col-10">
-                                            <div class="text-dark">{{ $n->pelanggan->nama }}</div>
-                                            <div class="text-muted small mt-1">Restart server 12 to complete the update.</div>
-                                            <div class="text-muted small mt-1">{{ $n->waktu_pesan }}</div>
+                                            <div class="text-dark">{{ $n->user->pelanggan[0]->nama }}</div>
+                                            <div class="text-muted small mt-1">{{ $n->potongan }}</div>
+                                            <div class="text-muted small mt-1">{{ $n->created_at }}</div>
                                         </div>
                                     </div>
                                 </a>
-                                @endforeach
+                            @endforeach
                                 
                         @else
                             <a href="#" class="list-group-item">
@@ -90,7 +106,7 @@
                         @endif
                     </div>
                     <div class="dropdown-menu-footer">
-                        <a href="#" class="text-muted">Show all notifications</a>
+                        <a href="/notif/all" class="text-muted">Show all notifications</a>
                     </div>
                 </div>
             </li>
@@ -99,12 +115,28 @@
                 <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
                     <div class="position-relative">
                         <i class="align-middle" data-feather="message-square"></i>
+                        @if (Request::is('myDashboard'))
+                            
+                            @if ($baMessage != 0)
+                                <span class="indicator">{{ $baMessage }}</span>
+                            @endif
+                            
+                        @else
+                        
+                            <span class="indicator">4</span>
+
+                        @endif
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="messagesDropdown">
                     <div class="dropdown-menu-header">
                         <div class="position-relative">
-                            4 New Messages
+                            @if (Request::is('myDashboard'))
+                                {{ $message->count() }} New Messages
+                            @else
+                                
+                                4 New Messages
+                            @endif
                         </div>
                     </div>
                     <div class="list-group">
@@ -117,9 +149,9 @@
                                             <img src="/img/avatars/avatar-5.jpg" class="avatar img-fluid rounded-circle" alt="Vanessa Tucker">
                                         </div>
                                         <div class="col-10 ps-2">
-                                            <div class="text-dark">Vanessa Tucker</div>
-                                            <div class="text-muted small mt-1">Nam pretium turpis et arcu. Duis arcu tortor.</div>
-                                            <div class="text-muted small mt-1">15m ago</div>
+                                            <div class="text-dark">{{ $m->user->pelanggan[0]->nama }}</div>
+                                            <div class="text-muted small mt-1">{{ $m->potongan }}</div>
+                                            <div class="text-muted small mt-1">{{ $m->created_at }}</div>
                                         </div>
                                     </div>
                                 </a>

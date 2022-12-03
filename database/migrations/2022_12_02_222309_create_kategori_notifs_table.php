@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class KategoriNotif extends Migration
+class CreateKategoriNotifsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class KategoriNotif extends Migration
     public function up()
     {
         Schema::create('kategori_notifs', function (Blueprint $table) {
-            $table->id('id');
+            $table->id();
             $table->string('kode')->unique();
             $table->string('nama');
             $table->timestamps();
@@ -28,6 +28,6 @@ class KategoriNotif extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kategori_notif');
+        Schema::dropIfExists('kategori_notifs');
     }
 }

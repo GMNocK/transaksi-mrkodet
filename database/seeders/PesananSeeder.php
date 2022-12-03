@@ -11,6 +11,7 @@ class PesananSeeder extends Seeder
     
     public function run()
     {
+        // STATUS PESANAN [==] 1 = belum dibaca, 2 = dibaca, 3 = diterima, 4 = diproses, 5 = dikirim, 6 = selesai
         Pesanan::create([
             'pelanggan_id' => 1,
             'waktu_pesan' => now(),

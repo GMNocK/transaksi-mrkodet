@@ -22,11 +22,12 @@ use App\Http\Controllers\Data\ProdukController;
 use App\Http\Controllers\Data\PesananController;
 use App\Http\Controllers\Data\DataPelangganController;
 use App\Http\Controllers\Data\TransaksiController;
-
 use App\Http\Controllers\Rekap\RDatPelangganController;
 use App\Http\Controllers\Rekap\RekapPesananController;
 use App\Http\Controllers\Rekap\RekapLPelangganController;
 use App\Http\Controllers\Rekap\RekapTransaksiController;
+
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -147,4 +148,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/Profile/update/{pelanggan}', [AuthController::class, 'profileUpdate']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::resource('/notif/all', NotificationController::class);
 });

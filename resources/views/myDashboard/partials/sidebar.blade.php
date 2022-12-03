@@ -69,7 +69,7 @@
                 <li class="sidebar-item {{ Request::is('pesananSaya*') ? 'active' : '' }} {{ Request::is('pesanan*') ? 'active' : '' }}">
                     <a class="sidebar-link text-decoration-none" href="/pesananSaya">
                         <i class="align-middle" data-feather="shopping-bag"></i> 
-                        <span class="align-middle">Pesan</span>
+                        <span class="align-middle">Pesanan</span>
                     </a>
                 </li>
 
@@ -178,62 +178,24 @@
                 </li>
             @endcan
 
-            {{-- <li class="sidebar-header">
-                Hmmmm
-            </li>
-            
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="ui-buttons.html">
-                    <i class="align-middle" data-feather="square"></i> 
-                    <span class="align-middle">Buttons</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="ui-forms.html">
-                    <i class="align-middle" data-feather="check-square"></i> 
-                    <span class="align-middle">Forms</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="ui-cards.html">
-                    <i class="align-middle" data-feather="grid"></i> 
-                    <span class="align-middle">Cards</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="ui-typography.html">
-                    <i class="align-middle" data-feather="align-left"></i> 
-                    <span class="align-middle">Typography</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="icons-feather.html">
-                    <i class="align-middle" data-feather="coffee"></i> 
-                    <span class="align-middle">Icons</span>
-                </a>
-            </li>
-
             <li class="sidebar-header">
-                Plugins & Addons
-            </li>
-
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="charts-chartjs.html">
-                    <i class="align-middle" data-feather="bar-chart-2"></i> 
-                    <span class="align-middle">Charts</span>
-                </a>
+                Lainnya
             </li>
 
             <li class="sidebar-item">
                 <a class="sidebar-link" href="maps-google.html">
-                    <i class="align-middle" data-feather="map"></i> 
-                    <span class="align-middle">Maps</span>
+                    <i class="align-middle" data-feather="map"></i>
+                    <span class="align-middle">Notifikasi</span>
                 </a>
-            </li> --}}
+            </li>
+            
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="maps-google.html">
+                    <i class="align-middle" data-feather="message-square"></i>
+                    <span class="indicator">4</span>
+                    <span class="align-middle">Pesan</span>
+                </a>
+            </li>
         </ul>
 
         <div class="sidebar-cta">

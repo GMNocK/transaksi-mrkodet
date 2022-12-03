@@ -10,6 +10,7 @@ use App\Models\LaporanKaryawan;
 use App\Models\LaporanPelanggan;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
+use App\Models\Notification;
 use App\Models\Pesanan;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -56,15 +57,18 @@ class DashboardController extends Controller
 
     public function myDashboard()
     {
+        $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3  )->limit(4)->get();
         if (auth()->user()->level == 'pelanggan') {            
             $pelanggan_id = Pelanggan::where('user_id', auth()->user()->id)->get('id')[0]->id;
             $pesananTerakhir = Pesanan::orderByDesc('waktu_pesan')->where('pelanggan_id', $pelanggan_id)->limit(6)->get();
+            $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->limit(4)->get();
+            $banyakNotif = Notification::where('user_id', auth()->user()->id)->get()->count();
         } else {
             $pelanggan_id = 0;
             $pesananTerakhir = Pesanan::orderByDesc('waktu_pesan')->limit(6)->get();
+            $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->limit(4)->get();
+            $banyakNotif = Notification::where('user_id', auth()->user()->id)->get()->count();
         }
-
-
 
         $month = date('m') - 1;
         return view('myDashboard.pages.dashboard', [
@@ -121,8 +125,10 @@ class DashboardController extends Controller
             'pesan29' => Pesanan::whereDate('waktu_pesan', date('Y-' .$month . '-29'))->count(),
             'pesan30' => Pesanan::whereDate('waktu_pesan', date('Y-' .$month . '-30'))->count(),
             'pesan31' => Pesanan::whereDate('waktu_pesan', date('Y-' .$month . '-31'))->count(),
-            'Notif' => Pesanan::orderByDesc('waktu_pesan')->limit(4)->get(),
-            'message' => LaporanPelanggan::orderByDesc('send_at')->limit(4)->get(),
+            'Notif' => $notif, //Pesanan::orderByDesc('waktu_pesan')->limit(4)->get(),
+            'baNotif' => $banyakNotif,
+            'message' => $message,
+            'baMessage' => $message->count(),
         ]);
     }
 }
