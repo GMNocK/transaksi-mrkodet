@@ -83,6 +83,9 @@ Route::resource('/dashboard/transaksis', DashboardTransController::class)->middl
 
 // Route::get('/admin/laporan/pelanggan/thisYear', [ReportForAdminController::class , 'thisYearPelanggan']);
 
+Route::get('/ajax', function () {
+    return view('ajax');
+});
 
 Route::middleware(['auth'])->group(function () {
     

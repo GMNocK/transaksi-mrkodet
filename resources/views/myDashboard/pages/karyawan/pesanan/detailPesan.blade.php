@@ -127,9 +127,6 @@
                         <label for="Balasan">Berikan Balasan</label>
                         <textarea class="form-control" name="Reply" id="Balasan" rows="6" placeholder="Tambahkan Balasan Disini"></textarea>
                     @endif
-                    @if ($pesanan->bukti == false)
-                        <p class="fs-4 fw-bold my-0 text-danger">Pesanan Belum Dibayar</p>
-                    @endif
                 </div>
                 <div class="row">
                     <div class="col-md-12">

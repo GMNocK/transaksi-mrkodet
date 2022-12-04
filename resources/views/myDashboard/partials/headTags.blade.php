@@ -6,6 +6,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+	{{-- @if (session('reload'))
+		<meta http-equiv="refresh" content="1">
+	@endif --}}
+
+
     {{-- KET --}}
 	{{-- <meta name="description" content="Web where you can buy something in our shop">
 	<meta name="author" content="Mr. Kodet">
@@ -25,7 +30,7 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
 	<title>Dashboard - Mr. kodet</title>
 
-	<script src="{{ asset('js/jquery/jquery.js') }}"></script>
+	<script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
 	<script src="{{ asset('js/sweetAlert/sweetAlert2.js') }}"></script>
 	{{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 

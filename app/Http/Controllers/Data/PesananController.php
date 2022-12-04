@@ -11,6 +11,7 @@ use App\Models\bukti_bayar_pesanan;
 use App\Models\Detail_Pesanan;
 use App\Models\Detail_transaksi;
 use App\Models\Karyawan;
+use App\Models\Notification;
 use App\Models\Pelanggan;
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\Hash;
@@ -142,7 +143,7 @@ class PesananController extends Controller
 
         }
 
-        return redirect('/pesananSaya');
+        return redirect('/pesananSaya')->with('reload', 'berhasil Memesan');
 
     }
 
@@ -220,15 +221,27 @@ class PesananController extends Controller
     public function KaryawanAccept(Request $request, Pesanan $pesanan)
     {
         $status = 3;
-
-        if ($request->stat == '4') {
-            $status = 4;
-        }
-
+        
         $update = array('status' => $status);
-
+        
         $pesanan->update($update);
-        // Terima Kasih, Pesanan Anda kami terima. pemberitahuan lebih lanjut akan kami hubungi lewat whatsapp
+        
+        // Mengirim Notifikasi
+        $pemilikPesanan = $pesanan->pelanggan->user->id;
+        $message = 'Pesanan Anda Diterima, Silahkan untuk melakukan pembayaran, pesanan akan di proses setelah pembayaran dilakukan. Informasi lebih lanjut hubungi kontak kami. Terima Kasih...';
+        $potonganDetail = 'Pesanan Anda Diterima, Silahkan untuk ...';
+
+        $notifikasi = new Notification([
+            'title' => 'Pesanan Anda Telah Diterima',
+            'detail' => $message,
+            'potongan' => $potonganDetail,
+            'user_id' => $pemilikPesanan,
+            'kategori_notif_id' => 1,
+            'pesanan_id' => $pesanan->id,
+        ]);
+
+        $notifikasi->save();
+
         return redirect(route('pesananPelanggan.index'))->with('berhasil', 'Pesanan telah diterima');
     }
 
@@ -236,15 +249,26 @@ class PesananController extends Controller
     {
         $status = 4;
 
-        if ($request->stat == '4') {
-            $status = 4;
-        }
-
         $update = array('status' => $status);
 
         $pesanan->update($update);
 
-        // Terima Kasih, Pesanan Anda kami terima. pemberitahuan lebih lanjut akan kami hubungi lewat whatsapp
+        // NOTIFIKASI
+        $pemilikPesanan = $pesanan->pelanggan->user->id;
+        $message = 'Pesanan Anda Dalam Proses Pembuatan. Pemberitahuan lebih lanjut Akan dikirim melalui email anda. Terima Kasih...';
+        $potonganDetail = 'Pesanan Anda Dalam Proses Pembuatan. Pemberitahuan ...';
+
+        $notifikasi = new Notification([
+            'title' => 'Pesanan Anda Dalam Proses Pembuatan',
+            'detail' => $message,
+            'potongan' => $potonganDetail,
+            'user_id' => $pemilikPesanan,
+            'kategori_notif_id' => 1,
+            'pesanan_id' => $pesanan->id,
+        ]);
+
+        $notifikasi->save();        
+
         return redirect(route('pesananPelanggan.index'))->with('terimaProgress', 'Pesanan Dalam Proses Pembuatan');
     }
 
