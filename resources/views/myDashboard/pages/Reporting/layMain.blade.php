@@ -24,17 +24,18 @@
     <div class="wrapper">
         <div class="container-fluid shadow-none">
 
-            @yield('isi')            
+            @yield('isi')
             
         </div>
     </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        setTimeout(() => {            
-            window.print(); window.onafterprint = window.close;
-        }, 100);
-    });
+    (function() {
+        window.print();
+        setTimeout(() => {
+            history.back(); 
+        }, 500);
+    })();
 </script>
 
 </body>

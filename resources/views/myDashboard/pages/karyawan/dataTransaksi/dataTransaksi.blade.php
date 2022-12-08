@@ -269,7 +269,7 @@
 
 <script>
     $(document).ready( function () {
-        $('#tbl_transaksi').DataTable();
+        $('#tbl_transaksi').DataTable();
     });
 </script>
 

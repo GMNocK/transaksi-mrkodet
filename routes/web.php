@@ -22,7 +22,7 @@ use App\Http\Controllers\Data\ProdukController;
 use App\Http\Controllers\Data\PesananController;    //
 use App\Http\Controllers\Data\DataPelangganController;
 use App\Http\Controllers\Data\TransaksiController;
-
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Rekap\RDatPelangganController;
 use App\Http\Controllers\Rekap\RekapPesananController;
 use App\Http\Controllers\Rekap\RekapLPelangganController;
@@ -42,7 +42,8 @@ use App\Http\Controllers\NotificationController;
 |
 */
 
-
+Route::get('/export', [ExportController::class, 'index'] );
+Route::get('/export/pdf', [ExportController::class, 'export_pdf'] );
 
 Route::middleware(['guest'])->group(function () {
     

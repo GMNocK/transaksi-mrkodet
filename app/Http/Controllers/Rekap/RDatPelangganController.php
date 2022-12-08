@@ -79,7 +79,7 @@ class RDatPelangganController extends Controller
         }
 
         return view('myDashboard.pages.karyawan.Rekap.RDataPelanggan',[
-            'pelanggan' => $pelanggans->whereDate('created_at', date('Y-m-d'))->paginate(15),
+            'pelanggan' => $pelanggans->get(), //$pelanggans->whereDate('created_at', date('Y-m-d'))->paginate(15),
             'filter' => 'today',
             'Notif' => $notif,   
             'baNotif' => $notifUnRead,
