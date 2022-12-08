@@ -57,7 +57,7 @@
         </div>
 
         <div class="table-responsive col-12 mb-4">
-            <table class="table table-hover table-striped my-0">
+            <table class="table table-hover table-striped my-0" id="myTable">
                 <thead class="bg-secondary text-white shadow-sm">
                     <tr>
                         <th scope="col" style="min-width: 100px">Tanggal</th>
@@ -143,5 +143,14 @@
 </div>
 
 <script src="{{ asset('js/CostumJs/filterRekapTrans.js') }}"></script>
+
+<script>
+$('#myTable').DataTable( {
+    dom: 'Bfrtip',
+    buttons: [
+        'copy', 'excel', 'pdf', 'print'
+    ]
+} );
+</script>
 
 @endsection
