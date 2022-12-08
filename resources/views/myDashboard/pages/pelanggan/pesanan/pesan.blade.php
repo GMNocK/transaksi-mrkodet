@@ -230,6 +230,17 @@
     });
 </script>
 
+@if (session('memesan'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '{{ session("memesan") }}',
+            showConfirmButton: false,
+            timer: 1600
+        })
+    </script>
+@endif
+
 @if (session('IsNull'))
     <script>
         Swal.fire({

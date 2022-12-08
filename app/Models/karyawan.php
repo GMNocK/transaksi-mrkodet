@@ -27,4 +27,9 @@ class Karyawan extends Model
     {
         return $this->hasMany(FeedbackKaryawan::class);
     }
+
+    public function notification()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

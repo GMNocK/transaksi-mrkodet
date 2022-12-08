@@ -20,4 +20,19 @@ class Notification extends Model
     {
         return $this->belongsTo(kategori_notif::class);
     }
+
+    public function pesanan()
+    {
+        return $this->belongsTo(Pesanan::class);
+    }
+
+    public function pengirim()
+    {
+        return $this->hasMany(Pengirim::class);
+    }
+    
+    public function notifRead()
+    {
+        return $this->hasMany(NotifRead::class);
+    }
 }

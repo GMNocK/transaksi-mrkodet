@@ -6,6 +6,7 @@ use App\Models\Transaksi;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Detail_transaksi;
+use App\Models\Notification;
 use App\Models\Pelanggan;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
@@ -18,6 +19,25 @@ class TransaksiController extends Controller
 
     public function index()
     {
+        // NOTIFIKASI
+        $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
+        $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
+        $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
+        $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
+
+        $notifUnRead = 0;
+        for ($i=0; $i < $banyakNotif->count(); $i++) {
+            if ($banyakNotif[$i]->notifRead == '[]') {
+                $notifUnRead += 1;
+            }
+        }
+        $messageUnRead = 0;
+        for ($i=0; $i < $banyakMessage->count(); $i++) { 
+            if ($banyakMessage[$i]->notifRead == '[]') {
+                $messageUnRead += 1;
+            }
+        }
+
         $userLevel = auth()->user()->level;
 
         if ($userLevel == 'pelanggan') {
@@ -26,7 +46,11 @@ class TransaksiController extends Controller
 
         if ($userLevel == 'karyawan' || $userLevel == 'Admin') {
             return view('myDashboard.pages.karyawan.dataTransaksi.dataTransaksi', [
-                'transaksis' => Transaksi::orderBy('created_at','desc')->with(['pelanggan.user'])->get(),//paginate(15),
+                'transaksis' => Transaksi::orderBy('created_at','desc')->with(['pelanggan.user'])->get(),
+                'Notif' => $notif, 
+                'baNotif' => $notifUnRead,
+                'message' => $message,
+                'baMessage' => $messageUnRead,
             ]); 
         }        
 
@@ -37,9 +61,34 @@ class TransaksiController extends Controller
     public function create()
     {
         $this->authorize('karyawan');
+
+        // NOTIFIKASI
+        $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
+        $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
+        $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
+        $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
+
+        $notifUnRead = 0;
+        for ($i=0; $i < $banyakNotif->count(); $i++) {
+            if ($banyakNotif[$i]->notifRead == '[]') {
+                $notifUnRead += 1;
+            }
+        }
+        $messageUnRead = 0;
+        for ($i=0; $i < $banyakMessage->count(); $i++) { 
+            if ($banyakMessage[$i]->notifRead == '[]') {
+                $messageUnRead += 1;
+            }
+        }
+
+
         return view('myDashboard.pages.karyawan.dataTransaksi.createTrans', [
             'pelanggans' => Pelanggan::all(),
             'barangs' => Barang::all(),
+            'Notif' => $notif, 
+            'baNotif' => $notifUnRead,
+            'message' => $message,
+            'baMessage' => $messageUnRead,
         ]);
     }
 
@@ -120,6 +169,25 @@ class TransaksiController extends Controller
     
     public function show(Transaksi $transaksi)
     {
+        // NOTIFIKASI
+        $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
+        $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
+        $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
+        $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
+
+        $notifUnRead = 0;
+        for ($i=0; $i < $banyakNotif->count(); $i++) {
+            if ($banyakNotif[$i]->notifRead == '[]') {
+                $notifUnRead += 1;
+            }
+        }
+        $messageUnRead = 0;
+        for ($i=0; $i < $banyakMessage->count(); $i++) { 
+            if ($banyakMessage[$i]->notifRead == '[]') {
+                $messageUnRead += 1;
+            }
+        }
+
         $pesanan = Pesanan::where('id', $transaksi->pesanan_id)->get();
         // return $pesanan;
         $totalharga = DB::select("select concat('Rp.',format(total_harga,0)) as hargaTotal FROM `transaksis` where id = ?", [$transaksi->id]);        
@@ -131,6 +199,10 @@ class TransaksiController extends Controller
             'pesanan' => $pesanan,
             'hargaTotal' => $totalharga[0]->hargaTotal,
             'detail' => Detail_transaksi::where('transaksi_id' , $transaksi->id)->paginate(5),
+            'Notif' => $notif, 
+            'baNotif' => $notifUnRead,
+            'message' => $message,
+            'baMessage' => $messageUnRead,
         ]);
     }
 
@@ -138,6 +210,24 @@ class TransaksiController extends Controller
     public function edit(Transaksi $transaksi)
     {
         $this->authorize('karyawan');
+        $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
+        $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
+        $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
+        $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
+
+        $notifUnRead = 0;
+        for ($i=0; $i < $banyakNotif->count(); $i++) {
+            if ($banyakNotif[$i]->notifRead == '[]') {
+                $notifUnRead += 1;
+            }
+        }
+        $messageUnRead = 0;
+        for ($i=0; $i < $banyakMessage->count(); $i++) { 
+            if ($banyakMessage[$i]->notifRead == '[]') {
+                $messageUnRead += 1;
+            }
+        }
+
         $detailTransaksi = Detail_transaksi::where('transaksi_id', $transaksi->id)->get();
         // return $transaksi->pelanggan;
         return view('myDashboard.pages.karyawan.dataTransaksi.Tedit', [
@@ -145,6 +235,10 @@ class TransaksiController extends Controller
             'pelanggans' => Pelanggan::all(),
             'barangs' => Barang::all(),
             'detailtransaksis' => $detailTransaksi,
+            'Notif' => $notif, 
+            'baNotif' => $notifUnRead,
+            'message' => $message,
+            'baMessage' => $messageUnRead,
         ]);
     }
 

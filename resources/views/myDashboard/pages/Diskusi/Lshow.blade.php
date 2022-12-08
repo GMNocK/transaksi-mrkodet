@@ -8,7 +8,7 @@
 
                 <a href="/Laporan/create" class="link-secondary d-flex align-items-center">
                     <i class="align-middle me-2 link-secondary" data-feather="plus-circle"></i>
-                    <h6 class="card-title mb-0 link-secondary">Buat Laporan</h6>
+                    <h6 class="card-title mb-0 link-secondary">Buat Keluhan</h6>
                 </a>
             </div>
         </div>
@@ -25,14 +25,20 @@
                 <div class="fs-7">
                     {{ $laporanPelanggan->body }}
                 </div>
-                <div class="footer">
-                    <form action="/laporanPelanggan/reply/{{ $laporanPelanggan->id }}/create" method="POST">
+                <div class="footer mb-2">
+                    {{-- <form action="/laporanPelanggan/reply/{{ $laporanPelanggan->id }}/create" method="POST">
                         @csrf
                         <button class="text-primary fs-6 float-end me-3 mt-2 link-info border-0" style="background: none;">Reply</button>
-                    </form>
+                    </form> --}}
                 </div>
             </div>
-        </div>
+        </div>        
     </div>
-</div>    
+</div>
+<div class="col-12">
+    <a href="/LaporanSaya" class="btn btn-primary">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Kembali
+    </a>
+</div>
 @endsection

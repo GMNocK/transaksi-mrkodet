@@ -25,34 +25,33 @@
             @csrf
             
             <div class="row">
-            <div class="col-12">
-                <div class="card flex-fill">
-                    <div class="card-header">
-                        Identitas Anda 
-                    </div>
-                    <div class="p-3 fs-3 fw-semibold">
-                        <img src="{{ asset('img/avatars/index.png') }}" alt="" class="rounded-5 me-4" width="70px">
-                        <span class="namaTampil">
-                            {{ old('nama', auth()->user()->username) }}
-                        </span>
-                        <a class="link-primary fs-6 ms-2" data-bs-toggle="modal" data-bs-target="#editNama">
-                            Ubah
-                        </a>
-                    </div>
-                    <div class="my-4"></div>
-                    <div class="col-12">
-                        <input type="hidden" name="nama" id="namaPelanggan" value="{{ $data[0]->nama }}">
-                        <div class="form-group">
-                            <label for="NoTelpon" class="fs-4">No. Telepon</label>
-                            <input type="text" name="no_tlp" id="NoTelpon" class="form-control" value="{{ old('no_tlp', $data[0]->no_tlp) }}" aria-describedby="helpId">
-                        </div>
-                        <div class="form-group mb-2">
-                            <label for="Alamat" class="fs-4">Alamat</label>
-                            <textarea class="form-control" name="alamat" id="Alamat" rows="3">{{ old('alamat', $data[0]->alamat) }}</textarea>
-                        </div>
-                        <div class="d-flex justify-content-end my-3">
-                                <button id="btnSave" class="btn btn-primary my-2 text-white" role="button">Save</button>
-                                <a href="/resetPassword" class="btn btn-success mx-2 my-2 text-white">Reset Password</a>
+                <div class="col-12">
+                    <div class="card flex-fill">
+                        <div class="card-body">
+                            <div class="p-3 fs-3 fw-semibold">
+                                <img src="{{ asset('img/avatars/index.png') }}" alt="" class="rounded-5 me-2 ms-2" width="65px">
+                                <span class="namaTampil">
+                                    {{ old('nama', auth()->user()->username) }}
+                                </span>
+                                <a class="link-primary fs-6 ms-2" data-bs-toggle="modal" data-bs-target="#editNama">
+                                    Ubah
+                                </a>
+                            </div>
+                            <div class="my-4"></div>
+                            <div class="col-12">
+                                <input type="hidden" name="nama" id="namaPelanggan" value="{{ $data[0]->nama }}">
+                                <div class="form-group">
+                                    <label for="NoTelpon" class="fs-4">No. Telepon</label>
+                                    <input type="text" name="no_tlp" id="NoTelpon" class="form-control" value="{{ old('no_tlp', $data[0]->no_tlp) }}" aria-describedby="helpId">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="Alamat" class="fs-4">Alamat</label>
+                                    <textarea class="form-control" name="alamat" id="Alamat" rows="3">{{ old('alamat', $data[0]->alamat) }}</textarea>
+                                </div>
+                                <div class="d-flex justify-content-end my-3">
+                                    <button id="btnSave" class="btn btn-primary my-2 text-white" role="button">Save</button>
+                                    <a href="/resetPassword" class="btn btn-success mx-2 my-2 text-white">Reset Password</a>
+                                </div>
                             </div>
                         </div>
                     </div>

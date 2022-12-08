@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
             'level' => 'karyawan',
         ]);
         User::create([
-            'username' => 'costumer',
+            'username' => 'Pelanggan',
             'email' => 'pengguna@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('1234'),
@@ -56,18 +56,20 @@ class DatabaseSeeder extends Seeder
             'user_id' => '3',
         ]);
 
+        User::factory(20)->create();
+        admin::factory(1)->create();
+        karyawan::factory(1)->create();
+        pelanggan::factory(16)->create();
+        
         $this->call([            
             BarangSeeder::class,
             PesananSeeder::class,
             DetailPesananSeeder::class,
             KategoriNotifSeeder::class,
             NotificationSeeder::class,
+            PengirimSeeder::class,
         ]);
 
-        User::factory(20)->create();
-        admin::factory(1)->create();
-        karyawan::factory(1)->create();
-        pelanggan::factory(16)->create();
         transaksi::factory(50)->create();
         detail_transaksi::factory(50)->create();
         laporanPelanggan::factory(50)->create();

@@ -11,41 +11,32 @@
                 <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
                     <div class="position-relative">
                         <i class="align-middle" data-feather="bell"></i>
-                        @if (Request::is('myDashboard'))
                             
-                            @if ($baNotif != 0)
-                                <span class="indicator">{{ $baNotif }}</span>
-                            @endif
-                            
-                        @else
-                        
-                            <span class="indicator">4</span>
-
+                        @if ($baNotif != 0)
+                            <span class="indicator">{{ $baNotif }}</span>
                         @endif
 
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
                     <div class="dropdown-menu-header">
-                        @if (Request::is('myDashboard'))
-                            
-                            {{ $baNotif }} New Notifications
-                        @else
-                            4 New Notifications
-                        @endif
+                        {{ $baNotif }} New Notifications
                     </div>
-                    <div class="list-group">
-                        @if (Request::is('myDashboard'))
+                    <div class="list-group" id="notif">
 
                             @foreach ($Notif as $n)
-                                <a href="#" class="list-group-item">
+                                <a href="/notif/{{ $n->id }}" class="list-group-item {{ $n->notifRead == '[]' ? 'unread' : '' }}" 
+                                    @if ($n->notifRead == '[]')
+                                        style="background: rgba(18, 214, 44, .2);"
+                                    @endif
+                                    >
                                     <div class="row g-0 align-items-center">
                                         <div class="col-2">
                                             {{-- <i class="text-danger" data-feather="alert-circle"></i> --}}
                                             <i class="text-primary" data-feather="shopping-bag"></i>
                                         </div>
                                         <div class="col-10">
-                                            <div class="text-dark">{{ $n->user->pelanggan[0]->nama }}</div>
+                                            <div class="text-dark">{{ $n->user->username }}</div>
                                             <div class="text-muted small mt-1">{{ $n->potongan }}</div>
                                             <div class="text-muted small mt-1">{{ $n->created_at }}</div>
                                         </div>
@@ -53,7 +44,7 @@
                                 </a>
                             @endforeach
                                 
-                        @else
+                        {{-- @else
                             <a href="#" class="list-group-item">
                                 <div class="row g-0 align-items-center">
                                     <div class="col-2">
@@ -103,10 +94,10 @@
                                 </div>
                             </a>
 
-                        @endif
+                        @endif --}}
                     </div>
                     <div class="dropdown-menu-footer">
-                        <a href="/notif/all" class="text-muted">Show all notifications</a>
+                        <a href="/notif" class="text-muted">Show all notifications</a>
                     </div>
                 </div>
             </li>
@@ -115,41 +106,32 @@
                 <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
                     <div class="position-relative">
                         <i class="align-middle" data-feather="message-square"></i>
-                        @if (Request::is('myDashboard'))
                             
-                            @if ($baMessage != 0)
-                                <span class="indicator">{{ $baMessage }}</span>
-                            @endif
-                            
-                        @else
-                        
-                            <span class="indicator">4</span>
-
+                        @if ($baMessage != 0)
+                            <span class="indicator">{{ $baMessage }}</span>
                         @endif
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="messagesDropdown">
                     <div class="dropdown-menu-header">
                         <div class="position-relative">
-                            @if (Request::is('myDashboard'))
                                 {{ $message->count() }} New Messages
-                            @else
-                                
-                                4 New Messages
-                            @endif
                         </div>
                     </div>
                     <div class="list-group">
-                        @if (Request::is('myDashboard'))
                             
                             @foreach ($message as $m)
-                                <a href="#" class="list-group-item">
+                                <a href="/message/{{ $m->id }}" class="list-group-item {{ $m->notifRead == '[]' ? 'unread' : '' }}" 
+                                    @if ($m->notifRead == '[]')
+                                        style="background: rgba(18, 214, 44, .2);"
+                                    @endif
+                                    >
                                     <div class="row g-0 align-items-center">
                                         <div class="col-2">
                                             <img src="/img/avatars/avatar-5.jpg" class="avatar img-fluid rounded-circle" alt="Vanessa Tucker">
                                         </div>
                                         <div class="col-10 ps-2">
-                                            <div class="text-dark">{{ $m->user->pelanggan[0]->nama }}</div>
+                                            <div class="text-dark">{{ $m->user->username }}</div>
                                             <div class="text-muted small mt-1">{{ $m->potongan }}</div>
                                             <div class="text-muted small mt-1">{{ $m->created_at }}</div>
                                         </div>
@@ -157,7 +139,7 @@
                                 </a>
                             @endforeach
                                 
-                        @else
+                        {{-- @else
                             <a href="#" class="list-group-item">
                                 <div class="row g-0 align-items-center">
                                     <div class="col-2">
@@ -208,7 +190,7 @@
                                 </div>
                             </a>
 
-                        @endif
+                        @endif --}}
                     </div>
                     <div class="dropdown-menu-footer">
                         <a href="#" class="text-muted">Show all messages</a>

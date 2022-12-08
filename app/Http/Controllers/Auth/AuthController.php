@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Karyawan;
+use App\Models\Notification;
 use App\Models\Pelanggan;
+use App\Models\Pesanan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -181,26 +183,43 @@ class AuthController extends Controller
     public function profile()
     {
         if (auth()->user()->level == 'pelanggan') {
-            $dPelanggan = Pelanggan::where('user_id', auth()->user()->id)->get();
-            return view('myDashboard.pages.Auth.profile', [
-                'data' => $dPelanggan,
-                'user' => auth()->user(),
-            ]);
+            $data = Pelanggan::where('user_id', auth()->user()->id)->get();
         }
         if (auth()->user()->level == 'karyawan') {
-            $dataKaryawan = Karyawan::where('user_id', auth()->user()->id)->get();
-            return view('myDashboard.pages.Auth.profile', [
-                'data' => $dataKaryawan,
-                'user' => auth()->user(),
-            ]);
+            $data = Karyawan::where('user_id', auth()->user()->id)->get();
         }
         if (auth()->user()->level == 'Admin') {            
-            $dataAdmin = Admin::where('user_id', auth()->user()->id)->get();
-            return view('myDashboard.pages.Auth.profile', [
-                'data' => $dataAdmin,
-                'user' => auth()->user(), 
-            ]);            
+            $data = Admin::where('user_id', auth()->user()->id)->get();
         }
+
+        // NOTIFIKASI
+        $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
+        $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
+        $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
+        $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
+
+        $notifUnRead = 0;
+        for ($i=0; $i < $banyakNotif->count(); $i++) {
+            if ($banyakNotif[$i]->notifRead == '[]') {
+                $notifUnRead += 1;
+            }
+        }
+        $messageUnRead = 0;
+        for ($i=0; $i < $banyakMessage->count(); $i++) { 
+            if ($banyakMessage[$i]->notifRead == '[]') {
+                $messageUnRead += 1;
+            }
+        }
+
+
+        return view('myDashboard.pages.Auth.profile', [
+            'data' => $data,
+            'user' => auth()->user(),
+            'Notif' => $notif, 
+            'baNotif' => $notifUnRead,
+            'message' => $message,
+            'baMessage' => $messageUnRead,
+        ]);
     }
 
     public function profileUpdate(Request $request, Pelanggan $pelanggan)

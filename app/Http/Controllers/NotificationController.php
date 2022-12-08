@@ -4,76 +4,85 @@ namespace App\Http\Controllers;
 
 use App\Models\Notification;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorenotificationRequest;
-use App\Http\Requests\UpdatenotificationRequest;
+use App\Models\notifRead;
 
 class NotificationController extends Controller
 {
     
     public function index()
     {
-        return view('myDashboard.pages.notifications.all');
+        // NOTIFIKASI
+        $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
+        $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
+        $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
+        $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
+
+        $notifUnRead = 0;
+        for ($i=0; $i < $banyakNotif->count(); $i++) {
+            if ($banyakNotif[$i]->notifRead == '[]') {
+                $notifUnRead += 1;
+            }
+        }
+        $messageUnRead = 0;
+        for ($i=0; $i < $banyakMessage->count(); $i++) { 
+            if ($banyakMessage[$i]->notifRead == '[]') {
+                $messageUnRead += 1;
+            }
+        }
+
+        return view('myDashboard.pages.notifications.all', [
+            'Notif' => $notif, 
+            'baNotif' => $notifUnRead,
+            'message' => $message,
+            'baMessage' => $messageUnRead,
+        ]);
     }
-
-
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StorenotifRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StorenotificationRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\notif  $notif
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show(Notification $notif)
     {
-        //
+
+        if ($notif->notifRead == '[]') {
+            
+            $read = new notifRead([
+                'isRead' => 1, // TRUE atau 1 == Telah dibaca
+                'notification_id' => $notif->id,
+                'user_id' => auth()->user()->id,
+            ]);
+
+            $read->save();
+        }
+        $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
+        $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
+        $notifikasi = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
+        $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
+
+        $notifUnRead = 0;
+        for ($i=0; $i < $banyakNotif->count(); $i++) {
+            if ($banyakNotif[$i]->notifRead == '[]') {
+                $notifUnRead += 1;
+            }
+        }
+        $messageUnRead = 0;
+        for ($i=0; $i < $banyakMessage->count(); $i++) { 
+            if ($banyakMessage[$i]->notifRead == '[]') {
+                $messageUnRead += 1;
+            }
+        }
+
+        return view('myDashboard.pages.notifications.showNotif', [
+            'notif' => $notif,
+            'Notif' => $notifikasi, 
+            'baNotif' => $notifUnRead,
+            'message' => $message,
+            'baMessage' => $messageUnRead,
+            
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\notif  $notif
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Notification $notif)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatenotifRequest  $request
-     * @param  \App\Models\notif  $notif
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdatenotificationRequest $request, Notification $notif)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\notif  $notif
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Notification $notif)
     {
-        //
+        Notification::destroy($notif->id);
+
+        return redirect('/notif')->with('notif', 'Notifikasi Dihapus');
     }
 }

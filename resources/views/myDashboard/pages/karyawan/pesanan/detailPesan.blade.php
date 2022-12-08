@@ -132,9 +132,9 @@
                     <div class="col-md-12">
                         @if ($pesanan->status == '3')
                             @if ($pesanan->bukti == false)                            
-                                <input type="submit" id="Proses" data-="{{ $pesanan->kode }}" value="Proses Pesanan" class="btn btn-danger btn-lg my-3 w-100">
+                                {{-- <input type="button" id="proses" data-kode="{{ $pesanan->kode }}" value="Proses Pesanan" class="btn btn-danger btn-lg my-3 w-100"> --}}
                             @else
-                                <input type="submit" id="Proses" data-="{{ $pesanan->kode }}" value="Proses Pesanan" class="btn btn-primary btn-lg my-3 w-100">
+                                <input type="submit" id="proses" data-kode="{{ $pesanan->kode }}" value="Proses Pesanan" class="btn btn-primary btn-lg my-3 w-100">
                             @endif
                         @else
                             <input type="submit" id="Terima" data-="{{ $pesanan->kode }}" value="Terima Pesanan" class="btn btn-primary btn-lg my-3 w-100">
@@ -258,5 +258,46 @@
         </div>
     @endforeach
 @endif
+
+{{-- POP UP MENU --}}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const btnProses = document.querySelector('#proses');
+
+        const kode = btnProses.getAttribute('data-kode');
+
+        btnProses.addEventListener('click', () => {
+        const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mx-2',
+                    cancelButton: 'btn btn-danger mx-2'
+                },
+                buttonsStyling: false
+            })
+    
+            swalWithBootstrapButtons.fire({
+            title: 'Proses Pesanan?',
+            text: "Pesanan Akan Di Proses!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Proses!',
+            cancelButtonText: 'Tidak, Batalkan!',
+            reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "/pesanan/progress/"+kode+""
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                    'Batal Di Proses',
+                    'Status akan tetap Diterima',
+                    'info'
+                    )
+                }
+            })
+        });  
+    });
+</script>
 
 @endsection

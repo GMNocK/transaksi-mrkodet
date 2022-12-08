@@ -13,7 +13,7 @@ class LaporanPelanggan extends Model
 
     public function getRouteKeyName()
     {
-        return 'id';   
+        return 'id';
     }
 
     public function pelanggan()

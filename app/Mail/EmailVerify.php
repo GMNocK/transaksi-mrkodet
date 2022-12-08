@@ -11,6 +11,8 @@ class EmailVerify extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $banyakNotif;
+
     /**
      * Create a new message instance.
      *
@@ -24,6 +26,7 @@ class EmailVerify extends Mailable
     
     public function build()
     {
+        // $this->banyakNotif;
         return $this->subject('nexus.anime.mv@gmail.com')->from('nexus.anime.mv@gmail.com')->view('myDashboard.pages.Email.EmailVerify');
     }
 }

@@ -13,18 +13,14 @@ class CreateNotificationsTable extends Migration
             $table->string('title');
             $table->text('detail');
             $table->string('potongan');
-            $table->foreignId('user_id')->nullable()->constrained();
-            $table->foreignId('kategori_notif_id')->constrained();            
-            $table->foreignId('pesanan_id')->nullable()->constrained();
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('kategori_notif_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('pesanan_id')->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    
     public function down()
     {
         Schema::dropIfExists('notifications');

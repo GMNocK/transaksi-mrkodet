@@ -182,20 +182,46 @@
                 Lainnya
             </li>
 
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="maps-google.html">
-                    <i class="align-middle" data-feather="map"></i>
-                    <span class="align-middle">Notifikasi</span>
+            @if ($baNotif == 0)
+                
+                <li class="sidebar-item {{ Request::is('notif*') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="/notif">
+                        <i class="align-middle" data-feather="bell"></i>
+                        <span class="align-middle">Notifikasi</span>
+                    </a>
+                </li>
+
+            @else
+                
+            <li class="sidebar-item {{ Request::is('notif*') ? 'active' : '' }}">
+                <a class="sidebar-link text-white" href="/notif">
+                    <i class="align-middle text-white" data-feather="bell"></i>
+                    <span class="indicator">{{ $baNotif }}</span>
+                    <span class="align-middle">Notifikasi Baru</span>
                 </a>
             </li>
+            @endif
             
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="maps-google.html">
+                
+            @if ($baMessage != 0)
+                <li class="sidebar-item {{ Request::is('message*') ? 'active' : '' }}">
+                    <a class="sidebar-link text-white" href="/message">
+                        <i class="align-middle text-white" data-feather="message-square"></i>
+                        <span class="indicator">{{ $baMessage }}</span>
+                        <span class="align-middle">Pesan Baru</span>
+                    </a>
+                </li>
+            @else
+
+            <li class="sidebar-item {{ Request::is('message*') ? 'active' : '' }}">
+                <a class="sidebar-link" href="/message">
                     <i class="align-middle" data-feather="message-square"></i>
-                    <span class="indicator">4</span>
                     <span class="align-middle">Pesan</span>
                 </a>
             </li>
+
+            @endif
+
         </ul>
 
         <div class="sidebar-cta">

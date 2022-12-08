@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{ asset('bootstrap/bootstrap.min.css') }}">
 	<link href="{{ asset('APP/app.css') }}" rel="stylesheet">
 
+	<link rel="stylesheet" href="{{ asset('APP/unread.css') }}">
 	<link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
 
 	{{-- Data tables --}}

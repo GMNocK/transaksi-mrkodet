@@ -29,4 +29,9 @@ class Pelanggan extends Model
     {
         return $this->hasMany(Pesanan::class, 'pelanggan_id');
     }
+
+    public function Notification()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

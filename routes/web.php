@@ -19,14 +19,16 @@ use App\Http\Controllers\Laporan\ReportController;
 use App\Http\Controllers\Laporan\ReportForAdminController;
 
 use App\Http\Controllers\Data\ProdukController;
-use App\Http\Controllers\Data\PesananController;
+use App\Http\Controllers\Data\PesananController;    //
 use App\Http\Controllers\Data\DataPelangganController;
 use App\Http\Controllers\Data\TransaksiController;
+
 use App\Http\Controllers\Rekap\RDatPelangganController;
 use App\Http\Controllers\Rekap\RekapPesananController;
 use App\Http\Controllers\Rekap\RekapLPelangganController;
 use App\Http\Controllers\Rekap\RekapTransaksiController;
 
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
 
 /*
@@ -67,25 +69,6 @@ Route::resource('/dashboard/users', DashboardUsersController::class)->middleware
 
 Route::resource('/dashboard/transaksis', DashboardTransController::class)->middleware('auth');
 
-// Route::get('transaksis/report', [ReportController::class, 'index']);
-
-// Route::resource('/transaksi/reports', ReportController::class)->middleware('auth');
-
-
-// Route::get('/admin/laporan/karyawan', [ReportForAdminController::class , 'indexKaryawan']);
-// Route::get('/admin/laporan/karyawan/today', [ReportForAdminController::class , 'todayKaryawan']);
-// Route::get('/admin/laporan/karyawan/thisMonth', [ReportForAdminController::class , 'thisMonthKaryawan']);
-// Route::get('/admin/laporan/karyawan/thisYear', [ReportForAdminController::class , 'thisYearKaryawan']);
-
-// Route::get('/admin/laporan/pelanggan', [ReportForAdminController::class , 'indexPelanggan']);
-// Route::get('/admin/laporan/pelanggan/today', [ReportForAdminController::class , 'todayPelanggan']);
-// Route::get('/admin/laporan/pelanggan/thisMonth', [ReportForAdminController::class , 'thisMonthPelanggan']);
-
-// Route::get('/admin/laporan/pelanggan/thisYear', [ReportForAdminController::class , 'thisYearPelanggan']);
-
-Route::get('/ajax', function () {
-    return view('ajax');
-});
 
 Route::middleware(['auth'])->group(function () {
     
@@ -114,7 +97,7 @@ Route::middleware(['auth'])->group(function () {
         // Terkait Pemesanan \ Pesanan
         Route::get('/pesananPelanggan/{pesanan}', [PesananController::class, 'show'])->name('showPpelanggan');
         Route::post('/pesanan/accept/{pesanan}', [PesananController::class, 'KaryawanAccept']);
-        Route::post('/pesanan/progress/{pesanan}', [PesananController::class, 'KarAcceptProgress']);
+        Route::get('/pesanan/progress/{pesanan}', [PesananController::class, 'KarAcceptProgress']);
         Route::post('/pesanan/dikirim/{pesanan}', [PesananController::class, 'tandaiKirimOrSelesai']);
         Route::post('/pesanan/selesai/{pesanan}', [PesananController::class, 'tandaiKirimOrSelesai']);
         Route::post('/pesanan/{pesanan}/transaksi', [PesananController::class, 'transIntegration']);
@@ -144,13 +127,15 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/laporanKaryawan', LaporanKaryawanController::class)->middleware('IsAdmin');
     });
 
-    Route::get('/coba', [Controller::class, 'coba']);
-    Route::get('/kirim', [KirimEmailController::class, 'emailVerify']);
+    // Route::get('/coba', [Controller::class, 'coba']);
+    // Route::get('/kirim', [KirimEmailController::class, 'emailVerify']);
     
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::post('/Profile/update/{pelanggan}', [AuthController::class, 'profileUpdate']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::resource('/notif/all', NotificationController::class);
+    Route::resource('/notif', NotificationController::class)->except('destroy');
+    Route::get('/notif/delete/{notif}', [NotificationController::class, 'destroy']);
+    Route::resource('/message', MessageController::class);
 });

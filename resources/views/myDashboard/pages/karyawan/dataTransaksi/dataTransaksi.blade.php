@@ -266,11 +266,6 @@
 
 <script src="{{ asset('js/CostumJs/deleteConfirm.js') }}"></script>
 
-{{-- <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        print();
-    });
-</script> --}}
 
 <script>
     $(document).ready( function () {

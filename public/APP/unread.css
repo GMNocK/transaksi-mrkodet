@@ -1,0 +1,6 @@
+.unread {
+    background-color: rgba(18, 214, 44, .2);
+}
+#notif .unread:hover {
+    background-color: rgba(18, 214, 44, .8);
+}

@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\FeedbackKaryawan;
-use App\Models\Karyawan;
-use App\Models\LaporanPelanggan;
-use App\Models\Notification;
 use Illuminate\Http\Request;
+use App\Models\Notification;
+use App\Models\notifRead;
 
-class KaryawanController extends Controller
+class MessageController extends Controller
 {
-     public function pelangganReport()
-     {
+    public function index()
+    {
         $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
         $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
         $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
@@ -31,17 +29,17 @@ class KaryawanController extends Controller
             }
         }
 
-         return view('myDashboard.pages.karyawan.LPelanggan.Lpelanggan', [
-            'laporanpelanggans' => LaporanPelanggan::orderBy('send_at', 'desc')->with('pelanggan')->paginate(4),
+
+        return view('myDashboard.pages.message.all', [
             'Notif' => $notif, 
             'baNotif' => $notifUnRead,
             'message' => $message,
             'baMessage' => $messageUnRead,
-         ]);
-     }
+        ]);
+    }
 
-     public function replyPelangganR(Request $request, LaporanPelanggan $laporanPelanggan)
-     {
+    public function create()
+    {
         $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
         $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
         $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
@@ -59,33 +57,57 @@ class KaryawanController extends Controller
                 $messageUnRead += 1;
             }
         }
+        
+        return;
+    }
 
-         return view('myDashboard.pages.karyawan.LPelanggan.reply', [
-            'laporanpelanggan' => $laporanPelanggan,
+    public function store(Request $request)
+    {
+        return $request;
+    }
+
+    public function show(Notification $message)
+    {
+        if ($message->notifRead == '[]') {
+            
+            $read = new notifRead([
+                'isRead' => 1, // TRUE atau 1 == Telah dibaca
+                'notification_id' => $message->id,
+                'user_id' => auth()->user()->id,
+            ]);
+
+            $read->save();
+        }
+
+        $pesan = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
+        $banPesan = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
+        $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
+        $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
+
+        $notifUnRead = 0;
+        for ($i=0; $i < $banyakNotif->count(); $i++) {
+            if ($banyakNotif[$i]->notifRead == '[]') {
+                $notifUnRead += 1;
+            }
+        }
+        $messageUnRead = 0;
+        for ($i=0; $i < $banPesan->count(); $i++) { 
+            if ($banPesan[$i]->notifRead == '[]') {
+                $messageUnRead += 1;
+            }
+        }
+        
+        return view('myDashboard.pages.message.showMessage', [
+            'pesan' => $message,
             'Notif' => $notif, 
             'baNotif' => $notifUnRead,
-            'message' => $message,
+            'message' => $pesan,
             'baMessage' => $messageUnRead,
-         ]);
-     }
-
-     public function StoreReply(Request $request)
-     {
-        $validateData = $request->validate([
-            'body' => 'required',
-            'lp' => 'required'
         ]);
+    }
 
-        $karyawan = Karyawan::where('user_id', auth()->user()->id)->get('id')[0];
-
-        $feedback = new FeedbackKaryawan([
-            'body' => $validateData['body'],
-            'karyawan_id' => $karyawan->id,
-            'laporan_pelanggan_id' => $validateData['lp'],
-        ]);
-
-        $feedback->save();
-
-        return redirect('/laporanPelanggan')->with('balasBerhasil', 'Berhasil memberi Balasan');
-     }
+    // public function destroy(Notification $notification)
+    // {
+    //     return $notification;
+    // }
 }

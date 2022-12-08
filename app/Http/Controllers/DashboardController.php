@@ -11,9 +11,11 @@ use App\Models\LaporanPelanggan;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Notification;
+use App\Models\notifRead;
 use App\Models\Pesanan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -57,18 +59,40 @@ class DashboardController extends Controller
 
     public function myDashboard()
     {
-        $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3  )->limit(4)->get();
+        // $notification = DB::table('Notifications')
+        //                     ->select('Notifications.*', DB::raw('notif_reads.user_id as pembaca'), 'notif_reads.isRead')
+        //                     ->leftJoin('notif_reads', 'notif_reads.notification_id', '=', 'Notifications.id')
+        //                     ->where('Notifications.user_id', 3)
+        //                     ->limit(1)
+        //                     ->get()[0];
+        // return $notif[1]->notifRead;
+
+        $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
+        $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
+        $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3);
+        $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
+        
         if (auth()->user()->level == 'pelanggan') {            
             $pelanggan_id = Pelanggan::where('user_id', auth()->user()->id)->get('id')[0]->id;
             $pesananTerakhir = Pesanan::orderByDesc('waktu_pesan')->where('pelanggan_id', $pelanggan_id)->limit(6)->get();
-            $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->limit(4)->get();
-            $banyakNotif = Notification::where('user_id', auth()->user()->id)->get()->count();
         } else {
             $pelanggan_id = 0;
             $pesananTerakhir = Pesanan::orderByDesc('waktu_pesan')->limit(6)->get();
-            $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->limit(4)->get();
-            $banyakNotif = Notification::where('user_id', auth()->user()->id)->get()->count();
         }
+        $notifUnRead = 0;
+        for ($i=0; $i < $banyakNotif->count(); $i++) {
+            if ($banyakNotif[$i]->notifRead == '[]') {
+                $notifUnRead += 1;
+            }
+        }
+        $messageUnRead = 0;
+        for ($i=0; $i < $banyakMessage->count(); $i++) { 
+            if ($banyakMessage[$i]->notifRead == '[]') {
+                $messageUnRead += 1;
+            }
+        }
+
+        
 
         $month = date('m') - 1;
         return view('myDashboard.pages.dashboard', [
@@ -125,10 +149,10 @@ class DashboardController extends Controller
             'pesan29' => Pesanan::whereDate('waktu_pesan', date('Y-' .$month . '-29'))->count(),
             'pesan30' => Pesanan::whereDate('waktu_pesan', date('Y-' .$month . '-30'))->count(),
             'pesan31' => Pesanan::whereDate('waktu_pesan', date('Y-' .$month . '-31'))->count(),
-            'Notif' => $notif, //Pesanan::orderByDesc('waktu_pesan')->limit(4)->get(),
-            'baNotif' => $banyakNotif,
+            'Notif' => $notif->limit(4)->get(), 
+            'baNotif' => $notifUnRead,
             'message' => $message,
-            'baMessage' => $message->count(),
+            'baMessage' => $messageUnRead,
         ]);
     }
 }

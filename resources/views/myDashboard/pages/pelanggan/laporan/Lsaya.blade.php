@@ -36,6 +36,11 @@
                                 
                             <a href="/Laporan/{{ $l->id }}" class="btn btn-primary"><span data-feather="eye"></span></a>                 
                             
+                            
+                            <a href="/Laporan/{{ $l->id }}/edit/" class="btn btn-success">
+                                <span data-feather="edit"></span>
+                            </a>
+
                             <form action="/Laporan/{{ $l->id }}" method="post" class="d-inline" onclick="return confirm('Yakin Untuk Menghapus?');">
                                 @method('delete')
                                 @csrf
@@ -43,10 +48,6 @@
                                     <span data-feather="x-circle"></span>
                                 </button>
                             </form>
-                            
-                            <a href="/Laporan/{{ $l->id }}/edit/" class="btn btn-warning">
-                                <span data-feather="edit"></span>
-                            </a>                                                            
                             
                             @endcan
                         </td> 
