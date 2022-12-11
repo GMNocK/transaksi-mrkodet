@@ -40,7 +40,7 @@ class RekapTransaksiController extends Controller
     
             if (request('filterTgl') == 'tmonth') {
                 return view('myDashboard.pages.karyawan.Rekap.RTransaksi', [
-                    'transaksi' => $transaksis->whereMonth('tgl_transaksi' , date('m'))->whereYear('tgl_transaksi', date('Y'))->paginate(15),
+                    'transaksi' => $transaksis->whereMonth('tgl_transaksi' , date('m'))->whereYear('tgl_transaksi', date('Y'))->get(),
                     'filter' => request('filterTgl'),
                     'Notif' => $notif,   
                     'baNotif' => $notifUnRead,
@@ -50,7 +50,7 @@ class RekapTransaksiController extends Controller
             }
             if (request('filterTgl') == 'tyear') {
                 return view('myDashboard.pages.karyawan.Rekap.RTransaksi', [
-                    'transaksi' => $transaksis->whereYear('tgl_transaksi', date('Y'))->paginate(15),
+                    'transaksi' => $transaksis->whereYear('tgl_transaksi', date('Y'))->get(),
                     'filter' => request('filterTgl'),
                     'Notif' => $notif,   
                     'baNotif' => $notifUnRead,
@@ -60,7 +60,7 @@ class RekapTransaksiController extends Controller
             }
             if (request('filterTgl') == 'yester') {
                 return view('myDashboard.pages.karyawan.Rekap.RTransaksi', [
-                    'transaksi' => $transaksis->WhereDate('tgl_transaksi', (date('Y-m-') . (date('d')-1)))->paginate(15),
+                    'transaksi' => $transaksis->WhereDate('tgl_transaksi', (date('Y-m-') . (date('d')-1)))->get(),
                     'filter' => request('filterTgl'),
                     'Notif' => $notif,   
                     'baNotif' => $notifUnRead,
@@ -70,7 +70,7 @@ class RekapTransaksiController extends Controller
             }
             if (request('filterTgl') == 'all') {
                 return view('myDashboard.pages.karyawan.Rekap.RTransaksi', [
-                    'transaksi' => $transaksis->paginate(15),
+                    'transaksi' => $transaksis->get(),
                     'filter' => request('filterTgl'),
                     'Notif' => $notif,   
                     'baNotif' => $notifUnRead,
@@ -137,25 +137,25 @@ class RekapTransaksiController extends Controller
 
         if ($request->filterTgl == 'tmonth') {
             return view('myDashboard.pages.karyawan.Rekap.RTransaksi', [
-                'transaksi' => Transaksi::whereMonth('tgl_transaksi' , date('m'))->whereYear('tgl_transaksi', date('Y'))->orderBy('tgl_transaksi', 'ASC')->paginate(15),
+                'transaksi' => Transaksi::whereMonth('tgl_transaksi' , date('m'))->whereYear('tgl_transaksi', date('Y'))->orderBy('tgl_transaksi', 'ASC')->get(),
                 'filter' => $request->filterTgl
             ]);
         }
         if ($request->filterTgl == 'tyear') {
             return view('myDashboard.pages.karyawan.Rekap.RTransaksi', [
-                'transaksi' => Transaksi::whereYear('tgl_transaksi', date('Y'))->orderBy('tgl_transaksi', 'DESC')->paginate(15),
+                'transaksi' => Transaksi::whereYear('tgl_transaksi', date('Y'))->orderBy('tgl_transaksi', 'DESC')->get(),
                 'filter' => $request->filterTgl
             ]);
         }
         if ($request->filterTgl == 'yester') {
             return view('myDashboard.pages.karyawan.Rekap.RTransaksi', [
-                'transaksi' => Transaksi::WhereDate('tgl_transaksi', (date('Y-m-') . (date('d')-1)))->orderBy('tgl_transaksi', 'DESC')->paginate(15),
+                'transaksi' => Transaksi::WhereDate('tgl_transaksi', (date('Y-m-') . (date('d')-1)))->orderBy('tgl_transaksi', 'DESC')->get(),
                 'filter' => $request->filterTgl
             ]);
         }
         if ($request->filterTgl == 'all') {
             return view('myDashboard.pages.karyawan.Rekap.RTransaksi', [
-                'transaksi' => Transaksi::orderBy('tgl_transaksi', 'DESC')->paginate(15),
+                'transaksi' => Transaksi::orderBy('tgl_transaksi', 'DESC')->get(),
                 'filter' => $request->filterTgl
             ]);
         }

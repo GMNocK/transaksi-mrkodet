@@ -74,7 +74,7 @@ class ReportController extends Controller
 
         return view('myDashboard.pages.pelanggan.laporan.LCreate', [
             'pelanggans' => Pelanggan::orderByDesc('nama')->where('user_id', auth()->user()->id)->get()  ,
-            'Notif' => $notif, 
+            'Notif' => $notif,
             'baNotif' => $notifUnRead,
             'message' => $message,
             'baMessage' => $messageUnRead,

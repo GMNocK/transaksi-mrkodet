@@ -4,83 +4,66 @@ namespace App\Http\Controllers\Rekap;
 
 use App\Http\Controllers\Controller;
 use App\Models\LaporanPelanggan;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class RekapLPelangganController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
+        $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
+        $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
+        $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
+        $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
+
+        $notifUnRead = 0;
+        for ($i=0; $i < $banyakNotif->count(); $i++) {
+            if ($banyakNotif[$i]->notifRead == '[]') {
+                $notifUnRead += 1;
+            }
+        }
+        $messageUnRead = 0;
+        for ($i=0; $i < $banyakMessage->count(); $i++) { 
+            if ($banyakMessage[$i]->notifRead == '[]') {
+                $messageUnRead += 1;
+            }
+        }
+
         return view('myDashboard.pages.karyawan.Rekap.RLPelanggan', [
-            'lpelanggan' => LaporanPelanggan::whereDate('send_at', date('Y-m-d'))->paginate(10),
+            'lpelanggan' => LaporanPelanggan::whereDate('send_at', date('Y-m-d'))->get(),
+            'filter' => 'today',
+            'Notif' => $notif,
+            'baNotif' => $notifUnRead,
+            'message' => $message,
+            'baMessage' => $messageUnRead,
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

@@ -373,7 +373,7 @@ class PesananController extends Controller
 
         // NOTIFIKASI
         $pemilikPesanan = $pesanan->pelanggan->user->id;
-        $message = 'Pesanan Anda Dalam Proses Pembuatan. Pemberitahuan lebih lanjut Akan dikirim melalui email anda. Terima Kasih...';
+        $message = 'Pesanan Anda Dalam Proses Pembuatan. Pemberitahuan lebih lanjut Akan dikirim melalui pesan / notifikasi. Terima Kasih...';
         $potonganDetail = 'Pesanan Anda Dalam Proses Pembuatan. Pemberitahuan ...';
 
         $notifikasi = new Notification([

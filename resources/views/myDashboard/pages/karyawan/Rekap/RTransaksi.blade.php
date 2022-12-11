@@ -18,10 +18,31 @@
 <div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
         <div class="card-header">
-            <div class="col-md-12 mt-1 d-flex justify-content-between">
+            <div class="col-md-12 mt-1">
 
                 @can('karyawan')
-
+                
+                <div class="row mb-4">
+                    <div class="col-12 d-flex">
+                        <a href="/export/transaksi/excel?data=transaksi" class="btn btn-light btn-lg " style="box-shadow: 3px 3px 7px -3px rgba(44, 43, 43,.3)">
+                            <i class="fas fa-file-excel me-1"></i>
+                            EXCEL
+                        </a>
+                        <a href="/export/transaksi/pdf?data=transaksi" class="btn btn-light btn-lg mx-2" style="box-shadow: 3px 3px 7px -3px rgba(44, 43, 43,.3)">
+                            <i class="fas fa-file-pdf me-1"></i>
+                            PDF
+                        </a>
+                        <form action="/Rekap/Transaksi" method="post">
+                            @csrf
+                            <input type="hidden" id="forRekap" name="typeRekap" value="{{ old('filterTgl', 'today') }}">
+                            <button class="btn btn-light btn-lg" style="box-shadow: 3px 3px 7px -3px rgba(44, 43, 43,.3)">
+                                <i class="fa fa-print me-1" aria-hidden="true"></i>
+                                CETAK
+                            </button> 
+                        </form>                            
+                    </div>
+                </div>
+                <div class="row">
                     <form action="/Rekap/RTransaksi" class="d-flex">
                         <div class="form-group">
                             <label for="filterRekap">Rekap Transaksi Berdasarkan</label>
@@ -40,18 +61,7 @@
                             </button>
                         </div>
                     </form>
-                    <form action="/Rekap/Transaksi" method="post">
-                        @csrf
-                        <input type="hidden" id="forRekap" name="typeRekap" value="{{ old('filterTgl', 'today') }}">
-                        <div class="form-group d-flex align-items-end ms-4">
-                            <button class="btn btn-primary btn-lg">
-                                <i class="fa fa-print me-2" aria-hidden="true"></i>
-                                Cetak
-                            </button>
-                        </div>
-
-                    </form>
-                    
+                </div>
                 @endcan
             </div>
         </div>
@@ -69,27 +79,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- <tr>
-                        <td>Project Apollo</td>
-                        <td class="">01/01/2021</td>
-                        <td>
-                            <span class="badge bg-success">Done</span>
-                        </td>
-                        <td class="">Vanessa Tucker</td>
-                        <td class="text-center">
-                            <a href="/transaksi/create" class="btn btn-primary my-1">
-                                <i class="align-middle" data-feather="eye"></i>
-                            </a>
-
-                            <a href="/transaksi/create" class="btn btn-primary">
-                                <i class="align-middle" data-feather="eye"></i>
-                            </a>
-
-                            <a href="/transaksi/create" class="btn btn-primary my-1">
-                                <i class="align-middle" data-feather="eye"></i>
-                            </a>
-                        </td>
-                    </tr> --}}
 
                     @foreach ($transaksi as $t)
                     <tr>
@@ -132,11 +121,6 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>
-        <div class="d-flex justify-content-end col-12 mb-5">
-            <span class="me-4">
-                {{ $transaksi->links() }}            
-            </span>
         </div>
 
     </div>

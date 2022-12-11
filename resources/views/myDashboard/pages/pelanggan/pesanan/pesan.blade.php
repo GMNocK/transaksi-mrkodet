@@ -110,10 +110,6 @@
 
                                     @if ($p->status == '1' || $p->status == '2')
                                         @if ($p->bukti == false)
-                                            <a href="pesanan/{{ $p->kode }}/edit" class="btn btn-success my-1"data-toggle="tooltip" data-placement="top" title="Edit">
-                                                <i class="align-middle" data-feather="edit"></i>                                            
-                                            </a>
-
                                             <a class="my-1 btnBatal" data-id="{{ $p->kode }}" data-toggle="tooltip" data-placement="top" title="Batalkan Pesanan">
                                                 <button class="btn btn-danger">
                                                     Batal

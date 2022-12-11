@@ -37,11 +37,4 @@
     </div>
 </div>
 
-<div id="kembali" class="my-3">
-    <a href="/Rekap/RTransaksi" class="btn btn-success btn-lg">
-        <i class="fa fa-arrow-left me-1" aria-hidden="true"></i>
-        Kembali
-    </a>
-</div>
-
 @endsection

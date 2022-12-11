@@ -16,17 +16,17 @@
                         <th scope="col" style="min-width: 85px">Nama Pemesan</th>
                         <th scope="col" style="min-width: 100px">Total Harga</th>
                         <th scope="col" style="min-width: 100px">Pengiriman</th>
-                        <th scope="col" style="min-width: 100px">Pembayaran</th>
+                        {{-- <th scope="col" style="min-width: 100px">Pembayaran</th> --}}
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($pesanan as $t)
+                    @foreach ($lpelanggan as $t)
                     <tr>
-                        <td>{{ $t->waktu_pesan }}</td>
+                        <td>{{ $t->send_at }}</td>
                         <td>{{ $t->pelanggan->nama }}</td>
-                        <td>{{ $t->total_harga }}</td>
-                        <td>{{ $t->tipe_kirim }}</td>
-                        <td>{{ $t->tipePembayaran }}</td>
+                        <td>{{ $t->title }}</td>
+                        <td>{{ $t->excerpt }}</td>
+                        {{-- <td>{{ $t->tipePembayaran }}</td> --}}
                     </tr>
                     @endforeach
                 </tbody>

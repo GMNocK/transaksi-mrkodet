@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\LaporanPelanggan;
 use App\Models\Notification;
 use App\Models\Pelanggan;
 use App\Models\Pesanan;
@@ -19,8 +20,8 @@ class ReportingController extends Controller
 
         if ($request->typeRekap == 'today') {
             return view('myDashboard.pages.Reporting.pages.LTrans', [
-                'isi' => 'Sesuai Cetaknya Apa',
                 'transaksi' => $transaksi->whereDate('tgl_transaksi', date('Y-m-d'))->get(),
+                'filter' => $request->typeRekap,
             ]);
         }
 
@@ -52,7 +53,7 @@ class ReportingController extends Controller
 
     public function pesanan(Request $request)
     {
-        $request->validate(['typeRekap' => 'required']);        
+        $request->validate(['typeRekap' => 'required']);
 
         $pesanans = Pesanan::orderByDesc('waktu_pesan');
 
@@ -77,7 +78,7 @@ class ReportingController extends Controller
         }
         if ($request->typeRekap == 'yester') {
             return view('myDashboard.pages.Reporting.pages.LPesanan', [
-                'pesanan' => $pesanans->WhereDate('waktu_pesan', (date('Y-m-') . (date('d')-1)))->get(),
+                'pesanan' => $pesanans->whereDate('waktu_pesan', (date('Y-m-') . (date('d')-1)))->get(),
                 'filter' => $request->typeRekap,
             ]);
         }
@@ -88,15 +89,14 @@ class ReportingController extends Controller
             ]);
         }
     }
+    
     public function pelanggan(Request $request)
     {
-        $request->validate(['typeRekap' => 'required']);        
-
+        $request->validate(['typeRekap' => 'required']);
         $pelanggans = Pelanggan::orderByDesc('created_at');
 
         if ($request->typeRekap == 'today') {
             return view('myDashboard.pages.Reporting.pages.LDataPelanggan', [
-                'isi' => 'Sesuai Cetaknya Apa',
                 'pelanggan' => $pelanggans->whereDate('created_at', date('Y-m-d'))->get(),
                 'filter' =>  $request->typeRekap,
             ]);
@@ -123,6 +123,50 @@ class ReportingController extends Controller
         if ($request->typeRekap == 'all') {
             return view('myDashboard.pages.Reporting.pages.LDataPelanggan', [
                 'pelanggan' => $pelanggans->get(),
+                'filter' => $request->typeRekap,
+            ]);
+        }
+    }
+
+    public function lpelanggan(Request $request)
+    {
+        $request->validate(['typeRekap' => 'required']);        
+        
+        $lpelanggans = LaporanPelanggan::orderByDesc('created_at');
+        // return view('myDashboard.pages.Reporting.pages.LapPelanggan', [
+        //     'lpelanggan' => $lpelanggans->get(),
+        // ]);
+
+
+        if ($request->typeRekap == 'today') {
+            return view('myDashboard.pages.Reporting.pages.LapPelanggan', [
+                'isi' => 'Sesuai Cetaknya Apa',
+                'lpelanggan' => $lpelanggans->whereDate('created_at', date('Y-m-d'))->get(),
+                'filter' =>  $request->typeRekap,
+            ]);
+        }
+
+        if ($request->typeRekap == 'tmonth') {
+            return view('myDashboard.pages.Reporting.pages.LapPelanggan', [
+                'lpelanggan' => $lpelanggans->whereMonth('created_at' , date('m'))->whereYear('created_at', date('Y'))->get(),
+                'filter' => $request->typeRekap,
+            ]);
+        }
+        if ($request->typeRekap == 'tyear') {
+            return view('myDashboard.pages.Reporting.pages.LapPelanggan', [
+                'lpelanggan' => $lpelanggans->whereYear('created_at', date('Y'))->get(),
+                'filter' => $request->typeRekap,
+            ]);
+        }
+        if ($request->typeRekap == 'yester') {
+            return view('myDashboard.pages.Reporting.pages.LapPelanggan', [
+                'lpelanggan' => $lpelanggans->WhereDate('created_at', (date('Y-m-') . (date('d')-1)))->get(),
+                'filter' => $request->typeRekap,
+            ]);
+        }
+        if ($request->typeRekap == 'all') {
+            return view('myDashboard.pages.Reporting.pages.LapPelanggan', [
+                'lpelanggan' => $lpelanggans->get(),
                 'filter' => $request->typeRekap,
             ]);
         }

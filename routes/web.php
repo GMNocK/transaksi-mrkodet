@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardUsersController;
 use App\Http\Controllers\KaryawanController;
 
 use App\Http\Controllers\ReportingController;
+use App\Http\Controllers\ExportController;
 
 use App\Http\Controllers\Laporan\FeedbackKaryawanController;
 use App\Http\Controllers\Laporan\LaporanKaryawanController;
@@ -19,10 +20,9 @@ use App\Http\Controllers\Laporan\ReportController;
 use App\Http\Controllers\Laporan\ReportForAdminController;
 
 use App\Http\Controllers\Data\ProdukController;
-use App\Http\Controllers\Data\PesananController;    //
+use App\Http\Controllers\Data\PesananController;
 use App\Http\Controllers\Data\DataPelangganController;
 use App\Http\Controllers\Data\TransaksiController;
-use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Rekap\RDatPelangganController;
 use App\Http\Controllers\Rekap\RekapPesananController;
 use App\Http\Controllers\Rekap\RekapLPelangganController;
@@ -30,6 +30,7 @@ use App\Http\Controllers\Rekap\RekapTransaksiController;
 
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
+use App\Models\Pesanan;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,8 +43,7 @@ use App\Http\Controllers\NotificationController;
 |
 */
 
-Route::get('/export', [ExportController::class, 'index'] );
-Route::get('/export/pdf', [ExportController::class, 'export_pdf'] );
+
 
 Route::middleware(['guest'])->group(function () {
     
@@ -65,11 +65,9 @@ Route::middleware(['guest'])->group(function () {
     });
 });
 
-
 Route::resource('/dashboard/users', DashboardUsersController::class)->middleware('auth');
 
 Route::resource('/dashboard/transaksis', DashboardTransController::class)->middleware('auth');
-
 
 Route::middleware(['auth'])->group(function () {
     
@@ -95,7 +93,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/delete/transaksi/{transaksi}', [TransaksiController::class, 'destroy']);
         Route::post('/pesanan/transaksi', [TransaksiController::class, 'lihatTransaksi']);
         
-        // Terkait Pemesanan \ Pesanan
         Route::get('/pesananPelanggan/{pesanan}', [PesananController::class, 'show'])->name('showPpelanggan');
         Route::post('/pesanan/accept/{pesanan}', [PesananController::class, 'KaryawanAccept']);
         Route::get('/pesanan/progress/{pesanan}', [PesananController::class, 'KarAcceptProgress']);
@@ -123,20 +120,37 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/Rekap/Pesanan', [ReportingController::class, 'pesanan']);
         Route::post('/Rekap/Transaksi', [ReportingController::class, 'transaksi']);
         Route::post('/Rekap/Pelanggan', [ReportingController::class, 'pelanggan']);
-        
+        Route::post('/Rekap/LPelanggan', [ReportingController::class, 'lpelanggan']);
+
+        // Route Export ke Pdf & Excel
+        Route::get('DataPelanggan/export/pdf', [ExportController::class, 'p_export_pdf'] );
+        Route::get('DataPelanggan/export/excel', [ExportController::class, 'p_export_excel'] );
+        Route::get('pesanan/export/pdf', [ExportController::class, 's_export_pdf']);
+        Route::get('/export/pesanan/excel', [ExportController::class, 'pesExportExcel']);
+        Route::get('/export/transaksi/excel', [ExportController::class, 't_export_excel']);
+        Route::get('/export/transaksi/pdf', [ExportController::class, 't_export_pdf']);
+        Route::get('/export/lpelanggan/excel', [ExportController::class, 'lp_export_excel']);
+        Route::get('/export/lpelanggan/pdf', [ExportController::class, 'lp_export_pdf']);
+
         Route::resource('/laporanSaya', LaporanKaryawanController::class)->middleware('IsKaryawan');
         Route::resource('/laporanKaryawan', LaporanKaryawanController::class)->middleware('IsAdmin');
     });
-
-    // Route::get('/coba', [Controller::class, 'coba']);
-    // Route::get('/kirim', [KirimEmailController::class, 'emailVerify']);
     
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::post('/Profile/update/{pelanggan}', [AuthController::class, 'profileUpdate']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
-
+    
+    Route::resource('/message', MessageController::class);
+    
     Route::resource('/notif', NotificationController::class)->except('destroy');
     Route::get('/notif/delete/{notif}', [NotificationController::class, 'destroy']);
-    Route::resource('/message', MessageController::class);
+    Route::get('/delete/notif', [NotificationController::class,'delete_readed']);
+    Route::get('read/notif', [NotificationController::class, 'read_all']);
 });
+
+// Route::get('/pdf', function () {
+//     return view('myDashboard.pages.Reporting.pdf.Rpesanan', [
+//         'pesanan' => Pesanan::all(),
+//     ]);
+// });

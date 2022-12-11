@@ -20,7 +20,11 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
                     <div class="dropdown-menu-header">
-                        {{ $baNotif }} New Notifications
+                        @if ($baNotif == 0)
+                            Tidak Ada Notifikasi Baru
+                        @else                            
+                            {{ $baNotif }} Notifikasi Baru
+                        @endif
                     </div>
                     <div class="list-group" id="notif">
 
@@ -106,7 +110,6 @@
                 <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
                     <div class="position-relative">
                         <i class="align-middle" data-feather="message-square"></i>
-                            
                         @if ($baMessage != 0)
                             <span class="indicator">{{ $baMessage }}</span>
                         @endif
@@ -115,7 +118,11 @@
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="messagesDropdown">
                     <div class="dropdown-menu-header">
                         <div class="position-relative">
-                                {{ $message->count() }} New Messages
+                            @if ($baMessage == 0)
+                                Tidak Ada Pesan Baru
+                            @else
+                                {{ $baMessage }} Pesan Baru
+                            @endif
                         </div>
                     </div>
                     <div class="list-group">

@@ -19,39 +19,56 @@
 <div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
         <div class="card-header">
-            <div class="col-md-12 mt-1 d-flex justify-content-between">
+            <div class="col-md-12 mt-1">
 
                 @can('karyawan')
 
-                    <form action="/Rekap/RPesanan" class="d-flex">
-                        <div class="form-group">
-                            <label for="filterRekap">Filter Berdasarkan</label>
-                            <select class="custom-select" name="filterTgl" id="filterRekap">
-                                <option value="today" {{ $filter == 'today' ? 'selected' : '' }} >Hari Ini</option>
-                                <option value="tmonth" {{ $filter == 'tmonth' ? 'selected' : '' }}>Bulan Ini</option>
-                                <option value="tyear" {{ $filter == 'tyear' ? 'selected' : '' }}>Tahun Ini</option>
-                                <option value="yester" {{ $filter == 'yester' ? 'selected' : '' }}>Kemarin</option>
-                                <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>Semua</option>
-                            </select>
-                        </div>
-                        <div class="form-group d-flex align-items-end ms-4">
-                            <button class="btn btn-success btn-lg">
-                                <i class="fa fa-refresh" aria-hidden="true"></i>
-                                Refresh
-                            </button>
-                        </div>
-                    </form>
-                    <form action="/Rekap/Pesanan" method="post">
-                        @csrf
-                        <input type="hidden" id="forRekap" name="typeRekap" value="{{ old('filterTgl', 'today') }}">
-                        <div class="form-group d-flex align-items-end ms-4">
-                            <button class="btn btn-primary btn-lg">
-                                <i class="fa fa-print me-2" aria-hidden="true"></i>
-                                Cetak
-                            </button>
-                        </div>
+                <div class="row mb-5">
+                    <div class="col-12 d-flex align-items-center">
 
-                    </form>
+                        <a href="/export/pesanan/excel?data=pesanan" class="btn btn-light btn-lg " style="box-shadow: 3px 3px 7px -3px rgba(44, 43, 43,.3)">
+                            <i class="fas fa-file-excel me-1"></i>
+                            EXCEL
+                        </a>
+                        <a href="/pesanan/export/pdf?data=pesanan" class="btn btn-light btn-lg mx-2" style="box-shadow: 3px 3px 7px -3px rgba(44, 43, 43,.3)">
+                            <i class="fas fa-file-pdf me-1"></i>
+                            PDF
+                        </a>
+
+                        <form action="/Rekap/Pesanan" method="post">
+                            @csrf
+                            <input type="hidden" id="forRekap" name="typeRekap" value="{{ old('filterTgl', 'today') }}">                            
+                            <button class="btn btn-light btn-lg" style="box-shadow: 3px 3px 7px -3px rgba(44, 43, 43,.3)">
+                                <i class="fa fa-print me-1" aria-hidden="true"></i>
+                                CETAK
+                            </button>
+    
+                        </form>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <form action="/Rekap/RPesanan" class="d-flex">
+                            <div class="form-group">
+                                <label for="filterRekap">Filter Berdasarkan</label>
+                                <select class="custom-select" name="filterTgl" id="filterRekap">
+                                    <option value="today" {{ $filter == 'today' ? 'selected' : '' }} >Hari Ini</option>
+                                    <option value="tmonth" {{ $filter == 'tmonth' ? 'selected' : '' }}>Bulan Ini</option>
+                                    <option value="tyear" {{ $filter == 'tyear' ? 'selected' : '' }}>Tahun Ini</option>
+                                    <option value="yester" {{ $filter == 'yester' ? 'selected' : '' }}>Kemarin</option>
+                                    <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>Semua</option>
+                                </select>
+                            </div>
+                            <div class="form-group d-flex align-items-end ms-4">
+                                <button class="btn btn-success btn-lg">
+                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    Refresh
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                     
                 @endcan
             </div>
@@ -70,32 +87,63 @@
                     </tr>
                 </thead>
                 <tbody>
-
-                    @foreach ($pesanan as $t)
+                    @if ($pesanan == '')
                     <tr>
-                        <td>{{ $t->waktu_pesan }}</td>
-                        <td>{{ $t->pelanggan->nama }}</td>
-                        <td>Rp.{{ $t->total_harga }}</td>
-                        <td>{{ $t->tipe_kirim }}</td>
-                        <td>{{ $t->tipePembayaran }}</td>
-                        <td style="text-align: center">
-            
-                            <a href="transaksi/{{ $t->token }}" class="btn btn-primary my-1">
-                                <i class="align-middle" data-feather="eye"></i>
-                            </a>
+                        <td colspan="6" class="text-center">                                
+                            @if ($filter == 'today')
                             
+                                Tidak Ada pesanan hari ini    
+                            
+                            @endif
+                            
+                            @if ($filter == 'yester')
+                            
+                                Tidak Ada Pesanan Di hari Kemarin
+
+                            @endif
+
+                            @if ($filter == 'tmonth')
+                            
+                                Tidak Ada Pesanan Di Bulan Ini
+
+                            @endif
+
+                            @if ($filter == 'tyear')
+                            
+                                Tidak Ada Pesanan Di Tahun Ini
+
+                            @endif
+
+                            @if ($filter == 'all')
+                            
+                                Tidak Ada Pesanan
+
+                            @endif
                         </td>
-                    </tr>    
-                    @endforeach
+                    </tr>
+                    @else
+
+                        @foreach ($pesanan as $t)
+                        <tr>
+                            <td>{{ $t->waktu_pesan }}</td>
+                            <td>{{ $t->pelanggan->nama }}</td>
+                            <td>Rp.{{ $t->total_harga }}</td>
+                            <td>{{ $t->tipe_kirim }}</td>
+                            <td>{{ $t->tipePembayaran }}</td>
+                            <td style="text-align: center">
+                
+                                <a href="transaksi/{{ $t->token }}" class="btn btn-primary my-1">
+                                    <i class="align-middle" data-feather="eye"></i>
+                                </a>
+                                
+                            </td>
+                        </tr>    
+                        @endforeach
+
+                    @endif
                 </tbody>
             </table>
         </div>
-        <div class="d-flex justify-content-end col-12 mb-5">
-            <span class="me-4">
-                {{ $pesanan->links() }}            
-            </span>
-        </div>
-
     </div>
 </div>
 

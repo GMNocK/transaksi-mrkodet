@@ -48,6 +48,30 @@
                                     <label for="Alamat" class="fs-4">Alamat</label>
                                     <textarea class="form-control" name="alamat" id="Alamat" rows="3">{{ old('alamat', $data[0]->alamat) }}</textarea>
                                 </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for=""></label>
+                                            <select class="custom-select" name="provinsi">
+                                                <option selected>-- Pilih Provinsi --</option>
+                                                <option value=""></option>
+                                                <option value=""></option>
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for=""></label>
+                                            <select class="custom-select" name="kota">
+                                                <option selected>-- Pilih Kota --</option>
+                                                <option value=""></option>
+                                                <option value=""></option>
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="d-flex justify-content-end my-3">
                                     <button id="btnSave" class="btn btn-primary my-2 text-white" role="button">Save</button>
                                     <a href="/resetPassword" class="btn btn-success mx-2 my-2 text-white">Reset Password</a>

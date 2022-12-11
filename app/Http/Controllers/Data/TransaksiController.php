@@ -52,7 +52,7 @@ class TransaksiController extends Controller
                 'message' => $message,
                 'baMessage' => $messageUnRead,
             ]); 
-        }        
+        }
 
         return abort(403);
     }

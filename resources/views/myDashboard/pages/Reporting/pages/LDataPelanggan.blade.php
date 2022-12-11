@@ -2,8 +2,8 @@
 
 @section('isi')
     
-<div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
-    <div class="card flex-fill">
+<div class="col-md-12 col-lg-12 col-xxl-12 d-flex shadow-none">
+    <div class="card flex-fill shadow-none">
         <div class="card-header fs-3 my-3 d-flex justify-content-center align-items-center">
             <span>Laporan Pesanan</span>
         </div>
@@ -33,12 +33,6 @@
             </table>
         </div>
     </div>
-</div>
-<div id="kembali" class="my-3">
-    <a href="/Rekap/RPelanggan" class="btn btn-success btn-lg">
-        <i class="fa fa-arrow-left me-1" aria-hidden="true"></i>
-        Kembali
-    </a>
 </div>
 
 

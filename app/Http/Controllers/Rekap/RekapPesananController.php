@@ -13,6 +13,7 @@ class RekapPesananController extends Controller
     public function index()
     {
         $pesanans = Pesanan::orderByDesc('waktu_pesan');
+        // return $pesanans->->get();
 
         $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
         $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
@@ -39,7 +40,7 @@ class RekapPesananController extends Controller
     
             if (request('filterTgl') == 'tmonth') {
                 return view('myDashboard.pages.karyawan.Rekap.RPesanan', [
-                    'pesanan' => $pesanans->whereMonth('waktu_pesan' , date('m'))->whereYear('waktu_pesan', date('Y'))->paginate(15),
+                    'pesanan' => $pesanans->whereMonth('waktu_pesan' , date('m'))->whereYear('waktu_pesan', date('Y'))->get(),
                     'filter' => request('filterTgl'),
                     'Notif' => $notif, 
                     'baNotif' => $notifUnRead,
@@ -49,7 +50,7 @@ class RekapPesananController extends Controller
             }
             if (request('filterTgl') == 'tyear') {
                 return view('myDashboard.pages.karyawan.Rekap.RPesanan', [
-                    'pesanan' => $pesanans->whereYear('waktu_pesan', date('Y'))->paginate(15),
+                    'pesanan' => $pesanans->whereYear('waktu_pesan', date('Y'))->get(),
                     'filter' => request('filterTgl'),
                     'Notif' => $notif, 
                     'baNotif' => $notifUnRead,
@@ -59,7 +60,7 @@ class RekapPesananController extends Controller
             }
             if (request('filterTgl') == 'yester') {
                 return view('myDashboard.pages.karyawan.Rekap.RPesanan', [
-                    'pesanan' => $pesanans->WhereDate('waktu_pesan', (date('Y-m-') . (date('d')-1)))->paginate(15),
+                    'pesanan' => $pesanans->whereDate('waktu_pesan', date('Y-m-').(date('d')-1))->get(), //whereDate('waktu_pesan', (date('Y-m-') . (date('d')-1)))->get(),
                     'filter' => request('filterTgl'),
                     'Notif' => $notif, 
                     'baNotif' => $notifUnRead,
@@ -69,7 +70,7 @@ class RekapPesananController extends Controller
             }
             if (request('filterTgl') == 'all') {
                 return view('myDashboard.pages.karyawan.Rekap.RPesanan', [
-                    'pesanan' => $pesanans->paginate(15),
+                    'pesanan' => $pesanans->get(),
                     'filter' => request('filterTgl'),
                     'Notif' => $notif, 
                     'baNotif' => $notifUnRead,
@@ -80,7 +81,7 @@ class RekapPesananController extends Controller
         }
 
         return view('myDashboard.pages.karyawan.Rekap.RPesanan',[
-            'pesanan' => Pesanan::whereDate('waktu_pesan', date('Y-m-d'))->orderByDesc('waktu_pesan')->paginate(5),
+            'pesanan' => Pesanan::whereDate('waktu_pesan', date('Y-m-d'))->orderByDesc('waktu_pesan')->get(),
             'filter' => 'today',
             'Notif' => $notif, 
             'baNotif' => $notifUnRead,

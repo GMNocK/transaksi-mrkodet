@@ -32,13 +32,13 @@ class RDatPelangganController extends Controller
         $pelanggans = Pelanggan::orderByDesc('nama')->orderByDesc('created_at');
 
         if (request('filterTgl')) {
-            if (request('filterTgl') == 'today') {
+            if (request('filterTgl') == 'Hari ini') {
                 return redirect('/Rekap/RPelanggan');
             }
     
             if (request('filterTgl') == 'tmonth') {
                 return view('myDashboard.pages.karyawan.Rekap.RDataPelanggan', [
-                    'pelanggan' => $pelanggans->whereMonth('created_at' , date('m'))->whereYear('created_at', date('Y'))->paginate(15),
+                    'pelanggan' => $pelanggans->whereMonth('created_at' , date('m'))->whereYear('created_at', date('Y'))->get(),
                     'filter' => request('filterTgl'),
                     'Notif' => $notif,   
                     'baNotif' => $notifUnRead,
@@ -48,7 +48,7 @@ class RDatPelangganController extends Controller
             }
             if (request('filterTgl') == 'tyear') {
                 return view('myDashboard.pages.karyawan.Rekap.RDataPelanggan', [
-                    'pelanggan' => $pelanggans->whereYear('created_at', date('Y'))->paginate(15),
+                    'pelanggan' => $pelanggans->whereYear('created_at', date('Y'))->get(),
                     'filter' => request('filterTgl'),
                     'Notif' => $notif,   
                     'baNotif' => $notifUnRead,
@@ -58,7 +58,7 @@ class RDatPelangganController extends Controller
             }
             if (request('filterTgl') == 'yester') {
                 return view('myDashboard.pages.karyawan.Rekap.RDataPelanggan', [
-                    'pelanggan' => $pelanggans->WhereDate('created_at', (date('Y-m-') . (date('d')-1)))->paginate(15),
+                    'pelanggan' => $pelanggans->WhereDate('created_at', (date('Y-m-') . (date('d')-1)))->get(),
                     'filter' => request('filterTgl'),
                     'Notif' => $notif,   
                     'baNotif' => $notifUnRead,
@@ -68,20 +68,19 @@ class RDatPelangganController extends Controller
             }
             if (request('filterTgl') == 'all') {
                 return view('myDashboard.pages.karyawan.Rekap.RDataPelanggan', [
-                    'pelanggan' => $pelanggans->paginate(15),
+                    'pelanggan' => $pelanggans->get(),
                     'filter' => request('filterTgl'),
-                    'Notif' => $notif,   
+                    'Notif' => $notif,
                     'baNotif' => $notifUnRead,
                     'message' => $message,
                     'baMessage' => $messageUnRead,
                 ]);
             }
         }
-
         return view('myDashboard.pages.karyawan.Rekap.RDataPelanggan',[
-            'pelanggan' => $pelanggans->get(), //$pelanggans->whereDate('created_at', date('Y-m-d'))->paginate(15),
-            'filter' => 'today',
-            'Notif' => $notif,   
+            'pelanggan' => $pelanggans->whereDate('created_at', date('Y-m-d'))->get(),
+            'filter' => 'Hari ini',
+            'Notif' => $notif, 
             'baNotif' => $notifUnRead,
             'message' => $message,
             'baMessage' => $messageUnRead,

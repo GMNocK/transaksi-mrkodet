@@ -239,7 +239,7 @@
     @endif
 @endif
 
-@if ($pesanan->bukti == true && $trans_cek == 1)
+@if ($pesanan->bukti == true || $trans_cek == 1)
     @foreach ($pesanan->bukti_bayar_pesanan as $b)
         <div class="row justify-content-center">
             <div class="col-md-10 mt-5 mb-3 text-center">
