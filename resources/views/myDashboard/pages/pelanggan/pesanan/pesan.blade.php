@@ -38,7 +38,7 @@
                                 <td class="">{{ $p->waktu_pesan }}</td>
                                 <td class="">Rp.{{ $p->total_harga }}</td>
                                 <td class="text-center">
-                                    @if ($p->status == '1')
+                                    @if ($p->status == '3')
 
                                         <span class="badge bg-secondary">
                                             Belum dibaca
@@ -46,7 +46,7 @@
 
                                     @else
 
-                                        @if ($p->status == '2')
+                                        @if ($p->status == '4')
 
                                             <span class="badge bg-info">
                                                 Di Baca
@@ -54,7 +54,7 @@
 
                                         @endif
 
-                                        @if ($p->status == '3')
+                                        @if ($p->status == '5')
 
                                             <span class="badge bg-success">
                                                 Di Terima
@@ -62,15 +62,21 @@
                                             
                                         @endif
 
-                                        @if ($p->status == '4')
+                                        @if ($p->status == '6')
 
                                             <span class="badge bg-warning">
                                                 Pesanan Di Proses
                                             </span>
 
                                         @endif
+                                        @if ($p->status == '7')
 
-                                        @if ($p->status == '5')
+                                            <span class="badge bg-success bg-opacity-75">
+                                                Siap Di Ambil
+                                            </span>
+
+                                        @endif
+                                        @if ($p->status == '8')
 
                                             <span class="badge bg-primary bg-opacity-75">
                                                 Dikirim Ke tempat Tujuan
@@ -78,7 +84,15 @@
 
                                         @endif
 
-                                        @if ($p->status == '6')
+                                        @if ($p->status == '9')
+
+                                            <span class="badge bg-primary bg-opacity-75">
+                                                Sampai Di Tempat Tujuan
+                                            </span>
+
+                                        @endif
+
+                                        @if ($p->status == '2')
 
                                             <span class="badge bg-primary">
                                                 Selesai
@@ -86,7 +100,7 @@
 
                                         @endif
 
-                                        @if ($p->status == '0')
+                                        @if ($p->status == '1')
 
                                             <span class="badge bg-danger">
                                                 Batal
@@ -122,7 +136,7 @@
                                         <i class="align-middle" data-feather="eye"></i>
                                     </a>
 
-                                    @if ($p->status == '1' || $p->status == '2')
+                                    @if ($p->status == '3' || $p->status == '4')
                                         @if ($p->bukti == false)
                                             <a class="my-1 btnBatal" data-id="{{ $p->kode }}" data-toggle="tooltip" data-placement="top" title="Batalkan Pesanan">
                                                 <button class="btn btn-danger">
@@ -132,7 +146,7 @@
                                             </a>
                                         @endif
                                     @else
-                                        @if ($p->status == '0')
+                                        @if ($p->status == '1')
                                         
                                             <a class="my-1 btnDelete" data-id="{{ $p->kode }}"data-toggle="tooltip" data-placement="top" title="Hapus">
                                                 <button class="btn btn-danger">
@@ -302,6 +316,17 @@
         })
     </script>
 
+@endif
+
+@if (session('message'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '{{ session("message") }}',
+            showConfirmButton: false,
+            timer: 1700
+        })
+    </script>
 @endif
 
 @endsection

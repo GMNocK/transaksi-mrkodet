@@ -17,6 +17,8 @@ use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PesananController extends Controller
@@ -236,18 +238,20 @@ class PesananController extends Controller
             }
         }
 
-        $cek_trans = Transaksi::where('pesanan_id', $pesanan->id)->get()->count();
-        if ($cek_trans == 0) {
+        $cek_trans = Transaksi::where('pesanan_id', $pesanan->id)->get();
+        $transaksi = $cek_trans;
+        if ($cek_trans->count() == 0) {
             $transaksi_cek = 0;
-        } elseif ($cek_trans == 1) {
+        } elseif ($cek_trans->count() == 1) {
             $transaksi_cek = 1;
+            $transaksi = $cek_trans[0];
         } else {
             return redirect(route('pesananSaya.index'))->with('error', 'Maaf Terjadi kesalahan');
         }
         if (auth()->user()->level != 'pelanggan') {
 
-            if ($pesanan->status == '1') {
-                $status = ['status' => 2];
+            if ($pesanan->status == '3') {
+                $status = ['status' => 4];
                 $pesanan->update($status);
             }
 
@@ -259,6 +263,7 @@ class PesananController extends Controller
                 'baNotif' => $notifUnRead,
                 'message' => $message,
                 'baMessage' => $messageUnRead,
+                'transaksi' => $transaksi
             ]);
         }
 
@@ -272,43 +277,6 @@ class PesananController extends Controller
             'baMessage' => $messageUnRead,
         ]);
     }
-
-    // public function edit(Pesanan $pesanan)
-    // {
-    //     $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
-    //     $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
-    //     $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
-    //     $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
-
-    //     $notifUnRead = 0;
-    //     for ($i=0; $i < $banyakNotif->count(); $i++) {
-    //         if ($banyakNotif[$i]->notifRead == '[]') {
-    //             $notifUnRead += 1;
-    //         }
-    //     }
-    //     $messageUnRead = 0;
-    //     for ($i=0; $i < $banyakMessage->count(); $i++) { 
-    //         if ($banyakMessage[$i]->notifRead == '[]') {
-    //             $messageUnRead += 1;
-    //         }
-    //     }
-
-    //     return view('myDashboard.pages.pelanggan.pesanan.Pedit' ,[
-    //         'pesanan' => $pesanan,
-    //         'barangs' => Barang::all(),
-    //         'Notif' => $notif, 
-    //         'baNotif' => $notifUnRead,
-    //         'message' => $message,
-    //         'baMessage' => $messageUnRead,
-    //     ]);
-    // }
-
-    
-    public function update(UpdatePesananRequest $request, Pesanan $pesanan)
-    {
-        return $pesanan;
-    }
-
     
     public function destroy(Pesanan $pesanan)
     {
@@ -323,7 +291,6 @@ class PesananController extends Controller
             'pesananSaya' => Pesanan::whereDate('waktu_pesan', date('Y-m-d'))->get(),
         ]);
     }
-
     
     public function batal(Pesanan $pesanan)
     {
@@ -334,14 +301,13 @@ class PesananController extends Controller
         return redirect('/pesananSaya')->with('batal', 'Pesanan Berhasil Dibatalkan');
     }
 
-
     public function KaryawanAccept(Request $request, Pesanan $pesanan)
     {
         $bukti = ['bukti' => 2];
         if ($pesanan->tipePembayaran == 'COD') {
             $bukti = ['bukti' => 4];
         }
-        $update = array('status' => 3);
+        $update = array('status' => 5);
 
         $pesanan->update($update);
         $pesanan->update($bukti);
@@ -377,7 +343,7 @@ class PesananController extends Controller
 
     public function KarAcceptProgress(Pesanan $pesanan)
     {
-        $status = 4;
+        $status = 6;
 
         $update = array('status' => $status);
 
@@ -404,27 +370,30 @@ class PesananController extends Controller
 
     public function tandaiKirimOrSelesai(Request $request, Pesanan $pesanan)
     {
-        $status = 5;
-        
+        $status = 8;
+
         if ($request->finish) {
-            $status = 6;
+            $status = 2;
+        }
+        if ($pesanan->tipe_kirim != "COD" && $status == 2) {
+            $bukti = ['bukti' => 1];
+            $pesanan->update($bukti);
         }
         
         $update = array('status' => $status);
-        
         $pesanan->update($update);
         
         $pelangganID = $pesanan->pelanggan->user->id;
-        if ($status == 5) {
+        if ($status == 8) {
             $isi = 'Pesanan Sedang Dikirim';
             $detail = 'Pesanan Dalam Proses Pengiriman, Silahkan tunggu informasi lebih lanjutnya';
             $potongan = 'Pesanan Dalam Proses Pengiriman ...';
-        } else  if ($status == 6) {
+        } else  if ($status == 2) {
             $isi = 'Pesanan Selesai';
             $detail = 'Pesanan Anda Telah Selesai, Terima kasih karena sudah melakukan pembelian di toko kami.';
             $potongan = 'Pesanan Anda Telah Selesai, Ter ...';            
         } else {
-            $status = array('status' => 4);
+            $status = array('status' => 6);
             $pesanan->update($status);
             return redirect('/daftarPesanan')->with('error', 'Maaf Terjadi Kesalahan, silahkan ulang kembali..');
         }
@@ -442,19 +411,11 @@ class PesananController extends Controller
         
         $notif->save();
 
-        if ($status == 5) {            
+        if ($status == 8) {
             return redirect(route('pesananPelanggan.index'))->with('Dikirim', 'Pesanan Dalam Proses Pengiriman');
         } else {
-            return redirect('/pesanan/transaksi/'. $pesanan->id)->with('selesai', 'Pesanan Selesai');
+            return redirect('/pesananPelanggan')->with('selesai', 'Pesanan Selesai');
         }
-    }
-
-    public function buktiVerify(Pesanan $pesanan)
-    {
-        $bukti = ['bukti' => 1];
-        $pesanan->update($bukti);
-
-        return redirect('/pesananPelanggan')->with('verified', 'Pembayaran berhasil Di verifikasi');
     }
 
     public function transIntegration(Pesanan $pesanan)
@@ -559,5 +520,73 @@ class PesananController extends Controller
         $notifPelanggan->save();
 
         return redirect('/pesananSaya')->with('bukti', 'Bukti pembayaran terkirim');
+    }
+
+    public function bukti_delete(Pesanan $pesanan)
+    {
+        Storage::delete(request()->gambar);
+
+        $bukti = bukti_bayar_pesanan::where('bukti_bayar', request()->gambar)->get()[0];
+        DB::delete('delete from bukti_bayar_pesanans where bukti_bayar = ?', [request()->gambar]);
+
+        if ($pesanan->bukti_bayar_pesanan == '[]') {
+            $status = ['bukti' => 2];
+            $pesanan->update($status);
+        }
+
+        return redirect('pesananSaya')->with('message', 'Berhasil menghapus foto');
+    }
+
+    public function buktiVerify(Pesanan $pesanan)
+    {
+        $bukti = ['bukti' => 1];
+        $pesanan->update($bukti);
+
+        $pemilikPesanan = $pesanan->pelanggan->user->id;
+        $message = 'Pembayaran Sudah Ter Verifikasi, informasi lebih lanjut hubungi kontak kami. silahkan untuk melakukan pengecekan lebih lanjut..';
+        $potonganDetail = 'Pembayaran Sudah Ter Verifikasi ...';
+
+        $notifikasi = new Notification([
+            'title' => 'Pembayaran Sudah Ter Verifikasi',
+            'detail' => $message,
+            'potongan' => $potonganDetail,
+            'user_id' => $pemilikPesanan,
+            'kategori_notif_id' => 1,
+            'pesanan_id' => $pesanan->id,
+            'karyawan_id' => Karyawan::where('user_id', auth()->user()->id)->get()[0]->id,
+        ]);
+
+        $notifikasi->save();
+
+        return redirect('/pesananPelanggan')->with('verified', 'Pembayaran berhasil Di verifikasi');
+    }
+
+    public function sampai_mark(Pesanan $pesanan)
+    {
+        $status = ['status' => 9];
+
+        $pesanan->update($status);
+
+        $pelangganID = $pesanan->pelanggan->user->id;
+        $pelangganName = $pesanan->pelanggan->user->username;
+
+        $karyawan = User::where('level', 'karyawan')->get();
+        for ($i=0; $i <= ($karyawan->count() - 1) ; $i++) {
+            $notif = new Notification([
+                'title' => 'Pesanan Sampai',
+                'detail' => $pelangganName . 'Telah Konfirmasi Bahwa Pesanan Sudah Sampai',
+                'potongan' => $pelangganName . 'Telah Konfirmasi Bahwa Pes ...',
+                'user_id' => $karyawan[$i]->id,
+                'kategori_notif_id' => 1,
+                'pelanggan_id' => $pelangganID,
+            ]);
+
+            $notif->save();
+        }
+
+        if (auth()->user()->level != 'pelanggan') {
+            return redirect('pesananPelanggan')->with('message', 'Pesanan Berhasil Ditandai Sampai');
+        }
+        return redirect('/pesananSaya')->with('message', 'Pesanan Ditandai Sampai Di Tujuan');
     }
 }

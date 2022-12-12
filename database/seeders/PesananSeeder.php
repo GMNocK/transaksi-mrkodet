@@ -18,7 +18,7 @@ class PesananSeeder extends Seeder
             'total_harga' => 30000,
             'tipe_kirim' => 'kirim ke rumah',
             'tipePembayaran' => 'transfer',
-            'status' => 2,
+            'status' => 3,
             'kode' => Str::random(12),
         ]);
         Pesanan::create([
@@ -27,25 +27,7 @@ class PesananSeeder extends Seeder
             'total_harga' => 30000,
             'tipe_kirim' => 'kirim ke rumah',
             'tipePembayaran' => 'transfer',
-            'status' => 2,
-            'kode' => Str::random(12),
-        ]);
-        Pesanan::create([
-            'pelanggan_id' => 1,
-            'waktu_pesan' => now(),
-            'total_harga' => 30000,
-            'tipe_kirim' => 'kirim ke rumah',
-            'tipePembayaran' => 'COD',
-            'status' => 2,
-            'kode' => Str::random(12),
-        ]);
-        Pesanan::create([
-            'pelanggan_id' => 1,
-            'waktu_pesan' => now(),
-            'total_harga' => 30000,
-            'tipe_kirim' => 'Ambil Di Toko',
-            'tipePembayaran' => 'COD',
-            'status' => 2,
+            'status' => 3,
             'kode' => Str::random(12),
         ]);
         Pesanan::create([
@@ -55,7 +37,15 @@ class PesananSeeder extends Seeder
             'tipe_kirim' => 'kirim ke rumah',
             'tipePembayaran' => 'COD',
             'status' => 3,
-            'bukti' => 2,
+            'kode' => Str::random(12),
+        ]);
+        Pesanan::create([
+            'pelanggan_id' => 1,
+            'waktu_pesan' => now(),
+            'total_harga' => 30000,
+            'tipe_kirim' => 'Ambil Di Toko',
+            'tipePembayaran' => 'COD',
+            'status' => 3,
             'kode' => Str::random(12),
         ]);
         Pesanan::create([
@@ -64,7 +54,16 @@ class PesananSeeder extends Seeder
             'total_harga' => 30000,
             'tipe_kirim' => 'kirim ke rumah',
             'tipePembayaran' => 'COD',
-            'status' => 0,
+            'status' => 3,
+            'kode' => Str::random(12),
+        ]);
+        Pesanan::create([
+            'pelanggan_id' => 1,
+            'waktu_pesan' => now(),
+            'total_harga' => 30000,
+            'tipe_kirim' => 'kirim ke rumah',
+            'tipePembayaran' => 'COD',
+            'status' => 3,
             'kode' => Str::random(12),
         ]);
     }

@@ -34,63 +34,77 @@
                             <td class="">{{ $i->waktu_pesan }}</td>
                             <td class="">Rp.{{ $i->total_harga }}</td>
                             <td class="text-center">
-                                @if ($i->status == '1')
+                                @if ($i->status == '3')
 
-                                    <span class="badge bg-secondary fs-6">
-                                        Belum dibaca
-                                    </span>
+                                        <span class="badge bg-secondary">
+                                            Belum dibaca
+                                        </span>
 
-                                @else
+                                    @else
 
-                                    @if ($i->status == '2')
+                                        @if ($i->status == '4')
 
-                                        <span class="badge bg-info fs-6">
-                                            Di Baca
-                                        </span>     
+                                            <span class="badge bg-info">
+                                                Di Baca
+                                            </span>
+
+                                        @endif
+
+                                        @if ($i->status == '5')
+
+                                            <span class="badge bg-success">
+                                                Di Terima
+                                            </span>
+                                            
+                                        @endif
+
+                                        @if ($i->status == '6')
+
+                                            <span class="badge bg-warning">
+                                                Pesanan Di Proses
+                                            </span>
+
+                                        @endif
+                                        @if ($i->status == '7')
+
+                                            <span class="badge bg-success bg-opacity-75">
+                                                Siap Di Ambil
+                                            </span>
+
+                                        @endif
+                                        @if ($i->status == '8')
+
+                                            <span class="badge bg-primary bg-opacity-75">
+                                                Dikirim Ke tempat Tujuan
+                                            </span>
+
+                                        @endif
+
+                                        @if ($i->status == '9')
+
+                                            <span class="badge bg-primary bg-opacity-75">
+                                                Sampai Di Tempat Tujuan
+                                            </span>
+
+                                        @endif
+
+                                        @if ($i->status == '2')
+
+                                            <span class="badge bg-primary">
+                                                Selesai
+                                            </span>
+
+                                        @endif
+
+                                        @if ($i->status == '1')
+
+                                            <span class="badge bg-danger">
+                                                Batal
+                                            </span>
+
+                                        @endif
 
                                     @endif
-
-                                    @if ($i->status == '3')
-
-                                        <span class="badge bg-success fs-6">
-                                            Di Terima
-                                        </span>                                        
-                                        
-                                    @endif
-
-                                    @if ($i->status == '4')
-
-                                        <span class="badge bg-warning fs-6">
-                                            Pesanan Di Proses
-                                        </span>                                        
-                                        
-                                    @endif
-
-                                    @if ($i->status == '5')
-
-                                        <span class="badge bg-primary bg-opacity-75 fs-6">
-                                            Dikirim Ke tempat Tujuan
-                                        </span>                                        
-                                        
-                                    @endif
-                                    
-                                    @if ($i->status == '6')
-
-                                        <span class="badge bg-primary fs-6">
-                                            Selesai
-                                        </span>                                        
-                                        
-                                    @endif
-
-                                    @if ($i->status == '0')
-
-                                        <span class="badge bg-danger fs-6">
-                                            Batal
-                                        </span>                                        
-                                        
-                                    @endif
-                                    
-                                @endif
                             </td>
                             <td class="text-center">
                                 @if ($i->bukti == false || $i->bukti == 0)
@@ -123,7 +137,11 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $pesanan->links() }}
+            <div class="row mt-3">
+                <div class="col-12 d-flex justify-content-end">
+                    {{ $pesanan->links() }}
+                </div>
+            </div>
         </div>
     </div>
 </div>

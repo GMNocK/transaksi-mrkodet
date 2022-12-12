@@ -2,7 +2,12 @@
 
 @section('content')
 
-
+<div class="col-3 mb-4">
+    <a href="/pesananSaya" class="btn btn-primary fs-4 rounded-2">
+        <i class="fa fa-sign-out me-1" aria-hidden="true"></i>
+        Kembali
+    </a>
+</div>
 
 <div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
@@ -37,62 +42,76 @@
                         <td class="">{{ $pesanan->tipe_kirim }}</td>
                         <td class="">{{ $pesanan->tipePembayaran }}</td>
                         <td class="text-center">
-                            @if ($pesanan->status == '1')
+                            @if ($pesanan->status == '3')
 
-                                <span class="badge bg-secondary fs-6">
+                                <span class="badge bg-secondary">
                                     Belum dibaca
                                 </span>
 
                             @else
 
-                                @if ($pesanan->status == '2')
-
-                                    <span class="badge bg-info fs-6">
-                                        Di Baca
-                                    </span>     
-
-                                @endif
-
-                                @if ($pesanan->status == '3')
-
-                                    <span class="badge bg-success fs-6">
-                                        Di Terima
-                                    </span>                                        
-                                    
-                                @endif
-
                                 @if ($pesanan->status == '4')
 
-                                    <span class="badge bg-warning fs-6">
-                                        Pesanan Di Proses
-                                    </span>                                        
-                                    
+                                    <span class="badge bg-info">
+                                        Di Baca
+                                    </span>
+
                                 @endif
 
                                 @if ($pesanan->status == '5')
 
-                                    <span class="badge bg-warning fs-6">
-                                        Dikirim Ke tempat Tujuan
-                                    </span>                                        
+                                    <span class="badge bg-success">
+                                        Di Terima
+                                    </span>
                                     
                                 @endif
-                                
+
                                 @if ($pesanan->status == '6')
 
-                                    <span class="badge bg-primary fs-6">
+                                    <span class="badge bg-warning">
+                                        Pesanan Di Proses
+                                    </span>
+
+                                @endif
+                                @if ($pesanan->status == '7')
+
+                                    <span class="badge bg-warning">
+                                        Siap Di Ambil
+                                    </span>
+
+                                @endif
+                                @if ($pesanan->status == '8')
+
+                                    <span class="badge bg-primary bg-opacity-75">
+                                        Dikirim Ke tempat Tujuan
+                                    </span>
+
+                                @endif
+
+                                @if ($pesanan->status == '9')
+
+                                    <span class="badge bg-primary bg-opacity-75">
+                                        Sampai Di Tempat Tujuan
+                                    </span>
+
+                                @endif
+
+                                @if ($pesanan->status == '2')
+
+                                    <span class="badge bg-primary">
                                         Selesai
-                                    </span>                                        
-                                    
+                                    </span>
+
                                 @endif
 
-                                @if ($pesanan->status == '0')
+                                @if ($pesanan->status == '1')
 
-                                    <span class="badge bg-danger fs-6">
+                                    <span class="badge bg-danger">
                                         Batal
-                                    </span>                                        
-                                    
+                                    </span>
+
                                 @endif
-                                
+
                             @endif
                         </td>
                     </tr>
@@ -156,37 +175,63 @@
           <label for="KetTambah">Keterangan Tambahan</label>
           <textarea readonly class="form-control" name="ketTam" id="KetTambah" rows="5" placeholder="Tidak Ada">{{ $pesanan->keterangan }}</textarea>
         </div>
-        @if ($pesanan->tipePembayaran != 'COD' && $pesanan->bukti != 1)
-        <form action="/pesanan/bukti/upload/{{ $pesanan->kode }}" method="post" enctype="multipart/form-data">
-            @csrf
-            .<div class="form-group">
-                <label for="buktiBayar">Upload Bukti Pembayaran</label>
-                <img class="img-preview img-fluid">
-                <input type="file" class="form-control" name="buktiBayar" id="image" onchange="imgPreview()">
-            </div>
-            <button type="submit" class="btn btn-primary">Kirim Bukti Bayar</button>
-        </form>
+        {{-- Upload Bukti --}}
+        @if ($pesanan->tipePembayaran != 'COD' && ($pesanan->bukti == 2 || $pesanan->bukti == 3))
+            <form action="/pesanan/bukti/upload/{{ $pesanan->kode }}" method="post" enctype="multipart/form-data">
+                @csrf
+                .<div class="form-group">
+                    <label for="buktiBayar">Upload Bukti Pembayaran</label>
+                    <img class="img-preview img-fluid">
+                    <input type="file" class="form-control" name="buktiBayar" id="image" onchange="imgPreview()">
+                </div>
+                <button type="submit" class="btn btn-primary">Kirim Bukti Bayar</button>
+            </form>
         @endif
     </div>
 </div>
 
-@if ($pesanan->bukti != 0 && $pesanan->bukti != 4)
-        <div class="row justify-content-center">
-            <div class="col-md-10 mt-5 mb-3 text-center">
-                <p class="fs-2 text-dark fw-bold">Bukti Pembayaran</p>
+{{-- Sudah Sampai --}}
+@if ($pesanan->status == 8)
+    <div class="col-12">
+        <div class="card flex-fill">
+            <div class="card-header">
+                <a href="/pesanan/sampai/{{ $pesanan->kode }}" class="btn btn-primary btn-block">
+                    Tandai Pesanan Sudah Sampai
+                </a>
             </div>
-            @foreach ($pesanan->bukti_bayar_pesanan as $b)
-            <div class="col-md-10">
-                <div class="card flex-fill">
-                    <img class="card-img-top" src="{{ asset('storage/' . $b->bukti_bayar) }}" alt="">
-                    <div class="card-body mt-3">
-                        <h4 class="card-title text-dark">{{ $b->created_at }}</h4>
-                        <p class="card-text">{{ $b->bukti_bayar }}</p>
-                    </div>
+        </div>
+    </div>
+@endif
+
+{{-- Bukti --}}
+@if ($pesanan->bukti != 0 && $pesanan->bukti != 4 && ($pesanan->tipePembayaran != 'COD'))
+    <div class="row justify-content-center">
+        <div class="col-md-10 mt-5 mb-3 text-center">
+            <p class="fs-2 text-dark fw-bold">Bukti Pembayaran</p>
+            @if ($pesanan->bukti_bayar_pesanan == '[]')
+                <h4>Tidak Ada Foto Pembayaran</h4>
+            @endif
+        </div>
+        @foreach ($pesanan->bukti_bayar_pesanan as $b)
+        <div class="col-md-10">
+            <div class="card flex-fill">
+                <img class="card-img-top" src="{{ asset('storage/' . $b->bukti_bayar) }}" alt="">
+                <div class="card-body mt-3">
+                    <h4 class="card-title text-dark">{{ $b->created_at }}</h4>
+                    <p class="card-text">{{ $b->bukti_bayar }}</p>
+                    @if ($pesanan->bukti == 3)
+                        <a href="/pesanan/bukti/delete/{{ $pesanan->kode }}/?gambar={{ $b->bukti_bayar }}" data-toggle="tooltip" data-placement="top" title="Hapus">
+                            <button class="btn btn-danger">
+                                <i class="fas fa-trash-alt me-1"></i>
+                                Hapus Gambar
+                            </button>
+                        </a>
+                    @endif
                 </div>
             </div>
-            @endforeach
         </div>
+        @endforeach
+    </div>
 @endif
 
 <script>

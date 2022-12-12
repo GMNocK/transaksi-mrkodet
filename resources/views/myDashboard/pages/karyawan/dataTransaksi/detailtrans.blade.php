@@ -2,11 +2,16 @@
 
 @section('content')
 
+<div class="col-3 mb-4">
+    <a href="/transaksi" class="btn btn-primary fs-4 rounded-2">
+        <i class="fa fa-sign-out me-1" aria-hidden="true"></i>
+        Kembali
+    </a>
+</div>
 <div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
         <div class="card-header">
             <div class="col-md-4 mt-1">
-
                 @can('karyawan')
                     <a href="" class="text-center link-secondary fs-4">
                         <i class="fas fa-id-card-alt me-1"></i>
@@ -58,8 +63,8 @@
                         <td>{{ $hargaTotal }}</td>
                         <td>{{ $transaksi->pencatat }}</td>
                         <td class="text-center">
-                            <span class="badge {{ $transaksi->status == 'lunas' ? 'bg-success' : 'bg-danger' }} p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
-                                {{ $transaksi->status == 'lunas' ? 'Lunas' : 'Belum Lunas'}}
+                            <span class="badge {{ $transaksi->status == '1' ? 'bg-success' : 'bg-danger' }} p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
+                                {{ $transaksi->status == '1' ? 'Lunas' : 'Belum Lunas'}}
                             </span>
                         </td>
                         <td class="text-center">

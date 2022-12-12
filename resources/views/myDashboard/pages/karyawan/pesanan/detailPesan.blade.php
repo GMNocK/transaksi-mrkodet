@@ -100,13 +100,13 @@
         
         <div class="form-group">
             <label for="KetTambah">Keterangan Tambahan</label>
-            <textarea class="form-control" name="ketTam" id="KetTambah" readonly rows="5" placeholder="Tidak Ada Request">{{ $pesanan->keterangan }}</textarea>
+            <textarea class="form-control" name="ketTam" id="KetTambah" readonly rows="4" placeholder="Tidak Ada Request">{{ $pesanan->keterangan }}</textarea>
         </div>
 
     </div>
 </div>
 
-@if ($pesanan->status == '1' || $pesanan->status == '2' && (($pesanan->bukti == 1 && $pesanan->tipePembayaran == 'transfer') || $pesanan->tipePembayaran == 'COD'))
+@if ($pesanan->status == '4' || $pesanan->status == '4' && (($pesanan->bukti == 1 && $pesanan->tipePembayaran == 'transfer') || $pesanan->tipePembayaran == 'COD'))
     
     <form action="/pesanan/accept/{{ $pesanan->kode }}" method="post">
     @csrf
@@ -126,7 +126,8 @@
     </form>
 @endif
 
-@if ($pesanan->status == '3' && (($pesanan->tipePembayaran != 'COD' && $pesanan->bukti == 1) || $pesanan->tipePembayaran == 'COD'))    
+{{-- Barang Di kirim --}}
+@if ($pesanan->status == '5' && (($pesanan->tipePembayaran != 'COD' && $pesanan->bukti == 1) || $pesanan->tipePembayaran == 'COD'))    
     <div class="col-md-6 d-flex">
         <div class="card flex-fill p-3">
             <div class="row">
@@ -138,10 +139,11 @@
     </div>
 @endif
 
-@if ($pesanan->status == '4' || $pesanan->status == '5')
+{{-- Barang --}}
+@if ($pesanan->status == '6' || $pesanan->status == 7 || $pesanan->status == 9)
 <div class="row">
     <div class="d-flex">
-        @if ($pesanan->status == '4' && ($pesanan->tipe_kirim == 'Kirim Ke Rumah' || $pesanan->tipe_kirim == 'kirim ke rumah'))
+        @if ($pesanan->status == '6' && ($pesanan->tipe_kirim == 'Kirim Ke Rumah' || $pesanan->tipe_kirim == 'kirim ke rumah'))
             <form action="/pesanan/dikirim/{{ $pesanan->kode }}" class="col-6" method="post">
                 @csrf
                 <div class="col-md-12 d-flex">
@@ -158,7 +160,7 @@
                 </div>
             </form>
         @endif
-        @if ($pesanan->status == 5 || $pesanan->tipe_kirim == 'ambil di toko')
+        @if ($pesanan->status == 7 || ($pesanan->tipe_kirim == 'ambil di toko' || $pesanan->tipe_kirim == 'Ambil Di Toko') || $pesanan->status == 9)
             <form action="/pesanan/selesai/{{ $pesanan->kode }}" class="col-6" method="post">
             @csrf
                 <div class="col-md-12 d-flex">
@@ -180,7 +182,8 @@
 </div>
 @endif
 
-@if ($pesanan->status == 6)
+{{-- Migrasi Transaksi --}}
+@if ($pesanan->status == 2)
     @if ($trans_cek != 0)
         <div class="row justify-content-center mt-4">
             <div class="col-10">
@@ -191,12 +194,12 @@
                                 <h4 class="m-1 card-title text-center text-dark fs-3">Pesanan Selesai</h4>
                             </div>
                             <div class="col-3">
-                                <form action="/pesananPelanggan/{{ $pesanan->kode }}" method="post">
+                                <form action="/transaksi/{{ $transaksi->token }}" method="get">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $pesanan->id }}">
                                     <button class="btn btn-primary">
                                         <i class="fa fa-eye" aria-hidden="true"></i>
-                                        Lihat
+                                        Lihat Transaksi
                                     </button>
                                 </form>
                             </div>
@@ -228,7 +231,29 @@
     @endif
 @endif
 
-@if ($pesanan->bukti == 1 || $pesanan->bukti == 3 )
+@if ($pesanan->status == 8)
+<div class="row">
+    <div class="d-flex">
+        {{-- <form action="/pesanan/{{ $pesanan->kode }}/transaksi" class="col-6" method="post">
+        @csrf --}}
+            <div class="col-md-12 d-flex">
+                <div class="card flex-fill p-3">
+                    <div class="form-group mb-0">
+                        <label for="">Tandai Sudah Sampai Ditujuan</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="submit" id="btnTandaiSampai" data-kode="{{ $pesanan->kode }}" value="Tandai Sudah Sampai Ditujuan" class="btn btn-primary btn-lg my-3 w-100">           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{-- </form> --}}
+    </div>
+</div>
+@endif
+
+@if (($pesanan->bukti == 1 || $pesanan->bukti == 3) && $pesanan->tipePembayaran != 'COD')
     <div class="row justify-content-center">
         <div class="col-md-10 mt-5 mb-3 text-center">
             <p class="fs-2 text-dark fw-bold">Bukti Pembayaran</p>
@@ -247,7 +272,7 @@
             </div>
         </div>
     @endforeach
-    @if ($pesanan->bukti == 4)
+    @if ($pesanan->bukti == 3)
     <div class="row justify-content-center">
         <div class="col-10 p-0 mt-3">
             <div class="col-md-12">
@@ -291,6 +316,43 @@
                     swalWithBootstrapButtons.fire(
                     'Batal Di Proses',
                     'Status akan tetap Diterima',
+                    'info'
+                    )
+                }
+            })
+        });  
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        const btnTandaiSampai = document.querySelector('#btnTandaiSampai');
+
+        const kode = btnTandaiSampai.getAttribute('data-kode');
+
+        btnTandaiSampai.addEventListener('click', () => {
+        const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mx-2',
+                    cancelButton: 'btn btn-danger mx-2'
+                },
+                buttonsStyling: false
+            })
+    
+            swalWithBootstrapButtons.fire({
+            title: 'Tandai Sampai?',
+            text: 'Tandai Pesanan Sampai Di Tempat Tujuan?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Tandai!',
+            cancelButtonText: 'Tidak, Batalkan!',
+            reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "/pesanan/sampai/"+kode+""
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                    'Batal Di Tandai',
+                    'Status akan sebagai dikirim',
                     'info'
                     )
                 }

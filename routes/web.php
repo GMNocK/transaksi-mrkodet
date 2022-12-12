@@ -77,9 +77,10 @@ Route::middleware(['auth'])->group(function () {
         
         Route::resource('/pesananSaya', PesananController::class)->only('index');
         Route::resource('/pesanan', PesananController::class)->except('index');
-        Route::post('/pesanan/bukti/upload/{pesanan}', [PesananController::class, 'upload']);
         Route::get('/pesanan/batal/{pesanan}', [PesananController::class, 'batal']);
         Route::get('/pesanan/delete/{pesanan}', [PesananController::class, 'destroy']);
+        Route::post('/pesanan/bukti/upload/{pesanan}', [PesananController::class, 'upload']);
+        Route::get('/pesanan/bukti/delete/{pesanan}', [PesananController::class, 'bukti_delete']);
         
         Route::get('/pesananSaya/history', [PesananController::class, 'history']);
         
@@ -87,6 +88,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/Laporan', ReportController::class)->except('index');
         Route::get('/Laporan/History', [ReportController::class, 'history']);
     });
+    
+    Route::get('/pesanan/sampai/{pesanan}', [PesananController::class, 'sampai_mark']);
     
     Route::middleware(['IsOperator'])->group(function () {
         Route::resource('/transaksi', TransaksiController::class);

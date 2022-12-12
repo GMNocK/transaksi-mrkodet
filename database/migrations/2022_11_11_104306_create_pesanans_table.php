@@ -15,13 +15,12 @@ class CreatePesanansTable extends Migration
             $table->dateTime('waktu_pesan');
             $table->integer('total_harga');
             $table->string('tipe_kirim');
-            $table->string('tipePembayaran'); 
+            $table->string('tipePembayaran');
             // transfer, cod, tunai
-            $table->tinyInteger('status')->default(1);
-            // belum dibaca, dibaca, diterima, diproses, dikirim, selesai, batal
-            //      1,          2,      3,       4,         5,       6,     0,        
-            // sesuai urutan alias nomernya
+            $table->tinyInteger('status')->default(3);
+            // Penjelasan Status Terdapat Pada figma foto  
             $table->tinyInteger('bukti')->default(false);
+            // BUKTI GIMANA?
             $table->text('keterangan')->nullable();
             $table->uuid('kode')->unique();
             $table->timestamps();
