@@ -46,7 +46,7 @@ class PesananController extends Controller
             // $itu = Pesanan::where('pelanggan_id', 18)->get();
             // return $itu[0];
             return view('myDashboard.pages.karyawan.pesanan.daftarPesanan', [
-                'pesanan' => Pesanan::orderByDesc('bukti')->orderBy('waktu_pesan', 'desc')->orderBy('status', 'asc')->paginate(12),
+                'pesanan' => Pesanan::orderBy('status', 'desc')->orderBy('waktu_pesan', 'desc')->orderByDesc('bukti')->paginate(15),
                 'Notif' => $notif, 
                 'baNotif' => $notifUnRead,
                 'message' => $message,
@@ -56,7 +56,7 @@ class PesananController extends Controller
         $pelangganId = Pelanggan::where('user_id', auth()->user()->id)->get('id');
         // return $pelangganId[0]->id;
         return view('myDashboard.pages.pelanggan.pesanan.pesan', [
-            'pesananSaya' => Pesanan::where('pelanggan_id', $pelangganId[0]->id)->orderBy('waktu_pesan', 'desc')->get(),
+            'pesananSaya' => Pesanan::where('pelanggan_id', $pelangganId[0]->id)->orderByDesc('bukti')->orderBy('waktu_pesan', 'desc')->get(),
             'Notif' => $notif, 
             'baNotif' => $notifUnRead,
             'message' => $message,
@@ -273,35 +273,35 @@ class PesananController extends Controller
         ]);
     }
 
-    public function edit(Pesanan $pesanan)
-    {
-        $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
-        $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
-        $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
-        $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
+    // public function edit(Pesanan $pesanan)
+    // {
+    //     $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
+    //     $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
+    //     $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
+    //     $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
 
-        $notifUnRead = 0;
-        for ($i=0; $i < $banyakNotif->count(); $i++) {
-            if ($banyakNotif[$i]->notifRead == '[]') {
-                $notifUnRead += 1;
-            }
-        }
-        $messageUnRead = 0;
-        for ($i=0; $i < $banyakMessage->count(); $i++) { 
-            if ($banyakMessage[$i]->notifRead == '[]') {
-                $messageUnRead += 1;
-            }
-        }
+    //     $notifUnRead = 0;
+    //     for ($i=0; $i < $banyakNotif->count(); $i++) {
+    //         if ($banyakNotif[$i]->notifRead == '[]') {
+    //             $notifUnRead += 1;
+    //         }
+    //     }
+    //     $messageUnRead = 0;
+    //     for ($i=0; $i < $banyakMessage->count(); $i++) { 
+    //         if ($banyakMessage[$i]->notifRead == '[]') {
+    //             $messageUnRead += 1;
+    //         }
+    //     }
 
-        return view('myDashboard.pages.pelanggan.pesanan.Pedit' ,[
-            'pesanan' => $pesanan,
-            'barangs' => Barang::all(),
-            'Notif' => $notif, 
-            'baNotif' => $notifUnRead,
-            'message' => $message,
-            'baMessage' => $messageUnRead,
-        ]);
-    }
+    //     return view('myDashboard.pages.pelanggan.pesanan.Pedit' ,[
+    //         'pesanan' => $pesanan,
+    //         'barangs' => Barang::all(),
+    //         'Notif' => $notif, 
+    //         'baNotif' => $notifUnRead,
+    //         'message' => $message,
+    //         'baMessage' => $messageUnRead,
+    //     ]);
+    // }
 
     
     public function update(UpdatePesananRequest $request, Pesanan $pesanan)
@@ -337,19 +337,31 @@ class PesananController extends Controller
 
     public function KaryawanAccept(Request $request, Pesanan $pesanan)
     {
-        $status = 3;
-        
-        $update = array('status' => $status);
-        
+        $bukti = ['bukti' => 2];
+        if ($pesanan->tipePembayaran == 'COD') {
+            $bukti = ['bukti' => 4];
+        }
+        $update = array('status' => 3);
+
         $pesanan->update($update);
-        
+        $pesanan->update($bukti);
+
         // Mengirim Notifikasi
         $pemilikPesanan = $pesanan->pelanggan->user->id;
         $message = 'Pesanan Anda Diterima, Silahkan untuk melakukan pembayaran, pesanan akan di proses setelah pembayaran dilakukan. Informasi lebih lanjut hubungi kontak kami. Terima Kasih...';
-        $potonganDetail = 'Pesanan Anda Diterima, Silahkan untuk ...';
+        $potonganDetail = 'Pesanan Anda Diterima, Silahkan ...';
+
+        if ($pesanan->tipePembayaran == 'COD') {
+            $message = 'Pesanan Diterima, Pesanan Anda akan segera di proses, Tunggu Informasi Lebih lengkapnya';
+            $potonganDetail = 'Pesanan Diterima, Pesanan Anda ...';
+        }
+        if ($pesanan->tipe_kirim == 'Ambil Di Toko') {
+            $message = 'Pesanan Diterima, Tunggu Informasi Lebih Lanjut Untuk Mengambil Pesanan';
+            $potonganDetail = 'Pesanan Diterima, Tunggu Informasi ...';
+        }
 
         $notifikasi = new Notification([
-            'title' => 'Pesanan Anda Telah Diterima',
+            'title' => 'Pesanan Telah Diterima',
             'detail' => $message,
             'potongan' => $potonganDetail,
             'user_id' => $pemilikPesanan,
@@ -374,10 +386,10 @@ class PesananController extends Controller
         // NOTIFIKASI
         $pemilikPesanan = $pesanan->pelanggan->user->id;
         $message = 'Pesanan Anda Dalam Proses Pembuatan. Pemberitahuan lebih lanjut Akan dikirim melalui pesan / notifikasi. Terima Kasih...';
-        $potonganDetail = 'Pesanan Anda Dalam Proses Pembuatan. Pemberitahuan ...';
+        $potonganDetail = 'Pesanan Anda Dalam Proses Pembuatan ...';
 
         $notifikasi = new Notification([
-            'title' => 'Pesanan Anda Dalam Proses Pembuatan',
+            'title' => 'Pesanan Dalam Proses Pembuatan',
             'detail' => $message,
             'potongan' => $potonganDetail,
             'user_id' => $pemilikPesanan,
@@ -402,15 +414,15 @@ class PesananController extends Controller
         
         $pesanan->update($update);
         
-        $pelangganID = $pesanan->pelanggan->user->id;        
+        $pelangganID = $pesanan->pelanggan->user->id;
         if ($status == 5) {
             $isi = 'Pesanan Sedang Dikirim';
             $detail = 'Pesanan Dalam Proses Pengiriman, Silahkan tunggu informasi lebih lanjutnya';
-            $potongan = 'Pesanan Dalam Proses Pengiriman Silahkan ...';
+            $potongan = 'Pesanan Dalam Proses Pengiriman ...';
         } else  if ($status == 6) {
             $isi = 'Pesanan Selesai';
             $detail = 'Pesanan Anda Telah Selesai, Terima kasih karena sudah melakukan pembelian di toko kami.';
-            $potongan = 'Pesanan Anda Telah Selesai, Terima kasih ...';            
+            $potongan = 'Pesanan Anda Telah Selesai, Ter ...';            
         } else {
             $status = array('status' => 4);
             $pesanan->update($status);
@@ -428,11 +440,21 @@ class PesananController extends Controller
             'karyawan_id' => auth()->user()->id,
         ]);
         
+        $notif->save();
+
         if ($status == 5) {            
             return redirect(route('pesananPelanggan.index'))->with('Dikirim', 'Pesanan Dalam Proses Pengiriman');
         } else {
-            return redirect(route('pesananPelanggan.index'))->with('selesai', 'Pesanan Selesai');
+            return redirect('/pesanan/transaksi/'. $pesanan->id)->with('selesai', 'Pesanan Selesai');
         }
+    }
+
+    public function buktiVerify(Pesanan $pesanan)
+    {
+        $bukti = ['bukti' => 1];
+        $pesanan->update($bukti);
+
+        return redirect('/pesananPelanggan')->with('verified', 'Pembayaran berhasil Di verifikasi');
     }
 
     public function transIntegration(Pesanan $pesanan)
@@ -442,6 +464,8 @@ class PesananController extends Controller
         $detailPesanan = Detail_Pesanan::where('pesanan_id', $pesanan->id)->get();
         
         $karyawan = Karyawan::where('user_id' , auth()->user()->id)->get()[0]->nama;
+
+        
 
         $transaksi = new Transaksi([
             'pesanan_id' => $pesanan->id,
@@ -471,7 +495,22 @@ class PesananController extends Controller
             $detail_trans->save();
         }
 
-        return redirect(route('transaksi.index'))->with('integrasi', 'Integrasi Berhasil');
+        $isi = 'Migrasi Pesanan Ke Transaksi';
+        $detail = 'Migrasi Pesanan Ke Transaksi Berhasil. Silahkan Cek pada data transaksi terbaru';
+        $potongan = 'Migrasi Pesanan Ke Transaksi Berhasil ...';
+        $notif = new Notification([
+            'title' => $isi,
+            'detail' => $detail,
+            'potongan' => $potongan,
+            'user_id' => auth()->user()->id,
+            'kategori_notif_id' => 1,
+            'pesanan_id' => $pesanan->id,
+            'karyawan_id' => auth()->user()->id,
+        ]);
+
+        $notif->save();
+
+        return redirect(route('transaksi.index'))->with('integrasi', 'Pesanan Selesai, Integrasi Berhasil');
     }
 
     public function upload(Pesanan $pesanan ,Request $request)
@@ -483,7 +522,7 @@ class PesananController extends Controller
         ]);
         $validateData['buktiBayar'] = $request->file('buktiBayar')->store('bukti-bayar');
 
-        $bukti['bukti'] = true;
+        $bukti['bukti'] = 3;
 
         $pesanan->update($bukti);
 

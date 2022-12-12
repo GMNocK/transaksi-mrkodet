@@ -206,14 +206,15 @@
                 </div>
             </div>
         @endcan
-    </div>
-
-    @cannot('pelanggan')
+        
+        @cannot('pelanggan')
         <div class="row">
-            <div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
+            
+            
+            <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1">
                 <div class="card flex-fill w-100">
                     <div class="card-header">
-
+        
                         <h5 class="card-title mb-0">Tipe Pembayaran Pesanan</h5>
                     </div>
                     <div class="card-body d-flex">
@@ -223,7 +224,7 @@
                                     <canvas id="chartjs-dashboard-pie"></canvas>
                                 </div>
                             </div>
-
+        
                             <table class="table mb-0">
                                 <tbody>
                                     <tr>
@@ -234,33 +235,17 @@
                                         <td>{{ "Transfer" }}</td>
                                         <td class="text-end">{{ $pesananTransfer }}</td>
                                     </tr>
-                                    {{-- <tr>
-                                        <td>IE</td>
-                                        <td class="text-end">1689</td>
-                                    </tr> --}}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-12 col-md-12 col-xxl-6 d-flex order-3 order-xxl-2">
-                <div class="card flex-fill w-100">
-                    <div class="card-header">
-
-                        <h5 class="card-title mb-0">Pesanan Bulan lalu</h5>
-                    </div>
-                    <div class="card-body px-4">
-                        <canvas id="pesanan-line" style="height:350px;"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1">
+            
+            <div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
                 <div class="card flex-fill">
                     <div class="card-header">
-
+                        
                         <h5 class="card-title mb-0">Calendar</h5>
                     </div>
                     <div class="card-body d-flex">
@@ -272,17 +257,32 @@
                     </div>
                 </div>
             </div>
-        </div>
-    @endcannot
 
-    <div class="row">
-        <div class="col-12 col-lg-8 col-xxl-9 d-flex">
-            <div class="card flex-fill">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Pesanan Terakhir</h5>
+            <div class="col-12 col-md-12 col-xxl-6 d-flex order-3 order-xxl-2">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+                        
+                        <h5 class="card-title mb-0">Pesanan Bulan lalu</h5>
+                    </div>
+                    <div class="card-body px-4">
+                        <canvas id="pesanan-line" style="height:350px;"></canvas>
+                    </div>
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-hover my-0">
+            </div>
+            
+            
+            
+        </div>
+        @endcannot
+        
+        <div class="row">
+            <div class="col-12 col-lg-8 col-xxl-9 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Pesanan Terakhir</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover my-0">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -301,63 +301,63 @@
                                 <td class="text-center">
                                     @if ($i->status == '1')
                                     
-                                        <span class="badge bg-secondary fs-6">
+                                    <span class="badge bg-secondary fs-6">
                                             Belum dibaca
                                         </span>
-    
-                                    @else
+                                        
+                                        @else
     
                                         @if ($i->status == '2')
-    
-                                            <span class="badge bg-info fs-6">
-                                                Di Baca
-                                            </span>     
+                                        
+                                        <span class="badge bg-info fs-6">
+                                            Di Baca
+                                        </span>     
     
                                         @endif
-    
+                                        
                                         @if ($i->status == '3')
-    
-                                            <span class="badge bg-success fs-6">
-                                                Di Terima
+                                        
+                                        <span class="badge bg-success fs-6">
+                                            Di Terima
                                             </span>                                        
                                             
-                                        @endif
-    
-                                        @if ($i->status == '4')
-    
+                                            @endif
+                                            
+                                            @if ($i->status == '4')
+                                            
                                             <span class="badge bg-warning fs-6">
                                                 Pesanan Di Proses
                                             </span>                                        
                                             
-                                        @endif
-    
-                                        @if ($i->status == '5')
-    
+                                            @endif
+                                            
+                                            @if ($i->status == '5')
+                                            
                                             <span class="badge bg-primary bg-opacity-75 fs-6">
                                                 Dikirim Ke tempat Tujuan
                                             </span>                                        
                                             
-                                        @endif
-                                        
-                                        @if ($i->status == '6')
-    
+                                            @endif
+                                            
+                                            @if ($i->status == '6')
+                                            
                                             <span class="badge bg-primary fs-6">
                                                 Selesai
                                             </span>                                        
                                             
-                                        @endif
-    
-                                        @if ($i->status == '0')
-    
+                                            @endif
+                                            
+                                            @if ($i->status == '0')
+                                            
                                             <span class="badge bg-danger fs-6">
                                                 Batal
                                             </span>                                        
                                             
-                                        @endif
-                                        
-                                    @endif
-                                </td>
-                                <td class="">{{ $i->tipePembayaran }}</td>
+                                            @endif
+                                            
+                                            @endif
+                                        </td>
+                                        <td class="">{{ $i->tipePembayaran }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -369,7 +369,7 @@
         <div class="col-12 col-lg-4 col-xxl-3 d-flex">
             <div class="card flex-fill w-100">
                 <div class="card-header">
-
+                    
                     <h5 class="card-title mb-0">Monthly Sales</h5>
                 </div>
                 <div class="card-body d-flex w-100">
@@ -380,9 +380,9 @@
             </div>
         </div>
     </div>
-
     
-
+    
+    
     @cannot('pelanggan')
         <script>
             document.addEventListener("DOMContentLoaded", function() {
@@ -559,19 +559,20 @@
                                 }
                             }],
                             yAxes: [{
-                                ticks: {
-                                    stepSize: 1000
-                                },
-                                display: true,
-                                borderDash: [3, 3],
-                                gridLines: {
-                                    color: "rgba(0,0,0,0.0)"
-                                }
+                                // ticks: {
+                                //     stepSize: 1000
+                                // },
+                                // display: true,
+                                // borderDash: [3, 3],
+                                // gridLines: {
+                                //     color: "rgba(0,0,0,0.0)"
+                                // }
                             }]
                         }
                     }
                 });
             });
+
         </script>
 
         <script>

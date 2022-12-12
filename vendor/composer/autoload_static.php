@@ -704,6 +704,7 @@ class ComposerStaticInit4ce44e88ff0ed1d09cadf120cff20398
         'App\\Models\\FeedbackKaryawan' => __DIR__ . '/../..' . '/app/Models/FeedbackKaryawan.php',
         'App\\Models\\Notification' => __DIR__ . '/../..' . '/app/Models/Notification.php',
         'App\\Models\\Pesanan' => __DIR__ . '/../..' . '/app/Models/Pesanan.php',
+        'App\\Models\\StatPesanan' => __DIR__ . '/../..' . '/app/Models/StatPesanan.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\bukti_bayar_pesanan' => __DIR__ . '/../..' . '/app/Models/bukti_bayar_pesanan.php',
         'App\\Models\\kategori_notif' => __DIR__ . '/../..' . '/app/Models/kategori_notif.php',

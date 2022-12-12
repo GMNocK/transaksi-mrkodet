@@ -19,9 +19,9 @@ class CreatePesanansTable extends Migration
             // transfer, cod, tunai
             $table->tinyInteger('status')->default(1);
             // belum dibaca, dibaca, diterima, diproses, dikirim, selesai, batal
-            //      1,          2,      3,       4,         5,       6,     0   
+            //      1,          2,      3,       4,         5,       6,     0,        
             // sesuai urutan alias nomernya
-            $table->boolean('bukti')->default(false);
+            $table->tinyInteger('bukti')->default(false);
             $table->text('keterangan')->nullable();
             $table->uuid('kode')->unique();
             $table->timestamps();

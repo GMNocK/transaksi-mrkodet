@@ -23,6 +23,8 @@
                         <th scope="col">Nama</th>
                         <th scope="col" class="">Waktu pesan</th>
                         <th scope="col" class="">Total Harga</th>
+                        <th scope="col" class="">Pengiriman</th>
+                        <th scope="col" class="">Pembayaran</th>
                         <th scope="col" class="text-center">Status</th>
                     </tr>
                 </thead>
@@ -32,6 +34,8 @@
                         {{-- <td class="">{{ $waktuPesan[($loop->iteration - 1)]->waktu_pesan }}</td> --}}
                         <td class="">{{ $pesanan->waktu_pesan }}</td>
                         <td class="">Rp.{{ $pesanan->total_harga }}</td>
+                        <td class="">{{ $pesanan->tipe_kirim }}</td>
+                        <td class="">{{ $pesanan->tipePembayaran }}</td>
                         <td class="text-center">
                             @if ($pesanan->status == '1')
 
@@ -90,7 +94,7 @@
                                 @endif
                                 
                             @endif
-                        </td>                        
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -148,13 +152,11 @@
 
 <div class="col-md-12 d-flex">
     <div class="card flex-fill p-3">
-        
         <div class="form-group">
           <label for="KetTambah">Keterangan Tambahan</label>
           <textarea readonly class="form-control" name="ketTam" id="KetTambah" rows="5" placeholder="Tidak Ada">{{ $pesanan->keterangan }}</textarea>
         </div>
-
-        @if ($pesanan->status != 0)
+        @if ($pesanan->tipePembayaran != 'COD' && $pesanan->bukti != 1)
         <form action="/pesanan/bukti/upload/{{ $pesanan->kode }}" method="post" enctype="multipart/form-data">
             @csrf
             .<div class="form-group">
@@ -168,13 +170,12 @@
     </div>
 </div>
 
-@if ($pesanan->bukti == true)
+@if ($pesanan->bukti != 0 && $pesanan->bukti != 4)
         <div class="row justify-content-center">
             <div class="col-md-10 mt-5 mb-3 text-center">
                 <p class="fs-2 text-dark fw-bold">Bukti Pembayaran</p>
             </div>
             @foreach ($pesanan->bukti_bayar_pesanan as $b)
-
             <div class="col-md-10">
                 <div class="card flex-fill">
                     <img class="card-img-top" src="{{ asset('storage/' . $b->bukti_bayar) }}" alt="">

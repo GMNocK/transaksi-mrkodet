@@ -79,7 +79,7 @@
                     <div class="col-md-12 d-flex align-items-center justify-content-center ">
                         <label for="" class="fs-6 col-5 ">Pengambilan Barang</label>
                         <select name="tipePengiriman" id="pengiriman" class="form-control">
-                            <option value="Kirim Ke Rumah">Kirim ke Rumah</option>
+                            <option value="kirim ke rumah">Kirim ke Rumah</option>
                             <option value="Ambil Di Toko">Ambil Di Toko</option>
                         </select>
                     </div>

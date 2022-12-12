@@ -25,9 +25,9 @@
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col" class="">Waktu Pesan</th>
-                                <th scope="col" class="">End Date</th>
+                                <th scope="col" class="">Total Harga</th>
                                 <th scope="col" class="text-center">Status Pesanan</th>
-                                <th scope="col" class="text-center">Status</th>
+                                <th scope="col" class="text-center">Status Bayar</th>
                                 <th scope="col" class="text-center"></th>
                             </tr>
                         </thead>
@@ -72,7 +72,7 @@
 
                                         @if ($p->status == '5')
 
-                                            <span class="badge bg-warning">
+                                            <span class="badge bg-primary bg-opacity-75">
                                                 Dikirim Ke tempat Tujuan
                                             </span>
 
@@ -97,10 +97,24 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    @if ($p->bukti == false)
+                                    @if ($p->bukti == false || $p->bukti == 0)
                                         <span class="badge bg-danger">Belum Bayar</span>
                                     @else
-                                        <span class="badge bg-success">Sudah Bayar</span>
+                                        @if ($p->bukti == 3)
+                                            <span class="badge bg-primary">Menunggu Verifikasi</span>
+                                        @endif
+
+                                        @if ($p->bukti == 2)                                            
+                                            <span class="badge bg-warning">Menunggu Pembayaran</span>
+                                        @endif
+                                            
+                                        @if ($p->bukti == 1)
+                                            <span class="badge bg-success">Sudah Bayar</span>                                            
+                                        @endif
+
+                                        @if ($p->bukti == 4)
+                                            <span class="badge bg-info">COD</span>                                                                                    
+                                        @endif
                                     @endif
                                 </td>
                                 <td class="text-center">

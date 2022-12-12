@@ -93,11 +93,25 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                    @if ($i->bukti == false)
-                                        <span class="badge bg-danger">Belum Bayar</span>
-                                    @else
-                                        <span class="badge bg-success">Sudah Bayar</span>
+                                @if ($i->bukti == false || $i->bukti == 0)
+                                    <span class="badge bg-danger">Belum Bayar</span>
+                                @else
+                                    @if ($i->bukti == 3)
+                                        <span class="badge bg-primary">Menunggu Verifikasi</span>
                                     @endif
+
+                                    @if ($i->bukti == 2)
+                                        <span class="badge bg-warning">Menunggu Pembayaran</span>
+                                    @endif
+
+                                    @if ($i->bukti == 1)
+                                        <span class="badge bg-success">Sudah Bayar</span>                                            
+                                    @endif
+
+                                    @if ($i->bukti == 4)
+                                        <span class="badge bg-info">COD</span>                                                                                    
+                                    @endif
+                                @endif
                                 </td>
                             <td style="text-align: center">
                                 <a href="pesananPelanggan/{{ $i->kode }}" class="btn btn-primary my-1" data-toggle="tooltip" data-placement="top" title="Lihat">                                

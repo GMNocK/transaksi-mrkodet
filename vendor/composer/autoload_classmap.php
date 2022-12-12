@@ -65,6 +65,7 @@ return array(
     'App\\Models\\FeedbackKaryawan' => $baseDir . '/app/Models/FeedbackKaryawan.php',
     'App\\Models\\Notification' => $baseDir . '/app/Models/Notification.php',
     'App\\Models\\Pesanan' => $baseDir . '/app/Models/Pesanan.php',
+    'App\\Models\\StatPesanan' => $baseDir . '/app/Models/StatPesanan.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Models\\bukti_bayar_pesanan' => $baseDir . '/app/Models/bukti_bayar_pesanan.php',
     'App\\Models\\kategori_notif' => $baseDir . '/app/Models/kategori_notif.php',

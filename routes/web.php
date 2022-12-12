@@ -96,9 +96,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pesananPelanggan/{pesanan}', [PesananController::class, 'show'])->name('showPpelanggan');
         Route::post('/pesanan/accept/{pesanan}', [PesananController::class, 'KaryawanAccept']);
         Route::get('/pesanan/progress/{pesanan}', [PesananController::class, 'KarAcceptProgress']);
+        Route::get('/pesanan/bukti/verify/{pesanan}', [PesananController::class, 'buktiVerify']);
         Route::post('/pesanan/dikirim/{pesanan}', [PesananController::class, 'tandaiKirimOrSelesai']);
         Route::post('/pesanan/selesai/{pesanan}', [PesananController::class, 'tandaiKirimOrSelesai']);
         Route::post('/pesanan/{pesanan}/transaksi', [PesananController::class, 'transIntegration']);
+        Route::get('/pesanan/transaksi/{pesanan}', [PesananController::class, 'transIntegration']);
         Route::resource('/pesananPelanggan', PesananController::class)->only(['index']);
         
         Route::resource('/produk', ProdukController::class);

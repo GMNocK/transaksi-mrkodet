@@ -8,7 +8,6 @@
         Kembali
     </a>
 </div>
-
 <div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
         <div class="card-header justify-content-end d-flex">
@@ -19,7 +18,6 @@
                 </a>
             </div>
         </div>
-
         <div class="table-responsive col-12 mb-5">
             <table class="table table-hover my-0">
                 <thead class="bg-secondary text-white shadow-sm">
@@ -49,8 +47,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
     <div class="card flex-fill">
         <div class="card-header justify-content-start d-flex">
@@ -67,7 +63,6 @@
                 </a>
             </div>
         </div>
-
         <div class="table-responsive col-12 mb-5">
             <table class="table table-hover my-0">
                 <thead class="bg-secondary text-white shadow-sm">
@@ -100,7 +95,6 @@
         </div>
     </div>
 </div>
-
 <div class="col-md-12 d-flex">
     <div class="card flex-fill p-3">
         
@@ -112,81 +106,76 @@
     </div>
 </div>
 
-@if ($pesanan->status == '1' || $pesanan->status == '2' || $pesanan->status == '3')
+@if ($pesanan->status == '1' || $pesanan->status == '2' && (($pesanan->bukti == 1 && $pesanan->tipePembayaran == 'transfer') || $pesanan->tipePembayaran == 'COD'))
     
-    @if ($pesanan->status == '3')
-        <form action="/pesanan/progress/{{ $pesanan->kode }}" method="post">
-    @else
-        <form action="/pesanan/accept/{{ $pesanan->kode }}" method="post">
-    @endif
-        @csrf
+    <form action="/pesanan/accept/{{ $pesanan->kode }}" method="post">
+    @csrf
         <div class="col-md-6 d-flex">
             <div class="card flex-fill p-3">
                 <div class="form-group mb-0">
-                    @if ($pesanan->status != '3')
-                        <label for="Balasan">Berikan Balasan</label>
-                        <textarea class="form-control" name="Reply" id="Balasan" rows="6" placeholder="Tambahkan Balasan Disini"></textarea>
-                    @endif
+                    <label for="Balasan">Berikan Balasan</label>
+                    <textarea class="form-control" name="Reply" id="Balasan" rows="6" placeholder="Tambahkan Balasan Disini"></textarea>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        @if ($pesanan->status == '3')
-                            @if ($pesanan->bukti == false)                            
-                                {{-- <input type="button" id="proses" data-kode="{{ $pesanan->kode }}" value="Proses Pesanan" class="btn btn-danger btn-lg my-3 w-100"> --}}
-                            @else
-                                <input type="submit" id="proses" data-kode="{{ $pesanan->kode }}" value="Proses Pesanan" class="btn btn-primary btn-lg my-3 w-100">
-                            @endif
-                        @else
-                            <input type="submit" id="Terima" data-="{{ $pesanan->kode }}" value="Terima Pesanan" class="btn btn-primary btn-lg my-3 w-100">
-                        @endif
+                        <input type="submit" id="Terima" data-="{{ $pesanan->kode }}" value="Terima Pesanan" class="btn btn-primary btn-lg my-3 w-100">
                     </div>
                 </div>
             </div>
         </div>
     </form>
+@endif
 
+@if ($pesanan->status == '3' && (($pesanan->tipePembayaran != 'COD' && $pesanan->bukti == 1) || $pesanan->tipePembayaran == 'COD'))    
+    <div class="col-md-6 d-flex">
+        <div class="card flex-fill p-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="submit" id="proses" data-kode="{{ $pesanan->kode }}" value="Proses Pesanan" class="btn btn-primary btn-lg my-3 w-100">
+                </div>
+            </div>
+        </div>
+    </div>
 @endif
 
 @if ($pesanan->status == '4' || $pesanan->status == '5')
 <div class="row">
     <div class="d-flex">
-        @if ($pesanan->status == '4')
-            @if ($pesanan->bukti == true)
+        @if ($pesanan->status == '4' && ($pesanan->tipe_kirim == 'Kirim Ke Rumah' || $pesanan->tipe_kirim == 'kirim ke rumah'))
             <form action="/pesanan/dikirim/{{ $pesanan->kode }}" class="col-6" method="post">
                 @csrf
                 <div class="col-md-12 d-flex">
                     <div class="card flex-fill p-3">
                         <div class="form-group mb-0">
-                            <label for="">Tandai Jika Barang Dalam Proses Pengiriman</label>
+                            <label for="">Tandai Barang Dalam Proses Pengiriman / Pemaketan</label>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <input type="submit" id="Kirim" data-="{{ $pesanan->kode }}" value="Tandai Sebagai Dikirim" class="btn btn-info btn-lg my-3 w-100">           
+                                <input type="submit" id="Kirim" data-="{{ $pesanan->kode }}" value="Tandai Sebagai Dikirim" class="btn btn-info my-3 w-100">           
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
-            @else
-                
-            @endif
         @endif
-        <form action="/pesanan/selesai/{{ $pesanan->kode }}" class="col-6" method="post">
-        @csrf
-            <div class="col-md-12 d-flex">
-                <div class="card flex-fill p-3">
-                    <div class="form-group mb-0">
-                        <label for="">Tandai Jika Pesanan Sudah Selesai</label>
-                        <input type="hidden" name="finish" value="6">
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <input type="submit" data-="{{ $pesanan->kode }}" value="Tandai Sebagai Selesai" class="btn btn-primary btn-lg my-3 w-100">           
+        @if ($pesanan->status == 5 || $pesanan->tipe_kirim == 'ambil di toko')
+            <form action="/pesanan/selesai/{{ $pesanan->kode }}" class="col-6" method="post">
+            @csrf
+                <div class="col-md-12 d-flex">
+                    <div class="card flex-fill p-3">
+                        <div class="form-group mb-0">
+                            <label for="">Tandai Pesanan Sudah Selesai</label>
+                            <input type="hidden" name="finish" value="6">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="submit" data-="{{ $pesanan->kode }}" value="Tandai Sebagai Selesai" class="btn btn-primary my-3 w-100">           
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        @endif
     </div>
 </div>
 @endif
@@ -239,13 +228,14 @@
     @endif
 @endif
 
-@if ($pesanan->bukti == true || $trans_cek == 1)
+@if ($pesanan->bukti == 1 || $pesanan->bukti == 3 )
+    <div class="row justify-content-center">
+        <div class="col-md-10 mt-5 mb-3 text-center">
+            <p class="fs-2 text-dark fw-bold">Bukti Pembayaran</p>
+        </div>
+    </div>
     @foreach ($pesanan->bukti_bayar_pesanan as $b)
         <div class="row justify-content-center">
-            <div class="col-md-10 mt-5 mb-3 text-center">
-                <p class="fs-2 text-dark fw-bold">Bukti Pembayaran</p>
-            </div>
-        
             <div class="col-md-10">
                 <div class="card flex-fill">
                     <img class="card-img-top" src="{{ asset('storage/' . $b->bukti_bayar) }}" alt="">
@@ -257,6 +247,15 @@
             </div>
         </div>
     @endforeach
+    @if ($pesanan->bukti == 4)
+    <div class="row justify-content-center">
+        <div class="col-10 p-0 mt-3">
+            <div class="col-md-12">
+                <a href="/pesanan/bukti/verify/{{ $pesanan->kode }}" class="btn btn-primary btn-block">Verivikasi Pembayaran</a>
+            </div>
+        </div>
+    </div>
+    @endif
 @endif
 
 {{-- POP UP MENU --}}
