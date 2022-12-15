@@ -13,7 +13,7 @@ const totalBayar = document.querySelector('#totalHarga');
 const modalEditForm = document.querySelector('#editBarangDariKeranjang .modal-body form');
 
 const panjangDetail = document.getElementsByName('panjang')[0];
-
+const statusInput = document.querySelector('#status');
 let panjang = parseInt(panjangDetail.value) ;
 let totalForInput = 0;
 let editedRow = 0;
@@ -411,6 +411,27 @@ function addValueInp(InpNamBar, InpHarSatuan, InpUkuranBar, InpJmlBar, InpSubTot
 }
 
 
+statusInput.addEventListener('change', () => {
+    const tipeBayar = document.querySelector('#tipe_bayar');
+    if (statusInput.value == 'cashbond') { 
+        const newOption = document.createElement('option');
+        newOption.setAttribute('value', 'Tidak Ada');
+        newOption.innerHTML = 'Tidak Tersedia';
+        tipeBayar.innerHTML = '';
+        tipeBayar.appendChild(newOption);
+    } else {
+        tipeBayar.innerHTML = '';
+        const newOption = document.createElement('option');
+        newOption.setAttribute('value', 'transfer');
+        newOption.innerHTML = 'transfer';
+        tipeBayar.appendChild(newOption);
+
+        const newOption2 = document.createElement('option');
+        newOption2.setAttribute('value', 'COD');
+        newOption2.innerHTML = 'COD / Bayar Ditempat';
+        tipeBayar.appendChild(newOption2);
+    }
+});
 
 
 

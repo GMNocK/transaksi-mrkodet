@@ -75,8 +75,10 @@ class ProdukController extends Controller
             'namBar' => 'required',
             'harBar' => 'required|min:4',
             'keterangan' => 'required',
-            'foto' => 'required|min:4',
+            'foto' => 'required|file|image',
         ]);
+        $validateData['foto'] = $request->file('foto')->store('foto-produk');
+        ddd($request);
         $barang = new Barang([
             'nama_barang' => $validateData['namBar'],
             'harga' => $validateData['harBar'],

@@ -105,15 +105,11 @@ class TransaksiController extends Controller
             'tipe_bayar' => 'required',
             'PanjangtblKeranjang' => 'required',
         ]);
-        // return $request;
         $tanggal = now()->format('Y-m-d H-i-s');
-        
         $token = password_hash($tanggal, PASSWORD_DEFAULT);
-        
         $token = Str::limit($token, 16, '');        
         $token = Str::after($token, '$2y$10$');
-        $token = Str::before($token, '/');        
-        
+        $token = Str::before($token, '/');
         
         // MASUK KE DB TRANSAKSI
         $transaksi = new Transaksi([
@@ -125,11 +121,9 @@ class TransaksiController extends Controller
             'pencatat' => auth()->user()->username,     // Diambil Dari yang sedang login
             'token' => $token,
         ]);
-
         $transaksi->save();
         
         for ($i=1; $i <= $panjang; $i++) { 
-
             $nambar = 'BR'.$i;
             $har = 'harga'.$i;
             $ukuran = 'ukuran'.$i;
@@ -138,17 +132,11 @@ class TransaksiController extends Controller
 
             // MASUK KE DETAIL TRANSAKSI
             $transaksiId = Transaksi::orderByDesc('id')->limit(1)->get('id');
-
-            // echo $request->$subtotal . $har . $ukuran . $jumlah . $subtotal
-            
             if ($request->$nambar != '') {
-
                 $barangId = Barang::where('nama_barang', $request->$nambar)->get('id');
                 $hargaSatuan = Str::after($request->$har, 'Rp.');
                 $ukurandb = Str::after($request->$ukuran, 'Rp.');
                 $subtotaldb = Str::after($request->$subtotal, 'Rp.');
-
-
                 $detailTransaksi = new Detail_transaksi([
                     'transaksi_id' => $transaksiId[0]->id,
                     'barang_id' => $barangId[0]->id,
@@ -157,15 +145,11 @@ class TransaksiController extends Controller
                     'jumlah' => $request->$jumlah,
                     'subtotal' => $subtotaldb,
                 ]);
-
                 $detailTransaksi->save();
-
             }                    
         }
-
         return redirect('/transaksi');
     }
-
     
     public function show(Transaksi $transaksi)
     {
@@ -190,10 +174,7 @@ class TransaksiController extends Controller
 
         $pesanan = Pesanan::where('id', $transaksi->pesanan_id)->get();
         // return $pesanan;
-        $totalharga = DB::select("select concat('Rp.',format(total_harga,0)) as hargaTotal FROM `transaksis` where id = ?", [$transaksi->id]);        
-
-        $detail = DB::select("select concat('Rp.',format(subtotal,0)) as apa from detail_transaksis where transaksi_id = ?", [$transaksi->id]);
-        // return $detail;
+        $totalharga = DB::select("select concat('Rp.',format(total_harga,0)) as hargaTotal FROM `transaksis` where id = ?", [$transaksi->id]);
         return view('myDashboard.pages.karyawan.dataTransaksi.detailtrans', [
             'transaksi' => $transaksi,
             'pesanan' => $pesanan,

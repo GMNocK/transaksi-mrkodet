@@ -35,8 +35,8 @@
                             @foreach ($pesananSaya as $p)                            
                             <tr>
                                 <td>{{ $p->pelanggan->nama }}</td>
-                                <td class="">{{ $p->waktu_pesan }}</td>
-                                <td class="">Rp.{{ $p->total_harga }}</td>
+                                <td class="">{{ $p->created_at->format('Y-M-d') }}</td>
+                                <td class="">Rp.{{ number_format($p->total_harga) }}</td>
                                 <td class="text-center">
                                     @if ($p->status == '3')
 

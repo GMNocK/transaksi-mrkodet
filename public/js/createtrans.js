@@ -1,29 +1,19 @@
-
-
 const select = document.querySelector('#BarangSelect');
 const menu = document.querySelectorAll('select option');
 const btnTokeranjang = document.querySelector('#AdToKeranjang');
-
 const RowAddQty = document.querySelector('#addBarangModal');
-
 let nomerBarang = 1;
-
 // Tabel Keranjang
 const tblkeranjang = document.querySelector('#Keranjang');
 const tBodyKeranjang = tblkeranjang.querySelector('tbody');
-
 // Masuk Ke DATABASE TRANSAKSI
 const totalBayar = document.getElementsByName('TotalBayar')[0];
 const PanjangDetail = document.querySelector('#banyakBarang');
-
 const statusInput = document.querySelector('#status');
-
 let spanIcon;
-
 let banyakBarangDikeranjang = [];
 
 totalBayar.value = "Rp.0";
-
 
 function inputAtributSet(inpnb , inphb, inpub, inpqty, inpst, itemnb, itemqty, itemub, itemst) {
     inpnb.setAttribute('readonly', '');
@@ -166,7 +156,7 @@ function addToKeranjang() {
         tdNamaBarang.setAttribute('name', 'nambar');
     
         // TD NO LIST
-        tdNo.innerHTML = '1';
+        tdNo.innerHTML = nomerBarang - 1;
     
         // tdNo.appendChild(NamBarInput);
         tdNamaBarang.appendChild(NamBarInput);
@@ -335,11 +325,22 @@ btnAddToKeranjangModal.addEventListener('click', () => {
 
 statusInput.addEventListener('change', () => {
     const tipeBayar = document.querySelector('#tipe_bayar');
-
     if (statusInput.value == '0') { 
-        tipeBayar.setAttribute('readonly', '');
-        tipeBayar.setAttribute('value', '');
+        const newOption = document.createElement('option');
+        newOption.setAttribute('value', 'Tidak Ada');
+        newOption.innerHTML = 'Tidak Tersedia';
+        tipeBayar.innerHTML = '';
+        tipeBayar.appendChild(newOption);
     } else {
-        tipeBayar.removeAttribute('readonly');
+        tipeBayar.innerHTML = '';
+        const newOption = document.createElement('option');
+        newOption.setAttribute('value', 'transfer');
+        newOption.innerHTML = 'transfer';
+        tipeBayar.appendChild(newOption);
+
+        const newOption2 = document.createElement('option');
+        newOption2.setAttribute('value', 'COD');
+        newOption2.innerHTML = 'COD / Bayar Ditempat';
+        tipeBayar.appendChild(newOption2);
     }
 });

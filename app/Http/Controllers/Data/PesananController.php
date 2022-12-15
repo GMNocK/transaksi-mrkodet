@@ -13,6 +13,7 @@ use App\Models\Detail_transaksi;
 use App\Models\Karyawan;
 use App\Models\Notification;
 use App\Models\Pelanggan;
+use App\Models\pengirim;
 use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -58,7 +59,7 @@ class PesananController extends Controller
         $pelangganId = Pelanggan::where('user_id', auth()->user()->id)->get('id');
         // return $pelangganId[0]->id;
         return view('myDashboard.pages.pelanggan.pesanan.pesan', [
-            'pesananSaya' => Pesanan::where('pelanggan_id', $pelangganId[0]->id)->orderByDesc('bukti')->orderBy('waktu_pesan', 'desc')->get(),
+            'pesananSaya' => Pesanan::where('pelanggan_id', $pelangganId[0]->id)->orderByDesc('status')->orderBy('waktu_pesan', 'desc')->orderByDesc('bukti')->get(),
             'Notif' => $notif, 
             'baNotif' => $notifUnRead,
             'message' => $message,
@@ -131,11 +132,14 @@ class PesananController extends Controller
         $ini = $request->PanjangtblKeranjang;
         $panjang = Str::afterLast($ini, ',');
         
+        // use STR Random To create a Random Kode
+        $kode = Str::random(18);
+
         // use password_hash To create a Random Kode
-        $kode = Hash::make(Str::random(10));
-        $kode = Str::limit($kode, 18, '');
-        $kode = Str::after($kode, '$2y$10$');
-        $kode = Str::before($kode, '/'); 
+        // $kode = Hash::make(Str::random(18));
+        // $kode = Str::limit($kode, 18, '');
+        // $kode = Str::after($kode, '$2y$10$');
+        // $kode = Str::before($kode, '/'); 
         
         // MASUK KE DB TRANSAKSI
         $pesanan = new Pesanan([
@@ -294,7 +298,7 @@ class PesananController extends Controller
     
     public function batal(Pesanan $pesanan)
     {
-        $status = array('status' => 0);
+        $status = array('status' => 1);
 
         $pesanan->update($status);
 
@@ -333,10 +337,26 @@ class PesananController extends Controller
             'user_id' => $pemilikPesanan,
             'kategori_notif_id' => 1,
             'pesanan_id' => $pesanan->id,
-            'karyawan_id' => Karyawan::where('user_id', auth()->user()->id)->get()[0]->id,
         ]);
 
         $notifikasi->save();
+        if (request()->reply) {
+            $message = new Notification([
+                'title' => 'Pesan Baru',
+                'detail' => request()->reply,
+                'potongan' => Str::limit(request()->reply, 35, ' ...'),
+                'user_id' => $pemilikPesanan,
+                'kategori_notif_id' => 3,
+                'pesanan_id' => $pesanan->id,
+            ]);
+            $message->save();
+            $messageId = Notification::where('kategori_notif_id', '3')->orderByDesc('id')->limit(1)->get()[0]->id;
+            $pengirim = new pengirim([
+                'notification_id' => $messageId,
+                'user_id' => auth()->user()->id,
+            ]);
+            $pengirim->save();
+        }
 
         return redirect(route('pesananPelanggan.index'))->with('berhasil', 'Pesanan telah diterima');
     }
@@ -476,6 +496,7 @@ class PesananController extends Controller
 
     public function upload(Pesanan $pesanan ,Request $request)
     {
+        ddd($request);
         $pelangganID = $pesanan->pelanggan->user->id;
         $pelangganName = $pesanan->pelanggan->user->username;
         $validateData = $request->validate([
@@ -499,8 +520,8 @@ class PesananController extends Controller
         for ($i=0; $i <= ($karyawan->count() - 1) ; $i++) {
             $notif = new Notification([
                 'title' => 'Bukti Pembayaran',
-                'detail' => $pelangganName . 'Telah Melakukan Pembayaran, silahkan untuk memproses',
-                'potongan' => $pelangganName . 'Telah Melakukan Pembayaran ...',
+                'detail' => $pelangganName . 'Telah Mengirim Bukti Pembayaran, silahkan untuk memproses',
+                'potongan' => $pelangganName . 'Telah Mengirim Bukti Pembayaran ...',
                 'user_id' => $karyawan[$i]->id,
                 'kategori_notif_id' => 1,
                 'pelanggan_id' => $pelangganID,
@@ -514,7 +535,7 @@ class PesananController extends Controller
             'detail' => 'Bukti Pembayaran Telah terkirim, silahkan tunggu verivikasi pembayaran untuk melanjutkan',
             'potongan' => 'Bukti Pembayaran Telah terkirim, silahkan tunggu ...',
             'user_id' => auth()->user()->id,
-            'kategori_notif_id' => 1,            
+            'kategori_notif_id' => 1,
         ]);
 
         $notifPelanggan->save();
@@ -564,27 +585,34 @@ class PesananController extends Controller
     public function sampai_mark(Pesanan $pesanan)
     {
         $status = ['status' => 9];
-
         $pesanan->update($status);
-
         $pelangganID = $pesanan->pelanggan->user->id;
         $pelangganName = $pesanan->pelanggan->user->username;
 
         $karyawan = User::where('level', 'karyawan')->get();
-        for ($i=0; $i <= ($karyawan->count() - 1) ; $i++) {
+        if (auth()->user()->level == 'pelanggan') {
+            for ($i=0; $i <= ($karyawan->count() - 1) ; $i++) {
+                $notif = new Notification([
+                    'title' => 'Pesanan Sampai',
+                    'detail' => $pelangganName . 'Telah Melakukan Konfirmasi Bahwa Pesanan Sudah Sampai',
+                    'potongan' => $pelangganName . 'Telah Melakukan Konfirmasi Bahwa ...',
+                    'user_id' => $karyawan[$i]->id,
+                    'kategori_notif_id' => 1,
+                ]);
+    
+                $notif->save();
+            }
+        }
+        if (auth()->user()->level != 'pelanggan') {
             $notif = new Notification([
                 'title' => 'Pesanan Sampai',
-                'detail' => $pelangganName . 'Telah Konfirmasi Bahwa Pesanan Sudah Sampai',
-                'potongan' => $pelangganName . 'Telah Konfirmasi Bahwa Pes ...',
-                'user_id' => $karyawan[$i]->id,
+                'detail' => auth()->user()->username .'Telah Melakukan Konfirmasi Bahwa Pesanan Sudah Sampai',
+                'potongan' => auth()->user()->username .'Telah Melakukan Konfirmasi Bahwa ...',
+                'user_id' => $pesanan->pelanggan->user->id,
                 'kategori_notif_id' => 1,
-                'pelanggan_id' => $pelangganID,
             ]);
 
             $notif->save();
-        }
-
-        if (auth()->user()->level != 'pelanggan') {
             return redirect('pesananPelanggan')->with('message', 'Pesanan Berhasil Ditandai Sampai');
         }
         return redirect('/pesananSaya')->with('message', 'Pesanan Ditandai Sampai Di Tujuan');

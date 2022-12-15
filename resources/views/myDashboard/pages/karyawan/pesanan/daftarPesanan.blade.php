@@ -31,80 +31,80 @@
                         <tr>
                             <td>{{ $i->pelanggan->nama }}</td>
                             {{-- <td class="">{{ $waktuPesan[($loop->iteration - 1)]->waktu_pesan }}</td> --}}
-                            <td class="">{{ $i->waktu_pesan }}</td>
-                            <td class="">Rp.{{ $i->total_harga }}</td>
+                            <td class="">{{ $i->created_at->format('Y-M-d') }}</td>
+                            <td class="">Rp.{{ number_format($i->total_harga) }}</td>
                             <td class="text-center">
                                 @if ($i->status == '3')
 
-                                        <span class="badge bg-secondary">
-                                            Belum dibaca
+                                    <span class="badge bg-secondary">
+                                        Belum dibaca
+                                    </span>
+
+                                @else
+
+                                    @if ($i->status == '4')
+
+                                        <span class="badge bg-info">
+                                            Di Baca
                                         </span>
 
-                                    @else
+                                    @endif
 
-                                        @if ($i->status == '4')
+                                    @if ($i->status == '5')
 
-                                            <span class="badge bg-info">
-                                                Di Baca
-                                            </span>
+                                        <span class="badge bg-success">
+                                            Di Terima
+                                        </span>
+                                        
+                                    @endif
 
-                                        @endif
+                                    @if ($i->status == '6')
 
-                                        @if ($i->status == '5')
-
-                                            <span class="badge bg-success">
-                                                Di Terima
-                                            </span>
-                                            
-                                        @endif
-
-                                        @if ($i->status == '6')
-
-                                            <span class="badge bg-warning">
-                                                Pesanan Di Proses
-                                            </span>
-
-                                        @endif
-                                        @if ($i->status == '7')
-
-                                            <span class="badge bg-success bg-opacity-75">
-                                                Siap Di Ambil
-                                            </span>
-
-                                        @endif
-                                        @if ($i->status == '8')
-
-                                            <span class="badge bg-primary bg-opacity-75">
-                                                Dikirim Ke tempat Tujuan
-                                            </span>
-
-                                        @endif
-
-                                        @if ($i->status == '9')
-
-                                            <span class="badge bg-primary bg-opacity-75">
-                                                Sampai Di Tempat Tujuan
-                                            </span>
-
-                                        @endif
-
-                                        @if ($i->status == '2')
-
-                                            <span class="badge bg-primary">
-                                                Selesai
-                                            </span>
-
-                                        @endif
-
-                                        @if ($i->status == '1')
-
-                                            <span class="badge bg-danger">
-                                                Batal
-                                            </span>
-
-                                        @endif
+                                        <span class="badge bg-warning">
+                                            Pesanan Di Proses
+                                        </span>
 
                                     @endif
+                                    @if ($i->status == '7')
+
+                                        <span class="badge bg-success bg-opacity-75">
+                                            Siap Di Ambil
+                                        </span>
+
+                                    @endif
+                                    @if ($i->status == '8')
+
+                                        <span class="badge bg-primary bg-opacity-75">
+                                            Dikirim Ke tempat Tujuan
+                                        </span>
+
+                                    @endif
+
+                                    @if ($i->status == '9')
+
+                                        <span class="badge bg-primary bg-opacity-75">
+                                            Sampai Di Tempat Tujuan
+                                        </span>
+
+                                    @endif
+
+                                    @if ($i->status == '2')
+
+                                        <span class="badge bg-primary">
+                                            Selesai
+                                        </span>
+
+                                    @endif
+
+                                    @if ($i->status == '1')
+
+                                        <span class="badge bg-danger">
+                                            Batal
+                                        </span>
+
+                                    @endif
+
+                                @endif
                             </td>
                             <td class="text-center">
                                 @if ($i->bukti == false || $i->bukti == 0)
@@ -128,7 +128,7 @@
                                 @endif
                                 </td>
                             <td style="text-align: center">
-                                <a href="pesananPelanggan/{{ $i->kode }}" class="btn btn-primary my-1" data-toggle="tooltip" data-placement="top" title="Lihat">                                
+                                <a href="/pesananPelanggan/{{ $i->kode }}" class="btn btn-primary my-1" data-toggle="tooltip" data-placement="top" title="Lihat">                                
                                     <i class="fas fa-eye"></i>
                                     {{-- <i class="align-middle" data-feather="eye"></i> --}}
                                 </a>

@@ -23,7 +23,7 @@
                     <div class="col-10 py-5">
                         <form action="/login" method="post">
                             @csrf
-                            <h2 class="text-dark text-center mb-5 fw-bold">Login</h2>
+                            <h2 class="text-dark text-center mb-5 fw-bold pb-3">Login</h2>
                             <div class="form-group">
                                 <label for="">Email Anda</label>
                                 <input type="email" class="form-control {{ session('failed') ? 'is-invalid' : '' }}" name="email" placeholder="Email" value="{{ old('email') }}" required>
@@ -31,14 +31,14 @@
                                     <span class="invalid-feedback">{{ $message }}</span>                                    
                                 @enderror
                             </div>
-                            <div class="form-group">
+                            <div class="form-group my-3 py-2">
                                 <label for="">Password Anda</label>
                                 <input type="password" class="form-control" name="password" placeholder="Password">
                                 @error('password')
                                     {{-- <span class="invalid-feedback">{{ $message }}</span> --}}
                                 @enderror
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
                         </form>
                     </div>
                 </div>

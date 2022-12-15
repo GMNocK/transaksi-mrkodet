@@ -16,11 +16,11 @@
             @if ($message != '[]')                
                 <div class="row mt-3 pt-3">
                     <div class="col-12">
-                        <a href="/notif/delete/readed" class="btn btn-danger shadow-lg">
+                        <a href="/message/delete/readed" class="btn btn-danger shadow-lg">
                             <i class="fa fa-trash me-1" aria-hidden="true"></i>
                             Hapus Semua Pesan Dibaca
                         </a>
-                        <a href="/read/notif" class="btn btn-primary mx-2 shadow-lg">
+                        <a href="/read/message" class="btn btn-primary mx-2 shadow-lg">
                             <i class="fas fa-book-reader me-1"></i>
                             Tandai Semua Dibaca
                         </a>
@@ -42,10 +42,19 @@
                 
                 @foreach ($message as $i)
                     
-                    <div class="col-11 my-3 bg-light" style="border-radius: 10px; padding: 15px 25px">
+                    <div class="col-11 my-2 {{ $i->notifRead == '[]' ? '' : 'bg-light' }}" 
+                        @if ($i->notifRead == '[]')
+                            style="background: rgba(18, 214, 44, .2); border-radius: 10px; padding: 15px 25px"                                    
+                        @else
+                            style="border-radius: 10px; padding: 15px 25px"                                    
+                        @endif
+                        >
                         <div class="header">
-                            {{-- <i class="fa fa-user-circle fs-4 me-2" aria-hidden="true"></i> --}}
-                            <span class="fs-4">From : {{ $i->user->username }} ( {{ $i->user->level }} )</span>
+                            @if ($i->pengirim != '[]')                                
+                            <span class="fs-4">From : {{ $i->pengirim[0]->user->username }} ( {{ $i->pengirim[0]->user->level }} )</span>
+                            @else
+                            {{-- <span class="fs-4">From : {{ $i->pengirim[0]->user->username }} ( {{ $i->pengirim[0]->user->level }} )</span> --}}
+                            @endif
                             <div class="float-end">{{ $i->created_at }}</div>
                             <div class="mt-3 mb-2">
                                 <h4>{{ $i->title }}</h4>

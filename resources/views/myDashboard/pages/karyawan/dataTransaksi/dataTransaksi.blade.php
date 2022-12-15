@@ -58,7 +58,7 @@
                     @foreach ($transaksis as $t)
                     <tr>
                         <td>{{ $t->tgl_transaksi }}</td>
-                        <td>Rp.{{ $t->total_harga }}</td>
+                        <td>Rp.{{ number_format($t->total_harga) }}</td>
                         <td>{{ $t->pencatat }}</td>
                         <td class="text-center">
                             <span class="badge {{ $t->pesanan_id == '' ? 'bg-danger' : 'bg-success' }} p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">

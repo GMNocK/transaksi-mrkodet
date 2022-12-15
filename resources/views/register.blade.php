@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -42,5 +42,53 @@
             </div>
         </div>
     </section>
+</body>
+</html> --}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="{{ asset('bootstrap/bootstrap.min.css') }}">
+
+    <style>
+        body {
+            background: #f1f1f1;
+        }
+    </style>
+
+    <title>Register - Mr.Kodet</title>
+</head>
+<body>
+    <form action="/register" method="post">
+        @csrf
+        <div class="container-fluid position-absolute" style="height: 100vh">
+            <div class="row h-100">
+                <div class="col-12 d-flex justify-content-center align-items-center">
+                    <div class="col-5 bg-white p-5 shadow" style="border-radius: 13px">
+                        <h2 class="mb-5 text-center">
+                            Isi Data Diri
+                        </h2>
+                        <div class="form-group">
+                            <label for="">Nama Lengkap</label>
+                            <input type="text" name="username" class="form-control" placeholder="Masukkan Nama Lengkap Anda">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="text" name="email" class="form-control" placeholder="Masukkan Email Aktif Anda">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Password</label>
+                            <input type="text" name="password" class="form-control" placeholder="Buat Password">
+                        </div>
+                        <input type="submit" value="Buat Akun" class="btn btn-primary btn-block mt-5 shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </body>
 </html>

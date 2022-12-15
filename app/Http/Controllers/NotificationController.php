@@ -124,4 +124,38 @@ class NotificationController extends Controller
         
         return redirect('/notif');
     }
+    public function read_mes()
+    {
+        $message = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
+
+        for ($i=0; $i < $message->count() ; $i++) { 
+            $notif = $message[$i];
+            if ($notif->notifRead == '[]') {                
+                $read = new notifRead([
+                    'isRead' => 1, // TRUE atau 1 == Telah dibaca
+                    'notification_id' => $notif->id,
+                    'user_id' => auth()->user()->id,
+                ]);
+    
+                $read->save();
+            }
+        }
+
+        return redirect('/message');
+    }
+
+    public function del_read_mes()
+    {
+        $message = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
+
+        for ($i=0; $i < $message->count() ; $i++) { 
+            $notif = $message[$i];
+            if ($notif->notifRead != '[]') {
+                Notification::destroy($notif->id);
+                DB::delete('delete from notif_reads where notification_id = ?', [$notif->id]);
+            }
+        }
+
+        return redirect('/message');
+    }
 }

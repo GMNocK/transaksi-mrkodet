@@ -113,6 +113,25 @@
                                 @endif
 
                             @endif
+                            @if ($pesanan->bukti == false || $pesanan->bukti == 0)
+                                    <span class="badge bg-danger">Belum Bayar</span>
+                                @else
+                                    @if ($pesanan->bukti == 3)
+                                        <span class="badge bg-primary">Menunggu Verifikasi</span>
+                                    @endif
+
+                                    @if ($pesanan->bukti == 2)
+                                        <span class="badge bg-warning">Menunggu Pembayaran</span>
+                                    @endif
+
+                                    @if ($pesanan->bukti == 1)
+                                        <span class="badge bg-success">Sudah Bayar</span>                                            
+                                    @endif
+
+                                    @if ($pesanan->bukti == 4)
+                                        <span class="badge bg-info">COD</span>                                                                                    
+                                    @endif
+                                @endif
                         </td>
                     </tr>
                 </tbody>
@@ -179,7 +198,7 @@
         @if ($pesanan->tipePembayaran != 'COD' && ($pesanan->bukti == 2 || $pesanan->bukti == 3))
             <form action="/pesanan/bukti/upload/{{ $pesanan->kode }}" method="post" enctype="multipart/form-data">
                 @csrf
-                .<div class="form-group">
+                <div class="form-group">
                     <label for="buktiBayar">Upload Bukti Pembayaran</label>
                     <img class="img-preview img-fluid">
                     <input type="file" class="form-control" name="buktiBayar" id="image" onchange="imgPreview()">
@@ -195,7 +214,7 @@
     <div class="col-12">
         <div class="card flex-fill">
             <div class="card-header">
-                <a href="/pesanan/sampai/{{ $pesanan->kode }}" class="btn btn-primary btn-block">
+                <a href="#" id="btnTandaiSampai" data-kode="{{ $pesanan->kode }}" class="btn btn-primary btn-block">
                     Tandai Pesanan Sudah Sampai
                 </a>
             </div>
@@ -249,6 +268,44 @@
             imagePreview.classList.add('mb-3');
         }
     }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const btnTandaiSampai = document.querySelector('#btnTandaiSampai');
+
+        const kode = btnTandaiSampai.getAttribute('data-kode');
+
+        btnTandaiSampai.addEventListener('click', () => {
+        const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mx-2',
+                    cancelButton: 'btn btn-danger mx-2'
+                },
+                buttonsStyling: false
+            })
+    
+            swalWithBootstrapButtons.fire({
+            title: 'Tandai Sampai?',
+            text: 'Tandai Pesanan Sampai Di Tempat Tujuan?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Tandai!',
+            cancelButtonText: 'Tidak, Batalkan!',
+            reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "/pesanan/sampai/"+kode+""
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                    'Batal Di Tandai',
+                    'Status akan sebagai dikirim',
+                    'info'
+                    )
+                }
+            })
+        });  
+    });
 </script>
 
 @endsection

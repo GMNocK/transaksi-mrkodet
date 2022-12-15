@@ -59,25 +59,37 @@ class DashboardController extends Controller
 
     public function myDashboard()
     {
-        // $notification = DB::table('Notifications')
-        //                     ->select('Notifications.*', DB::raw('notif_reads.user_id as pembaca'), 'notif_reads.isRead')
-        //                     ->leftJoin('notif_reads', 'notif_reads.notification_id', '=', 'Notifications.id')
-        //                     ->where('Notifications.user_id', 3)
-        //                     ->limit(1)
-        //                     ->get()[0];
-        // return $notif[1]->notifRead;
-
         $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
         $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
         $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3);
         $banyakNotif = Notification::where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->get();
         
-        if (auth()->user()->level == 'pelanggan') {            
+        if (auth()->user()->level == 'pelanggan') {
+            $pesananData = Pesanan::all()->count();   
+            $transaksiData = Transaksi::all()->count();
             $pelanggan_id = Pelanggan::where('user_id', auth()->user()->id)->get('id')[0]->id;
-            $pesananTerakhir = Pesanan::orderByDesc('waktu_pesan')->where('pelanggan_id', $pelanggan_id)->limit(6)->get();
+            $pesananTerakhir = Pesanan::orderBy('waktu_pesan', 'desc')->orderBy('status', 'desc')->orderByDesc('bukti')->where('pelanggan_id', $pelanggan_id)->limit(6)->get();
         } else {
+            if (request()->type) {
+                $transaksiData = Transaksi::all();
+                $transaksiHarga = 0;
+                for ($i=0; $i < $transaksiData->count(); $i++) {
+                    $transaksiHarga += $transaksiData[$i]->total_harga;
+                }
+                $transaksiData = $transaksiHarga;
+
+                $pesananData = Pesanan::all();
+                $pesananHarga = 0;
+                for ($i=0; $i < $pesananData->count(); $i++) { 
+                    $pesananHarga += $pesananData[$i]->total_harga;
+                }
+                $pesananData = $pesananHarga;
+            } else {
+                $pesananData = Pesanan::all()->count();
+                $transaksiData = Transaksi::all()->count();
+            }
             $pelanggan_id = 0;
-            $pesananTerakhir = Pesanan::orderByDesc('waktu_pesan')->limit(6)->get();
+            $pesananTerakhir = Pesanan::orderBy('waktu_pesan', 'desc')->orderBy('status', 'desc')->orderByDesc('bukti')->limit(6)->get();
         }
         $notifUnRead = 0;
         for ($i=0; $i < $banyakNotif->count(); $i++) {
@@ -91,17 +103,21 @@ class DashboardController extends Controller
                 $messageUnRead += 1;
             }
         }
-
-        
+        $totalHargaPesanan = 0;
+        $hargaP = Pesanan::where('pelanggan_id', $pelanggan_id)->get();
+        for ($i=0; $i < $hargaP->count(); $i++) { 
+            $totalHargaPesanan += $hargaP[$i]->total_harga;
+        }
 
         $month = date('m') - 1;
         return view('myDashboard.pages.dashboard', [
             'barang' => Barang::all()->count(),
             'karyawan' => Karyawan::all()->count(),
-            'transaksi' => Transaksi::all()->count(),
+            'transaksi' => $transaksiData,
             'pelanggan' => Pelanggan::all()->count(),
-            'pesanan' => Pesanan::all(),
+            'pesanan' => $pesananData,
             'pesananSaya' => Pesanan::where('pelanggan_id', $pelanggan_id)->count(),
+            'hargaPesanan' => $totalHargaPesanan,
             'pesananCOD' => Pesanan::where('tipePembayaran', 'COD')->count(),
             'pesananTransfer' => Pesanan::where('tipePembayaran', 'transfer')->count(),
             'laporanSaya' => LaporanPelanggan::where('pelanggan_id', $pelanggan_id)->count(),

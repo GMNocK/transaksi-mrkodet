@@ -106,19 +106,22 @@
                 <div class="row my-2">
                     <div class="col-12 d-flex align-items-center justify-content-center ">
                         <label for="" class="fs-6 col-5 ">Status Transaksi</label>
-                        <select name="status" id="status" class="form-control">
-                            <option value="lunas">Lunas</option>
-                            <option value="cashbond">Cashbond</option>
+                        <select name="status" id="status" class="form-control status">
+                            <option value="lunas" {{ $transaksis->status == '1' ? 'selected' : '' }}>Lunas</option>
+                            <option value="cashbond" {{ $transaksis->status == '0' ? 'selected' : '' }}>Cashbond</option>
                         </select>
                     </div>
                 </div>
                 <div class="row my-2">
                     <div class="col-12 d-flex align-items-center justify-content-center ">
-                        <label for="" class="fs-6 col-5 ">Tipe Pembayaran</label>
+                        <label for="tipe_bayar" class="fs-6 col-5 ">Tipe Pembayaran</label>
                         <select name="tipe_bayar" id="tipe_bayar" class="form-control">
-                            <option value="ditempat">Ditempat</option>
-                            <option value="transfer">Transfer</option>
-                            <option value="null">Tidak Diketahui</option>
+                            @if ($transaksis->status == 0)                        
+                            <option value="Tidak Ada">Tidak Ada</option>
+                            @else                                
+                            <option value="COD" {{ $transaksis->tipe_bayar == 'COD' ? 'selected' : '' }}>COD / Bayar Di Tempat</option>
+                            <option value="transfer" {{ $transaksis->tipe_bayar == 'transfer' ? 'selected' : '' }}>Transfer</option>
+                            @endif
                         </select>
                     </div>
                 </div>
@@ -195,7 +198,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="ukuranEdit">Ukuran Barang</label>
-                        <select class="form-control" id="ukuranEdit">    
+                        <select class="form-control" id="ukuranEdit" disabled>
                             <option value="1" class="">1 Kg</option>
                             <option value="1/2" class="">1/2 Kg</option>
                             <option value="1/4" class="">1/4 Kg</option>

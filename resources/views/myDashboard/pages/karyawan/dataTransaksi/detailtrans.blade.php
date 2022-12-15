@@ -60,7 +60,7 @@
                     </tr> --}}
                     <tr>
                         <td>{{ $transaksi->tgl_transaksi }}</td>
-                        <td>{{ $hargaTotal }}</td>
+                        <td>Rp.{{ number_format($transaksi->total_harga) }}</td>
                         <td>{{ $transaksi->pencatat }}</td>
                         <td class="text-center">
                             <span class="badge {{ $transaksi->status == '1' ? 'bg-success' : 'bg-danger' }} p-2 align-items-center" style="font-size: 13px; letter-spacing: .03em">
@@ -140,13 +140,13 @@
                     @foreach ($detail as $d)                      
                         <tr>
                             <td>{{ $d->barang->nama_barang }}</td>
-                            <td>Rp.{{ $d->harga_satuan }}</td>
+                            <td>Rp.{{ number_format($d->harga_satuan) }}</td>
                             <td class="text-center">{{ $d->ukuran }}.Kg</td>
                             <td class="text-center">
                                 {{ $d->jumlah }}
                             </td>
                             <td style="text-align: center">
-                                Rp.{{ $d->subtotal }}                              
+                                Rp.{{ number_format($d->subtotal) }}                              
                             </td>
                         </tr>
                     @endforeach

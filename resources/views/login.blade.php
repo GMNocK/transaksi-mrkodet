@@ -83,7 +83,7 @@
 
 
 
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -141,5 +141,122 @@
     </script>
     @endif
 
+</body>
+</html> --}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">	
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <title>Login - Mister Kodet</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .background {
+            height: 100vh;
+            width: 100%;
+        }
+        body {
+            font-family: sans-serif;
+            background: #f1f0f0;
+            color: rgb(19, 18, 18);
+        }
+        .login-box {
+            position: absolute;
+            background: #fff;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 40px 48px;
+            box-shadow: 6px 7px 26px -1.5px rgba(44, 43, 43, 0.17);
+            border-radius: 12px;
+            font-size: 18px;
+        }
+        .login-box h1 {
+            font-size: 36px;
+            margin-bottom: 48px;
+            text-align: center;
+            color: rgb(49, 46, 46);
+        }
+        form {
+            width: 360px;
+        }
+        .text {
+            margin: 14px 0;
+            font-size: 18px;
+            overflow: hidden;
+        }
+        .text input {
+            width: 100%;
+            height: 6vh;
+            margin: 4px 0;
+            border: 1px solid rgb(165, 163, 163);
+            border-radius: 5px;
+            padding: 5px;
+            outline: #881;
+            font-size: 18px;
+        }
+        button#btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 9px;
+            background: rgb(20, 118, 247);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: .3s;
+            box-shadow: 5px 4px 42px -12px #333;
+        }
+        #btn:hover {
+            box-shadow: 5px 4px 42px -12px #331222;
+            background: rgb(20, 101, 194);
+            transition: .3s;
+        }
+        .login-box h6 {
+            margin-top: 32px;
+            text-align: center;
+        }
+        .login-box #create {
+            font-size: 14px;
+            text-decoration: none;
+            color: rgb(15, 85, 177);
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="login-box">
+            <h1>
+                Login
+            </h1>
+            <form action="/login" method="post">
+                @csrf
+                <div class="text">
+                    <label for="">Email</label>
+                    <input type="text" name="email" placeholder="Email Anda">
+                </div>
+                <div class="text">
+                    <label for="">Password</label>
+                    <input type="password" name="password" placeholder="Password Anda">
+                </div>
+                <button type="submit" id="btn">Login</button>
+            </form>
+            <h6>
+                <a href="/register" id="create">
+                    Buat Akun?
+                </a>
+            </h6>
+        </div>
+    </div>
 </body>
 </html>

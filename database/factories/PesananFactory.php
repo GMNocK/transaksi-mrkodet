@@ -15,12 +15,12 @@ class PesananFactory extends Factory
     public function definition()
     {
         return [
-            'pelanggan_id' => mt_rand(2,4),
+            'pelanggan_id' => mt_rand(1,7),
             'waktu_pesan' => $this->faker->dateTimeBetween('-2 month', '-3 week'),
             'total_harga' => 15000,
-            'tipe_kirim' => 'kirim ke rumah',
+            'tipe_kirim' => 'Kirim Ke Rumah',
             'tipePembayaran' => 'transfer',
-            'status' => 1,
+            'status' => 3,
             'kode' => Str::random(10),
         ];
     }

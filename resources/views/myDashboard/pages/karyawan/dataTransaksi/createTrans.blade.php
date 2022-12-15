@@ -5,7 +5,7 @@
 <form action="/transaksi/" method="post">
     @csrf
     <div class="breadcrumb mb-4 col-md-12 justify-content-between">
-        <div>        
+        <div>
             <a class="breadcrumb-item" href="/myDashboard">Dashboard</a>
             <a class="breadcrumb-item" href="/transaksi">Transaksi</a>
             <a class="breadcrumb-item active" aria-current="page">Create</a>
@@ -14,39 +14,14 @@
             <span class="fs-6 fw-semibold me-2">
                 <i class="align-middle me-1" data-feather="calendar"></i>
                 {{ date('Y-m-d') }}
-            </span>                    
+            </span>
         </div>
     </div>
-
-    {{-- <div class="row">
-        <div class="col-4">
-            <input type="hidden" name="tanggal" value="{{ date('Y-m-d') }}" hidden>
-            <label for="NamaPelanggan" class="ms-1 mb-1">Nama Pelanggan</label>
-            <select class="form-control" name="pelanggan_id" id="NamaPelanggan">
-                @foreach ($pelanggans as $p)                        
-                <option value="{{ $p->id }}" class="{{ $p->nama }}">{{ $p->nama }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-4 col-sm-4 d-flex align-items-end">
-            <a  class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                Data Pelanggan
-            </a>
-        </div>
-    </div> --}}
-    
     <div class="col-md-12 col-lg-12 col-xxl-12 d-flex">
         <div class="card flex-fill">
             <div class="card-header">
                 <div class="ms-2 col-md-4">
-    
                     @can('karyawan')
-                        
-                    {{-- <a href="/transaksi/create" class="link-secondary d-flex align-items-center">
-                        <i class="align-middle me-1 link-secondary" data-feather="plus-circle"></i>
-                        <h6 class="card-title mb-0 link-secondary">Tambah Transaksi</h6>
-                    </a> --}}
                     <h2>
                         <span class="btn btn-outline-secondary fw-semibold" data-bs-toggle="modal" data-bs-target="#addBarangModal" id="btnAddBarangToKeranjangModal">
                             <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>
@@ -56,7 +31,6 @@
                     @endcan
                 </div>
             </div>
-
             <div class="table-responsive col-lg-12 mb-5">
                 <table class="table table-striped table-sm table-hover" id="Keranjang">
                     <thead class="bg-secondary text-light px-3">
@@ -129,8 +103,8 @@
                 <div class="col-md-12 d-flex align-items-center justify-content-center ">
                     <label for="" class="fs-6 col-5 ">Tipe Pembayaran</label>
                     <select name="tipe_bayar" id="tipe_bayar" class="form-control">
-                        <option value="cod">COD / Bayar Ditempat</option>
                         <option value="transfer">Transfer</option>
+                        <option value="COD">COD / Bayar Ditempat</option>
                     </select>
                 </div>
             </div>
@@ -144,41 +118,12 @@
             </div>
         </div>
     </div>
-</form>   
-
-{{-- <div class="modal fade" id="exampleModal" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form method="POST" action="/added/DataPelanggan">
-    @csrf
-        <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Pelanggan Baru</h1>
-                <button type="button" class="btn-close btn-close-white" aria-label="Close" data-bs-dismiss="modal"></button>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Nama Pelanggan :</label>
-                        <input type="text" class="form-control" name="namaPelanggan" id="pelangganNama">
-                    </div>
-                    <div class="mb-3">
-                        <label for="message-text" class="col-form-label">Keterangan :</label>
-                        <textarea class="form-control" name="Ket" id="keteranganText"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary">Tambah Pelanggan</button>
-                </div>
-            </div>
-        </div>
-    </form>
-</div> --}}
+</form>
 
 <div class="modal fade" id="addBarangModal" data-bs-backdrop="static" aria-labelledby="addBarangModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header bg-primary bg-gradient">
+        <div class="modal-header bg-secondary">
             <h1 class="modal-title fs-4 fw-semibold text-white" id="addBarangModalLabel">Tambah Barang</h1>
             <button type="button" class="btn-close btn-close-white" aria-label="Close" data-bs-dismiss="modal"></button>
             {{-- <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button> --}}

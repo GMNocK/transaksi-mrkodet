@@ -97,7 +97,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/pesanan/transaksi', [TransaksiController::class, 'lihatTransaksi']);
         
         Route::get('/pesananPelanggan/{pesanan}', [PesananController::class, 'show'])->name('showPpelanggan');
-        Route::post('/pesanan/accept/{pesanan}', [PesananController::class, 'KaryawanAccept']);
+        Route::get('/pesanan/accept/{pesanan}', [PesananController::class, 'KaryawanAccept']);
         Route::get('/pesanan/progress/{pesanan}', [PesananController::class, 'KarAcceptProgress']);
         Route::get('/pesanan/bukti/verify/{pesanan}', [PesananController::class, 'buktiVerify']);
         Route::post('/pesanan/dikirim/{pesanan}', [PesananController::class, 'tandaiKirimOrSelesai']);
@@ -147,6 +147,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     
     Route::resource('/message', MessageController::class);
+    Route::get('/message/delete/readed', [NotificationController::class, 'del_read_mes']);
+    Route::get('/read/message', [NotificationController::class, 'read_mes']);
     
     Route::resource('/notif', NotificationController::class)->except('destroy');
     Route::get('/notif/delete/{notif}', [NotificationController::class, 'destroy']);

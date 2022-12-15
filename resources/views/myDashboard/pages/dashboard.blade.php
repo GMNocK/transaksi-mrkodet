@@ -2,10 +2,27 @@
 
 @section('content')    
 
-    <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
+    <h1 class="h3 mb-3 d-inline me-5"><strong>
+        @can('karyawan')    
+        Analytics
+        @elsecan('pelanggan')        
+        Pelanggan
+        @endcan
+    </strong> Dashboard</h1>
+    @can('karyawan')        
+        @if (request()->type)        
+        <a href="/myDashboard" class="fs-3 link-secondary fw-semibold">Ubah Kategori</a>
+        @else
+        <a href="?type=ubah" class="fs-3 link-secondary fw-semibold">Ubah Kategori</a>
+        @endif
+    @endcan
 
-    <div class="row">
+    <div class="row mt-3">
+        @can('karyawan')            
         <div class="col-xl-6 col-xxl-5 d-flex">
+        @elsecan('pelanggan')
+        <div class="col-xl-12 col-xxl-11 d-flex">            
+        @endcan
             <div class="w-100">
                 <div class="row">
                     <div class="col-sm-6">
@@ -27,8 +44,8 @@
                                 </div>
                                 <h1 class="mt-1 mb-3">{{ $pelanggan }}</h1>
                                 <div class="mb-0">
-                                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
-                                    <span class="text-muted">Since last week</span>
+                                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> {{ $pelanggan }} </span>
+                                    <span class="text-muted">Pelanggan Keseluruhan</span>
                                 </div>
                             </div>
                         </div>
@@ -46,10 +63,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h1 class="mt-1 mb-3">{{ $transaksi }}</h1>
+                                <h1 class="mt-1 mb-3">{{ $transaksi > 500000 ? 'Rp.' : '' }}{{ number_format($transaksi) }}</h1>
                                 <div class="mb-0">
-                                    <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
-                                    <span class="text-muted">Since last week</span>
+                                    @if (request()->type)
+                                        
+                                    <span class="text-muted"> Total {{ $transaksi > 500000 ? 'Harga' : '' }}</span>
+                                    <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i>{{ $transaksi > 500000 ? 'Rp.' : '' }}{{ number_format($transaksi) }} </span>
+                                    @else
+                                        
+                                    <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i>{{ $transaksi > 500000 ? 'Rp.' : '' }}{{ number_format($transaksi) }} </span>
+                                    <span class="text-muted"> Total {{ $transaksi > 500000 ? 'Harga' : '' }}</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -72,8 +96,8 @@
                                 </div>
                                 <h1 class="mt-1 mb-3">{{ $laporanSaya }}</h1>
                                 <div class="mb-0">
-                                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
-                                    <span class="text-muted">Since last week</span>
+                                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> {{ $laporanSaya }} </span>
+                                    <span class="text-muted"> Dibuat</span>
                                 </div>
                             </div>
                         </div>
@@ -82,19 +106,19 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col mt-0">
-                                        <h5 class="card-title">Karyawan</h5>
+                                        <h5 class="card-title">Pesanan</h5>
                                     </div>
 
                                     <div class="col-auto">
                                         <div class="stat text-primary">
-                                            <i class="align-middle" data-feather="users"></i>
+                                            <i class="align-middle" data-feather="shopping-cart"></i>
                                         </div>
                                     </div>
                                 </div>
-                                <h1 class="mt-1 mb-3">{{ $karyawan }}</h1>
+                                <h1 class="mt-1 mb-3">Rp.{{ number_format($hargaPesanan) }}</h1>
                                 <div class="mb-0">
-                                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
-                                    <span class="text-muted">Since last week</span>
+                                    <span class="text-muted">Total Harga </span>
+                                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> {{$hargaPesanan}} </span>
                                 </div>
                             </div>
                         </div>
@@ -118,8 +142,8 @@
                                 </div>
                                 <h1 class="mt-1 mb-3">{{ $barang }}</h1>
                                 <div class="mb-0">
-                                    <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
-                                    <span class="text-muted">Since last week</span>
+                                    <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> {{ $barang }}</span>
+                                    <span class="text-muted"> Barang Tersedia</span>
                                 </div>
                             </div>
                         </div>
@@ -131,7 +155,6 @@
                                     <div class="col mt-0">
                                         <h5 class="card-title">Pesanan</h5>
                                     </div>
-
                                     <div class="col-auto">
                                         <div class="stat text-primary">
                                             <i class="align-middle" data-feather="shopping-cart"></i>
@@ -140,8 +163,8 @@
                                 </div>
                                 <h1 class="mt-1 mb-3">{{ $pesananSaya }}</h1>
                                 <div class="mb-0">
-                                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
-                                    <span class="text-muted">Since last week</span>
+                                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> {{$pesananSaya}} </span>
+                                    <span class="text-muted"> Pesanan Dilakukan</span>
                                 </div>
                             </div>
                         </div>
@@ -161,10 +184,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h1 class="mt-1 mb-3">{{ $pesanan->count() }}</h1>
+                                <h1 class="mt-1 mb-3">{{ $pesanan > 500000 ? 'Rp.' : '' }}{{ number_format($pesanan) }}</h1>
                                 <div class="mb-0">
-                                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
-                                    <span class="text-muted">Since last week</span>
+                                    @if (request()->type)
+                                        
+                                    <span class="text-muted"> Total {{ $pesanan > 500000 ? 'Harga' : '' }}</span>
+                                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i>{{ $pesanan > 500000 ? 'Rp.' : '' }}{{ number_format($pesanan) }}</span>
+                                    @else
+                                        
+                                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i>{{ $pesanan > 500000 ? 'Rp.' : '' }}{{ number_format($pesanan) }}</span>
+                                    <span class="text-muted"> Total {{ $pesanan > 500000 ? 'Harga' : '' }}</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -176,39 +206,39 @@
         </div>
         
         @cannot('pelanggan')                
-            <div class="col-xl-6 col-xxl-7">
-                <div class="card flex-fill w-100">
-                    <div class="card-header">
+        <div class="col-xl-6 col-xxl-7">
+            <div class="card flex-fill w-100">
+                <div class="card-header">
 
-                        <h5 class="card-title mb-0">Recent Transaksi Last Year</h5>
-                    </div>
-                    <div class="card-body py-3">
-                        <div class="chart chart-sm">
-                            <canvas id="chartjs-dashboard-line"></canvas>
-                        </div>
+                    <h5 class="card-title mb-0">Recent Transaksi Last Year</h5>
+                </div>
+                <div class="card-body py-3">
+                    <div class="chart chart-sm">
+                        <canvas id="chartjs-dashboard-line"></canvas>
                     </div>
                 </div>
             </div>
+        </div>
         @endcannot
 
         @can('pelanggan')
-            <div class="col-xl-6 col-xxl-7">
-                <div class="card flex-fill w-100">
-                    <div class="card-header">
+        {{-- <div class="col-xl-6 col-xxl-7">
+            <div class="card flex-fill w-100">
+                <div class="card-header">
 
-                        <h5 class="card-title mb-0">Pesanan</h5>
-                    </div>
-                    <div class="card-body py-3">
-                        <div class="chart chart-sm">
-                            <canvas id="chartjs-dashboard-line-pelanggan"></canvas>
-                        </div>
+                    <h5 class="card-title mb-0">Pesanan</h5>
+                </div>
+                <div class="card-body py-3">
+                    <div class="chart chart-sm">
+                        <canvas id="chartjs-dashboard-line-pelanggan"></canvas>
                     </div>
                 </div>
             </div>
+        </div> --}}
         @endcan
         
         @cannot('pelanggan')
-        <div class="row">
+        <div class="row p-0 m-0">
             
             
             <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1">
@@ -269,14 +299,11 @@
                     </div>
                 </div>
             </div>
-            
-            
-            
         </div>
         @endcannot
         
-        <div class="row">
-            <div class="col-12 col-lg-8 col-xxl-9 d-flex">
+        <div class="row p-0 m-0">
+            <div class="col-12 col-lg-12 col-xxl-12 d-flex">
                 <div class="card flex-fill">
                     <div class="card-header">
                         <h5 class="card-title mb-0">Pesanan Terakhir</h5>
@@ -289,7 +316,8 @@
                                 <th class="">Tanggal Pesan</th>
                                 <th class="">Total Harga</th>
                                 <th class="text-center">Status Pesanan</th>
-                                <th class="">Assignee</th>
+                                <th class="">Bayar</th>
+                                <th class="">Status Bayar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -297,67 +325,77 @@
                             <tr>
                                 <td>{{ $i->pelanggan->nama }}</td>
                                 <td class="">{{ $i->waktu_pesan }}</td>
-                                <td class="">{{ $i->total_harga }}</td>
+                                <td class="">Rp.{{ number_format($i->total_harga) }}</td>
                                 <td class="text-center">
-                                    @if ($i->status == '1')
-                                    
-                                    <span class="badge bg-secondary fs-6">
-                                            Belum dibaca
-                                        </span>
-                                        
-                                        @else
-    
-                                        @if ($i->status == '2')
-                                        
-                                        <span class="badge bg-info fs-6">
-                                            Di Baca
-                                        </span>     
-    
+                                    @if ($i->status == '3')
+                                    <span class="badge bg-secondary">
+                                        Belum dibaca
+                                    </span>
+                                    @else
+                                        @if ($i->status == '4')
+                                            <span class="badge bg-info">
+                                                Di Baca
+                                            </span>
                                         @endif
-                                        
-                                        @if ($i->status == '3')
-                                        
-                                        <span class="badge bg-success fs-6">
-                                            Di Terima
-                                            </span>                                        
-                                            
-                                            @endif
-                                            
-                                            @if ($i->status == '4')
-                                            
-                                            <span class="badge bg-warning fs-6">
+                                        @if ($i->status == '5')
+                                            <span class="badge bg-success">
+                                                Di Terima
+                                            </span>
+                                        @endif
+                                        @if ($i->status == '6')
+                                            <span class="badge bg-warning">
                                                 Pesanan Di Proses
-                                            </span>                                        
-                                            
-                                            @endif
-                                            
-                                            @if ($i->status == '5')
-                                            
-                                            <span class="badge bg-primary bg-opacity-75 fs-6">
+                                            </span>
+                                        @endif
+                                        @if ($i->status == '7')
+                                            <span class="badge bg-success bg-opacity-75">
+                                                Siap Di Ambil
+                                            </span>
+                                        @endif
+                                        @if ($i->status == '8')
+                                            <span class="badge bg-primary bg-opacity-75">
                                                 Dikirim Ke tempat Tujuan
-                                            </span>                                        
-                                            
-                                            @endif
-                                            
-                                            @if ($i->status == '6')
-                                            
-                                            <span class="badge bg-primary fs-6">
+                                            </span>
+                                        @endif
+                                        @if ($i->status == '9')
+                                            <span class="badge bg-primary bg-opacity-75">
+                                                Sampai Di Tempat Tujuan
+                                            </span>
+                                        @endif
+                                        @if ($i->status == '2')
+                                            <span class="badge bg-primary">
                                                 Selesai
-                                            </span>                                        
-                                            
-                                            @endif
-                                            
-                                            @if ($i->status == '0')
-                                            
-                                            <span class="badge bg-danger fs-6">
+                                            </span>
+                                        @endif
+                                        @if ($i->status == '1')
+                                            <span class="badge bg-danger">
                                                 Batal
-                                            </span>                                        
-                                            
-                                            @endif
-                                            
-                                            @endif
-                                        </td>
-                                        <td class="">{{ $i->tipePembayaran }}</td>
+                                            </span>
+                                        @endif
+                                    @endif
+                                </td>
+                                <td class="">{{ $i->tipePembayaran }}</td>
+                                <td class="">
+                                    @if ($i->bukti == false || $i->bukti == 0)
+                                        <span class="badge bg-danger">Belum Bayar</span>
+                                    @else
+                                        @if ($i->bukti == 3)
+                                            <span class="badge bg-primary">Menunggu Verifikasi</span>
+                                        @endif
+
+                                        @if ($i->bukti == 2)
+                                            <span class="badge bg-warning">Menunggu Pembayaran</span>
+                                        @endif
+
+                                        @if ($i->bukti == 1)
+                                            <span class="badge bg-success">Sudah Bayar</span>                                            
+                                        @endif
+
+                                        @if ($i->bukti == 4)
+                                            <span class="badge bg-info">COD</span>                                                                                    
+                                        @endif
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -366,7 +404,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-lg-4 col-xxl-3 d-flex">
+        {{-- <div class="col-12 col-lg-4 col-xxl-3 d-flex">
             <div class="card flex-fill w-100">
                 <div class="card-header">
                     
@@ -378,7 +416,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     
     

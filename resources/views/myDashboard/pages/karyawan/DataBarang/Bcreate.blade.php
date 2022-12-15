@@ -26,11 +26,11 @@
                         </div>
                         {{-- <p class="fs-4 fw-bold text-center">Pilih Salah Satu</p> --}}
                         <div class="form-group">
-                          {{-- <label for="foto">Pilih Gambar / upload</label>
-                          <input type="file" class="form-control" name="foto" id="foto" placeholder=""> --}}
-                          <label for="foto">Url Gambar</label>
-                          <input type="text"
-                            class="form-control" name="foto" id="foto" placeholder="Masukkan url atau link  gambar disini" required>
+                          <div class="form-group">
+                            <label for="image">Upload Gambar Produk</label>
+                            <img class="img-preview img-fluid">
+                            <input type="file" class="form-control" name="foto" id="image" onchange="imgPreview()">
+                        </div>
                         </div>
                         <button type="submit" class="btn btn-primary mt-2">Submit</button>
                     </form>
@@ -38,5 +38,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+      function imgPreview() {
+          const image = document.querySelector('#image');
+          const imagePreview = document.querySelector('.img-preview');
+  
+          imagePreview.style.display = 'block';
+  
+          const oFReader = new FileReader();
+          oFReader.readAsDataURL(image.files[0]);
+  
+          oFReader.onload = function(oFREvent) {
+              imagePreview.src = oFREvent.target.result;
+              imagePreview.classList.add('mb-3');
+          }
+      }
+  </script>
 
 @endsection
