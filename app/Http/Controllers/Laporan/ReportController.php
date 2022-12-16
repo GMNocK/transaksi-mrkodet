@@ -156,7 +156,7 @@ class ReportController extends Controller
         }
 
 
-        return view('dashboard.transaksi.report.edit', [
+        return view('myDashboard.pages.pelanggan.laporan.LEdit', [
             'LaporanPelanggan' => $Laporan,
             'Notif' => $notif, 
             'baNotif' => $notifUnRead,
@@ -175,7 +175,7 @@ class ReportController extends Controller
         LaporanPelanggan::where('id', $Laporan->id)->update($validateData);
 
 
-        return redirect('/Laporan');   
+        return redirect('/LaporanSaya');   
     }
 
 

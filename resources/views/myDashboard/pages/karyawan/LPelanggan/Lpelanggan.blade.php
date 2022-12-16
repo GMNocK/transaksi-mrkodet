@@ -39,10 +39,18 @@
                         {{ $i->body }}
                     </div>
                     <div class="footer">
+                        @can('karyawan')
                         <form action="/laporanPelanggan/reply/{{ $i->id }}/create" method="POST">
                             @csrf
                             <button class="text-primary fs-6 float-end me-3 mt-2 link-info border-0" style="background: none;">Reply</button>
                         </form>
+                        @endcan
+                        @can('mustBeAdmin')
+                        <form action="/laporanPelanggan/{{ $i->id }}" method="POST">
+                            @csrf
+                            <button class="text-primary fs-4 float-end me-3 mt-2 link-info border-0" style="background: none;">Lihat</button>
+                        </form>                            
+                        @endcan
                     </div>
                 </div>
         

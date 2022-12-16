@@ -10,7 +10,7 @@
                     <div class="card flex-fill">
                         <div class="card-header d-flex justify-content-between px-5">
                             <div class="d">
-                                Hai, {{ auth()->user()->username }}
+                                Profile Milik {{ $pelanggan->user->level . " Dengan nama " . $pelanggan->nama }}
                             </div>
                             <div class="b">
                                 Profile
@@ -63,13 +63,13 @@
                 </div>
             </div>  
         </div>
-        <div class="col-8">
+        {{-- <div class="col-8">
 
             <button type="submit" class="btn btn-primary">
                 arr
                 Submit
             </button>
-        </div>
+        </div> --}}
     </div>
 
 <div class="modal fade" id="editNama" aria-labelledby="editNamaLabel" aria-hidden="true">

@@ -102,14 +102,14 @@
                                 
                             @endcan
                             
-                            @cannot('karyawan')                      
-                                {{-- <a href="{{ route('reports.create') }}"> --}}
+                            {{-- @cannot('karyawan')                      
+                                <a href="{{ route('reports.create') }}">
                                 <a onclick="DltConfirm();">
                                     <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Laporkan">
                                         <i class="fa fa-file" aria-hidden="true"></i>
                                     </button>
                                 </a>
-                            @endcannot
+                            @endcannot --}}
                             
                         </td>
                     </tr>    

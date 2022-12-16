@@ -95,7 +95,7 @@
                 Laporan
             </li>
 
-            @can('karyawan')
+            {{-- @can('karyawan')
                 
             <li class="sidebar-item {{ Request::is('laporanSaya') ? 'active' : '' }}">
                 <a class="sidebar-link text-decoration-none" href="/laporanSaya">
@@ -104,20 +104,18 @@
                 </a>
             </li>
 
-            @endcan
+            @endcan --}}
 
             @cannot('pelanggan')
-
             <li class="sidebar-item {{ Request::is('laporanPelanggan') ? 'active' : '' }}">
                 <a class="sidebar-link text-decoration-none" href="/laporanPelanggan">
                     <i class="align-middle" data-feather="file-text"></i>
                     <span class="align-middle">Laporan Pelanggan</span>
                 </a>
             </li>
-            
             @endcannot
             
-            @can('mustBeAdmin')
+            {{-- @can('mustBeAdmin')
 
             <li class="sidebar-item {{ Request::is('laporanKaryawan') ? 'active' : '' }}">
                 <a class="sidebar-link text-decoration-none" href="/laporanKaryawan">
@@ -126,7 +124,7 @@
                 </a>
             </li>
                 
-            @endcan
+            @endcan --}}
             
             @can('pelanggan')
                 

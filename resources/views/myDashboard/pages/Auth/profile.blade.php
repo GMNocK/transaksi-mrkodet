@@ -45,18 +45,21 @@
                                     <input type="text" name="no_tlp" id="NoTelpon" class="form-control" value="{{ old('no_tlp', $data[0]->no_tlp) }}" aria-describedby="helpId">
                                 </div>
                                 <div class="form-group mb-2">
-                                    <label for="Alamat" class="fs-4">Alamat</label>
+                                    <label for="Alamat" class="fs-4">Alamat Lengkap</label>
                                     <textarea class="form-control" name="alamat" id="Alamat" rows="3">{{ old('alamat', $data[0]->alamat) }}</textarea>
+                                    <p class="form-text text-muted fs-6">
+                                        Alamat diatas digunakan untuk pengiriman barang dan lainnya, diharapkan untuk mengisi alamat lengkap sesuai yang tertera di tempat tinggal Anda
+                                    </p>
                                 </div>
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for=""></label>
                                             <select class="custom-select" name="provinsi">
                                                 <option selected>-- Pilih Provinsi --</option>
-                                                <option value=""></option>
-                                                <option value=""></option>
-                                                <option value=""></option>
+                                                <option value="">Jawa Barat</option>
+                                                <option value="">Jawa Tengah</option>
+                                                <option value="">Jawa Timur</option>
                                             </select>
                                         </div>
                                     </div>
@@ -65,13 +68,25 @@
                                             <label for=""></label>
                                             <select class="custom-select" name="kota">
                                                 <option selected>-- Pilih Kota --</option>
-                                                <option value=""></option>
-                                                <option value=""></option>
-                                                <option value=""></option>
+                                                <option value="">Cimahi</option>
+                                                <option value="">Bandung</option>
+                                                <option value="">Malang</option>
+                                                <option value="">Surabaya</option>
                                             </select>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="col-12">
+                                        <span class="link-primary" style="cursor: pointer">
+                                            Tekan Untuk Memilih Lainnya
+                                        </span>
+                                    </div>
+                                </div> --}}
+                                {{-- <div class="row">
+                                    <div class="form-group">
+                                      <label for=""></label>
+                                      <textarea class="form-control" name="" id="" rows="3"></textarea>
+                                    </div>
+                                </div> --}}
                                 <div class="d-flex justify-content-end my-3">
                                     <button id="btnSave" class="btn btn-primary my-2 text-white" role="button">Save</button>
                                     <a href="/resetPassword" class="btn btn-success mx-2 my-2 text-white">Reset Password</a>
