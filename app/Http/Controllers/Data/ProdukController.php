@@ -76,19 +76,30 @@ class ProdukController extends Controller
             'harBar' => 'required|min:4',
             'keterangan' => 'required',
             'foto' => 'required|file|image',
+        ],[
+            'namBar.required' => 'Nama Barang harus di isi',
+            'harBar.required' => 'Harga harus di isi',
+            'harBar.min' => 'Harga harus lebih dari :min karakter',
+            'keterangan.required' => 'Keterangan harus di isi',
+            'foto.required' => 'Harus Menyertakan Foto barang',
+            'foto.file' => 'Foto harus berupa file',
+            'foto.image' => 'Foto harus berupa foto / gambar',
         ]);
+
         $validateData['foto'] = $request->file('foto')->store('foto-produk');
-        ddd($request);
-        $barang = new Barang([
+
+        $barang = Barang::create([
             'nama_barang' => $validateData['namBar'],
             'harga' => $validateData['harBar'],
             'keterangan' => $validateData['keterangan'],
             'foto' => $validateData['foto'],
         ]);
 
-        $barang->save();
-
-        return redirect('/produk')->with('added', 'Data Berhasil Di Tambahkan');
+        if ($barang) {
+            return redirect('/produk')->with('added', 'Data Berhasil Di Tambahkan');
+        } else {
+            return redirect('/produk')->with('serverError', 'Terjadi Kesalahan Dalam Server');
+        }
     }
 
     

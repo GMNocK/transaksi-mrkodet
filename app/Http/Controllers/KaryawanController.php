@@ -78,14 +78,22 @@ class KaryawanController extends Controller
 
         $karyawan = Karyawan::where('user_id', auth()->user()->id)->get('id')[0];
 
-        $feedback = new FeedbackKaryawan([
-            'body' => $validateData['body'],
-            'karyawan_id' => $karyawan->id,
-            'laporan_pelanggan_id' => $validateData['lp'],
+        // $feedback = new FeedbackKaryawan([
+        //     'body' => $validateData['body'],
+        //     'karyawan_id' => $karyawan->id,
+        //     'laporan_pelanggan_id' => $validateData['lp'],
+        // ]);
+
+        // $feedback->save();
+
+        $message = new Notification([
+            'title' => $validateData['body'],
+            'detail' => $validateData['body'],
+            'potongan' => $validateData['body'],
+            'user_id' => $validateData['lp'],
         ]);
 
-        $feedback->save();
-
+        $message->save();
         return redirect('/laporanPelanggan')->with('balasBerhasil', 'Berhasil memberi Balasan');
      }
 }

@@ -69,7 +69,7 @@ class PesananController extends Controller
 
     
     public function create()
-    {        
+    {
         $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
         $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
         $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
@@ -502,7 +502,7 @@ class PesananController extends Controller
 
     public function upload(Pesanan $pesanan ,Request $request)
     {
-        ddd($request);
+        // ddd($request);
         $pelangganID = $pesanan->pelanggan->user->id;
         $pelangganName = $pesanan->pelanggan->user->username;
         $validateData = $request->validate([

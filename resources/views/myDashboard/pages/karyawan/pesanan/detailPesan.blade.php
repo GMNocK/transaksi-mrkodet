@@ -286,7 +286,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input type="submit" id="migrasi" data-="{{ $pesanan->kode }}" value="Integrasi Ke transaksi" class="btn btn-primary btn-lg my-3 w-100">           
+                                    <input type="submit" id="migrasi" data-kode="{{ $pesanan->kode }}" value="Integrasi Ke transaksi" class="btn btn-primary btn-lg my-3 w-100">           
                                 </div>
                             </div>
                         </div>
@@ -573,7 +573,7 @@
     @endif
 
     {{-- MIGRASI TRANSAKSI --}}
-    @if (($pesanan->bukti == 1 && $pesanan->tipePembayaran != 'COD') && $pesanan->status == 2)
+    @if ($pesanan->status == 2)
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const btnMigrasi = document.querySelector('#migrasi');
@@ -590,11 +590,11 @@
                 })
 
                 swalWithBootstrapButtons.fire({
-                title: 'Terima Pesanan?',
-                text: 'Pesanan Akan Diterima',
+                title: 'Migrasi Ke Transaksi??',
+                text: 'Data Transaksi Akan DIbuat!',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Ya, Terima!',
+                confirmButtonText: 'Ya, Buat!',
                 cancelButtonText: 'Tidak, Batalkan!',
                 reverseButtons: true
                 }).then((result) => {
@@ -604,8 +604,8 @@
                         result.dismiss === Swal.DismissReason.cancel
                     ) {
                         swalWithBootstrapButtons.fire(
-                        'Batal Di Terima',
-                        'Status akan sebagai Diterima',
+                        'Batal Di Buat',
+                        'Data Transaksi Batal Dibuat',
                         'info'
                         )
                     }

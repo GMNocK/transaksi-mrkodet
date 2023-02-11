@@ -192,7 +192,7 @@
     <div class="card flex-fill p-3">
         <div class="form-group">
           <label for="KetTambah">Keterangan Tambahan</label>
-          <textarea readonly class="form-control" name="ketTam" id="KetTambah" rows="5" placeholder="Tidak Ada">{{ $pesanan->keterangan }}</textarea>
+          <textarea readonly class="form-control" name="ketTam" id="KetTambah" rows="3" placeholder="Tidak Ada">{{ $pesanan->keterangan }}</textarea>
         </div>
         {{-- Upload Bukti --}}
         @if ($pesanan->tipePembayaran != 'COD' && ($pesanan->bukti == 2 || $pesanan->bukti == 3))
