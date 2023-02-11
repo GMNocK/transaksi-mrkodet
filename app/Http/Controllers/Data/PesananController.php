@@ -69,7 +69,7 @@ class PesananController extends Controller
 
     
     public function create()
-    {
+    {        
         $message = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->limit(4)->get();
         $banyakMessage = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', 3)->get();
         $notif = Notification::orderByDesc('created_at')->where('user_id', auth()->user()->id)->where('kategori_notif_id', '!=', 3)->limit(4)->get();
@@ -93,13 +93,19 @@ class PesananController extends Controller
         if ($pelanggan->alamat == '' || $pelanggan->no_tlp == '') {
             return redirect('/pesananSaya')->with('IsNull', 'Identitas Kosong');   //'Maaf, Pemesanan tidak bisa dilakukan. Silahkan isi identitas lengkap di profile anda');
         }
-
+        
+        $alamat = 0;
+        $pelangganAlamat = Pelanggan::where('alamat', 'like', '%cimahi%')->orWhere('alamat', 'like', '%imahi%')->where('user_id', auth()->user()->id)->get();
+        if ($pelangganAlamat->count() >= '1') {
+            $alamat = '1';
+        }
         return view('myDashboard.pages.pelanggan.pesanan.formPemesanan', [
             'barangs' => Barang::paginate(3),
             'Notif' => $notif, 
             'baNotif' => $notifUnRead,
             'message' => $message,
             'baMessage' => $messageUnRead,
+            'alamat' => $alamat,
         ]);
     }
 
@@ -187,7 +193,7 @@ class PesananController extends Controller
 
         }
 
-        $detailNotif = 'Pesanan Telah dibuat, tunggu informasi lebih lanjut melalui notifikasi via email';
+        $detailNotif = 'Pesanan Telah dibuat, tunggu informasi lebih lanjutnya melalui notifikasi di aplikasi ini';
 
         $notif = new Notification([
             'title' => 'Pesanan Dibuat',
@@ -200,7 +206,7 @@ class PesananController extends Controller
 
         $notif->save();
 
-        $isi = 'Pelaggan dengan username ' . auth()->user()->username . ' Telah melalukan pesanan, cek pesanan melalui link dibawah';
+        $isi = 'Pelaggan dengan username ' . auth()->user()->username . ' Telah melalukan pesanan, cek pesanan untuk memeriksa status';
         
         $Karyawan = User::where('level', 'karyawan')->get();
 
@@ -616,5 +622,11 @@ class PesananController extends Controller
             return redirect('pesananPelanggan')->with('message', 'Pesanan Berhasil Ditandai Sampai');
         }
         return redirect('/pesananSaya')->with('message', 'Pesanan Ditandai Sampai Di Tujuan');
+    }
+    public function invoice_cetak(Pesanan $pesanan)
+    {
+        return view('myDashboard.pages.pelanggan.pesanan.invoice', [
+            'pesanan' => $pesanan,
+        ]);
     }
 }

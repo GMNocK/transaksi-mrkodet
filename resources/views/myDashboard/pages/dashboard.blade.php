@@ -18,10 +18,14 @@
     @endcan
 
     <div class="row mt-3">
+        @can('mustBeAdmin')
+        <div class="col-xl-6 col-xxl-5 d-flex">
+        @endcan
         @can('karyawan')            
         <div class="col-xl-6 col-xxl-5 d-flex">
-        @elsecan('pelanggan')
-        <div class="col-xl-12 col-xxl-11 d-flex">            
+        @endcan
+        @can('pelanggan')            
+        <div class="col-xl-12 col-xxl-11 d-flex">
         @endcan
             <div class="w-100">
                 <div class="row">
@@ -752,7 +756,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
                     title: 'Welcome {{ auth()->user()->username }}',
                     showConfirmButton: false,

@@ -34,14 +34,16 @@
                         <td class="text-center">
                             @can('pelanggan')
                                 
-                            <a href="/Laporan/{{ $l->id }}" class="btn btn-primary"><span data-feather="eye"></span></a>                 
+                            <a href="/Laporan/{{ $l->id }}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Lihat Data">
+                                <span data-feather="eye"></span>
+                            </a>
                             
                             
-                            <a href="/Laporan/{{ $l->id }}/edit/" class="btn btn-success">
+                            <a href="/Laporan/{{ $l->id }}/edit/" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Edit Data">
                                 <span data-feather="edit"></span>
                             </a>
 
-                            <form action="/Laporan/{{ $l->id }}" method="post" class="d-inline" onclick="return confirm('Yakin Untuk Menghapus?');">
+                            <form action="/Laporan/{{ $l->id }}" method="post" class="d-inline" onclick="return confirm('Yakin Untuk Menghapus?');" data-toggle="tooltip" data-placement="top" title="Hapus">
                                 @method('delete')
                                 @csrf
                                 <button class="btn btn-danger">

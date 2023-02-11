@@ -58,12 +58,12 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/forgotLast', [AuthController::class, 'forgotGetLastPw']);
 
     // RESET PASSWORD
-    Route::get('/resetPassword', [AuthController::class, 'resetPw']);
-    Route::post('/resetPassword/action', [AuthController::class, 'resetPwAction']);
     Route::get('/new', function () {
         return view('newLogin');
     });
 });
+Route::get('/resetPassword', [AuthController::class, 'resetPw']);
+Route::post('/resetPassword/action', [AuthController::class, 'resetPwAction']);
 
 Route::resource('/dashboard/users', DashboardUsersController::class)->middleware('auth');
 
@@ -81,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pesanan/delete/{pesanan}', [PesananController::class, 'destroy']);
         Route::post('/pesanan/bukti/upload/{pesanan}', [PesananController::class, 'upload']);
         Route::get('/pesanan/bukti/delete/{pesanan}', [PesananController::class, 'bukti_delete']);
+        Route::get('/pesanan/invoice/{pesanan}', [PesananController::class, 'invoice_cetak']);
         
         Route::get('/pesananSaya/history', [PesananController::class, 'history']);
         

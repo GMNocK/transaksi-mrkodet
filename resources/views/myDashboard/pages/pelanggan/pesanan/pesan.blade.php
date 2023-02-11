@@ -148,13 +148,20 @@
                                     @else
                                         @if ($p->status == '1')
                                         
-                                            <a class="my-1 btnDelete" data-id="{{ $p->kode }}"data-toggle="tooltip" data-placement="top" title="Hapus">
+                                            <a class="my-1 btnDelete" data-id="{{ $p->kode }}" data-toggle="tooltip" data-placement="top" title="Hapus">
                                                 <button class="btn btn-danger">
                                                     <i class="align-middle" data-feather="trash-2"></i>                                        
                                                 </button>
                                             </a>
                                             
                                         @endif
+                                    @endif
+                                    @if ($p->status == '2')
+                                        <a href="/pesanan/invoice/{{ $p->kode }}" class="pt-1" data-kode="{{ $p->kode }}" data-toggle="tooltip" data-placement="top" title="Invoice">
+                                            <button class="btn btn-success">
+                                                <i class="fas fa-file-invoice"></i>
+                                            </button>
+                                        </a>
                                     @endif
                                     {{-- {{ $p->status == 'di baca' || $p->status == 'belum di baca' ? '<a href="pesanan/{{ $p->kode }}" class="btn btn-primary my-1"><i class="align-middle" data-feather="eye"></i></a>' : ''}} --}}
                                 </td>

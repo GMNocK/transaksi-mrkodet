@@ -64,6 +64,16 @@
         </div>
     </div>
 
+    <div class="row" id="infoOngkir">
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <strong>Pengiriman kerumah!</strong> Anda Akan Dikenakan Tarif Ongkir Sebanyak Rp.3,000
+        </div>
+    </div>
+
     <div class="row">
 
         <div class="col-md-6 d-flex">
@@ -80,7 +90,9 @@
                         <label for="" class="fs-6 col-5 ">Pengambilan Barang</label>
                         <select name="tipePengiriman" id="pengiriman" class="form-control">
                             <option value="Kirim Ke Rumah">Kirim ke Rumah</option>
+                            @if ($alamat == 1)                                
                             <option value="Ambil Di Toko">Ambil Di Toko</option>
+                            @endif
                         </select>
                     </div>
                 </div>
@@ -89,8 +101,10 @@
                     <div class="col-md-12 d-flex align-items-center justify-content-center ">
                         <label for="" class="fs-6 col-5 ">Tipe Pembayaran</label>
                         <select name="tipe_bayar" id="tipe_bayar" class="form-control">
-                            <option value="COD">COD / Bayar Ditempat</option>
                             <option value="Transfer">Transfer</option>
+                            @if ($alamat == 1)                                
+                            <option value="COD">COD / Bayar Ditempat</option>
+                            @endif
                         </select>
                     </div>
                 </div>
@@ -206,5 +220,15 @@
     </script>
 @endif
 
+@if ($alamat == 1)
+    <script src="{{ asset('js/CostumJs/ongkirCek/pesanOngkir.js') }}"></script>
+@endif
+
+@if ($alamat != 1)
+    <script>
+        const infoOngkir = document.querySelector('#infoOngkir');
+        let isiAlert = infoOngkir;
+    </script>
+@endif
 
 @endsection

@@ -171,8 +171,9 @@
     </div>
 </div>
 
-@if ($pesanan->status == '4' || $pesanan->status == '4' && (($pesanan->bukti == 1 && $pesanan->tipePembayaran == 'transfer') || $pesanan->tipePembayaran == 'COD'))
-    
+@can('karyawan')
+    @if ($pesanan->status == '4' || $pesanan->status == '4' && (($pesanan->bukti == 1 && $pesanan->tipePembayaran == 'transfer') || $pesanan->tipePembayaran == 'COD'))
+        
     {{-- <form action="/pesanan/accept/{{ $pesanan->kode }}" method="post">
     @csrf --}}
         <div class="col-md-6 d-flex">
@@ -189,115 +190,115 @@
             </div>
         </div>
     {{-- </form> --}}
-@endif
+    @endif
 
-{{-- Barang Di Proses  --}}
-@if ($pesanan->status == '5' && (($pesanan->tipePembayaran != 'COD' && $pesanan->bukti == 1) || $pesanan->tipePembayaran == 'COD'))    
-    <div class="col-md-6 d-flex">
-        <div class="card flex-fill p-3">
-            <div class="row">
-                <div class="col-md-12">
-                    <input type="submit" id="proses" data-kode="{{ $pesanan->kode }}" value="Proses Pesanan" class="btn btn-primary btn-lg my-3 w-100">
-                </div>
-            </div>
-        </div>
-    </div>
-@endif
-
-{{-- Barang Di Kirim --}}
-@if ($pesanan->status == '6' || $pesanan->status == 7 || $pesanan->status == 9)
-<div class="row">
-    <div class="d-flex">
-        @if ($pesanan->status == '6' && ($pesanan->tipe_kirim == 'Kirim Ke Rumah' || $pesanan->tipe_kirim == 'kirim ke rumah'))
-            {{-- <form action="/pesanan/dikirim/{{ $pesanan->kode }}" class="col-6" method="post">
-                @csrf --}}
-                <div class="col-md-12 d-flex">
-                    <div class="card flex-fill p-3">
-                        <div class="form-group mb-0">
-                            <label for="">Tandai Barang Dalam Proses Pengiriman / Pemaketan</label>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input type="submit" id="Kirim" data-kode="{{ $pesanan->kode }}" value="Tandai Sebagai Dikirim" class="btn btn-info my-3 w-100">           
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {{-- </form> --}}
-        @endif
-        @if ($pesanan->status == 7 || ($pesanan->tipe_kirim == 'ambil di toko' || $pesanan->tipe_kirim == 'Ambil Di Toko') || $pesanan->status == 9)
-            <form action="/pesanan/selesai/{{ $pesanan->kode }}" class="col-6" method="post">
-            @csrf
-                <div class="col-md-12 d-flex">
-                    <div class="card flex-fill p-3">
-                        <div class="form-group mb-0">
-                            <label for="">Tandai Pesanan Sudah Selesai</label>
-                            <input type="hidden" name="finish" value="6">
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input type="submit" data-="{{ $pesanan->kode }}" value="Tandai Sebagai Selesai" class="btn btn-primary my-3 w-100">           
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        @endif
-    </div>
-</div>
-@endif
-
-{{-- Migrasi Transaksi --}}
-@if ($pesanan->status == 2)
-    @if ($trans_cek != 0)
-        <div class="row justify-content-center mt-4">
-            <div class="col-10">
-                <div class="card shadow-lg">
-                    <div class="card-body p-2">
-                        <div class="row justify-content-center">
-                            <div class="col-md-4">
-                                <h4 class="m-1 card-title text-center text-dark fs-3">Pesanan Selesai</h4>
-                            </div>
-                            <div class="col-3">
-                                <form action="/transaksi/{{ $transaksi->token }}" method="get">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $pesanan->id }}">
-                                    <button class="btn btn-primary">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                        Lihat Transaksi
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+    {{-- Barang Di Proses  --}}
+    @if ($pesanan->status == '5' && (($pesanan->tipePembayaran != 'COD' && $pesanan->bukti == 1) || $pesanan->tipePembayaran == 'COD'))    
+        <div class="col-md-6 d-flex">
+            <div class="card flex-fill p-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="submit" id="proses" data-kode="{{ $pesanan->kode }}" value="Proses Pesanan" class="btn btn-primary btn-lg my-3 w-100">
                     </div>
                 </div>
             </div>
         </div>
-    @else        
+    @endif
+
+    {{-- Barang Di Kirim --}}
+    @if ($pesanan->status == '6' || $pesanan->status == 7 || $pesanan->status == 9)
     <div class="row">
         <div class="d-flex">
-            {{-- <form action="/pesanan/{{ $pesanan->kode }}/transaksi" class="col-6" method="post">
-            @csrf --}}
-                <div class="col-md-12 d-flex">
-                    <div class="card flex-fill p-3">
-                        <div class="form-group mb-0">
-                            <label for="">Integrasi Ke transaksi</label>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input type="submit" id="migrasi" data-="{{ $pesanan->kode }}" value="Integrasi Ke transaksi" class="btn btn-primary btn-lg my-3 w-100">           
+            @if ($pesanan->status == '6' && ($pesanan->tipe_kirim == 'Kirim Ke Rumah' || $pesanan->tipe_kirim == 'kirim ke rumah'))
+                {{-- <form action="/pesanan/dikirim/{{ $pesanan->kode }}" class="col-6" method="post">
+                    @csrf --}}
+                    <div class="col-md-12 d-flex">
+                        <div class="card flex-fill p-3">
+                            <div class="form-group mb-0">
+                                <label for="">Tandai Barang Dalam Proses Pengiriman / Pemaketan</label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="submit" id="Kirim" data-kode="{{ $pesanan->kode }}" value="Tandai Sebagai Dikirim" class="btn btn-info my-3 w-100">           
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            {{-- </form> --}}
+                {{-- </form> --}}
+            @endif
+            @if ($pesanan->status == 7 || ($pesanan->tipe_kirim == 'ambil di toko' || $pesanan->tipe_kirim == 'Ambil Di Toko') || $pesanan->status == 9)
+                <form action="/pesanan/selesai/{{ $pesanan->kode }}" class="col-6" method="post">
+                @csrf
+                    <div class="col-md-12 d-flex">
+                        <div class="card flex-fill p-3">
+                            <div class="form-group mb-0">
+                                <label for="">Tandai Pesanan Sudah Selesai</label>
+                                <input type="hidden" name="finish" value="6">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="submit" data-="{{ $pesanan->kode }}" value="Tandai Sebagai Selesai" class="btn btn-primary my-3 w-100">           
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            @endif
         </div>
     </div>
     @endif
-@endif
 
-{{-- SAMPAI --}}
-@if ($pesanan->status == 8)
+    {{-- Migrasi Transaksi --}}
+    @if ($pesanan->status == 2)
+        @if ($trans_cek != 0)
+            <div class="row justify-content-center mt-4">
+                <div class="col-10">
+                    <div class="card shadow-lg">
+                        <div class="card-body p-2">
+                            <div class="row justify-content-center">
+                                <div class="col-md-4">
+                                    <h4 class="m-1 card-title text-center text-dark fs-3">Pesanan Selesai</h4>
+                                </div>
+                                <div class="col-3">
+                                    <form action="/transaksi/{{ $transaksi->token }}" method="get">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $pesanan->id }}">
+                                        <button class="btn btn-primary">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                            Lihat Transaksi
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @else        
+        <div class="row">
+            <div class="d-flex">
+                {{-- <form action="/pesanan/{{ $pesanan->kode }}/transaksi" class="col-6" method="post">
+                @csrf --}}
+                    <div class="col-md-12 d-flex">
+                        <div class="card flex-fill p-3">
+                            <div class="form-group mb-0">
+                                <label for="">Integrasi Ke transaksi</label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="submit" id="migrasi" data-="{{ $pesanan->kode }}" value="Integrasi Ke transaksi" class="btn btn-primary btn-lg my-3 w-100">           
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{-- </form> --}}
+            </div>
+        </div>
+        @endif
+    @endif
+
+    {{-- SAMPAI --}}
+    @if ($pesanan->status == 8)
     <div class="row">
         <div class="d-flex">
             {{-- <form action="/pesanan/{{ $pesanan->kode }}/transaksi" class="col-6" method="post">
@@ -317,303 +318,302 @@
             {{-- </form> --}}
         </div>
     </div>
-@endif
+    @endif
 
-@if (($pesanan->bukti == 1 || $pesanan->bukti == 3) && $pesanan->tipePembayaran != 'COD')
-    <div class="row justify-content-center">
-        <div class="col-md-10 mt-5 mb-3 text-center">
-            <p class="fs-2 text-dark fw-bold">Bukti Pembayaran</p>
-        </div>
-    </div>
-    @foreach ($pesanan->bukti_bayar_pesanan as $b)
+    @if (($pesanan->bukti == 1 || $pesanan->bukti == 3) && $pesanan->tipePembayaran != 'COD')
         <div class="row justify-content-center">
-            <div class="col-md-10">
-                <div class="card flex-fill">
-                    <img class="card-img-top" src="{{ asset('storage/' . $b->bukti_bayar) }}" alt="">
-                    <div class="card-body mt-3">
-                        <h4 class="card-title text-dark">{{ $b->created_at }}</h4>
-                        <p class="card-text">{{ $b->bukti_bayar }}</p>
+            <div class="col-md-10 mt-5 mb-3 text-center">
+                <p class="fs-2 text-dark fw-bold">Bukti Pembayaran</p>
+            </div>
+        </div>
+        @foreach ($pesanan->bukti_bayar_pesanan as $b)
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="card flex-fill">
+                        <img class="card-img-top" src="{{ asset('storage/' . $b->bukti_bayar) }}" alt="">
+                        <div class="card-body mt-3">
+                            <h4 class="card-title text-dark">{{ $b->created_at }}</h4>
+                            <p class="card-text">{{ $b->bukti_bayar }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    @endforeach
-    @if ($pesanan->bukti == 3)
-    <div class="row justify-content-center">
-        <div class="col-10 p-0 mt-3">
-            <div class="col-md-12">
-                <a href="#" id="verify-bukti" data-kode="{{ $pesanan->kode }}" class="btn btn-primary fs-4 fw-semibold btn-block">Verivikasi Pembayaran</a>
+        @endforeach
+        @if ($pesanan->bukti == 3)
+        <div class="row justify-content-center">
+            <div class="col-10 p-0 mt-3">
+                <div class="col-md-12">
+                    <a href="#" id="verify-bukti" data-kode="{{ $pesanan->kode }}" class="btn btn-primary fs-4 fw-semibold btn-block">Verivikasi Pembayaran</a>
+                </div>
             </div>
         </div>
-    </div>
+        @endif
     @endif
-@endif
+
+    {{-- POP UP MENU --}}
 
 
+    {{-- PROSES --}}
+    @if ($pesanan->status == '5' && (($pesanan->tipePembayaran != 'COD' && $pesanan->bukti == 1) || $pesanan->tipePembayaran == 'COD'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const btnProses = document.querySelector('#proses');
+            const kode = btnProses.getAttribute('data-kode');
 
-{{-- POP UP MENU --}}
+            btnProses.addEventListener('click', () => {
+            const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success mx-2',
+                        cancelButton: 'btn btn-danger mx-2'
+                    },
+                    buttonsStyling: false
+                })
 
-
-{{-- PROSES --}}
-@if ($pesanan->status == '5' && (($pesanan->tipePembayaran != 'COD' && $pesanan->bukti == 1) || $pesanan->tipePembayaran == 'COD'))
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const btnProses = document.querySelector('#proses');
-        const kode = btnProses.getAttribute('data-kode');
-
-        btnProses.addEventListener('click', () => {
-        const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success mx-2',
-                    cancelButton: 'btn btn-danger mx-2'
-                },
-                buttonsStyling: false
-            })
-    
-            swalWithBootstrapButtons.fire({
-            title: 'Proses Pesanan?',
-            text: "Pesanan Akan Di Proses!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, Proses!',
-            cancelButtonText: 'Tidak, Batalkan!',
-            reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = "/pesanan/progress/"+kode+""
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                    'Batal Di Proses',
-                    'Status akan tetap Diterima',
-                    'info'
-                    )
-                }
-            })
-        });  
-    });  
-</script>
-@endif
-
-{{-- SAMPAI --}}
-@if ($pesanan->status == 8)
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const btnTandaiSampai = document.querySelector('#btnTandaiSampai');
-
-        const kode = btnTandaiSampai.getAttribute('data-kode');
-
-        btnTandaiSampai.addEventListener('click', () => {
-        const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success mx-2',
-                    cancelButton: 'btn btn-danger mx-2'
-                },
-                buttonsStyling: false
-            })
-    
-            swalWithBootstrapButtons.fire({
-            title: 'Tandai Sampai?',
-            text: 'Tandai Pesanan Sampai Di Tempat Tujuan?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, Tandai!',
-            cancelButtonText: 'Tidak, Batalkan!',
-            reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = "/pesanan/sampai/"+kode+""
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                    'Batal Di Tandai',
-                    'Status akan sebagai dikirim',
-                    'info'
-                    )
-                }
-            })
-        });  
-    });  
-</script>
-@endif
-
-{{-- DIKIRIM --}}
-@if ($pesanan->status == '6' && ($pesanan->tipe_kirim == 'Kirim Ke Rumah' || $pesanan->tipe_kirim == 'kirim ke rumah'))
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const btnkirim = document.querySelector('#Kirim');
-
-        const kode = btnkirim.getAttribute('data-kode');
-
-        btnkirim.addEventListener('click', () => {
-        const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success mx-2',
-                    cancelButton: 'btn btn-danger mx-2'
-                },
-                buttonsStyling: false
-            })
-    
-            swalWithBootstrapButtons.fire({
-            title: 'Tandai Sampai?',
-            text: 'Tandai Pesanan Sampai Di Tempat Tujuan?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, Tandai!',
-            cancelButtonText: 'Tidak, Batalkan!',
-            reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = "/pesanan/sampai/"+kode+""
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                    'Batal Di Tandai',
-                    'Status akan sebagai dikirim',
-                    'info'
-                    )
-                }
-            })
-        });  
-    });  
-</script>
-@endif
-
-{{-- TERIMA --}}
-@if ($pesanan->status == '4' || $pesanan->status == '4' && (($pesanan->bukti == 1 && $pesanan->tipePembayaran == 'transfer') || $pesanan->tipePembayaran == 'COD'))
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const btnTerima = document.querySelector('#Terima');
-
-        const kode = btnTerima.getAttribute('data-kode');
-
-        btnTerima.addEventListener('click', () => {
-        const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success mx-2',
-                    cancelButton: 'btn btn-danger mx-2'
-                },
-                buttonsStyling: false
-            })
-    
-            swalWithBootstrapButtons.fire({
-            title: 'Terima Pesanan?',
-            text: 'Pesanan Akan Diterima',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, Terima!',
-            cancelButtonText: 'Tidak, Batalkan!',
-            reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const balasan = document.querySelector('#Balasan').value;
-                    if (balasan != '') {
-                        window.location = "/pesanan/accept/"+kode+"/?reply="+balasan+""
-                    } else {
-                        window.location = "/pesanan/accept/"+kode+""
+                swalWithBootstrapButtons.fire({
+                title: 'Proses Pesanan?',
+                text: "Pesanan Akan Di Proses!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Proses!',
+                cancelButtonText: 'Tidak, Batalkan!',
+                reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "/pesanan/progress/"+kode+""
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                        'Batal Di Proses',
+                        'Status akan tetap Diterima',
+                        'info'
+                        )
                     }
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                    'Batal Di Terima',
-                    'Status akan sebagai Diterima',
-                    'info'
-                    )
-                }
-            })
+                })
+            });  
         });  
-    });
-</script>
-@endif
+    </script>
+    @endif
 
-{{-- Verify BUKTI --}}
-@if ($pesanan->bukti == 3 && $pesanan->tipePembayaran != 'COD')
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const btnVerify = document.querySelector('#verify-bukti');
+    {{-- SAMPAI --}}
+    @if ($pesanan->status == 8)
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const btnTandaiSampai = document.querySelector('#btnTandaiSampai');
 
-        const kode = btnVerify.getAttribute('data-kode');
+            const kode = btnTandaiSampai.getAttribute('data-kode');
 
-        btnVerify.addEventListener('click', () => {
-        const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success mx-2',
-                    cancelButton: 'btn btn-danger mx-2'
-                },
-                buttonsStyling: false
-            })
-    
-            swalWithBootstrapButtons.fire({
-            title: 'Terima Pesanan?',
-            text: 'Pesanan Akan Diterima',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, Terima!',
-            cancelButtonText: 'Tidak, Batalkan!',
-            reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = "/pesanan/bukti/verify/"+kode+""
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                    'Batal Di Terima',
-                    'Status akan sebagai Diterima',
-                    'info'
-                    )
-                }
-            })
+            btnTandaiSampai.addEventListener('click', () => {
+            const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success mx-2',
+                        cancelButton: 'btn btn-danger mx-2'
+                    },
+                    buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'Tandai Sampai?',
+                text: 'Tandai Pesanan Sampai Di Tempat Tujuan?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Tandai!',
+                cancelButtonText: 'Tidak, Batalkan!',
+                reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "/pesanan/sampai/"+kode+""
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                        'Batal Di Tandai',
+                        'Status akan sebagai dikirim',
+                        'info'
+                        )
+                    }
+                })
+            });  
         });  
-    });
-</script>
-@endif
+    </script>
+    @endif
 
-{{-- MIGRASI TRANSAKSI --}}
-@if (($pesanan->bukti == 1 && $pesanan->tipePembayaran != 'COD') && $pesanan->status == 2)
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const btnMigrasi = document.querySelector('#migrasi');
+    {{-- DIKIRIM --}}
+    @if ($pesanan->status == '6' && ($pesanan->tipe_kirim == 'Kirim Ke Rumah' || $pesanan->tipe_kirim == 'kirim ke rumah'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const btnkirim = document.querySelector('#Kirim');
 
-        const kode = btnMigrasi.getAttribute('data-kode');
+            const kode = btnkirim.getAttribute('data-kode');
 
-        btnMigrasi.addEventListener('click', () => {
-        const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success mx-2',
-                    cancelButton: 'btn btn-danger mx-2'
-                },
-                buttonsStyling: false
-            })
-    
-            swalWithBootstrapButtons.fire({
-            title: 'Terima Pesanan?',
-            text: 'Pesanan Akan Diterima',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, Terima!',
-            cancelButtonText: 'Tidak, Batalkan!',
-            reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = "/pesanan/"+kode+"/transaksi"
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                    'Batal Di Terima',
-                    'Status akan sebagai Diterima',
-                    'info'
-                    )
-                }
-            })
+            btnkirim.addEventListener('click', () => {
+            const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success mx-2',
+                        cancelButton: 'btn btn-danger mx-2'
+                    },
+                    buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'Tandai Sampai?',
+                text: 'Tandai Pesanan Sampai Di Tempat Tujuan?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Tandai!',
+                cancelButtonText: 'Tidak, Batalkan!',
+                reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "/pesanan/sampai/"+kode+""
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                        'Batal Di Tandai',
+                        'Status akan sebagai dikirim',
+                        'info'
+                        )
+                    }
+                })
+            });  
         });  
-    });
-</script>
-@endif
+    </script>
+    @endif
+
+    {{-- TERIMA --}}
+    @if ($pesanan->status == '4' || $pesanan->status == '4' && (($pesanan->bukti == 1 && $pesanan->tipePembayaran == 'transfer') || $pesanan->tipePembayaran == 'COD'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const btnTerima = document.querySelector('#Terima');
+
+            const kode = btnTerima.getAttribute('data-kode');
+
+            btnTerima.addEventListener('click', () => {
+            const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success mx-2',
+                        cancelButton: 'btn btn-danger mx-2'
+                    },
+                    buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'Terima Pesanan?',
+                text: 'Pesanan Akan Diterima',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Terima!',
+                cancelButtonText: 'Tidak, Batalkan!',
+                reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const balasan = document.querySelector('#Balasan').value;
+                        if (balasan != '') {
+                            window.location = "/pesanan/accept/"+kode+"/?reply="+balasan+""
+                        } else {
+                            window.location = "/pesanan/accept/"+kode+""
+                        }
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                        'Batal Di Terima',
+                        'Status akan sebagai Diterima',
+                        'info'
+                        )
+                    }
+                })
+            });  
+        });
+    </script>
+    @endif
+
+    {{-- Verify BUKTI --}}
+    @if ($pesanan->bukti == 3 && $pesanan->tipePembayaran != 'COD')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const btnVerify = document.querySelector('#verify-bukti');
+
+            const kode = btnVerify.getAttribute('data-kode');
+
+            btnVerify.addEventListener('click', () => {
+            const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success mx-2',
+                        cancelButton: 'btn btn-danger mx-2'
+                    },
+                    buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'Terima Pesanan?',
+                text: 'Pesanan Akan Diterima',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Terima!',
+                cancelButtonText: 'Tidak, Batalkan!',
+                reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "/pesanan/bukti/verify/"+kode+""
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                        'Batal Di Terima',
+                        'Status akan sebagai Diterima',
+                        'info'
+                        )
+                    }
+                })
+            });  
+        });
+    </script>
+    @endif
+
+    {{-- MIGRASI TRANSAKSI --}}
+    @if (($pesanan->bukti == 1 && $pesanan->tipePembayaran != 'COD') && $pesanan->status == 2)
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const btnMigrasi = document.querySelector('#migrasi');
+
+            const kode = btnMigrasi.getAttribute('data-kode');
+
+            btnMigrasi.addEventListener('click', () => {
+            const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success mx-2',
+                        cancelButton: 'btn btn-danger mx-2'
+                    },
+                    buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'Terima Pesanan?',
+                text: 'Pesanan Akan Diterima',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Terima!',
+                cancelButtonText: 'Tidak, Batalkan!',
+                reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "/pesanan/"+kode+"/transaksi"
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                        'Batal Di Terima',
+                        'Status akan sebagai Diterima',
+                        'info'
+                        )
+                    }
+                })
+            });  
+        });
+    </script>
+    @endif
+@endcan
 
 @endsection
