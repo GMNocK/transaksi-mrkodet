@@ -19,7 +19,7 @@
     <div class="card flex-fill">
         <div class="card-header d-flex justify-content-between align-items-center">
             <div class="ms-2 col-md-4 justify-content-start d-flex">
-                @can('karyawan')
+                @can('mustBeAdmin')
                 <h2>
                     <a href="produk/create" class="text-center btn btn-outline-secondary">
                         <i class="align-middle me-1 mb-1" data-feather="plus-circle"></i>
@@ -56,7 +56,7 @@
                     @foreach ($barang as $t)
                     <tr>
                         <td>{{ $t->nama_barang }}</td>
-                        <td>Rp.{{ $t->harga }}</td>
+                        <td>Rp.{{ number_format($t->harga) }}</td>
                         {{-- <td>{{ $t->keterangan }}</td> --}}
                         <td class="text-center">
                             <img src="{{ $t->foto }}" alt="" width="90px">
@@ -82,13 +82,13 @@
                                 
                             @endcan
                             
-                            @can('karyawan')                      
+                            {{-- @can('karyawan')                      
                                 <a href="#" data-toggle="tooltip" data-placement="top" title="Laporkan">                                
                                     <button class="btn btn-danger">
                                         <i class="fa fa-file" aria-hidden="true"></i>
                                     </button>
                                 </a>
-                            @endcan
+                            @endcan --}}
                             
                         </td>
                     </tr>    

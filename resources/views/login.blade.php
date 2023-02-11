@@ -208,7 +208,7 @@
             width: 100%;
             margin-top: 20px;
             padding: 9px;
-            background: rgb(20, 118, 247);
+            background: rgb(255, 0, 0);
             border: none;
             border-radius: 5px;
             color: white;
@@ -219,7 +219,7 @@
         }
         #btn:hover {
             box-shadow: 5px 4px 42px -12px #331222;
-            background: rgb(20, 101, 194);
+            background: rgb(111, 111, 112);
             transition: .3s;
         }
         .login-box h6 {

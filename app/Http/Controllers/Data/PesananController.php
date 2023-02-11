@@ -502,7 +502,7 @@ class PesananController extends Controller
 
     public function upload(Pesanan $pesanan ,Request $request)
     {
-        ddd($request);
+        // ddd($request);
         $pelangganID = $pesanan->pelanggan->user->id;
         $pelangganName = $pesanan->pelanggan->user->username;
         $validateData = $request->validate([

@@ -286,7 +286,11 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
+<<<<<<< HEAD
                                     <input type="submit" id="migrasi" data-="{{ $pesanan->kode }}" value="Integrasi Ke transaksi" class="btn btn-primary btn-lg my-3 w-100">           
+=======
+                                    <input type="submit" id="migrasi" data-kode="{{ $pesanan->kode }}" value="Integrasi Ke transaksi" class="btn btn-primary btn-lg my-3 w-100">           
+>>>>>>> 0e69660d567db3ee639853bd99b2d7ce4f972757
                                 </div>
                             </div>
                         </div>
@@ -573,7 +577,11 @@
     @endif
 
     {{-- MIGRASI TRANSAKSI --}}
+<<<<<<< HEAD
     @if (($pesanan->bukti == 1 && $pesanan->tipePembayaran != 'COD') && $pesanan->status == 2)
+=======
+    @if ($pesanan->status == 2)
+>>>>>>> 0e69660d567db3ee639853bd99b2d7ce4f972757
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const btnMigrasi = document.querySelector('#migrasi');
@@ -590,11 +598,19 @@
                 })
 
                 swalWithBootstrapButtons.fire({
+<<<<<<< HEAD
                 title: 'Terima Pesanan?',
                 text: 'Pesanan Akan Diterima',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Ya, Terima!',
+=======
+                title: 'Migrasi Ke Transaksi??',
+                text: 'Data Transaksi Akan DIbuat!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Buat!',
+>>>>>>> 0e69660d567db3ee639853bd99b2d7ce4f972757
                 cancelButtonText: 'Tidak, Batalkan!',
                 reverseButtons: true
                 }).then((result) => {
@@ -604,8 +620,13 @@
                         result.dismiss === Swal.DismissReason.cancel
                     ) {
                         swalWithBootstrapButtons.fire(
+<<<<<<< HEAD
                         'Batal Di Terima',
                         'Status akan sebagai Diterima',
+=======
+                        'Batal Di Buat',
+                        'Data Transaksi Batal Dibuat',
+>>>>>>> 0e69660d567db3ee639853bd99b2d7ce4f972757
                         'info'
                         )
                     }

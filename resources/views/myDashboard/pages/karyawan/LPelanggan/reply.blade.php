@@ -3,7 +3,7 @@
 @section('content')
     <div class="container bg-white shadow-lg rounded">
         <div class="row justify-content-center">
-            <div class="col-10 my-3" style="border-radius: 10px; padding: 15px 25px">
+            <div class="col-10 my-3 bg-light" style="border-radius: 10px; padding: 15px 25px">
                 <div class="header mb-3">
                     {{-- <img src="" alt=".." width="35px" height="35px"> --}}
                     <i class="fa fa-user-circle fs-5" aria-hidden="true"></i>

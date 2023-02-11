@@ -1,5 +1,5 @@
 <nav id="sidebar" class="sidebar js-sidebar">
-    <div class="sidebar-content js-simplebar">
+    <div class="sidebar-content js-simplbar">
 
         <a class="sidebar-brand d-flex align-items-center py-1" href="/myDashboard/">
             <div class="img navbar-brand py-2">

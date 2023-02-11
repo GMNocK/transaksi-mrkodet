@@ -20,7 +20,7 @@ class ExportController extends Controller
     	$pelanggan = Pelanggan::all();
 
     	$pdf = PDF::loadview('myDashboard.pages.Reporting.pdf.RPelanggan',['pelanggan'=>$pelanggan]);
-    	return $pdf->download('laporan-data-pelanggan'. date('Y-m-d H:i:s'). '.pdf');
+    	return $pdf->setPaper('a4', 'potrait')->download('laporan-data-pelanggan'. date('Y-m-d H:i:s'). '.pdf');
     }
 
     public function p_export_excel()

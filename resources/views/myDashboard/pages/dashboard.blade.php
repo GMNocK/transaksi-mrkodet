@@ -25,7 +25,11 @@
         <div class="col-xl-6 col-xxl-5 d-flex">
         @endcan
         @can('pelanggan')            
+<<<<<<< HEAD
         <div class="col-xl-12 col-xxl-11 d-flex">
+=======
+        <div class="col-xl-12 col-xxl-12 d-flex">
+>>>>>>> 0e69660d567db3ee639853bd99b2d7ce4f972757
         @endcan
             <div class="w-100">
                 <div class="row">
@@ -248,7 +252,6 @@
             <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1">
                 <div class="card flex-fill w-100">
                     <div class="card-header">
-        
                         <h5 class="card-title mb-0">Tipe Pembayaran Pesanan</h5>
                     </div>
                     <div class="card-body d-flex">
