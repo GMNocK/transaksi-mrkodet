@@ -27,6 +27,7 @@ class EmailVerify extends Mailable
     public function build()
     {
         // $this->banyakNotif;
+        // COBA man
         return $this->subject('nexus.anime.mv@gmail.com')->from('nexus.anime.mv@gmail.com')->view('myDashboard.pages.Email.EmailVerify');
     }
 }
